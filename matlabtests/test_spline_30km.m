@@ -1,63 +1,91 @@
-% СЦЕНАРИЙ: АВТОНОМНЫЙ ПРОЛЕТ 30 КМ (4 ОКНА СРАВНЕНИЯ ЧИСТЫХ МЕТОДОВ)
+% =========================================================================
+% ПРИКЛАДНОЙ ИНТЕГРАЦИОННЫЙ ТЕСТ ТИС: ВАРИАНТ «МНОГОПОЗИЦИОННЫЙ БАРЬЕР 30 КМ»
+% Responsibility: Управление параметрами, выбор методов ТИС, вывод и анализ
 % Path: d:\workspace\libtr\matlabtests\test_spline_30km.m
+% =========================================================================
 
 clear; clc; close all;
 
-TRAJECTORY_POINTS_COUNT = 500;
-TARGET_X_START  = -15000; TARGET_X_FINISH =  15000;
-TARGET_Y_STATIC =  30000; TARGET_Z_STATIC =  0;
+% 1. ГЕОМЕТРИЧЕСКИЙ КОНФИГ БАРЬЕРА ТИС НА МЕСТНОСТИ (АУТЕНТИЧНЫЕ АНКЕРЫ)
+cfg.Stations.X_anchors = [0, -5000, 5000, 625*4] - 8000;
+cfg.Stations.Y_anchors =[0, 10000, 20000, 25000];
+cfg.Stations.Z_anchors =[    1000,     1000,     1000,     1000]+500;
 
-STATION_X_ANCHORS = [0, -5000, 5000, 625*4]-8000;
-STATION_Y_ANCHORS =[0, 10000, 20000, 25000];
-STATION_Z_ANCHORS =[    1000,     1000,     1000,     1000]+500;
+% 2. ПАРАМЕТРЫ ПРИКЛАДНОЙ ТРАЕКТОРИИ ПОЛЕТА ЦЕЛИ
+cfg.Trajectory.X_limits = [-15000, 15000];
+cfg.Trajectory.Y_static = 30000;
+cfg.Trajectory.Z_static = 0;
+cfg.Trajectory.Points   = 500;
 
-% ПАРАМЕТР ЗАДАЕТСЯ ЗДЕСЬ И ЯВНО ПЕРЕДАЕТСЯ НИЖЕ В ГЕНЕРАТОР
-DOA_ERROR_DEGREE = 2.0; % Стресс-шум 2 градуса (можете менять на 0.4, 1.0 и т.д.)
-RANDOM_SEED = 1337;
+% 3. ХАРАКТЕРИСТИКИ ИЗМЕРИТЕЛЬНОГО КОНТУРА ТИС
+cfg.Hardware.D_Error_Degree = 2.0; % Настройка шума (вы меняете вручную)
+cfg.Hardware.Fixed_N_Index  = 11;  % Уставка на 24 поста ТИС
 
-% Логарифмический вектор плотности из REPO
-vals = logspace(log10(4), log10(124), 20);
-STATION_COUNTS_VECTOR = unique(round(vals));
-FIXED_N_STATIONS = STATION_COUNTS_VECTOR(11);
+% 4. ЦЕНТРАЛИЗОВАННЫЙ ВЫБОР МЕТОДОВ НА ИССЛЕДОВАНИЕ (УПРАВЛЕНИЕ ТУТ)
+% Допустимые идентификаторы: 'LLS', 'WLLS', 'GN_Cartesian', 'GN_Polar'
+cfg.ActiveMethods = {'LLS', 'WLLS', 'GN_Cartesian', 'GN_Polar'};
 
-% Формирование векторов истинной траектории цели
-t_steps = linspace(0, 1, TRAJECTORY_POINTS_COUNT);
-x_true = TARGET_X_START + (TARGET_X_FINISH - TARGET_X_START) * t_steps;
-y_true = TARGET_Y_STATIC * ones(size(t_steps)); 
-z_true = TARGET_Z_STATIC * ones(size(t_steps));
+% 5. СТАРТ АВТОМАТИЧЕСКОГО КОНВЕЙЕРА И ИЗВЛЕЧЕНИЕ ЧИСТЫХ МАТРИЦ ДАННЫХ
+sandbox = TisIntegrationSandbox(cfg);
+[summaryData, countsVector, fixedN, crlbData, xTrue] = sandbox.run();
 
-% Расчет общего независимого декартова репера CRLB Фишера для максимальной плотности
-max_N = max(STATION_COUNTS_VECTOR);
-t_q_max = linspace(1, 4, max_N);
-P_max = [spline(1:4, STATION_X_ANCHORS, t_q_max); ...
-         spline(1:4, STATION_Y_ANCHORS, t_q_max); ...
-         spline(1:4, STATION_Z_ANCHORS, t_q_max)];
+% 6. ПРЯМОЙ И ЖЕСТКИЙ ВЫЗОВ СЦЕНАРНЫХ ЭКРАНОВ СТРОГО ДЛЯ ВЫБРАННЫХ МЕТОДОВ
+method_labels = {'1. Чистый линейный LLS ТИС', '2. Взвешенный WLLS ТИС', ...
+                 '3. Декартов Gauss-Newton ТИС', '4. Полярный инвариант ТИС'};
+             
+method_map = containers.Map({'LLS', 'WLLS', 'GN_Cartesian', 'GN_Polar'}, [1, 2, 3, 4]);
 
-crlb.X = zeros(TRAJECTORY_POINTS_COUNT, 1); 
-crlb.Y = zeros(TRAJECTORY_POINTS_COUNT, 1); 
-crlb.Z = zeros(TRAJECTORY_POINTS_COUNT, 1);
-
-for k = 1:TRAJECTORY_POINTS_COUNT
-    [~, cx, cy, cz] = lls3d_fisher_crlb(P_max, deg2rad(DOA_ERROR_DEGREE)^2*ones(max_N,1), deg2rad(DOA_ERROR_DEGREE)^2*ones(max_N,1), x_true(k), y_true(k), z_true(k));
-    crlb.X(k) = cx; crlb.Y(k) = cy; crlb.Z(k) = cz;
+for i = 1:length(cfg.ActiveMethods)
+    methodName = cfg.ActiveMethods{i};
+    m_idx = method_map(methodName);
+    
+    fixed_m = sandbox.getFixedStructure(methodName);
+    summary_m = summaryData.(methodName);
+    
+    % Вызов оригинального графического экрана ТИС на верхнем прикладном уровне!
+    matplot_verification_screen(xTrue, cfg.Trajectory.Y_static * ones(size(xTrue)), ...
+        cfg.Stations.X_anchors, cfg.Stations.Y_anchors, ...
+        fixed_m, summary_m, crlbData, countsVector, fixedN, method_labels{m_idx}, m_idx);
 end
 
-% =========================================================================
-% ПООЧЕРЕДНЫЙ ЗАПУСК И ОТРИСОВКА ВСЕХ ЧЕТЫРЕХ ИЗОЛИРОВАННЫХ МЕТОДОВ СТЕНДА
-% =========================================================================
+% 7. АВТОМАТИЗИРОВАННЫЙ ИНЖЕНЕРНО-АНАЛИТИЧЕСКИЙ ОТЧЕТ ТИС В КОНСОЛИ
+fprintf('\n================================================================================\n');
+fprintf('        ИНЖЕНЕРНО-АНАЛИТИЧЕСКИЙ ОТЧЕТ ТИС ПО ВАРИАНТУ «СПЛАЙН-БАРЬЕР 30 КМ»\n');
+fprintf('================================================================================\n');
+fprintf('Паспортные условия: Угловой шум датчиков = %.1f град., Цель на траверзе = %.1f км\n', ...
+    cfg.Hardware.D_Error_Degree, cfg.Trajectory.Y_static / 1000);
+fprintf('Контрольная точка анализа: Избыточность сети N = %d постов ТИС\n', fixedN);
+fprintf('--------------------------------------------------------------------------------\n');
 
-% Поток №1: Чистый линейный МНК по декартовым плоскостям (Окно 1)
-[f_lls, s_lls] = test_verify_cartesian_linear_lls(STATION_COUNTS_VECTOR, FIXED_N_STATIONS, STATION_X_ANCHORS, STATION_Y_ANCHORS, STATION_Z_ANCHORS, x_true, y_true, z_true, DOA_ERROR_DEGREE, RANDOM_SEED);
-matplot_verification_screen(x_true, y_true, STATION_X_ANCHORS, STATION_Y_ANCHORS, f_lls, s_lls, crlb, STATION_COUNTS_VECTOR, FIXED_N_STATIONS, '1. Чистый линейный LLS', 1);
+idx24 = find(countsVector == fixedN, 1);
 
-% Поток №2: Взвешенный линейный МНК с Гаусс-весами (Окно 2)
-[f_wlls, s_wlls] = test_verify_cartesian_weighted_wlls(STATION_COUNTS_VECTOR, FIXED_N_STATIONS, STATION_X_ANCHORS, STATION_Y_ANCHORS, STATION_Z_ANCHORS, x_true, y_true, z_true, DOA_ERROR_DEGREE, RANDOM_SEED);
-matplot_verification_screen(x_true, y_true, STATION_X_ANCHORS, STATION_Y_ANCHORS, f_wlls, s_wlls, crlb, STATION_COUNTS_VECTOR, FIXED_N_STATIONS, '2. Взвешенный WLLS (Гаусс-веса)', 2);
+for i = 1:length(cfg.ActiveMethods)
+    method = cfg.ActiveMethods{i};
+    rmseVal = summaryData.(method).rmse(idx24);
+    biasVal = summaryData.(method).bias_y(idx24);
+    maxMiss = summaryData.(method).max_miss(idx24);
+    
+    fprintf('Метод: %-12s | RMSE: %6.1f м | Bias Y: %6.1f м | Max Miss: %6.1f м\n', ...
+        method, rmseVal, biasVal, maxMiss);
+end
+fprintf('--------------------------------------------------------------------------------\n');
 
-% Поток №3: Классический декартов Gauss-Newton (Окно 3)
-[f_gn, s_gn] = test_verify_cartesian_nonlinear_gn(STATION_COUNTS_VECTOR, FIXED_N_STATIONS, STATION_X_ANCHORS, STATION_Y_ANCHORS, STATION_Z_ANCHORS, x_true, y_true, z_true, DOA_ERROR_DEGREE, RANDOM_SEED);
-matplot_verification_screen(x_true, y_true, STATION_X_ANCHORS, STATION_Y_ANCHORS, f_gn, s_gn, crlb, STATION_COUNTS_VECTOR, FIXED_N_STATIONS, '3. Декартов Gauss-Newton', 3);
+% Анализ декартова сжатия МНК на флангах трассы ТИС
+if any(strcmp(cfg.ActiveMethods, 'LLS')) && any(strcmp(cfg.ActiveMethods, 'GN_Polar'))
+    lls_bias = abs(summaryData.LLS.bias_y(idx24));
+    polar_bias = abs(summaryData.GN_Polar.bias_y(idx24));
+    
+    if lls_bias > 2 * polar_bias
+        fprintf('⚠️  ВНИМАНИЕ: Зафиксировано тригонометрическое сжатие (Bias) линейного метода LLS.\n');
+        fprintf('   Сдвиг LLS к измерительной базе составляет %.1f м против %.1f м у полярного GN.\n', ...
+            lls_bias, polar_bias);
+        fprintf('   Рекомендация: Для сопровождения на флангах барьера использовать строго GN_Polar.\n');
+    else
+        fprintf('✔️  Геометрическая устойчивость в норме. Смещение оценок к базе незначительно.\n');
+    end
+end
 
-% Поток №4: Истинный полярный инвариант матрицы Фишера (Окно 4)
-[f_pol, s_pol] = test_verify_polar_invariant_fisher(STATION_COUNTS_VECTOR, FIXED_N_STATIONS, STATION_X_ANCHORS, STATION_Y_ANCHORS, STATION_Z_ANCHORS, x_true, y_true, z_true, DOA_ERROR_DEGREE, RANDOM_SEED);
-matplot_verification_screen(x_true, y_true, STATION_X_ANCHORS, STATION_Y_ANCHORS, f_pol, s_pol, crlb, STATION_COUNTS_VECTOR, FIXED_N_STATIONS, '4. Истинный полярный инвариант', 4);
+[~, peakIdx] = max(crlbData.Y);
+fprintf('Анализ флангового вырождения: Теоретический пик CRLB на краю трассы (X = %.1f км) составляет %.1f м.\n', ...
+    xTrue(peakIdx)/1000, crlbData.Y(peakIdx));
+fprintf('================================================================================\n');

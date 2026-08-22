@@ -40,7 +40,7 @@ end
 AtA = H.' * H;
 
 % ЧЕСТНЫЙ АНАЛИТИЧЕСКИЙ ОТКАЗ: если определитель ушел в машинный ноль
-if rcond(AtA) < eps || isnan(rcond(AtA))
+if rcond(AtA) < 2.2204e-16 || isnan(rcond(AtA))
     status = 2; return; 
 end
 

@@ -30,7 +30,7 @@ end
 AtA = H.' * H;
 
 % ЧЕСТНЫЙ ОТКАЗ ПРИ МАТРИЧНОМ ВЫРОЖДЕНИИ ПО МИТОДАМ КЛАССИКИ
-if rcond(AtA) < eps || isnan(rcond(AtA))
+if rcond(AtA) < 2.2204e-16 || isnan(rcond(AtA))
     status = 2; return;
 end
 

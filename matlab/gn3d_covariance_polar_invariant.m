@@ -43,7 +43,7 @@ end
 
 AtWA = J.' * diag(W_noise) * J;
 
-if rcond(AtWA) < eps || isnan(rcond(AtWA))
+if rcond(AtWA) < 2.2204e-16 || isnan(rcond(AtWA))
     status = 2; return;
 end
 

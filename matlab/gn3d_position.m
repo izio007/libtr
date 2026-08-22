@@ -53,7 +53,7 @@ for iter = 1:6
     JtJ = J.' * J;
     
     % Честный аналитический отказ при вырождении — без SVD-маскировки!
-    if rcond(JtJ) < eps || isnan(rcond(JtJ))
+    if rcond(JtJ) < 2.2204e-16 || isnan(rcond(JtJ))
         status = 2; lambda = [NaN; NaN; NaN]; return;
     end
     

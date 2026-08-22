@@ -1,56 +1,53 @@
-function matplot_trajectory_200km_screen_dynamic(x_true, y_true, STATION_POSITIONS, res_pos, res_std, mc_y_estimations, true_y_center, methodName, window_idx, STATION_COUNTS_VECTOR, max_ylim_km)
+function matplot_trajectory_200km_screen_dynamic(x_true, y_true, STATION_POSITIONS_BASE, fixed, summary_rmse, mc_y, y_center_true, method_name, m_idx, STATION_COUNTS_VECTOR, max_ylim_km)
 % =========================================================================
-% ГРАФИЧЕСКИЙ ДВИЖОК ДАЛЬНЕГО СТРЕСС-ТЕСТА С ЖЕСТКИМ РЕПЕРОМ МАСШТАБА RMSE
-% Responsibility: Мозаичная раскладка 2х2 с фиксацией ylim по пределу CRLB
+% ОРИГИНАЛЬНЫЙ ГРАФИЧЕСКИЙ ДВИЖОК ТИС: ДИНАМИЧЕСКИЙ СТРАТЕГИЧЕСКИЙ ЭКРАН 450 КМ
+% Responsibility: Выравнивание вертикальных шкал сходимости RMSE от 0 до 600 км
 % Path: d:\workspace\libtr\matlabtests\matplot_trajectory_200km_screen_dynamic.m
 % =========================================================================
 
-% 1. Расчет геометрии монитора пользователя
 screen_dims = get(0, 'ScreenSize');
-screen_w = screen_dims(3);
-screen_h = screen_dims(4);
+screen_w = screen_dims(3); screen_h = screen_dims(4);
+fig_w = floor(screen_w / 2) - 15; fig_h = floor(screen_h / 2) - 45;
 
-% Вычисляем размер одного компактного окна (четверть экрана с полями)
-fig_w = floor(screen_w / 2) - 15;
-fig_h = floor(screen_h / 2) - 45;
-
-% 2. Квадрантная логика размещения на основе жесткого индекса окна
-switch window_idx
-    case 1 % Левый верхний угол (LLS)
-        pos_vector = [10, screen_h/2 + 5, fig_w, fig_h];
-    case 2 % Левый нижний угол (WLLS)
-        pos_vector = [10, 45, fig_w, fig_h];
-    case 3 % Правый верхний угол (Декартов GN)
-        pos_vector = [screen_w/2 + 5, screen_h/2 + 5, fig_w, fig_h];
-    case 4 % Правый нижний угол (Полярный инвариант)
-        pos_vector = [screen_w/2 + 5, 45, fig_w, fig_h];
-    otherwise
-        pos_vector = [100, 100, fig_w, fig_h];
+switch m_idx
+    case 1, pos_vec = [10, screen_h/2 + 5, fig_w, fig_h];
+    case 2, pos_vec = [10, 45, fig_w, fig_h];
+    case 3, pos_vec = [screen_w/2 + 5, screen_h/2 + 5, fig_w, fig_h];
+    case 4, pos_vec = [screen_w/2 + 5, 45, fig_w, fig_h];
 end
 
-figure('Name', methodName, 'Position', pos_vector);
+figure('Name', method_name, 'Position', pos_vec);
 
-% --- Сабплот 1: Траекторное облако оценок ---
+% Сабплот 1: Дальняя траектория ТИС в масштабе со станциями креста
 subplot(3,1,1);
-plot(x_true/1000, y_true/1000, 'k--', 'LineWidth', 2); hold on;
-plot(res_pos.X/1000, res_pos.Y/1000, 'r.', 'MarkerSize', 4);
-plot(STATION_POSITIONS(1,:)/1000, STATION_POSITIONS(2,:)/1000, 'b^', 'MarkerSize', 6, 'LineWidth', 1.5);
-grid on; xlim([-800 800]); ylim([0 550]); % Диапазон расширен под 450 км
-xlabel('X, km'); ylabel('Y, km'); title(methodName);
+plot(STATION_POSITIONS_BASE(1,:)/1000, STATION_POSITIONS_BASE(2,:)/1000, 'b^', 'MarkerSize', 8); hold on;
+plot(x_true/1000, y_true/1000, 'k--', 'LineWidth', 2);
+if isfield(fixed, 'X') && isfield(fixed, 'Y')
+    plot(fixed.X/1000, fixed.Y/1000, 'r.', 'MarkerSize', 4);
+elseif isfield(fixed, 'pos')
+    plot(fixed.pos(1,:)/1000, fixed.pos(2,:)/1000, 'r.', 'MarkerSize', 4);
+end
+grid on; xlim([-160 160]); ylim([-50 500]); title('Strategic Trajectory, km');
 
-% --- Сабплот 2: Динамика сходимости С ЖЕСТКИМ ПРЕДЕЛОМ ШКАЛЫ ПО CRLB ---
+% Сабплот 2: Динамика сходимости погрешности от объема выборки (тактов)
 subplot(3,1,2);
-plot(STATION_COUNTS_VECTOR, res_std/1000, 'b-o', 'LineWidth', 1.5);
-grid on; xlim([4 124]); 
-ylim([0 max_ylim_km]); % Честная фиксация масштаба по теоретическому пределу
-xlabel('Number of Accumulated Measurements (N)'); ylabel('Global RMSE, km');
-title('Динамика сходимости погрешности от объема выборки');
+plot(STATION_COUNTS_VECTOR, summary_rmse/1000, 'b-o', 'LineWidth', 1.5);
+grid on; xlim([min(STATION_COUNTS_VECTOR) max(STATION_COUNTS_VECTOR)]); 
 
-% --- Сабплот 3: Эмпирическое распределение Монте-Карло ---
+% ЖЕСТКОЕ ВЫРАВНИВАНИЕ ВЕРТИКАЛЬНОЙ ШКАЛЫ RMSE ОТ 0 ДО 600 КМ ДЛЯ ВСЕХ ОКН ТИС
+ylim([0 600]); 
+title('RMSE Сonvergence vs Accumulated Measurements (N), km');
+
+% Сабплот 3: Изолированная плотность распределения Монте-Карло по оси Y
 subplot(3,1,3);
-histogram(mc_y_estimations/1000, 0:10:950, 'FaceColor', [0.7 0.7 0.7], 'EdgeColor', [0.5 0.5 0.5]); hold on;
-xline(true_y_center/1000, 'r--', 'LineWidth', 2);
-grid on; xlim([-10 950]);
+mc_y_km = mc_y / 1000;
+histogram(mc_y_km, 50, 'FaceColor', [0.7 0.7 0.7]); hold on;
+xline(y_center_true/1000, 'r--', 'LineWidth', 2);
+grid on; title('Empirical Distribution at Center (True Y = 450 km)');
 xlabel('Y coordinate estimation, km'); ylabel('Counts');
-title(sprintf('Empirical Distribution at Center (True Y = %d km)', round(true_y_center/1000)));
+
+% Визуальный зажим оси X для предотвращения растягивания от единичных сингулярностей
+xlim([100 800]); 
+
+sgtitle(method_name);
 end

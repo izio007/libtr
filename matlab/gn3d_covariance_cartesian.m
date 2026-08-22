@@ -54,7 +54,7 @@ end
 AtWA = J.' * diag(W_noise) * J;
 
 % Чистая аналитическая инверсия оператором inv. Если rcond падает - фиксируем честный отказ.
-if rcond(AtWA) < 1e-18 || isnan(rcond(AtWA))
+if rcond(AtWA) < 2.2204e-16 || isnan(rcond(AtWA))
     status = 2; return;
 end
 

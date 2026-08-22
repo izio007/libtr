@@ -34,8 +34,8 @@ for i = 1:M
     J(2*i-1, 1) = sa;     J(2*i-1, 2) = -ca;    J(2*i-1, 3) = 0;
     J(2*i, 1)   = -ca * sb; J(2*i, 2)   = -sa * sb; J(2*i, 3)   = cb;
     
-    W_noise(2*i-1) = 1.0 / (var_alpha(i) * (rho^2));
-    W_noise(2*i)   = 1.0 / (var_beta(i) * (rho^2));
+    W_noise(2*i-1) = 1.0 / (var_alpha(i) * (rho.^2));
+    W_noise(2*i)   = 1.0 / (var_beta(i) * (rho.^2));
 end
 
 I_Fisher = J.' * diag(W_noise) * J;
