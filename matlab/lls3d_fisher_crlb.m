@@ -1,7 +1,6 @@
 function [status, crlb_X, crlb_Y, crlb_Z] = lls3d_fisher_crlb(P, var_alpha, var_beta, X_target, Y_target, Z_target)
 % =========================================================================
 % ФУНКЦИЯ РАСЧЕТА ТЕОРЕТИЧЕСКОГО ПРЕДЕЛА ТОЧНОСТИ (ГРАНИЦА РАО-КРАМЕРА - CRLB)
-% =========================================================================
 % Входные параметры:
 %   P         - Физическая матрица координат измерительных пунктов [3 x M]
 %   var_alpha - Вектор дисперсий шума азимутальных каналов [M x 1] (радианы^2)
@@ -10,72 +9,44 @@ function [status, crlb_X, crlb_Y, crlb_Z] = lls3d_fisher_crlb(P, var_alpha, var_
 %   Y_target  - Истинная декартова координата цели Y (метры)
 %   Z_target  - Истинная декартова координата цели Z (метры)
 % =========================================================================
-
 crlb_X = NaN; crlb_Y = NaN; crlb_Z = NaN;
 M = size(P, 2);
 
 if M < 2 || length(var_alpha) < M || length(var_beta) < M
-    status = 1;
-    return;
+    status = 1; return;
 end
 
 J = zeros(2*M, 3);
 W_noise = zeros(2*M, 1);
 
 for i = 1:M
-    % Извлекаем истинные геометрические координаты текущей станции сплайна
     xs = P(1, i); ys = P(2, i); zs = P(3, i);
+    dx = X_target - xs; dy = Y_target - ys; dz = Z_target - zs;
     
-    % Истинные декартовы расстояния от i-й станции до точной точки цели
-    dx = X_target - xs; 
-    dy = Y_target - ys; 
-    dz = Z_target - zs;
-    
-    rho_xy = sqrt(dx^2 + dy^2); 
-    rho = sqrt(dx^2 + dy^2 + dz^2);
-    
-    % Защита от деления на ноль при совпадении координат
+    rho_xy = sqrt(dx^2 + dy^2); rho = sqrt(dx^2 + dy^2 + dz^2);
     if rho_xy < 1e-3, rho_xy = 1e-3; end
-    if rho < 1e-3, rho = 1e-3; end
+    if rho < 1e-3,    rho = 1e-3; end
     
-    % Аналитический расчет теоретических ракурсов визирования апертуры
-    alpha_theo = atan2(dy, dx); 
-    beta_theo  = atan2(dz, rho_xy);
-    
+    alpha_theo = atan2(dy, dx); beta_theo = atan2(dz, rho_xy);
     sa = sin(alpha_theo); ca = cos(alpha_theo);
     sb = sin(beta_theo);  cb = cos(beta_theo);
     
-    % Строка азимутального уравнения Якобиана (производные в радианах на метр)
-    J(2*i-1, 1) = -sa / rho_xy; 
-    J(2*i-1, 2) =  ca / rho_xy; 
-    J(2*i-1, 3) =  0;
+    J(2*i-1, 1) = sa;     J(2*i-1, 2) = -ca;    J(2*i-1, 3) = 0;
+    J(2*i, 1)   = -ca * sb; J(2*i, 2)   = -sa * sb; J(2*i, 3)   = cb;
     
-    % Строка угломестного уравнения Якобиана (производные в радианах на метр)
-    J(2*i, 1) = -ca * sb / rho; 
-    J(2*i, 2) = -sa * sb / rho; 
-    J(2*i, 3) =  cb / rho;
-    
-    % Формирование весов на базе паспортных шумов измерителей
-    W_noise(2*i-1) = 1.0 / var_alpha(i);
-    W_noise(2*i)   = 1.0 / var_beta(i);
+    W_noise(2*i-1) = 1.0 / (var_alpha(i) * (rho^2));
+    W_noise(2*i)   = 1.0 / (var_beta(i) * (rho^2));
 end
 
-% Информационная матрица Фишера (Fisher Information Matrix)
 I_Fisher = J.' * diag(W_noise) * J;
 
-% Анализ геометрической обусловленности раскрыва базы
-if rcond(I_Fisher) < 1e-12
-    status = 2;
-    return;
+if rcond(I_Fisher) < eps || isnan(rcond(I_Fisher))
+    status = 2; return;
 end
 
-% Матрица Рао-Крамера — классическая инверсия накопленной информации
 K_CRLB = inv(I_Fisher);
-
-% Извлечение чистых инвариантных декартовых СКО (в метрах)
 crlb_X = sqrt(K_CRLB(1, 1));
 crlb_Y = sqrt(K_CRLB(2, 2));
 crlb_Z = sqrt(K_CRLB(3, 3));
-
 status = 0;
 end

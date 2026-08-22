@@ -47,12 +47,10 @@ for s_idx = 1:L_counts
             beta_m(i)  = atan2(dz, sqrt(dx^2 + dy^2)) + deg2rad(DOA_ERROR_DEGREE) * randn();
         end
         
-        % Вызов полярного нелинейного МНК-поиска координат
         [st_p, lambda] = gn3d_position_polar(STATION_POSITIONS, alpha_m, beta_m);
         status(k) = st_p;
         if st_p == 0
             results_pos(:, k) = lambda;
-            % Вызов полярного инварианта ковариации матрицы Фишера
             [st_c, s_along, s_cross, sz] = gn3d_covariance_polar_invariant(STATION_POSITIONS, VAR_ALPHA, VAR_BETA, lambda);
             if st_c == 0
                 results_std_X(k) = s_cross; 

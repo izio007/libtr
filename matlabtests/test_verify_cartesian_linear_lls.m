@@ -1,7 +1,13 @@
 function [fixed, summary] = test_verify_cartesian_linear_lls(STATION_COUNTS_VECTOR, FIXED_N_STATIONS, STATION_X_ANCHORS, STATION_Y_ANCHORS, STATION_Z_ANCHORS, x_true, y_true, z_true, DOA_ERROR_DEGREE, RANDOM_SEED)
 % =========================================================================
-% ВЕРИФИКАТОР: ЧИСТЫЙ КЛАССИЧЕСКИЙ ЛИНЕЙНЫЙ LLS (ИЗ УЧЕБНИКА)
-% Path: d:\workspace\libtr\matlabtests\test_verify_cartesian_linear_lls.m
+% ФУНКЦИЯ КЛАССИЧЕСКОГО НЕВЕСОВОГО ЛИНЕЙНОГО 3D-ПОЗИЦИОНИРОВАНИЯ (LLS)
+% Входные параметры:
+%   P      - Физическая матрица координат измерительных пунктов [3 x M]
+%   alpha  - Вектор измеренных азимутов цели [M x 1] (радианы)
+%   beta   - Вектор измеренных углов места цели [M x 1] (радианы)
+% Выходные параметры:
+%   status - Флаг выполнения (0 - успешно, 1 - сбой размерности, 2 - вырождение)
+%   lambda - Оцененные декартовы координаты цели [x; y; z] (метры)
 % =========================================================================
 addpath('d:\workspace\libtr\matlab\');
 

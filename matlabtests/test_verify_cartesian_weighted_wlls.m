@@ -1,7 +1,14 @@
 function [fixed, summary] = test_verify_cartesian_weighted_wlls(STATION_COUNTS_VECTOR, FIXED_N_STATIONS, STATION_X_ANCHORS, STATION_Y_ANCHORS, STATION_Z_ANCHORS, x_true, y_true, z_true, DOA_ERROR_DEGREE, RANDOM_SEED)
 % =========================================================================
-% ВЕРИФИКАТОР: ЧИСТЫЙ ВЗВЕШЕННЫЙ ЛИНЕЙНЫЙ МНК (WLLS С ГАУСС-ВЕСАМИ)
-% Path: d:\workspace\libtr\matlabtests\test_verify_cartesian_weighted_wlls.m
+% ФУНКЦИЯ КЛАССИЧЕСКОГО ВЗВЕШЕННОГО ЛИНЕЙНОГО 3D-ПОЗИЦИОНИРОВАНИЯ (WLLS)
+% Входные параметры:
+%   P      - Физическая matrix координат измерительных пунктов [3 x M]
+%   alpha  - Вектор измеренных азимутов цели [M x 1] (радианы)
+%   beta   - Вектор измеренных углов места цели [M x 1] (радианы)
+%   W_diag - Диагональный вектор весов измерительных каналов [2M x 1]
+% Выходные параметры:
+%   status - Флаг выполнения (0 - успешно, 1 - сбой размерности, 2 - вырождение)
+%   lambda - Оцененные декартовы координаты цели [x; y; z] (метры)
 % =========================================================================
 addpath('d:\workspace\libtr\matlab\');
 
@@ -47,7 +54,6 @@ for s_idx = 1:L_counts
             beta_m(i)  = atan2(dz, sqrt(dx^2 + dy^2)) + deg2rad(DOA_ERROR_DEGREE) * randn();
         end
         
-        % Явное и честное переиспользование вашего служебного файла lls3d_prepare_data
         [~, W_diag] = lls3d_prepare_data(STATION_POSITIONS, alpha_m, beta_m, VAR_ALPHA, VAR_BETA);
         
         [st_p, lambda] = wlls3d_position(STATION_POSITIONS, alpha_m, beta_m, W_diag);
