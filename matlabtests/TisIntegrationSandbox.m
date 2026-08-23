@@ -129,7 +129,7 @@ classdef TisIntegrationSandbox < handle
                         
                         % Вызовы расчетных функций геометрии ядра ТИС
                         if m_idx == 1
-                            [st, lambda] = lls3d_position(P_curr, alpha, beta);
+                            [st, lambda] = lls_position(P_curr, alpha, beta);
                         elseif m_idx == 2
                             % Вызываем lls3d_prepare_data.m для итерационного формирования весов Гаусса от дальностей
                             [~, W] = lls3d_prepare_data(P_curr, alpha, beta, V_a_curr, V_b_curr);
@@ -157,7 +157,7 @@ classdef TisIntegrationSandbox < handle
                                 a_k = alpha_matrix(:, k); b_k = beta_matrix(:, k);
                                 % Вызовы ядерных ковариаций
                                 if m_idx == 1
-                                    [~, sx, sy, sz] = lls3d_covariance_linear(P_curr, a_k, b_k, V_a_curr, V_b_curr, res_pos(:,k));
+                                    [~, sx, sy, sz] = lls_covariance(P_curr, a_k, b_k, V_a_curr, V_b_curr, res_pos(:,k));
                                 elseif m_idx == 2
                                     [~, W_cov] = lls3d_prepare_data(P_curr, a_k, b_k, V_a_curr, V_b_curr);
                                     [~, sx, sy, sz] = wlls3d_covariance_weighted(P_curr, a_k, b_k, V_a_curr, V_b_curr, res_pos(:,k), W_cov);
@@ -177,7 +177,7 @@ classdef TisIntegrationSandbox < handle
                 for s = 1:obj.Cfg.Hardware.N_Monte_Carlo
                     a_mc = alpha_mc_raw(:, s); b_mc = beta_mc_raw(:, s);
                     if m_idx == 1
-                        [st, lambda] = lls3d_position(P_exp_mc, a_mc, b_mc);
+                        [st, lambda] = lls_position(P_exp_mc, a_mc, b_mc);
                     elseif m_idx == 2
                         % Вызываем ядерный предобработчик lls3d_prepare_data для Монте-Карло выборок
                         [~, W_mc] = lls3d_prepare_data(P_exp_mc, a_mc, b_mc, V_a_mc, V_b_mc);
@@ -296,7 +296,7 @@ classdef TisIntegrationSandbox < handle
                 for k = 1:obj.Cfg.Trajectory.Points
                     alpha = alpha_matrix(:, k); beta = beta_matrix(:, k);
                     if m_idx == 1
-                        [st, lambda] = lls3d_position(P_curr, alpha, beta);
+                        [st, lambda] = lls_position(P_curr, alpha, beta);
                     elseif m_idx == 2
                         % Сквозной вызов предобработчика весов Гаусса lls3d_prepare_data
                         [~, W] = lls3d_prepare_data(P_curr, alpha, beta, V_a, V_b);
@@ -327,7 +327,7 @@ classdef TisIntegrationSandbox < handle
                         if status(k) == 0
                             a_k = alpha_matrix(:, k); b_k = beta_matrix(:, k);
                             if m_idx == 1
-                                [~, sx, sy, sz] = lls3d_covariance_linear(P_curr, a_k, b_k, V_a, V_b, res_pos(:,k));
+                                [~, sx, sy, sz] = lls_covariance(P_curr, a_k, b_k, V_a, V_b, res_pos(:,k));
                             elseif m_idx == 2
                                 [~, W_cov] = lls3d_prepare_data(P_curr, a_k, b_k, V_a, V_b);
                                 [~, sx, sy, sz] = wlls3d_covariance_weighted(P_curr, a_k, b_k, V_a, V_b, res_pos(:,k), W_cov);

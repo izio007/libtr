@@ -13,7 +13,7 @@ lambda = [NaN; NaN; NaN];
 M = size(P, 2);
 
 % Первичное линейное приближение для старта итераций (переиспользование голого LLS)
-[st_lls, lambda_init] = lls3d_position(P, alpha, beta);
+[st_lls, lambda_init] = lls_position(P, alpha, beta);
 if st_lls ~= 0 || any(isnan(lambda_init))
     status = 2; return;
 end

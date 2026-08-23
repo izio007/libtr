@@ -1,4 +1,4 @@
-function [status, std_Along, std_Cross, std_Z] = gn3d_covariance_polar_invariant(P, var_alpha, var_beta, lambda_gn)
+function [status, std_X, std_Y, std_Z] = gn3d_covariance_polar_invariant(P, var_alpha, var_beta, lambda_gn)
 % =========================================================================
 % ФУНКЦИЯ РАСЧЕТА ИСТИННОГО ПОЛЯРНОГО ИНВАРИАНТА МАТРИЦЫ ФИШЕРА ДЛЯ GN
 % Входные параметры:
@@ -12,61 +12,45 @@ function [status, std_Along, std_Cross, std_Z] = gn3d_covariance_polar_invariant
 %   std_Cross  - СКО поперечного бокового ухода (м)
 %   std_Z      - СКО высоты (м)
 % =========================================================================
-std_Along = NaN; std_Cross = NaN; std_Z = NaN;
+std_X = NaN; std_Y = NaN; std_Z = NaN;
 M = size(P, 2);
 
-if M < 2 || length(lambda_gn) ~= 3 || any(isnan(lambda_gn))
-    status = 1; return;
-end
+J = zeros(2*M, 3);
+W = zeros(2*M, 1);
 
 x = lambda_gn(1); y = lambda_gn(2); z = lambda_gn(3);
-J = zeros(2*M, 3);
-W_noise = zeros(2*M, 1);
 
 for i = 1:M
-    dx = x - P(1, i); dy = y - P(2, i); dz = z - P(3, i);
-    rho_xy = sqrt(dx^2 + dy^2); rho = sqrt(dx^2 + dy^2 + dz^2);
+    xs = P(1, i); ys = P(2, i); zs = P(3, i);
+    dx = x - xs; dy = y - ys; dz = z - zs;
     
-    if rho_xy < 1e-3, rho_xy = 1e-3; end
-    if rho < 1e-3,    rho = 1e-3; end
+    r_xy = sqrt(dx^2 + dy^2);
+    r_sq = dx^2 + dy^2 + dz^2;
     
-    alpha_theo = atan2(dy, dx); beta_theo = atan2(dz, rho_xy);
-    sa = sin(alpha_theo); ca = cos(alpha_theo);
-    sb = sin(beta_theo);  cb = cos(beta_theo);
+    if r_xy < 1e-3, r_xy = 1e-3; end
     
-    J(2*i-1, 1) = -sa / rho_xy; J(2*i-1, 2) =  ca / rho_xy; J(2*i-1, 3) =  0;
-    J(2*i, 1)   = -ca * sb / rho; J(2*i, 2)   = -sa * sb / rho; J(2*i, 3)   =  cb / rho;
+    % Полные тригонометрические градиенты полярного базиса ТИС от оси OX
+    J(2*i-1, 1) = -dy / (r_xy^2);
+    J(2*i-1, 2) =  dx / (r_xy^2);
+    J(2*i-1, 3) =  0;
     
-    W_noise(2*i-1) = 1.0 / var_alpha(i);
-    W_noise(2*i)   = 1.0 / var_beta(i);
+    J(2*i, 1)   = -(dx * dz) / (r_sq * r_xy);
+    J(2*i, 2)   = -(dy * dz) / (r_sq * r_xy);
+    J(2*i, 3)   =  r_xy / r_sq;
+    
+    W(2*i-1) = 1.0 / var_alpha(i);
+    W(2*i)   = 1.0 / var_beta(i);
 end
 
-AtWA = J.' * diag(W_noise) * J;
+I_Fisher = J.' * diag(W) * J;
 
-if rcond(AtWA) < 2.2204e-16 || isnan(rcond(AtWA))
+if rcond(I_Fisher) < 2.2204e-16 || isnan(rcond(I_Fisher))
     status = 2; return;
 end
 
-K_cartesian = inv(AtWA);
-
-% СТРОГИЙ ТЕНЗОРНЫЙ ПОВОРОТ В ЛОКАЛЬНЫЕ ОСИ ВИЗИРОВАНИЯ ЦЕЛИ
-x_c = mean(P(1, :)); y_c = mean(P(2, :)); z_c = mean(P(3, :));
-dx_c = x - x_c; dy_c = y - y_c; dz_c = z - z_c;
-rho_c = sqrt(dx_c^2 + dy_c^2 + dz_c^2); if rho_c < 1e-3, rho_c = 1e-3; end
-
-r_x = dx_c / rho_c; r_y = dy_c / rho_c; r_z = dz_c / rho_c;
-rho_xy_c = sqrt(dx_c^2 + dy_c^2); if rho_xy_c < 1e-3, rho_xy_c = 1e-3; end
-
-U = zeros(3, 3);
-U(1, 1) = r_x;             U(1, 2) = r_y;             U(1, 3) = r_z;            % Радиальная ось (Along-Track)
-U(2, 1) = -dy_c/rho_xy_c;  U(2, 2) = dx_c/rho_xy_c;   U(2, 3) = 0;              % Поперечная нормаль (Cross-Track)
-U(3, 1) = -r_x*r_z/rho_xy_c; U(3, 2) = -r_y*r_z/rho_xy_c; U(3, 3) = rho_xy_c/rho_c; % Вертикаль
-
-% Закон преобразования тензора ковариации: K_polar = U * K_cartesian * U'
-K_polar = U * K_cartesian * U.';
-
-std_Along = sqrt(K_polar(1, 1)); 
-std_Cross = sqrt(K_polar(2, 2)); 
-std_Z     = sqrt(K_polar(3, 3));
+K_cartesian = inv(I_Fisher);
+std_X = sqrt(K_cartesian(1, 1));
+std_Y = sqrt(K_cartesian(2, 2));
+std_Z = sqrt(K_cartesian(3, 3));
 status = 0;
 end

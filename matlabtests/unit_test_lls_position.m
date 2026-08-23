@@ -1,10 +1,10 @@
-function unit_test_lls3d_position()
+function unit_test_lls_position()
 % =========================================================================
-% ЮНИТ-ТЕСТ: АТОМАРНАЯ ПРОВЕРКА ФУНКЦИИ LLS3D_POSITION ТИС
-% Path: d:\workspace\libtr\matlabtests\unit_test_lls3d_position.m
+% ЮНИТ-ТЕСТ: АТОМАРНАЯ ПРОВЕРКА ФУНКЦИИ LLS_POSITION ТИС
+% Path: d:\workspace\libtr\matlabtests\unit_test_lls_position.m
 % =========================================================================
 
-fprintf('ЗАПУСК АТОМАРНОГО ЮНИТ-ТЕСТА ДЛЯ ФУНКЦИИ: lls3d_position\n');
+fprintf('ЗАПУСК АТОМАРНОГО ЮНИТ-ТЕСТА ДЛЯ ФУНКЦИИ: lls_position\n');
 
 rmse_results = zeros(8, 1); crlb_results = zeros(8, 1); mock_delta = zeros(8, 1);
 
@@ -38,7 +38,7 @@ for criteria_idx = 1:5
         
         [alpha, beta] = service_add_noise_ox(P_exp, x_true, y_true, z_true, config.DOA_ERROR_DEGREE, config.CHOSEN_SEED);
         
-        [status, lambda] = lls3d_position(P_exp, alpha, beta);
+        [status, lambda] = lls_position(P_exp, alpha, beta);
         if status == 0 && ~any(isnan(lambda))
             rmse_results(r_idx) = sqrt((lambda(1)-x_true)^2 + (lambda(2)-y_true)^2 + (lambda(3)-z_true)^2);
         else

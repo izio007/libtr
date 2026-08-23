@@ -14,54 +14,45 @@ function [status, std_X, std_Y, std_Z] = gn3d_covariance_cartesian(P, var_alpha,
 std_X = NaN; std_Y = NaN; std_Z = NaN;
 M = size(P, 2);
 
-if M < 2 || length(lambda_gn) ~= 3
-    status = 1; return;
-end
+J = zeros(2*M, 3);
+W = zeros(2*M, 1);
 
 x = lambda_gn(1); y = lambda_gn(2); z = lambda_gn(3);
-J = zeros(2*M, 3);
-W_noise = zeros(2*M, 1);
 
 for i = 1:M
-    dx = x - P(1, i); dy = y - P(2, i); dz = z - P(3, i);
-    rho_xy = sqrt(dx^2 + dy^2); rho = sqrt(dx^2 + dy^2 + dz^2);
+    xs = P(1, i); ys = P(2, i); zs = P(3, i);
+    dx = x - xs; dy = y - ys; dz = z - zs;
     
-    if rho_xy < 1e-3, rho_xy = 1e-3; end
-    if rho < 1e-3,    rho = 1e-3; end
+    r_xy = sqrt(dx^2 + dy^2);
+    r_sq = dx^2 + dy^2 + dz^2;
+    r = sqrt(r_sq);
     
-    % Истинные аналитические ракурсы визирования от оси OX в прыгающей точке
-    alpha_theo = atan2(dy, dx); 
-    beta_theo  = atan2(dz, rho_xy);
+    if r_xy < 1e-3, r_xy = 1e-3; end
+    if r < 1e-3,    r = 1e-3; end
     
-    sa = sin(alpha_theo); ca = cos(alpha_theo);
-    sb = sin(beta_theo);  cb = cos(beta_theo);
-    
-    % Чистый Якобиан из учебника (Размерность: радиан на метр)
-    J(2*i-1, 1) = -sa / rho_xy; 
-    J(2*i-1, 2) =  ca / rho_xy; 
+    % 1. Строка азимута alpha
+    J(2*i-1, 1) = -dy / (r_xy^2);
+    J(2*i-1, 2) =  dx / (r_xy^2);
     J(2*i-1, 3) =  0;
     
-    J(2*i, 1)   = -ca * sb / rho; 
-    J(2*i, 2)   = -sa * sb / rho; 
-    J(2*i, 3)   =  cb / rho;
+    % 2. Строка угла места beta - ВОССТАНОВЛЕНА ПОЛНАЯ НЕЛИНЕЙНАЯ СВЯЗЬ Z
+    J(2*i, 1)   = -(dx * dz) / (r_sq * r_xy);
+    J(2*i, 2)   = -(dy * dz) / (r_sq * r_xy);
+    J(2*i, 3)   =  r_xy / r_sq;
     
-    % Чистая весовая матрица обратных угловых дисперсий (Размерность: 1 / радиан^2)
-    W_noise(2*i-1) = 1.0 / var_alpha(i);
-    W_noise(2*i)   = 1.0 / var_beta(i);
+    W(2*i-1) = 1.0 / var_alpha(i);
+    W(2*i)   = 1.0 / var_beta(i);
 end
 
-% Прямой расчет информационной матрицы Фишера задачи Гаусса-Ньютона
-AtWA = J.' * diag(W_noise) * J;
+AtWA = J.' * diag(W) * J;
 
-% Чистая аналитическая инверсия оператором inv. Если rcond падает - фиксируем честный отказ.
 if rcond(AtWA) < 2.2204e-16 || isnan(rcond(AtWA))
     status = 2; return;
 end
 
-K_lambda = inv(AtWA);
-
-std_X = sqrt(K_lambda(1, 1));
-std_Y = sqrt(K_lambda(2, 2));
-std_Z = sqrt(K_lambda(3, 3));
+K = inv(AtWA);
+std_X = sqrt(K(1, 1));
+std_Y = sqrt(K(2, 2));
+std_Z = sqrt(K(3, 3));
 status = 0;
 end
