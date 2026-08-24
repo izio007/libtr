@@ -1,4 +1,4 @@
-function [status, crlb_X, crlb_Y, crlb_Z] = lls3d_fisher_crlb(P, var_alpha, var_beta, X_target, Y_target, Z_target)
+function [status, crlb_X, crlb_Y, crlb_Z] = lls_fisher_crlb(P, var_alpha, var_beta, X_target, Y_target, Z_target)
 % =========================================================================
 % ФУНКЦИЯ РАСЧЕТА ТЕОРЕТИЧЕСКОГО ПРЕДЕЛА ТОЧНОСТИ (ГРАНИЦА РАО-КРАМЕРА - CRLB)
 % Входные параметры:

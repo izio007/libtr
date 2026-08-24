@@ -1,10 +1,10 @@
-function unit_test_wlls3d_position()
+function unit_test_wlls_position()
 % =========================================================================
-% ЮНИТ-ТЕСТ: АТОМАРНАЯ ПРОВЕРКА ФУНКЦИИ WLLS3D_POSITION ТИС
-% Path: d:\workspace\libtr\matlabtests\unit_test_wlls3d_position.m
+% ЮНИТ-ТЕСТ: АТОМАРНАЯ ПРОВЕРКА ФУНКЦИИ WLLS_POSITION ТИС
+% Path: d:\workspace\libtr\matlabtests\unit_test_wlls_position.m
 % =========================================================================
 
-fprintf('ЗАПУСК АТОМАРНОГО ЮНИТ-ТЕСТА ДЛЯ ФУНКЦИИ: wlls3d_position\n');
+fprintf('ЗАПУСК АТОМАРНОГО ЮНИТ-ТЕСТА ДЛЯ ФУНКЦИИ: wlls_position\n');
 
 rmse_results = zeros(8, 1); crlb_results = zeros(8, 1); mock_delta = zeros(8, 1);
 
@@ -26,7 +26,8 @@ for criteria_idx = 1:5
         
         [P_exp, V_alpha_exp, V_beta_exp] = service_expand_tact_matrix(P_base, VAR_ALPHA_BASE, VAR_BETA_BASE, N_total_exp);
         
-        [st_f, cx, cy, cz] = lls3d_fisher_crlb(P_exp, V_alpha_exp, V_beta_exp, x_true, y_true, z_true);
+        % Синхронизация имени предела Рао-Крамера (Убрали legacy 3D)
+        [st_f, cx, cy, cz] = lls_fisher_crlb(P_exp, V_alpha_exp, V_beta_exp, x_true, y_true, z_true);
         if st_f == 0, crlb_results(r_idx) = sqrt(cx^2 + cy^2 + cz^2); else, crlb_results(r_idx) = Inf; end
         
         [st_m, lambda_ideal] = service_ideal_mock_position(P_exp, x_true, y_true, z_true);
@@ -37,9 +38,10 @@ for criteria_idx = 1:5
         end
         
         [alpha, beta] = service_add_noise_ox(P_exp, x_true, y_true, z_true, config.DOA_ERROR_DEGREE, config.CHOSEN_SEED);
-        W_df = [1./V_alpha_exp; 1./V_beta_exp]; W_df = W_df / norm(W_df);
         
-        [status, lambda] = wlls3d_position(P_exp, alpha, beta, W_df);
+        % ХИРУРГИЧЕСКОЕ ИСПРАВЛЕНИЕ ИНТЕРФЕЙСА: Передаем в ядро чистые раздельные дисперсии ОЗУ
+        [status, lambda] = wlls_position(P_exp, alpha, beta, V_alpha_exp, V_beta_exp);
+        
         if status == 0 && ~any(isnan(lambda))
             rmse_results(r_idx) = sqrt((lambda(1)-x_true)^2 + (lambda(2)-y_true)^2 + (lambda(3)-z_true)^2);
         else

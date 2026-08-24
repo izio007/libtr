@@ -26,7 +26,7 @@ for criteria_idx = 1:5
         
         [P_exp, V_alpha_exp, V_beta_exp] = service_expand_tact_matrix(P_base, VAR_ALPHA_BASE, VAR_BETA_BASE, N_total_exp);
         
-        [st_f, cx, cy, cz] = lls3d_fisher_crlb(P_exp, V_alpha_exp, V_beta_exp, x_true, y_true, z_true);
+        [st_f, cx, cy, cz] = lls_fisher_crlb(P_exp, V_alpha_exp, V_beta_exp, x_true, y_true, z_true);
         if st_f == 0, crlb_results(r_idx) = sqrt(cx^2 + cy^2 + cz^2); else, crlb_results(r_idx) = Inf; end
         
         [st_m, lambda_ideal] = service_ideal_mock_position(P_exp, x_true, y_true, z_true);
