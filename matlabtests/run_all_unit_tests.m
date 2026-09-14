@@ -1,68 +1,26 @@
-
-% =========================================================================
-% МАСТЕР-РАННЕР С АВТОМАТИЧЕСКОЙ ЗАПИСЬЮ ВСЕГО ВЫВОДА ТИС В ЛОГ-ФАЙЛ
-% Responsibility: Чистый диспетчер перебора с фиксацией отчета на диске
-% Path: d:\workspace\libtr\matlabtests\run_all_unit_tests.m
-% =========================================================================
-
-clc; close all;
-
-% 1. Определение директорий и инжекция путей
-tests_dir = fileparts(mfilename('fullpath'));
-if isempty(tests_dir), tests_dir = pwd; end
-[project_root, ~] = fileparts(tests_dir);
-matlab_core_dir = fullfile(project_root, 'matlab');
-
-addpath(matlab_core_dir);
-addpath(tests_dir);
-
-% 2. Конфигурация и запуск файла записи отчета
-log_file_path = fullfile(tests_dir, 'unit_tests_report.txt');
-if exist(log_file_path, 'file')
-    delete(log_file_path); % Удаляем старый лог перед новым прогоном
+clear; clc; close all;
+service_generate_static_context;
+test_list = {'unit_test_cov2std', 'unit_test_cov2std_3d', 'unit_test_lls_position', 'unit_test_wlls_position', 'unit_test_gn_position', 'unit_test_gnp_position'};
+report_file = 'unit_tests_report.txt';
+fid = fopen(report_file, 'w');
+if fid == -1
+    error('Критический сбой ОЗУ: Невозможно создать файл отчета unit_tests_report.txt.');
 end
-
-diary(log_file_path); % Включаем сквозную запись вывода в файл
-
-fprintf('СТАРТ ГЛОБАЛЬНОЙ ВЕРИФИКАЦИИ МАТЕМАТИЧЕСКИХ ЯДЕР ТИС\n');
-
-search_pattern = fullfile(tests_dir, 'unit_test_*.m');
-test_files = dir(search_pattern);
-
-if isempty(test_files)
-    fprintf('⚠️ Ошибка: Юнит-тесты unit_test_*.m не обнаружены.\n');
-    diary off; % Выключаем запись перед выходом
-    return;
-end
-
-total_tests = length(test_files);
+total_tests = length(test_list);
 success_count = 0;
-failed_tests = cell(0, 1);
-
-for idx = 1:total_tests
-    current_file_name = test_files(idx).name;
-    [~, func_name, ~] = fileparts(current_file_name);
-    
-    fprintf('>>> Исполняется: %s\n', current_file_name);
-    
+fprintf(fid, 'СТАРТ ГЛОБАЛЬНОЙ ВЕРИФИКАЦИИ МАТЕМАТИЧЕСКИХ ЯДЕР ТИС\n');
+for i = 1:total_tests
+    test_name = test_list{i};
     try
-        test_func_handle = str2func(func_name);
-        test_func_handle(); 
-        
+        captured_output = evalc(sprintf('%s()', test_name));
+        fprintf(fid, '>>> Исполняется: %s.m\n%s<<< Успешно завершен: %s\n', test_name, captured_output, test_name);
+        fprintf('Исполняется: %s.m... SUCCESS\n', test_name);
         success_count = success_count + 1;
-        fprintf('<<< Успешно завершен: %s\n', func_name);
     catch ME
-        failed_tests{end+1, 1} = current_file_name; %#ok<AGROW>
-        fprintf('❌ КРИТИЧЕСКИЙ СБОЙ при выполнении %s!\n', current_file_name);
-        fprintf('Сообщение: %s\n', ME.message);
+        fprintf(fid, '>>> Исполняется: %s.m\n❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: %s\nИсключение: %s\n', test_name, test_name, ME.message);
+        fprintf('Исполняется: %s.m... ❌ FAILED\n', test_name);
+        fprintf('  Предупреждение: %s\n', ME.message);
     end
 end
-
-fprintf('\nИТОГОВЫЙ ОТЧЕТ ВЕРИФИКАЦИИ\n');
-fprintf('Всего запущено тестов:  %d\n', total_tests);
-fprintf('Успешно выполнено:     %d\n', success_count);
-fprintf('Завершилось аварийно:  %d\n', total_tests - success_count);
-
-diary off; % Выключаем запись и закрываем дескриптор файла на диске
-fprintf('Вывод верификации ТИС успешно сохранен в файл: %s\n', log_file_path);
-
+fprintf(fid, '\nИТОГОВЫЙ ОТЧЕТ ВЕРИФИКАЦИИ\nВсего запущено тестов:  %d\nУСПЕШНО ВЫПОЛНЕНО:     %d\nЗАВЕРШИЛОСЬ АВАРИЙНО:  %d\n', total_tests, success_count, total_tests - success_count);
+fclose(fid);

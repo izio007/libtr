@@ -1,0 +1,312 @@
+СТАРТ ГЛОБАЛЬНОЙ ВЕРИФИКАЦИИ МАТЕМАТИЧЕСКИХ ЯДЕР ТИС
+>>> Исполняется: unit_test_cov2std.m
+=== СТАРТ ГЕОМЕТРИЧЕСКОЙ ВЕРИФИКАЦИИ ПОЛУОСЕЙ: ll_cov2std ===
+
+===================================================================
+     ТАБЛИЦА ГЕОМЕТРИЧЕСКИХ ПАРАМЕТРОВ И ИСТИННЫХ ПОЛУОСЕЙ ЭЛЛИПСА 
+===================================================================
+ Параметр геометрии        | Истинная Евклидова норма (Длина полуоси) 
+-------------------------------------------------------------------
+ Большая полуось эллипса   |                    2.09895 м
+ Малая полуось эллипса     |                    0.73349 м
+-------------------------------------------------------------------
+ Канал сечения ядра ТИС    | Вычисленный радиус сечения оболочки 1-sigma 
+-------------------------------------------------------------------
+ Радиальный (вдоль ЛВ)     |                    0.83359 м
+ Поперечный (горизонталь)  |                    1.24364 м
+===================================================================
+
+Абсолютные декартовы координаты истинных вершин полуосей (Черные точки):
+  Вершина большой полуоси: X =  3.50309, Y =  4.52865
+  Вершина малой полуось:   X =  5.51417, Y =  5.47689
+
+Проверка квадратичных форм жесткости (Опорный инвариант = 1.0):
+  Форма для точки сечения ЛВ:      1.0000000000
+  Форма для точки сечения нормали: 1.0000000000
+  Форма для вершины большой оси:   1.0000000000
+  Форма для вершины малой оси:     1.0000000000
+
+=======================================================
+  СТАТУС ЮНИТ-ТЕСТА: УСПЕШНО ПРОЙДЕН (SUCCESS)
+  Побитовое нахождение точек на оболочке 1-sigma доказано.
+=======================================================
+<<< Успешно завершен: unit_test_cov2std
+>>> Исполняется: unit_test_cov2std_3d.m
+=== СТАРТ ПОЛНОЙ 3D-ВЕРИФИКАЦИИ ПОЛУОСЕЙ И СЕЧЕНИЙ: ll_cov2std ===
+
+===================================================================
+     ТАБЛИЦА ГЕОМЕТРИЧЕСКИХ ПАРАМЕТРОВ И ИСТИННЫХ ПОЛУОСЕЙ ЭЛЛИПСОИДА 
+===================================================================
+ Параметр 3D-геометрии     | Истинная Евклидова норма (Длина полуоси) 
+-------------------------------------------------------------------
+ Минимальная ось эллипсоида|                    0.73010 м
+ Средняя ось эллипсоида    |                    1.22044 м
+ Максимальная ось эллипсоид|                    2.10264 м
+-------------------------------------------------------------------
+ Измерительный канал ТИС   | Вычисленный радиус сечения оболочки 1-sigma 
+-------------------------------------------------------------------
+ Радиальный (вдоль ЛВ)     |                    0.84774 м
+ Поперечный (Cross1)       |                    1.23633 м
+ Вертикальный (Cross2)     |                    1.17212 м
+===================================================================
+
+Абсолютные декартовы 3D-координаты истинных вершин полуосей (Черные точки):
+  Вершина минимальной оси: X =  5.51252, Y =  5.48269, Z =  1.94749
+  Вершина средней оси:     X =  5.00155, Y =  6.12477, Z =  0.78596
+  Вершина максимальной оси: X =  6.49747, Y =  7.46810, Z =  2.15279
+
+Проверка квадратичных форм жесткости (Опорный инвариант = 1.0):
+  Форма для точки сечения ЛВ:      1.0000000000
+  Форма для точки сечения Cross1:  1.0000000000
+  Форма для точки сечения Cross2:  1.0000000000
+  Форма для вершины минимальной оси:1.0000000000
+  Форма для вершины средней оси:   1.0000000000
+  Форма для вершины максимальной оси:1.0000000000
+  СТАТУС ЮНИТ-ТЕСТА: УСПЕШНО ПРОЙДЕН (SUCCESS)
+  Побитовое нахождение 3D-вершин полуосей на оболочке доказано.
+<<< Успешно завершен: unit_test_cov2std_3d
+>>> Исполняется: unit_test_lls_position.m
+ЗАПУСК АТОМАРНОГО ЮНИТ-ТЕСТА ДЛЯ ФУНКЦИИ: lls_position
+Структура ТИС: ЦЕЛЬ ВНУТРИ БАЗОВОГО КВАДРАТА СДВИГ Z
+Дальность, км   | RMSE LLS, метров     | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | 0.0                  | NaN                | 2.5862e-10           | OK        
+-8.6            | 0.0                  | NaN                | 8.8395e-11           | OK        
+-5.2            | 0.0                  | NaN                | 3.3169e-11           | OK        
+2.9             | 0.0                  | NaN                | 1.6594e-10           | OK        
+22.3            | 0.0                  | NaN                | 1.6272e-09           | OK        
+68.9            | 0.0                  | NaN                | 9.2716e-09           | OK        
+180.9           | 0.0                  | NaN                | 6.4924e-08           | OK        
+450.0           | 0.0                  | NaN                | 4.8479e-08           | OK        
+
+Структура ТИС: ЦЕЛЬ СНАРУЖИ В КВАДРАНТАХ ПО ДАЛЬНОСТИ
+Дальность, км   | RMSE LLS, метров     | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0 (Q1)      | 0.0                  | NaN                | 5.8601e-10           | OK        
+-8.6 (Q2)       | 0.0                  | NaN                | 8.8395e-11           | OK        
+-5.2 (Q3)       | 0.0                  | NaN                | 1.8750e-12           | OK        
+2.9 (Q4)        | 0.0                  | NaN                | 2.1765e-10           | OK        
+22.3 (Q1)       | 0.0                  | NaN                | 1.6272e-09           | OK        
+68.9 (Q2)       | 0.0                  | NaN                | 4.6188e-06           | OK        
+180.9 (Q3)      | 0.0                  | NaN                | 1.9415e-08           | OK        
+450.0 (Q4)      | 0.0                  | NaN                | 4.2968e-08           | OK        
+
+Структура ТИС: ИЗМЕРИТЕЛЬНАЯ ДВОЙКА СТАНЦИЙ (М=2)
+Дальность, км   | RMSE LLS, метров     | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | 0.0                  | NaN                | 1.8585e-10           | OK        
+-8.6            | 0.0                  | NaN                | 3.5372e-10           | OK        
+-5.2            | 0.0                  | NaN                | 1.8354e-11           | OK        
+2.9             | 0.0                  | NaN                | 3.0891e-10           | OK        
+22.3            | 0.0                  | NaN                | 4.4669e-09           | OK        
+68.9            | 0.0                  | NaN                | 1.1342e-07           | OK        
+180.9           | 0.0                  | NaN                | 4.5508e-07           | OK        
+450.0           | 0.0                  | NaN                | 1.5872e-06           | OK        
+
+Структура ТИС: ЭКСТРЕМАЛЬНАЯ ВЫСОТА ЦЕЛИ Z = 0
+Дальность, км   | RMSE LLS, метров     | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | 0.0                  | NaN                | 1.1382e-09           | OK        
+-8.6            | 0.0                  | NaN                | 1.4305e-10           | OK        
+-5.2            | 0.0                  | NaN                | 1.1250e-11           | OK        
+2.9             | 0.0                  | NaN                | 1.1448e-10           | OK        
+22.3            | 0.0                  | NaN                | 1.1018e-09           | OK        
+68.9            | 0.0                  | NaN                | 6.4684e-09           | OK        
+180.9           | 0.0                  | NaN                | 1.4661e-07           | OK        
+450.0           | 0.0                  | NaN                | 1.3092e-07           | OK        
+
+Структура ТИС: МНОГОКРАТНЫЕ ТАКТЫ НАКОПЛЕНИЯ С ПОСТОВ
+Дальность, км   | RMSE LLS, метров     | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | 0.0                  | NaN                | 2.1762e-09           | OK        
+-8.6            | 0.0                  | NaN                | 9.6490e-10           | OK        
+-5.2            | 0.0                  | NaN                | 4.6826e-10           | OK        
+2.9             | 0.0                  | NaN                | 9.9900e-11           | OK        
+22.3            | 0.0                  | NaN                | 1.9842e-09           | OK        
+68.9            | 0.0                  | NaN                | 1.8137e-08           | OK        
+180.9           | 0.0                  | NaN                | 1.1392e-07           | OK        
+450.0           | 0.0                  | NaN                | 1.2368e-06           | OK        
+
+<<< Успешно завершен: unit_test_lls_position
+
+<<< Успешно завершен: unit_test_lls_position
+>>> Исполняется: unit_test_wlls_position.m
+ЗАПУСК АТОМАРНОГО ЮНИТ-ТЕСТА ДЛЯ ФУНКЦИИ: wlls_position
+Структура ТИС: ЦЕЛЬ ВНУТРИ БАЗОВОГО КВАДРАТА СДВИГ Z
+Дальность, км   | RMSE WLLS, метров    | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-8.6            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-5.2            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+2.9             | NaN                  | NaN                | NaN                  | CRASH_NaN 
+22.3            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+68.9            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+180.9           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+450.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+
+Структура ТИС: ЦЕЛЬ СНАРУЖИ В КВАДРАНТАХ ПО ДАЛЬНОСТИ
+Дальность, км   | RMSE WLLS, метров    | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0 (Q1)      | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-8.6 (Q2)       | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-5.2 (Q3)       | NaN                  | NaN                | NaN                  | CRASH_NaN 
+2.9 (Q4)        | NaN                  | NaN                | NaN                  | CRASH_NaN 
+22.3 (Q1)       | NaN                  | NaN                | NaN                  | CRASH_NaN 
+68.9 (Q2)       | NaN                  | NaN                | NaN                  | CRASH_NaN 
+180.9 (Q3)      | NaN                  | NaN                | NaN                  | CRASH_NaN 
+450.0 (Q4)      | NaN                  | NaN                | NaN                  | CRASH_NaN 
+
+Структура ТИС: ИЗМЕРИТЕЛЬНАЯ ДВОЙКА СТАНЦИЙ (М=2)
+Дальность, км   | RMSE WLLS, метров    | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-8.6            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-5.2            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+2.9             | NaN                  | NaN                | NaN                  | CRASH_NaN 
+22.3            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+68.9            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+180.9           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+450.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+
+Структура ТИС: ЭКСТРЕМАЛЬНАЯ ВЫСОТА ЦЕЛИ Z = 0
+Дальность, км   | RMSE WLLS, метров    | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-8.6            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-5.2            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+2.9             | NaN                  | NaN                | NaN                  | CRASH_NaN 
+22.3            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+68.9            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+180.9           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+450.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+
+Структура ТИС: МНОГОКРАТНЫЕ ТАКТЫ НАКОПЛЕНИЯ С ПОСТОВ
+Дальность, км   | RMSE WLLS, метров    | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-8.6            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-5.2            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+2.9             | NaN                  | NaN                | NaN                  | CRASH_NaN 
+22.3            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+68.9            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+180.9           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+450.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+
+<<< Успешно завершен: unit_test_wlls_position
+
+<<< Успешно завершен: unit_test_wlls_position
+>>> Исполняется: unit_test_gn_position.m
+ЗАПУСК АТОМАРНОГО ЮНИТ-ТЕСТА ДЛЯ ФУНКЦИИ: gn_position
+Структура ТИС: ЦЕЛЬ ВНУТРИ БАЗОВОГО КВАДРАТА СДВИГ Z
+Дальность, км   | RMSE GN_Cartesian, метров | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-8.6            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-5.2            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+2.9             | NaN                  | NaN                | NaN                  | CRASH_NaN 
+22.3            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+68.9            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+180.9           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+450.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+
+Структура ТИС: ЦЕЛЬ СНАРУЖИ В КВАДРАНТАХ ПО ДАЛЬНОСТИ
+Дальность, км   | RMSE GN_Cartesian, метров | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0 (Q1)      | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-8.6 (Q2)       | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-5.2 (Q3)       | NaN                  | NaN                | NaN                  | CRASH_NaN 
+2.9 (Q4)        | NaN                  | NaN                | NaN                  | CRASH_NaN 
+22.3 (Q1)       | NaN                  | NaN                | NaN                  | CRASH_NaN 
+68.9 (Q2)       | NaN                  | NaN                | NaN                  | CRASH_NaN 
+180.9 (Q3)      | NaN                  | NaN                | NaN                  | CRASH_NaN 
+450.0 (Q4)      | NaN                  | NaN                | NaN                  | CRASH_NaN 
+
+Структура ТИС: ИЗМЕРИТЕЛЬНАЯ ДВОЙКА СТАНЦИЙ (М=2)
+Дальность, км   | RMSE GN_Cartesian, метров | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-8.6            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-5.2            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+2.9             | NaN                  | NaN                | NaN                  | CRASH_NaN 
+22.3            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+68.9            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+180.9           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+450.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+
+Структура ТИС: ЭКСТРЕМАЛЬНАЯ ВЫСОТА ЦЕЛИ Z = 0
+Дальность, км   | RMSE GN_Cartesian, метров | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-8.6            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-5.2            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+2.9             | NaN                  | NaN                | NaN                  | CRASH_NaN 
+22.3            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+68.9            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+180.9           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+450.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+
+Структура ТИС: МНОГОКРАТНЫЕ ТАКТЫ НАКОПЛЕНИЯ С ПОСТОВ
+Дальность, км   | RMSE GN_Cartesian, метров | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-8.6            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-5.2            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+2.9             | NaN                  | NaN                | NaN                  | CRASH_NaN 
+22.3            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+68.9            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+180.9           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+450.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+
+<<< Успешно завершен: unit_test_gn_position
+
+<<< Успешно завершен: unit_test_gn_position
+>>> Исполняется: unit_test_gnp_position.m
+ЗАПУСК АТОМАРНОГО ЮНИТ-ТЕСТА ДЛЯ ФУНКЦИИ: gnp_position
+Структура ТИС: ЦЕЛЬ ВНУТРИ БАЗОВОГО КВАДРАТА СДВИГ Z
+Дальность, км   | RMSE GN_Polar, метров | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-8.6            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-5.2            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+2.9             | NaN                  | NaN                | NaN                  | CRASH_NaN 
+22.3            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+68.9            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+180.9           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+450.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+
+Структура ТИС: ЦЕЛЬ СНАРУЖИ В КВАДРАНТАХ ПО ДАЛЬНОСТИ
+Дальность, км   | RMSE GN_Polar, метров | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0 (Q1)      | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-8.6 (Q2)       | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-5.2 (Q3)       | NaN                  | NaN                | NaN                  | CRASH_NaN 
+2.9 (Q4)        | NaN                  | NaN                | NaN                  | CRASH_NaN 
+22.3 (Q1)       | NaN                  | NaN                | NaN                  | CRASH_NaN 
+68.9 (Q2)       | NaN                  | NaN                | NaN                  | CRASH_NaN 
+180.9 (Q3)      | NaN                  | NaN                | NaN                  | CRASH_NaN 
+450.0 (Q4)      | NaN                  | NaN                | NaN                  | CRASH_NaN 
+
+Структура ТИС: ИЗМЕРИТЕЛЬНАЯ ДВОЙКА СТАНЦИЙ (М=2)
+Дальность, км   | RMSE GN_Polar, метров | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-8.6            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-5.2            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+2.9             | NaN                  | NaN                | NaN                  | CRASH_NaN 
+22.3            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+68.9            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+180.9           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+450.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+
+Структура ТИС: ЭКСТРЕМАЛЬНАЯ ВЫСОТА ЦЕЛИ Z = 0
+Дальность, км   | RMSE GN_Polar, метров | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-8.6            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-5.2            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+2.9             | NaN                  | NaN                | NaN                  | CRASH_NaN 
+22.3            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+68.9            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+180.9           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+450.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+
+Структура ТИС: МНОГОКРАТНЫЕ ТАКТЫ НАКОПЛЕНИЯ С ПОСТОВ
+Дальность, км   | RMSE GN_Polar, метров | Репер CRLB, метров | Mock Delta, мм       | Статус ТИС
+-10.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-8.6            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+-5.2            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+2.9             | NaN                  | NaN                | NaN                  | CRASH_NaN 
+22.3            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+68.9            | NaN                  | NaN                | NaN                  | CRASH_NaN 
+180.9           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+450.0           | NaN                  | NaN                | NaN                  | CRASH_NaN 
+
+<<< Успешно завершен: unit_test_gnp_position
+
+<<< Успешно завершен: unit_test_gnp_position
+
+ИТОГОВЫЙ ОТЧЕТ ВЕРИФИКАЦИИ
+Всего запущено тестов:  6
+УСПЕШНО ВЫПОЛНЕНО:     6
+ЗАВЕРШИЛОСЬ АВАРИЙНО:  0

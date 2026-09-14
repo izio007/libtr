@@ -1,7 +1,7 @@
 function matplot_trajectory_200km_screen_dynamic(x_true, y_true, STATION_POSITIONS_BASE, fixed, summary_rmse, mc_y, y_center_true, method_name, m_idx, STATION_COUNTS_VECTOR, max_ylim_km)
 % =========================================================================
 % ОРИГИНАЛЬНЫЙ ГРАФИЧЕСКИЙ ДВИЖОК ТИС: ДИНАМИЧЕСКИЙ СТРАТЕГИЧЕСКИЙ ЭКРАН 450 КМ
-% Responsibility: Выравнивание вертикальных шкал сходимости RMSE от 0 до 600 км
+% Responsibility: Прецизионная нарезка 50 бинов гистограммы в жестких осях ТИС
 % Path: d:\workspace\libtr\matlabtests\matplot_trajectory_200km_screen_dynamic.m
 % =========================================================================
 
@@ -18,7 +18,7 @@ end
 
 figure('Name', method_name, 'Position', pos_vec);
 
-% Сабплот 1: Дальняя траектория ТИС в масштабе со станциями креста
+% Сабплот 1: Дальняя траектория ТИС со станциями креста
 subplot(3,1,1);
 plot(STATION_POSITIONS_BASE(1,:)/1000, STATION_POSITIONS_BASE(2,:)/1000, 'b^', 'MarkerSize', 8); hold on;
 plot(x_true/1000, y_true/1000, 'k--', 'LineWidth', 2);
@@ -33,20 +33,26 @@ grid on; xlim([-160 160]); ylim([-50 500]); title('Strategic Trajectory, km');
 subplot(3,1,2);
 plot(STATION_COUNTS_VECTOR, summary_rmse/1000, 'b-o', 'LineWidth', 1.5);
 grid on; xlim([min(STATION_COUNTS_VECTOR) max(STATION_COUNTS_VECTOR)]); 
-
-% ЖЕСТКОЕ ВЫРАВНИВАНИЕ ВЕРТИКАЛЬНОЙ ШКАЛЫ RMSE ОТ 0 ДО 600 КМ ДЛЯ ВСЕХ ОКН ТИС
 ylim([0 600]); 
 title('RMSE Сonvergence vs Accumulated Measurements (N), km');
 
+% =========================================================================
 % Сабплот 3: Изолированная плотность распределения Монте-Карло по оси Y
+% =========================================================================
 subplot(3,1,3);
 mc_y_km = mc_y / 1000;
-histogram(mc_y_km, 50, 'FaceColor', [0.7 0.7 0.7]); hold on;
+
+% ПРEЦИЗИOННO EДИНAЯ СEТКA КAРМAНOВ СТРОГО В ВИДИМОМ ОКНЕ ТИС [100 800]
+% Задаем ровно 50 плотных карманов с шагом 14 км, полностью уничтожая 
+% визуальное укрупнение столбиков из-за единичных фланговых выбросов дальности!
+edges_vector = linspace(100, 800, 51); 
+
+histogram(mc_y_km, 'BinEdges', edges_vector, 'FaceColor', [0.7 0.7 0.7], 'EdgeColor', [0.5 0.5 0.5]); hold on;
 xline(y_center_true/1000, 'r--', 'LineWidth', 2);
 grid on; title('Empirical Distribution at Center (True Y = 450 km)');
 xlabel('Y coordinate estimation, km'); ylabel('Counts');
 
-% Визуальный зажим оси X для предотвращения растягивания от единичных сингулярностей
+% Намертво зажимаем область видимости шкал
 xlim([100 800]); 
 
 sgtitle(method_name);
