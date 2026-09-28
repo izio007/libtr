@@ -32,12 +32,22 @@ for m=1:4
         x=r.samples(:,valid); failures=failures+runs-sum(valid);
         label=sprintf('k=%d (%d/%d)',repeats(k),sum(valid),runs);
         scatter3(ax1,x(1,:),x(2,:),x(3,:),3,'.','DisplayName',label);
+        if r.metrics.successful>=2 && all(isfinite(r.metrics.semiaxes))
+            mu=r.metrics.mean;
+            plot3(ax1,mu(1),mu(2),mu(3),'kx','HandleVisibility','off');
+            for j=1:3
+                v=r.metrics.axes(:,j)*r.metrics.semiaxes(j);
+                ends=[mu-v mu+v];
+                plot3(ax1,ends(1,:),ends(2,:),ends(3,:),'k-','LineWidth',1.5, ...
+                    'HandleVisibility','off');
+            end
+        end
         if ~isempty(x), histogram(ax3,x(2,:)/1000,60,'DisplayStyle','stairs','DisplayName',label); end
         rmse(k)=records{k}.rmse(m);
     end
     plot(ax2,repeats,rmse,'o-','LineWidth',2); set(ax2,'XScale','log');
     xline(ax3,range/1000,'r--','Truth');
-    title(ax1,'Geometry and empirical cloud'); xlabel(ax1,'X (m)'); ylabel(ax1,'Y (m)'); zlabel(ax1,'Z (m)'); view(ax1,3);
+    title(ax1,'Cloud, mean and covariance semiaxes (not confidence bounds)'); xlabel(ax1,'X (m)'); ylabel(ax1,'Y (m)'); zlabel(ax1,'Z (m)'); view(ax1,3); daspect(ax1,[1 1 1]);
     title(ax2,'Conditional spatial RMSE'); xlabel(ax2,'Independent repeats per post'); ylabel(ax2,'RMSE (m)');
     title(ax3,'Empirical range distribution'); xlabel(ax3,'Y (km)'); ylabel(ax3,'Count');
     legend(ax1,'Location','best'); legend(ax3,'Location','best');
