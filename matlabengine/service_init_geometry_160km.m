@@ -1,10 +1,9 @@
-function DataContext = service_init_geometry_450km(contextFileName)
-% CORE ENGINE: STRATEGIC 450KM DATA CONTEXT GENERATOR (PURE SRP ISOLATION)
+function DataContext = service_init_geometry_160km(contextFileName)
+% CORE ENGINE: STRATEGIC 160KM DATA CONTEXT GENERATOR (PURE SRP ISOLATION)
 % SYSTEM MATRIX CONTEXT: DE CARTESIAN INVARIANT REPER / HIGH-PRECISION DOA CONTRACT
-% PATH: d:\workspace\libtr\matlab\service_init_geometry_450km.m
 
     if nargin < 1
-        contextFileName = 'context_450km.mat';
+        contextFileName = 'context_160km.mat';
     end
 
     % 1. Высокоскоростное считывание декларативного бинарного паспорта ТИС с диска
@@ -20,7 +19,7 @@ function DataContext = service_init_geometry_450km(contextFileName)
     if isfield(cfg, 'Trajectory') && isfield(cfg.Trajectory, 'Points')
         Points = cfg.Trajectory.Points;
     else
-        Points = 300; % Нативный легаси-инвариант для 450-км трассы
+        Points = 300; % Нативный легаси-инвариант для 160-км трассы
     end
     DataContext.Points = Points;
     
@@ -62,7 +61,7 @@ function DataContext = service_init_geometry_450km(contextFileName)
     DataContext.Fixed_N_Stations = N_FIXED;
 
     % =========================================================================
-    % ГЕНЕРАЦИЯ СТРАТЕГИЧЕСКОЙ ТРАЕКТОРИИ ЦЕЛИ НА ДАЛЬНОСТИ 450 КМ ПО ЛИМИТАМ
+    % ГЕНЕРАЦИЯ СТРАТЕГИЧЕСКОЙ ТРАЕКТОРИИ ЦЕЛИ НА ДАЛЬНОСТИ 160 КМ ПО ЛИМИТАМ
     % =========================================================================
     % Ход по оси OX (Восток) идет строго равномерно от левого до правого лимита:
     DataContext.X_true = linspace(cfg.Trajectory.X_limits(1), cfg.Trajectory.X_limits(2), Points);
@@ -81,7 +80,7 @@ function DataContext = service_init_geometry_450km(contextFileName)
     % =========================================================================
     % ПРЕЦИЗИОННЫЙ ПЕРЕВОД ПРИБОРНОГО ШУМА ИЗ ГРАДУСОВ В РАДИАНЫ (КАНОН СИ)
     % =========================================================================
-    % Чтобы пассивный МНК сошелся на 450 км, принудительно выставляем высокоточный
+    % Чтобы пассивный МНК сошелся на 160 км, принудительно выставляем высокоточный
     % R&D-шум прецизионных пеленгаторов дальнего обнаружения ТИС (0.015 градусов),
     % полностью ликвидируя сингулярный взрыв матриц нормальных уравнений
     precision_err_deg = 0.015; 
@@ -122,6 +121,6 @@ function DataContext = service_init_geometry_450km(contextFileName)
     if isfield(cfg, 'Methods')
         DataContext.Methods = cfg.Methods;
     else
-        DataContext.Methods = cfg_450km.Methods; % Резервный шаг из фабрики контекста
+        DataContext.Methods = cfg_160km.Methods; % Резервный шаг из фабрики контекста
     end
 end

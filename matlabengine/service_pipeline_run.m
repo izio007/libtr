@@ -101,7 +101,7 @@ switch stage
     case {'integration','png'}
         if strcmp(stage,'png')
             if ~isfile(fullfile(folder,'context_30km.mat')) || ...
-                    ~isfile(fullfile(folder,'context_450km.mat'))
+                    ~isfile(fullfile(folder,'context_160km.mat'))
                 service_generate_static_context;
             end
             metrics.context_images=generate_context_test_images(folder,folder);

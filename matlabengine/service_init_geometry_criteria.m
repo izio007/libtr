@@ -9,8 +9,8 @@ function DataContext = service_init_geometry_criteria(contextFileName)
     % Нативно маршрутизируем вызов в зависимости от затребованного юнит-тестами MAT-файла
     if contains(contextFileName, '30km')
         DataContext = service_init_geometry_30km(contextFileName);
-    elseif contains(contextFileName, '450km')
-        DataContext = service_init_geometry_450km(contextFileName);
+    elseif contains(contextFileName, '160km')
+        DataContext = service_init_geometry_160km(contextFileName);
     else
         % Дефолтный бесшумный верификационный полигон 5 структур для unit-тестов
         DataContext = service_init_geometry_unit(contextFileName);
