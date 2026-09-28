@@ -49,12 +49,21 @@ def live_math(match):
     tex = tex.replace(r'\operatorname{rcond}', r'\mathrm{rcond}')
     # MATLAB text format: display formulas use one dollar pair.
     # Preserve matrix rows and columns; transport escaping happens below.
-    if r'\frac' in tex and r'\sum' in tex:
+    if r'\frac' in tex and r'\sum' in tex and r'\displaystyle' not in tex:
         tex = r'\displaystyle ' + tex
     tex = tex.replace('\\', '\\\\')
     tex = re.sub(r'(?<!\\)_', r'\\_', tex)
     tex = tex.replace('[', r'\[').replace(']', r'\]')
     tex = tex.replace('<', r'\<').replace('>', r'\>')
+    # Fail at generation, not in a later MATLAB gate, if a matrix is flattened.
+    original = token[n:-n]
+    for environment in ('bmatrix', 'cases'):
+        if '\\begin{' + environment + '}' in original:
+            if ('\\\\begin{' + environment + '}' not in tex or
+                    '\\\\end{' + environment + '}' not in tex or
+                    tex.count('&') != original.count('&') or
+                    tex.count('\\\\\\\\') != original.count('\\\\')):
+                raise ValueError('Matrix structure lost during Live Editor serialization')
     return '$' + tex + '$'
 
 

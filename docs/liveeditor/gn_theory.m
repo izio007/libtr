@@ -49,7 +49,7 @@
 %[text] В соответствии с требованиями Эшелона А, базовый итерационный контур декартова метода минимизирует канонический функционал квадратов остаточных угловых невязок без использования искусственных масштабирующих коэффициентов шкал:
 %[text] $(J\_{\\text{cart}}^T \\cdot J\_{\\text{cart}}) \\cdot \\Delta \\mathbf{X} = J\_{\\text{cart}}^T \\cdot \\mathbf{residual}$ 
 %[text] Где на каждом $k$-м шаге МНК-спуска вектор угловых остаточных невязок $\\mathbf{residual} \\in \\mathbb{R}^{2M \\times 1}$ принудительно приводится к главному тригонометрическому интервалу $\[-\\pi; \\pi\]$:
-%[text] $\\mathbf{residual} = \[ \\alpha\_1 - \\alpha\_{pred,1}(\\mathbf{X}^{(k)}) ; \\beta\_1 - \\beta\_{pred,1}(\\mathbf{X}^{(k)}) ; \\vdots ; \\alpha\_M - \\alpha\_{pred,M}(\\mathbf{X}^{(k)}) ; \\beta\_M - \\beta\_{pred,M}(\\mathbf{X}^{(k)}) \]$ 
+%[text] $\\mathbf{residual} = \\begin{bmatrix} \\alpha\_1 - \\alpha\_{pred,1}(\\mathbf{X}^{(k)}) \\\\ \\beta\_1 - \\beta\_{pred,1}(\\mathbf{X}^{(k)}) \\\\ \\vdots \\\\ \\alpha\_M - \\alpha\_{pred,M}(\\mathbf{X}^{(k)}) \\\\ \\beta\_M - \\beta\_{pred,M}(\\mathbf{X}^{(k)}) \\end{bmatrix}$ 
 %[text] Вычисление линейного декартова вектора шага поправок $\\Delta \\mathbf{X} = \[\\Delta x, \\Delta y, \\Delta z\]^T$ (в метрах) выполняется в рамках единого расчетного контура:
 %[text] $\\Delta \\mathbf{X} = (J\_{\\text{cart}}^T \\cdot J\_{\\text{cart}})^{-1} \\cdot J\_{\\text{cart}}^T \\cdot \\mathbf{residual}$ 
 %[text] $\\mathbf{X}^{(k+1)} = \\mathbf{X}^{(k)} + \\Delta \\mathbf{X}$ 
@@ -57,7 +57,7 @@
 %%
 %[text] ## 4. Алгебраический оператор оценки декартовых дисперсий (Covariance)
 %[text] В соответствии со стандартом Гаусса-Маркова, теоретическая декартова ковариационная матрица погрешностей случайного рассеяния $K\_{\\text{cart}}$ (размерность $\[\\text{метр}^2\]$) находится прямым инвертированием декартовой информационной матрицы Фишера, рассчитанной в финальной точке схождения градиентного спуска:
-%[text] $K\_{\\text{cart}} = \\left( J\_{\\text{cart}}^T \\cdot J\_{\\text{cart}} \\right)^{-1} = \[ \\sigma\_x^2 , K\_{xy} , K\_{xz} ; K\_{yx} , \\sigma\_y^2 , K\_{yz} ; K\_{zx} , K\_{zy} , \\sigma\_z^2 \]$ 
+%[text] $K\_{\\text{cart}} = \\left( J\_{\\text{cart}}^T \\cdot J\_{\\text{cart}} \\right)^{-1} = \\begin{bmatrix} \\sigma\_x^2 & K\_{xy} & K\_{xz} \\\\ K\_{yx} & \\sigma\_y^2 & K\_{yz} \\\\ K\_{zx} & K\_{zy} & \\sigma\_z^2 \\end{bmatrix}$ 
 %[text] Элементы по главной диагонали матрицы $K\_{\\text{cart}}$ возвращают честные среднеквадратические ошибки оценивания для экрана ТИС:
 %[text] $\\sigma\_x = \\sqrt{K\_{\\text{cart}}(1,1)}, \\quad \\sigma\_y = \\sqrt{K\_{\\text{cart}}(2,2)}, \\quad \\sigma\_z = \\sqrt{K\_{\\text{cart}}(3,3)}$ 
 %%

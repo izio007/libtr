@@ -13,8 +13,8 @@
 9. Текст, порядок формул и математический смысл сохраняются; допускаются только описанные преобразования разметки и зарегистрированные эквивалентные адаптации. Использование LaTeX-команд ограничено закрытым профилем 5.23:
    * Структурные средства и шрифты: `\begin`, `\end`, `\displaystyle`, `\mathrm`, `\mathbf`, `\mathbb`, `\text`, `\left`, `\right`.
    * Функции и операторы: `\sum`, `\prod`, `\frac`, `\sqrt`, `\sin`, `\cos`, `\tan`, `\cot`, `\ln`, `\arg`, `\min`, `\max`, `\partial`.
-   * Операции, отношения и символы: `\cdot`, `\times`, `\Vert`, `\le`, `\leq`, `\ge`, `\in`, `\approx`, `\equiv`, `\sim`, `\pm`, `\rightarrow`, `\emptyset`, `\circ`.
-   * Греческие буквы (регистр значим): `\alpha`, `\beta`, `\Delta`, `\epsilon`, `\lambda`, `\Phi`, `\pi`, `\Psi`, `\rho`, `\sigma`, `\tau`, `\theta`.
+   * Операции, отношения и символы: `\cdot`, `\times`, `\Vert`, `\vert`, `\le`, `\leq`, `\ge`, `\in`, `\approx`, `\equiv`, `\sim`, `\pm`, `\rightarrow`, `\emptyset`, `\circ`.
+   * Греческие буквы (регистр значим): `\alpha`, `\beta`, `\psi`, `\delta`, `\Delta`, `\epsilon`, `\lambda`, `\Phi`, `\pi`, `\Psi`, `\rho`, `\sigma`, `\tau`, `\theta`.
    * Акценты и многоточия: `\vec`, `\bar`, `\hat`, `\dots`, `\ldots`, `\vdots`.
    * Пробельные команды: `\quad`, `\qquad`, `\,`, `\;`, `\!`, обратный слеш с пробелом.
 10. Разрешены только среды `bmatrix` и `cases` с парными `\begin` и `\end`; отдельная команда `\cases` запрещена. `\left` и `\right` требуют согласованных пар разделителей. Единственное входное исключение из списка — `\operatorname{rcond}`: TXT и HTML сохраняют эту конструкцию; только при генерации Live Editor она заменяется на `\mathrm{rcond}` до экранирования.

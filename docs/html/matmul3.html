@@ -84,7 +84,7 @@ assert(isequal(D, [63; 143]));
 
 <p>Допуск сравнения с эталоном <span class="math">\(R\)</span> задается формулой:</p>
 
-<div class="math">\[\tau_{ij}=32\,\operatorname{eps}\,(n+p+1)\max(1,S_{ij}), \qquad |D_{ij}-R_{ij}|\leq\tau_{ij}.\]</div>
+<div class="math">\[\tau_{ij}=32\,\mathrm{eps}\,(n+p+1)\max(1,S_{ij}), \qquad |D_{ij}-R_{ij}|\leq\tau_{ij}.\]</div>
 
 <p>Здесь <code>eps</code> — шаг от 1 до следующего большего числа <code>double</code> в MATLAB. Это консервативный тестовый допуск для выбранных небольших матриц, а не универсальная гарантия точности. Дополнительно проверяется совпадение с явно левосторонним произведением.</p>
 

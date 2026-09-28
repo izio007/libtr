@@ -23,6 +23,19 @@ class TranslationTests(unittest.TestCase):
         self.assertNotIn('operatorname', result)
         self.assertIn(r'\\mathrm{rcond}', result)
 
+    def test_generated_matrix_structure_entire_package(self):
+        checked = 0
+        for source in tr.DOCS.glob('*_theory.txt'):
+            live = (tr.DOCS/'liveeditor'/f'{source.stem}.m').read_text(encoding='utf-8')
+            for token in tr.TOKEN.finditer(source.read_text(encoding='utf-8-sig')):
+                if r'\begin{bmatrix}' in token[0] or r'\begin{cases}' in token[0]:
+                    rendered = tr.live_math(token)
+                    self.assertIn(rendered, live, source.name)
+                    self.assertEqual(rendered.count('&'), token[0].count('&'))
+                    self.assertEqual(rendered.count('\\\\\\\\'), token[0].count('\\\\'))
+                    checked += 1
+        self.assertGreater(checked, 0)
+
     def test_unmarked_mathematics_rejected(self):
         for text in [r'Вектор \mathbf{q}', "if rcond(J'*J) < 1e-16"]:
             with self.assertRaisesRegex(ValueError, 'Unmarked mathematics'):

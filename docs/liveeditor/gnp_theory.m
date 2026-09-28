@@ -12,7 +12,7 @@
 %[text] $\\mathbf{Y} = \[\\alpha\_0, \\beta\_0, R\_0\]^T$
 %[text] 
 %[text] Аналитический переход от текущего полярного вектора состояния Y к абсолютным декартовым координатам объекта на земле X = [x, y, z]^T (в метрах) является точным и непрерывным:
-%[text] $\\mathbf{X}(\\mathbf{Y}) = \[ x(\\mathbf{Y}) ; y(\\mathbf{Y}) ; z(\\mathbf{Y}) \] = \[ x\_0 + R\_0 \\cos\\beta\_0 \\cos\\alpha\_0 ; y\_0 + R\_0 \\cos\\beta\_0 \\sin\\alpha\_0 ; z\_0 + R\_0 \\sin\\beta\_0 \]$
+%[text] $\\mathbf{X}(\\mathbf{Y}) = \\begin{bmatrix} x(\\mathbf{Y}) \\\\ y(\\mathbf{Y}) \\\\ z(\\mathbf{Y}) \\end{bmatrix} = \\begin{bmatrix} x\_0 + R\_0 \\cos\\beta\_0 \\cos\\alpha\_0 \\\\ y\_0 + R\_0 \\cos\\beta\_0 \\sin\\alpha\_0 \\\\ z\_0 + R\_0 \\sin\\beta\_0 \\end{bmatrix}$
 %[text] 
 %%
 %[text] ## 2. Построчная сборка аналитического Якобиана (Chain Rule)
@@ -62,7 +62,7 @@
 %%
 %[text] ## 🏁 Прецизионный безразмерный разворот Якоби (Защита разрядной сетки от выжигания):
 %[text] Чтобы исключить накопление вычислительного шума округления при двухстороннем матричном преобразовании на квадрат дальности ($R\_0^2 \\sim 2 \\cdot 10^{11}$ метр²), тензорный разворот выполняется в безразмерном, нормированном по R_0 базисе Якоби $\\bar{J}\_{\\text{polar}\\rightarrow\\text{cart}}$, где угловые столбцы поделены на R_0:
-%[text] $\\bar{J}\_{\\text{polar}\\rightarrow\\text{cart}} = \[ -\\cos\\beta\_0 \\sin\\alpha\_0 , -\\sin\\beta\_0 \\cos\\alpha\_0 , \\cos\\beta\_0 \\cos\\alpha\_0 ; \\cos\\beta\_0 \\cos\\alpha\_0 , -\\sin\\beta\_0 \\sin\\alpha\_0 , \\cos\\beta\_0 \\sin\\alpha\_0 ; 0 , \\cos\\beta\_0 , \\sin\\beta\_0 \]$
+%[text] $\\bar{J}\_{\\text{polar}\\rightarrow\\text{cart}} = \\begin{bmatrix} -\\cos\\beta\_0 \\sin\\alpha\_0 & -\\sin\\beta\_0 \\cos\\alpha\_0 & \\cos\\beta\_0 \\cos\\alpha\_0 \\\\ \\cos\\beta\_0 \\cos\\alpha\_0 & -\\sin\\beta\_0 \\sin\\alpha\_0 & \\cos\\beta\_0 \\sin\\alpha\_0 \\\\ 0 & \\cos\\beta\_0 & \\sin\\beta\_0 \\end{bmatrix}$
 %[text] 
 %[text] Соответственно, перед разворотом полярная ковариационная матрица нормируется симметричным преобразованием с диагональной матрицей M_norm = diag(R_0, R_0, 1):
 %[text] $K\_{\\text{polar\\_norm}} = M\_{\\text{norm}} \\cdot K\_{\\text{polar}} \\cdot M\_{\\text{norm}}$

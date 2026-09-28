@@ -35,7 +35,7 @@
 %[text] Чтобы исключить неизвестную нелинейную дальность $\\rho\_i$ без привлечения прикладных итераций и сформировать строгую замкнутую алгебраическую постановку задачи, обе части уравнения слева умножаются на кососимметрическую матрицу векторного произведения $\[\\mathbf{1}\_i\]\_\\times$ луча пеленгации. Поскольку векторное произведение соосных векторов тождественно равно нулю ($\[\\mathbf{1}\_i\]\_\\times\\cdot\\mathbf{1}\_i\\equiv\\mathbf{0}$), нелинейный масштаб дальности аннулируется, порождая инвариантное функциональное уравнение связи:
 %[text] $\[ \\mathbf{1}\_i \]\_\\times \\cdot \\mathbf{X} = \[ \\mathbf{1}\_i \]\_\\times \\cdot \\mathbf{X}\_{si}$ 
 %[text] Где кососимметрический оператор $\[\\mathbf{1}\_i\]\_\\times$ полностью определяется компонентами единичного вектора направления:
-%[text] $\[\\mathbf{1}\_i\]\_\\times = \[ 0 , -\\sin\\beta\_i , \\sin\\alpha\_i\\cos\\beta\_i ; \\sin\\beta\_i , 0 , -\\cos\\alpha\_i\\cos\\beta\_i ; -\\sin\\alpha\_i\\cos\\beta\_i , \\cos\\alpha\_i\\cos\\beta\_i , 0 \]$ 
+%[text] $\[\\mathbf{1}\_i\]\_\\times = \\begin{bmatrix} 0 & -\\sin\\beta\_i & \\sin\\alpha\_i\\cos\\beta\_i \\\\ \\sin\\beta\_i & 0 & -\\cos\\alpha\_i\\cos\\beta\_i \\\\ -\\sin\\alpha\_i\\cos\\beta\_i & \\cos\\alpha\_i\\cos\\beta\_i & 0 \\end{bmatrix}$ 
 %[text] Разворачивая данное векторное произведение в декартовых осях земли и выполняя деление строк на косинус угла места $\\cos\\beta\_i$ (для исключения тригонометрических сингулярностей), получаем строго выведенную измерительную систему уравнений связи:
 %[text] 
 %[text] 1. Горизонтальное уравнение связи (Азимут): \
@@ -64,7 +64,7 @@
 %%
 %[text] ## 5. Перенос постановки в инвариантный полярный базис центра тяжести
 %[text] Чтобы полностью уничтожить декартово Bias-сжатие, вызванное асимметрией линейного раскрыва котангенса на дальнем рубеже, вектор состояния задачи переносится в полярный инвариантный базис относительно мгновенного центра тяжести сети активных постов задачи ТИС $\\mathbf{X}\_c$:
-%[text] $\\displaystyle \\mathbf{X}\_c=\[x\_c,y\_c,z\_c\]^T=\[\\frac{1}{M}\\sum\_{i=1}^{M}x\_{si},,\\frac{1}{M}\\sum\_{i=1}^{M}y\_{si},,\\frac{1}{M}\\sum\_{i=1}^{M}z\_{si}\]^T$ 
+%[text] $\\displaystyle \\mathbf{X}\_c=\[x\_c,y\_c,z\_c\]^T=\\begin{bmatrix}\\frac{1}{M}\\sum\_{i=1}^{M}x\_{si},&\\frac{1}{M}\\sum\_{i=1}^{M}y\_{si},&\\frac{1}{M}\\sum\_{i=1}^{M}z\_{si}\\end{bmatrix}^T$ 
 %[text] Локальный вектор приращений цели относительно центра тяжести равен:
 %[text] $\\mathbf{\\Delta X}\_c=\\mathbf{X}-\\mathbf{X}\_c=\[x-x\_c,y-y\_c,z-z\_c\]^T=\[\\Delta x\_c,\\Delta y\_c,\\Delta z\_c\]^T$ 
 %[text] Мы выбираем новый инвариантный вектор состояния цели $\\mathbf{q}$ в сферической (полярной) системе координат измерительного пучка:
@@ -82,10 +82,10 @@
 %%
 %[text] ## 6. Выбор базиса векторов Якоби и ортогональный разворот луча
 %[text] Связь между дифференциалами декартовых метров земли и дифференциалами инвариантного полярного пучка $\\mathbf{q}$ определяется матрицей Якоби полярного перехода $\\mathbf{J}\_{polar}$ размера 3 × 3:
-%[text] $\\mathbf{J}\_{polar} = \\frac{\\partial \\mathbf{X}}{\\partial \\mathbf{q}} = \[ \\frac{\\partial x}{\\partial \\alpha\_c} , \\frac{\\partial x}{\\partial \\beta\_c} , \\frac{\\partial x}{\\partial \\rho\_c} ; \\frac{\\partial y}{\\partial \\alpha\_c} , \\frac{\\partial y}{\\partial \\beta\_c} , \\frac{\\partial y}{\\partial \\rho\_c} ; \\frac{\\partial z}{\\partial \\alpha\_c} , \\frac{\\partial z}{\\partial \\beta\_c} , \\frac{\\partial z}{\\partial \\rho\_c} \]$
+%[text] $\\mathbf{J}\_{polar} = \\frac{\\partial \\mathbf{X}}{\\partial \\mathbf{q}} = \\begin{bmatrix} \\frac{\\partial x}{\\partial \\alpha\_c} & \\frac{\\partial x}{\\partial \\beta\_c} & \\frac{\\partial x}{\\partial \\rho\_c} \\\\ \\frac{\\partial y}{\\partial \\alpha\_c} & \\frac{\\partial y}{\\partial \\beta\_c} & \\frac{\\partial y}{\\partial \\rho\_c} \\\\ \\frac{\\partial z}{\\partial \\alpha\_c} & \\frac{\\partial z}{\\partial \\beta\_c} & \\frac{\\partial z}{\\partial \\rho\_c} \\end{bmatrix}$
 %[text] 
 %[text] Дифференцируя уравнения обратного перехода по вектору $\\mathbf{q}=\[\\alpha\_c,\\beta\_c,\\rho\_c\]^T$, получаем строгую аналитическую структуру Якобиана, столбцы которой образуют ортогональный визирный базис направления (Line-of-Sight, LOS) ТИС:
-%[text] $\\mathbf{J}\_{polar}=\[-\\rho\_c\\sin\\alpha\_c\\cos\\beta\_c , -\\rho\_c\\cos\\alpha\_c\\sin\\beta\_c , \\cos\\alpha\_c\\cos\\beta\_c ; \\rho\_c\\cos\\alpha\_c\\cos\\beta\_c , -\\rho\_c\\sin\\alpha\_c\\sin\\beta\_c , \\sin\\alpha\_c\\cos\\beta\_c ; 0 , \\rho\_c\\cos\\beta\_c , \\sin\\beta\_c\]$
+%[text] $\\mathbf{J}\_{polar}=\\begin{bmatrix}-\\rho\_c\\sin\\alpha\_c\\cos\\beta\_c & -\\rho\_c\\cos\\alpha\_c\\sin\\beta\_c & \\cos\\alpha\_c\\cos\\beta\_c \\\\ \\rho\_c\\cos\\alpha\_c\\cos\\beta\_c & -\\rho\_c\\sin\\alpha\_c\\sin\\beta\_c & \\sin\\alpha\_c\\cos\\beta\_c \\\\ 0 & \\rho\_c\\cos\\beta\_c & \\sin\\beta\_c\\end{bmatrix}$
 %[text] 
 %[text] Инвариантный переход линеаризации МНК из декартова представления в полярную чашу осуществляется пересчетом градиентов по цепному правилу:
 %[text] $\\mathbf{J}\_{\\text{GNP}} = \\mathbf{J}\_{\\text{cart}} \\cdot \\mathbf{J}\_{polar}$
@@ -127,7 +127,7 @@
 %[text] Для извлечения истинных радиусов пересечения осей с физической оболочкой эллипсоида, расчет переносится в пространство жесткости (информационное пространство Фишера) путем обращения декартовой ковариации:
 %[text] $I\_{\\text{F,cart}} = K\_{\\text{cart}}^{-1}$ 
 %[text] Тензорный разворот информационной матрицы жесткости в локальный ортогональный базис луча зрения ТИС выполняется непрерывным преобразованием:
-%[text] $I\_{\\text{LOS}} = R^T \\cdot I\_{\\text{F,cart}} \\cdot R = \[ I\_{rr} , I\_{r1} , I\_{r2} ; I\_{1r} , I\_{11} , I\_{12} ; I\_{2r} , I\_{21} , I\_{22} \]$ 
+%[text] $I\_{\\text{LOS}} = R^T \\cdot I\_{\\text{F,cart}} \\cdot R = \\begin{bmatrix} I\_{rr} & I\_{r1} & I\_{r2} \\\\ I\_{1r} & I\_{11} & I\_{12} \\\\ I\_{2r} & I\_{21} & I\_{22} \\end{bmatrix}$ 
 %[text] Истинные радиусы полуосей пространственного сечения оболочки 3D-эллипсоида жесткости плоскостями визирования вычисляются строго через извлечение квадратных корней из обратных диагональных элементов матрицы жесткости $I\_{\\text{LOS}}$:
 %[text] 
 %[text] - Истинный радиальный радиус строго вдоль 3D-луча зрения ($\\sigma\\\_{\\text{radial}}$): \
