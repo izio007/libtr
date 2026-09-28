@@ -1,6 +1,32 @@
 function unit_test_document_profile()
 % Verify the approved profile and the gate without production documents.
 root=fileparts(fileparts(mfilename('fullpath')));
+for file={'service_parse_document_profile.m','service_validate_documents.m'}
+    issues=checkcode(fullfile(root,'matlabengine',file{1}),'-id');
+    assert(isempty(issues),'Document gate Code Analyzer findings');
+end
+fid=fopen(fullfile(root,'PlainTextPrincipe.md'),'r','n','UTF-8');
+assert(fid~=-1); standard=fscanf(fid,'%c'); fclose(fid);
+[allowed,version]=service_parse_document_profile(standard);
+assert(strcmp(version,'5.23') && all(ismember({'sum','prod','alpha','begin','quad'},allowed)));
+for ending={newline,sprintf('\r\n'),sprintf('\r')}
+    normalized=regexprep(standard,'\r\n|\n|\r',ending{1});
+    [actual,v]=service_parse_document_profile([normalized ending{1} '   * Outside: `\unknown`']);
+    assert(isequal(actual,allowed) && strcmp(v,version));
+end
+bad={strrep(standard,'Акценты и многоточия','Неизвестная категория'), ...
+    strrep(standard,'Акценты и многоточия','Функции и операторы'), ...
+    regexprep(standard,'[^\r\n]*Акценты и многоточия[^\r\n]*','')};
+for k=1:numel(bad)
+    rejected=false;
+    try
+        service_parse_document_profile(bad{k});
+    catch exception
+        assert(strcmp(exception.identifier,'libtr:docs:Standard'));
+        rejected=true;
+    end
+    assert(rejected,'Invalid profile must be rejected');
+end
 folder=tempname(fullfile(root,'runtime')); mkdir(folder);
 cleanup=onCleanup(@() rmdir(folder,'s'));
 copyfile(fullfile(root,'PlainTextPrincipe.md'),folder);
