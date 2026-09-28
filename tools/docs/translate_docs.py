@@ -39,6 +39,11 @@ def inline(text):
     return ''.join(parts)
 
 
+def clean_output(text):
+    """Normalize generated line endings and remove trailing whitespace."""
+    return '\n'.join(line.rstrip() for line in text.splitlines()) + '\n'
+
+
 def live_math(match):
     token = match.group()
     if token.startswith('`'):
@@ -143,7 +148,7 @@ def build(source):
 </head><body><main>
 '''.replace('NAME', name)
     output = head + '\n'.join(body) + '\n</main></body></html>\n'
-    (DOCS / 'html' / f'{name}.html').write_text(output, encoding='utf-8')
+    (DOCS / 'html' / f'{name}.html').write_text(clean_output(output), encoding='utf-8')
     for i, line in enumerate(live):
         if re.match(r'%\[text\] (?:- |\d+\. )', line):
             live[i] = re.sub(r'(?<!\\)\\_(?!\\)', r'\\\\\\_', line)
@@ -152,7 +157,7 @@ def build(source):
                 live[i] += ' \\'
     live.extend(['%[appendix]{"version":"1.0"}', '%---', '%[metadata:view]',
                  '%   data: {"layout":"hidecode","rightPanelPercent":6.7}', '%---'])
-    (DOCS / 'liveeditor' / f'{name}_theory.m').write_text('\n'.join(live)+'\n', encoding='utf-8')
+    (DOCS / 'liveeditor' / f'{name}_theory.m').write_text(clean_output('\n'.join(live)), encoding='utf-8')
     assert output.count('class="math"') == formulas
     print(f'{name}: {formulas} formulas; HTML and Live Editor generated; source SHA256 {hashlib.sha256(text.encode()).hexdigest()}')
 

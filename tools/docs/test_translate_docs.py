@@ -98,5 +98,19 @@ class TranslationTests(unittest.TestCase):
                 tr.build(p)
 
 
+class OutputHygieneTests(unittest.TestCase):
+    def test_trailing_whitespace_and_idempotence(self):
+        original = '%[text]   \r\n%[text] $x$ \t\r\ncode = 1;\n'
+        expected = '%[text]\n%[text] $x$\ncode = 1;\n'
+        self.assertEqual(tr.clean_output(original), expected)
+        self.assertEqual(tr.clean_output(expected), expected)
+
+    def test_matrix_serialization_exact(self):
+        source = r'$$A = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix}$$'
+        expected = r'$A = \\begin{bmatrix} a\_{11} & a\_{12} \\\\ a\_{21} & a\_{22} \\end{bmatrix}$'
+        self.assertEqual(tr.live_math(tr.TOKEN.fullmatch(source)), expected)
+        # This proves transport conformance, NOT successful equation rendering.
+
+
 if __name__ == '__main__':
     unittest.main()
