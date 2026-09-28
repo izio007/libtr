@@ -1,8 +1,14 @@
 function metrics = service_validate_documents(root, folder)
-% Static PlainTextPrincipe 5.21 gate, not a claim of rendered acceptance.
-allowed = {'begin','end','displaystyle','mathrm','sum','prod','frac', ...
-    'sqrt','sin','cos','cdot','Vert','le','ge','emptyset','alpha', ...
-    'beta','Delta','mathbf','text','quad'};
+% Static document gate, not a claim of rendered acceptance.
+% Read the approved profile instead of maintaining a stale duplicate.
+standard = readUtf8(fullfile(root,'PlainTextPrincipe.md'));
+version = regexp(standard,'ВЕРСИЯ\s+(\d+\.\d+)','tokens','once');
+profile = regexp(standard,'(?m)^[ \t]+\* [^\r\n]+','match');
+assert(~isempty(version) && numel(profile)==6, ...
+    'libtr:docs:Standard','Cannot identify the six approved profile categories');
+commands = regexp(strjoin(profile,newline),'`\\([A-Za-z]+)`','tokens');
+allowed = cellfun(@(x) x{1},commands,'UniformOutput',false);
+assert(~isempty(allowed),'libtr:docs:Standard','Empty command profile');
 sources = dir(fullfile(root,'docs','*_theory.txt'));
 assert(~isempty(sources),'libtr:docs:Empty','No document sources');
 results = cell(1,numel(sources));
@@ -13,7 +19,7 @@ for k=1:numel(sources)
     result = struct('name',name,'state','passed','errors',{{}}, ...
         'formulas',0,'png',0,'html_rendering','pending','visual_audit','pending');
     try
-        text = fileread(source);
+        text = readUtf8(source);
         lines = regexp(text,'\r?\n','split');
         expected = {}; code = false;
         for j=1:numel(lines)
@@ -83,9 +89,17 @@ for k=1:numel(sources)
     end
     results{k}=result;
 end
+
 metrics=struct('total',numel(sources),'failures',failures, ...
-    'standard','PlainTextPrincipe 5.21','html_rendering','pending', ...
+    'standard',['PlainTextPrincipe ' version{1}],'html_rendering','pending', ...
     'visual_audit','pending','acceptance','pending');
 service_pipeline_write_json(fullfile(folder,'documents_results.json'), ...
     struct('metrics',metrics,'documents',{results}));
+end
+
+function text = readUtf8(file)
+fid=fopen(file,'r','n','UTF-8');
+assert(fid~=-1,'libtr:docs:IO','Cannot read %s',file);
+cleanup=onCleanup(@() fclose(fid));
+text=fscanf(fid,'%c');
 end

@@ -32,13 +32,21 @@ for k=1:numel(stages)
     clock=tic;
     log='';
     try
-        if strcmp(stages{k},'liveeditor')
-            assert(documentsPassed,'libtr:pipeline:DocumentGate', ...
-                'Live Editor export blocked: documents stage did not pass');
+        if strcmp(stages{k},'liveeditor') && ~documentsPassed
+            item.state='blocked'; failed=true;
+            item.error='Live Editor export not attempted: documents stage did not pass.';
+        else
+            log=evalc('item.metrics=runStage(stages{k},root,folder);');
+            item.state='passed';
+            if strcmp(stages{k},'documents')
+                documentsPassed=item.metrics.failures==0;
+                if ~documentsPassed
+                    item.state='failed'; failed=true;
+                    item.error=sprintf('%d documents failed; see documents_results.json', ...
+                        item.metrics.failures);
+                end
+            end
         end
-        log=evalc('item.metrics=runStage(stages{k},root,folder);');
-        item.state='passed';
-        if strcmp(stages{k},'documents'), documentsPassed=true; end
     catch exception
         item.state='failed'; failed=true;
         item.error=getReport(exception,'extended','hyperlinks','off');
@@ -64,8 +72,6 @@ metrics=struct();
 switch stage
     case 'documents'
         metrics=service_validate_documents(root,folder);
-        assert(metrics.failures==0,'libtr:pipeline:Documents', ...
-            '%d documents failed; see documents_results.json',metrics.failures);
     case 'environment'
         service_generate_static_context;
         context=service_init_geometry_unit;
