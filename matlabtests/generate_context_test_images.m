@@ -2,7 +2,7 @@ function summary = generate_context_test_images(contextFolder,folder)
 % Full trajectories and central-point ensembles from saved configurations.
 state=rng; cleanup=onCleanup(@() rng(state));
 if ~isfolder(folder), mkdir(folder); end
-names={'30km','160km'}; reports={}; files={};
+names={'30km','450km'}; reports={}; files={};
 for c=1:numel(names)
     input=fullfile(contextFolder,['context_' names{c} '.mat']);
     data=load(input); cfg=data.(['cfg_' names{c}]);

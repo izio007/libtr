@@ -34,30 +34,30 @@ function service_generate_static_context
     save('context_30km.mat', 'cfg_30km');
 
     % =========================================================================
-    % --- 2. КОНТЕКСТ ДАЛЬНЕЙ ЗОНЫ: СТРАТЕГИЧЕСКИЙ РУБЕЖ 160 КМ ---
+    % --- 2. КОНТЕКСТ ДАЛЬНЕЙ ЗОНЫ: СТРАТЕГИЧЕСКИЙ РУБЕЖ 450 КМ ---
     % =========================================================================
-    cfg_160km = struct();
-    cfg_160km.Stations.X_anchors = [-20000.0, 20000.0, 0.0, 0.0];
-    cfg_160km.Stations.Y_anchors = [0.0, 0.0, -20000.0, 20000.0];
-    cfg_160km.Stations.Z_anchors = [200.0, 200.0, 200.0, 200.0];
+    cfg_450km = struct();
+    cfg_450km.Stations.X_anchors = [-20000.0, 20000.0, 0.0, 0.0];
+    cfg_450km.Stations.Y_anchors = [0.0, 0.0, -20000.0, 20000.0];
+    cfg_450km.Stations.Z_anchors = [200.0, 200.0, 200.0, 200.0];
 
-    cfg_160km.Trajectory.Points = 300;
-    cfg_160km.Trajectory.X_limits = [-150000.0, 150000.0];
-    cfg_160km.Trajectory.Y_center_true = 160000.0;
-    cfg_160km.Trajectory.Z_base = 10000.0;
-    cfg_160km.Trajectory.Z_amplitude = 5000.0;
+    cfg_450km.Trajectory.Points = 300;
+    cfg_450km.Trajectory.X_limits = [-150000.0, 150000.0];
+    cfg_450km.Trajectory.Y_center_true = 450000.0;
+    cfg_450km.Trajectory.Z_base = 10000.0;
+    cfg_450km.Trajectory.Z_amplitude = 5000.0;
 
-    cfg_160km.Hardware.D_Error_Degree = 0.015; % Прецизионный дальний шум
-    cfg_160km.Hardware.Random_Seed = 1337;
-    cfg_160km.Hardware.N_Monte_Carlo = 5000;
-    cfg_160km.Hardware.Fixed_N_Index = 11;
+    cfg_450km.Hardware.D_Error_Degree = 0.015; % Прецизионный дальний шум
+    cfg_450km.Hardware.Random_Seed = 1337;
+    cfg_450km.Hardware.N_Monte_Carlo = 5000;
+    cfg_450km.Hardware.Fixed_N_Index = 11;
 
-    cfg_160km.Methods.ActiveMethods = {'Linear_LLS', 'Weighted_WLLS', 'Nonlinear_GN', 'Polar_GNP'};
-    cfg_160km.Methods.Labels = {'1. Чистый линейный LLS ТИС', '2. Взвешенный WLLS ТИС', ...
+    cfg_450km.Methods.ActiveMethods = {'Linear_LLS', 'Weighted_WLLS', 'Nonlinear_GN', 'Polar_GNP'};
+    cfg_450km.Methods.Labels = {'1. Чистый линейный LLS ТИС', '2. Взвешенный WLLS ТИС', ...
                                 '3. Декартов Gauss-Newton ТИС', '4. Полярный инвариант ТИС'};
-    cfg_160km.Methods.Solvers = {'lls_position', 'wlls_position', 'gn_position', 'gnp_position'};
-    cfg_160km.Methods.Covariances = {'lls_covariance', 'wlls_covariance', 'gn_covariance', 'gnp_covariance'};
-    save('context_160km.mat', 'cfg_160km');
+    cfg_450km.Methods.Solvers = {'lls_position', 'wlls_position', 'gn_position', 'gnp_position'};
+    cfg_450km.Methods.Covariances = {'lls_covariance', 'wlls_covariance', 'gn_covariance', 'gnp_covariance'};
+    save('context_450km.mat', 'cfg_450km');
 
     % =========================================================================
     % --- 3. СТАТИЧЕСКИЙ КОНТЕКСТ НА ОДНУ ДЕТЕРМИНИРОВАННУЮ ТОЧКУ ---
