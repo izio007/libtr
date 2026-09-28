@@ -1,129 +1,87 @@
 function [status, ctx] = filter2win(cfg, ctx, current_time, X_meas_tick, is_nan_tick)
-% FILTER2WIN Расчет пространственного фильтра координатных аномалий ТИС
-% Вычислительный контур оперирует операторами скользящей очереди FIFO.
-
-    status = cfg.STATUS_SUCCESS;
-
-    % БЛОК ПРОПУСКА ТАКТА (МЕРТВАЯ ЗОНА И ТАЙМАУТЫ)
-    if is_nan_tick
-        t_gap_duration = current_time - ctx.T_LAST_DATA_ARRIVAL;
-        
-        if (t_gap_duration - cfg.T_PROLONGATION_MAX) <= cfg.EPSILON_MACHINE
-            ctx.X_FILTERED_OUTPUT = ctx.X_MAIN_REF(1);
+% FILTER2WIN Scalar autonomous two-window filter. docs/filter2win_theory.txt.
+% status=1 leaves state unchanged; status=0 may produce an unavailable NaN.
+status=1;
+names={'N','S','R_MAX','R_ALT_MAX','T_PROLONGATION_MAX','T_TIMEOUT_CLEAR'};
+if ~isstruct(cfg) || ~isscalar(cfg) || ~all(isfield(cfg,names)) || ...
+        ~isstruct(ctx) || ~isscalar(ctx) || ~isfield(ctx,'X_MAIN_REF'), return; end
+p=zeros(1,7);
+for k=1:6
+    v=cfg.(names{k});
+    if ~isa(v,'double') || ~isreal(v) || ~isscalar(v) || ~isfinite(v) || v<=0, return; end
+    p(k)=v;
+end
+if isfield(cfg,'V')
+    if ~isa(cfg.V,'double') || ~isreal(cfg.V) || ~isscalar(cfg.V) || ~isfinite(cfg.V), return; end
+    p(7)=cfg.V;
+end
+if p(1)~=fix(p(1)) || p(2)~=fix(p(2)) || p(2)<2, return; end
+if ~isa(current_time,'double') || ~isreal(current_time) || ...
+        ~isscalar(current_time) || ~isfinite(current_time), return; end
+if ~isa(X_meas_tick,'double') || ~isreal(X_meas_tick) || ~isscalar(X_meas_tick), return; end
+if ~(islogical(is_nan_tick) || isa(is_nan_tick,'double')) || ...
+        ~isreal(is_nan_tick) || ~isscalar(is_nan_tick) || ...
+        ~ismember(is_nan_tick,[0 1])
+    return;
+end
+missing=logical(is_nan_tick) || isnan(X_meas_tick);
+if ~missing && ~isfinite(X_meas_tick), return; end
+if ~isa(ctx.X_MAIN_REF,'double') || ~isreal(ctx.X_MAIN_REF) || ...
+        ~(isscalar(ctx.X_MAIN_REF) || isequal(size(ctx.X_MAIN_REF),[3 1])) || ...
+        ~all(isfinite(ctx.X_MAIN_REF))
+    return;
+end
+if isfield(ctx,'FILTER_STATE')
+    s=ctx.FILTER_STATE;
+    if ~isequal(s.parameters,p) || current_time<=s.last_tick, return; end
+else
+    s=struct('parameters',p,'epoch',current_time,'last_tick',-Inf, ...
+        'last_accepted',current_time,'last_alt',-Inf,'anchor',ctx.X_MAIN_REF(1), ...
+        'main',zeros(1,p(1)),'main_count',0,'alt',zeros(1,p(2)),'alt_count',0);
+end
+% Sections 3-5: residual coordinates and independent expiry clocks.
+offset=p(7)*(current_time-s.epoch); prediction=s.anchor+offset;
+if ~isfinite(offset) || ~isfinite(prediction), return; end
+if current_time-s.last_alt>p(6), s.alt_count=0; end
+if current_time-s.last_accepted>p(6), s.main_count=0; end
+accepted=false; reacquired=false;
+if ~missing
+    q=X_meas_tick-offset;
+    if ~isfinite(q), return; end
+    if abs(X_meas_tick-prediction)<=p(3)
+        if s.main_count==p(1)
+            s.main(1:end-1)=s.main(2:end);
         else
-            ctx.X_FILTERED_OUTPUT = NaN;
-            [ctx.W_ALT_COUNT, ctx.W_ALT_DATA] = fifo_clear(cfg.S, ctx.W_ALT_DATA);
+            s.main_count=s.main_count+1;
         end
-        
-        if (t_gap_duration - cfg.T_TIMEOUT_CLEAR) > cfg.EPSILON_MACHINE
-            [ctx.W_ALT_COUNT, ctx.W_ALT_DATA] = fifo_clear(cfg.S, ctx.W_ALT_DATA);
-        end
-        
-        ctx.W_ALT_POWER_OUTPUT = double(ctx.W_ALT_COUNT);
-        return;
-    end
-    
-    ctx.X_CURRENT(1) = X_meas_tick;
-    ctx.X_CURRENT(2) = cfg.BASE_REPER_Y;
-    ctx.X_CURRENT(3) = cfg.BASE_REPER_Z;
-    ctx.T_LAST_DATA_ARRIVAL = current_time;
-    
-    pool_head_m = ctx.POOL_HEAD + cfg.INDEX_SHIFT;
-    ctx.GLOBAL_POOL(pool_head_m, 1:3) = ctx.X_CURRENT.';
-    ctx.GLOBAL_POOL(pool_head_m, 4)   = current_time;
-    CURRENT_POOL_IDX = ctx.POOL_HEAD;
-    ctx.POOL_HEAD = mod(ctx.POOL_HEAD + cfg.INDEX_SHIFT, cfg.POOL_SIZE);
-    
-    R_main = sqrt(sum((ctx.X_CURRENT - ctx.X_MAIN_REF).^2));
-    e_i = int32((R_main - cfg.R_MAX + cfg.EPSILON_MACHINE) >= cfg.ZERO_REAL);
-    
-    [ctx.W_MAIN_COUNT, ctx.W_MAIN_DATA] = fifo_push(ctx.W_MAIN_COUNT, cfg.N, ctx.W_MAIN_DATA, e_i);
-    
-    target_capacity = int32(cfg.S);
-    if ctx.IS_SWITCHED_TO_25
-        target_capacity = int32(cfg.S_RETURN);
-    end
-    is_alt_ready = (ctx.W_ALT_COUNT == target_capacity);
-    
-    % --- БЛОК Б. УПРАВЛЕНИЕ РЕЖИМАМИ АВТОМАТА ---
-    if e_i == cfg.ZERO_INT
-        main_mode = cfg.MODE_NORM;
-        ctx.T_BLIND_START = cfg.TIMER_RESET_MARKER;
+        s.main(s.main_count)=q;
+        s.anchor=sum(s.main(1:s.main_count)/s.main_count);
+        s.alt_count=0; accepted=true;
     else
-        if ctx.T_BLIND_START < cfg.ZERO_REAL
-            ctx.T_BLIND_START = current_time;
+        n=s.alt_count+1; s.alt(n)=q;
+        center=sum(s.alt(1:n)/n);
+        if max(abs(s.alt(1:n)-center))>p(4)
+            s.alt(1)=q; n=1;
         end
-        
-        if is_alt_ready
-            main_mode = cfg.MODE_NORM;
-            ctx.T_BLIND_START = cfg.TIMER_RESET_MARKER;
-        else
-            main_mode = cfg.MODE_BLIND;
-        end
-    end
-    
-    % --- БЛОК В. УПРАВЛЕНИЕ КЛАСТЕРАМИ ПАМЯТИ ---
-    if main_mode == cfg.MODE_NORM
-        if is_alt_ready
-            p_indices = double(ctx.W_ALT_DATA(cfg.INDEX_SHIFT:double(target_capacity))) + cfg.INDEX_SHIFT;
-            ctx.X_MAIN_REF = sum(ctx.GLOBAL_POOL(p_indices, 1:3), cfg.INDEX_SHIFT).' / double(target_capacity);
-            
-            if (ctx.X_MAIN_REF(1) - cfg.X_THRESHOLD_PLATEAU) > cfg.ZERO_REAL
-                ctx.IS_SWITCHED_TO_25 = true;
-            end
-            [ctx.W_MAIN_COUNT, ctx.W_MAIN_DATA] = fifo_clear(cfg.N, ctx.W_MAIN_DATA);
-        else
-            ctx.X_MAIN_REF = ctx.X_CURRENT;
-        end
-        
-        [ctx.W_ALT_COUNT, ctx.W_ALT_DATA] = fifo_clear(cfg.S, ctx.W_ALT_DATA);
-        
-        if (sqrt(sum((ctx.X_CURRENT - cfg.X_TRUE_REPER).^2)) - cfg.R_MAX) <= cfg.ZERO_REAL
-            ctx.IS_SWITCHED_TO_25 = false;
-        end
-    else
-        ctx.GLOBAL_POOL(pool_head_m, 5) = double(cfg.MODE_BLIND_MARKER);
-        
-        is_in_neighborhood = false;
-        
-        if ctx.W_ALT_COUNT == cfg.ZERO_INT
-            is_in_neighborhood = true;
-        elseif ctx.IS_SWITCHED_TO_25
-            R_to_base = sqrt(sum((ctx.X_CURRENT - cfg.X_TRUE_REPER).^2));
-            if R_to_base <= cfg.R_MAX
-                is_in_neighborhood = true;
-            end
-        else
-            sum_x_alt = cfg.ZERO_REAL;
-            for idx_w = cfg.INDEX_SHIFT:double(ctx.W_ALT_COUNT)
-                p_idx = double(ctx.W_ALT_DATA(idx_w)) + cfg.INDEX_SHIFT;
-                sum_x_alt = sum_x_alt + ctx.GLOBAL_POOL(p_idx, 1);
-            end
-            X_mean_alt = sum_x_alt / double(ctx.W_ALT_COUNT);
-            R_alt = abs(ctx.X_CURRENT(1) - X_mean_alt);
-            
-            if R_alt <= cfg.R_ALT_MAX
-                is_in_neighborhood = true;
-            end
-        end
-        
-        if is_in_neighborhood
-            [ctx.W_ALT_COUNT, ctx.W_ALT_DATA] = fifo_push(ctx.W_ALT_COUNT, cfg.S, ctx.W_ALT_DATA, CURRENT_POOL_IDX);
-        else
-            [ctx.W_ALT_COUNT, ctx.W_ALT_DATA] = fifo_clear(cfg.S, ctx.W_ALT_DATA);
+        s.alt_count=n; s.last_alt=current_time;
+        if n==p(2)
+            s.main_count=min(p(1),n);
+            s.main(1:s.main_count)=s.alt(n-s.main_count+1:n);
+            s.anchor=sum(s.main(1:s.main_count)/s.main_count);
+            s.alt_count=0; accepted=true; reacquired=true;
         end
     end
-    
-    if main_mode == cfg.MODE_BLIND
-        t_blind_duration = current_time - ctx.T_BLIND_START;
-        if (t_blind_duration - cfg.T_PROLONGATION_MAX) <= cfg.EPSILON_MACHINE
-            ctx.X_FILTERED_OUTPUT = ctx.X_MAIN_REF(1);
-        else
-            ctx.X_FILTERED_OUTPUT = NaN;
-        end
-    else
-        ctx.X_FILTERED_OUTPUT = ctx.X_MAIN_REF(1);
-    end
-    
-    ctx.W_ALT_POWER_OUTPUT = double(ctx.W_ALT_COUNT);
+end
+if ~isfinite(s.anchor) || ~isfinite(s.anchor+offset), return; end
+if accepted, s.last_accepted=current_time; end
+output=NaN;
+if current_time-s.last_accepted<=p(5), output=s.anchor+offset; end
+s.last_tick=current_time;
+ctx.FILTER_STATE=s;
+ctx.X_MAIN_REF(1)=s.anchor+offset;
+ctx.X_FILTERED_OUTPUT=output;
+ctx.W_ALT_POWER_OUTPUT=s.alt_count;
+ctx.ACCEPTED=accepted;
+ctx.REACQUIRED=reacquired;
+status=0;
 end
