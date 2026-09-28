@@ -18,6 +18,15 @@ assert(norm(K*V-V*S,'fro')/norm(K,'fro')<1e-12);
 assert(norm(V.'*V-eye(3),'fro')<1e-12);
 assert(norm(K-V*S*V.','fro')/norm(K,'fro')<1e-12);
 assert(all(diag(S)>0));
+% Section 2.3: angles reconstruct the selected representatives, not signs.
+psi=atan2(V(2,:),V(1,:));
+theta=atan2(V(3,:),hypot(V(1,:),V(2,:)));
+directions=[cos(theta).*cos(psi);cos(theta).*sin(psi);sin(theta)];
+assert(norm(directions-V,'fro')<1e-12);
+axesLength=sqrt(diag(S));
+assert(norm(V*diag(axesLength.^2)*V.'-K,'fro')/norm(K,'fro')<1e-12);
+[shortStatus,shortK,shortV,shortS]=mock_covariance(P(:,1),a(1),b(1),va(1),vb(1),x);
+assert(shortStatus==1 && all(isnan([shortK(:);shortV(:);shortS(:)])));
 % Central differences of the measurement map: independent gradient check.
 step=1e-4; Jfd=zeros(6,3);
 for k=1:3
