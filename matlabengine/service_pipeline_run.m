@@ -15,6 +15,9 @@ if strcmp(request.action,'all')
 elseif strcmp(request.action,'mapping')
     stages={'mapping_unit','environment','mapping_integration','mapping_png'};
     report.visual_review='not_requested';
+elseif strcmp(request.action,'mapping5000')
+    stages={'mapping_unit','ensemble5000','spectral_png'};
+    report.visual_review='pending';
 elseif strcmp(request.action,'liveeditor')
     stages={'documents','liveeditor'};
 elseif strcmp(request.action,'unit')
@@ -35,7 +38,8 @@ for k=1:numel(stages)
     clock=tic;
     log='';
     try
-        if strcmp(request.action,'mapping') && failed
+        if (strcmp(request.action,'mapping') || ...
+                (strcmp(request.action,'mapping5000') && ~strcmp(stages{k},'spectral_png'))) && failed
             item.state='blocked';
             item.error='A prerequisite of statistical mapping failed.';
         elseif strcmp(stages{k},'liveeditor') && ~documentsPassed
@@ -44,6 +48,10 @@ for k=1:numel(stages)
         else
             log=evalc('item.metrics=runStage(stages{k},root,folder);');
             item.state='passed';
+            if strcmp(stages{k},'ensemble5000') && item.metrics.failures>0
+                item.state='failed'; failed=true;
+                item.error='Mathematical acceptance failed; saved ensembles remain available for diagnostic plots.';
+            end
             if strcmp(stages{k},'documents')
                 documentsPassed=item.metrics.failures==0;
                 if ~documentsPassed
@@ -115,6 +123,10 @@ switch stage
         metrics.total=numel(tests);
     case 'mapping_integration'
         metrics=test_tis_ensemble(folder);
+    case 'ensemble5000'
+        metrics=test_tis_ensemble(folder,5000,false);
+    case 'spectral_png'
+        metrics=generate_tis_spectral_images(folder);
     case 'mapping_png'
         metrics=generate_tis_mapping_images(folder);
     case {'integration','png'}

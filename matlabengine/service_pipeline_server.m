@@ -37,7 +37,7 @@ endpoint = struct('server', server, 'worker', worker, 'stop', @shutdown);
                 case 'ping'
                     reply.active = active;
                     reply.queued = numel(queue);
-                    reply.actions = {'all','environment','unit','integration','png','documents','liveeditor','mapping'};
+                    reply.actions = {'all','environment','unit','integration','png','documents','liveeditor','mapping','mapping5000'};
                 case {'submit','status','cancel'}
                     assert(isfield(request,'id') && ischar(request.id) && ...
                         ~isempty(regexp(request.id,'^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$','once')), ...
@@ -47,7 +47,7 @@ endpoint = struct('server', server, 'worker', worker, 'stop', @shutdown);
                     reply.id = request.id;
                     if strcmp(request.op,'submit')
                         assert(isfield(request,'action') && ischar(request.action) && ...
-                            ismember(request.action,{'all','environment','unit','integration','png','documents','liveeditor','mapping'}), ...
+                            ismember(request.action,{'all','environment','unit','integration','png','documents','liveeditor','mapping','mapping5000'}), ...
                             'libtr:pipeline:Action','Unknown action');
                         if isfile(file)
                             saved = jsondecode(fileread(fullfile(folder,'request.json')));
