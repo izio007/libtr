@@ -30,7 +30,13 @@ def main():
     print(json.dumps(exchange(request, args.port), ensure_ascii=False), flush=True)
     deadline = time.monotonic() + args.timeout
     while time.monotonic() < deadline:
-        response = exchange(dict(v=1, op='status', id=args.id), args.port)
+        try:
+            response = exchange(dict(v=1, op='status', id=args.id), args.port,
+                                timeout=min(30, max(0.1, deadline-time.monotonic())))
+        except (TimeoutError, socket.timeout):
+            # A cooperative MATLAB calculation may temporarily delay callbacks.
+            # Retry only the read-only status request, never resubmit the job.
+            continue
         if response['report']['state'] not in ('queued', 'running'):
             print(json.dumps(response, ensure_ascii=False, indent=2))
             return 0 if response['report']['state'] == 'passed' else 1

@@ -93,6 +93,7 @@ switch stage
         assert(failures==0,'libtr:pipeline:UnitFailures','%d of %d unit tests failed',failures,numel(tests));
         metrics.total=numel(tests);
     case {'integration','png'}
+        metrics.tis=test_tis_ensemble(folder);
         generate_filter2win_doc_images(folder);
         data=load(fullfile(folder,'filter2win_doc_data.mat'));
         assert(numel(data.t)==101 && all(diff(data.t)>0));

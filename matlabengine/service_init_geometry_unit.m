@@ -65,10 +65,12 @@ function DataContext = service_init_geometry_unit(contextFileName)
     % =========================================================================
     % МАТЕМАТИЧЕСКАЯ СТЕРИЛИЗАЦИЯ ДИСПЕРСИЙ ВЕСОВ И АНАЛИТИЧЕСКИХ ПЕЛЕНГОВ
     % =========================================================================
-    % В соответствии с lls_theory.m, для контроля машинного нуля МНК веса Гаусса-Маркова 
-    % обязаны быть строго нулевыми, исключая ложную асимметрию расчетных шкал!
-    DataContext.var_alpha_max = zeros(max_N_total, 1);
-    DataContext.var_beta_max  = zeros(max_N_total, 1);
+    % Паспортная дисперсия датчика положительна даже при идеальных пеленгах.
+    % Отсутствие шума в этом прогоне задается ниже без вызовов randn.
+    variance=(cfg.Hardware.D_Error_Degree*pi/180)^2;
+    assert(isfinite(variance) && variance>0);
+    DataContext.var_alpha_max = repmat(variance,max_N_total,1);
+    DataContext.var_beta_max  = repmat(variance,max_N_total,1);
     
     DataContext.alpha_noisy_matrix = zeros(max_N_total, Points);
     DataContext.beta_noisy_matrix  = zeros(max_N_total, Points);

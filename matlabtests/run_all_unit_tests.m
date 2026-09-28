@@ -1,6 +1,10 @@
 clear; clc; close all;
 service_generate_static_context;
-test_list = {'unit_test_matmul3', 'unit_test_cov2std', 'unit_test_cov2std_3d', 'unit_test_lls_position', 'unit_test_wlls_position', 'unit_test_gn_position', 'unit_test_gnp_position'};
+test_files=dir(fullfile(fileparts(mfilename('fullpath')),'unit_test_*.m'));
+test_list=cell(1,numel(test_files));
+for k=1:numel(test_files)
+    [~,test_list{k}]=fileparts(test_files(k).name);
+end
 report_file = 'unit_tests_report.txt';
 fid = fopen(report_file, 'w');
 if fid == -1
@@ -24,3 +28,5 @@ for i = 1:total_tests
 end
 fprintf(fid, '\nИТОГОВЫЙ ОТЧЕТ ВЕРИФИКАЦИИ\nВсего запущено тестов:  %d\nУСПЕШНО ВЫПОЛНЕНО:     %d\nЗАВЕРШИЛОСЬ АВАРИЙНО:  %d\n', total_tests, success_count, total_tests - success_count);
 fclose(fid);
+assert(success_count==total_tests,'libtr:test:Failed', ...
+    '%d unit tests failed; see unit_tests_report.txt',total_tests-success_count);
