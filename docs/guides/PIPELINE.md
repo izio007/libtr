@@ -1,5 +1,7 @@
 # MATLAB pipeline v1
 
+All repository paths below are relative to the repository root.
+
 ## Launch and scope
 
 Run `tcpserver5555` from the repository root in MATLAB. The script derives all
@@ -72,7 +74,7 @@ Source revision/hashes and HTML rendering are not yet captured by this service.
 The documentation translator remains the sole converter from *_theory.txt.
 For an existing source update: generate the documentation PNGs using
 generate_filter2win_doc_images (default runtime destination), run
-docs/translate_docs.py and docs/test_translate_docs.py with Python, then submit
+tools/docs/translate_docs.py and tools/docs/test_translate_docs.py with Python, then submit
 liveeditor or all for MATLAB validation. Per-job PNGs do not overwrite published
 runtime images automatically. This prevents a validation job from silently
 changing already published documentation. Review generated PDFs separately.

@@ -1,5 +1,7 @@
 # Document gate: PlainTextPrincipe 5.21
 
+All repository paths below are relative to the repository root.
+
 The JSON Lines endpoint accepts action `documents`. Actions `liveeditor` and
 `all` run this gate before exporting Live Editor files. On gate failure,
 export is blocked and the job fails; independent preceding stages retain

@@ -7,7 +7,7 @@ import html
 import re
 import hashlib
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 DOCS = ROOT / 'docs'
 TOKEN = re.compile(r'(`[^`\n]+`|\$\$.*?\$\$|\$[^$\n]+\$)')
 IMAGE = re.compile(r'^\[image: ([A-Za-z0-9_-]+\.png)\]$')

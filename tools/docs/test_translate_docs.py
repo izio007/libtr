@@ -1,4 +1,4 @@
-"""Static regression checks for source-preserving documentation translation."""
+"""Run directly beside translate_docs.py; no working-directory dependency."""
 import html
 import re
 import tempfile
