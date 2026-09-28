@@ -4,19 +4,19 @@
 %%
 %[text] ## 1. Геометрические инварианты измерительной задачи
 %[text] ТИС осуществляет оценивание пространственного положения цели, находящейся в точке с истинными декартовыми координатами в локальной трехмерной прямоугольной системе ENU:
-%[text] $\\mathbf{X}=\[x,y,z\]^T \\in \\mathbb{R}^3$ 
+%[text] $\\mathbf{X}=\[x,y,z\]^T \\in \\mathbb{R}^3$
 %[text] Измерительная сеть состоит из $M$ наземных базовых постов с известными, статичными декартовыми координатами:
-%[text] $\\mathbf{X}\_{si}=\[x\_{si},y\_{si},z\_{si}\]^T,\\quad i=1,\\dots,M$ 
+%[text] $\\mathbf{X}\_{si}=\[x\_{si},y\_{si},z\_{si}\]^T,\\quad i=1,\\dots,M$
 %[text] Для каждого поста ТИС вектор дальности (прямой визирный луч «пост $\\rightarrow$ цель») задается пространственными приращениями в абсолютных метрах земли:
-%[text] $\\Delta x\_i = x - x\_{si}, \\quad \\Delta y\_i = y - y\_{si}, \\quad \\Delta z\_i = z - z\_{si}$ 
+%[text] $\\Delta x\_i = x - x\_{si}, \\quad \\Delta y\_i = y - y\_{si}, \\quad \\Delta z\_i = z - z\_{si}$
 %[text] Продольная дальность до цели в горизонтальной проекции $XOY$ и полная пространственная дальность до $i$-го поста равны соответственно:
-%[text] $r\_{xy,i}=\\sqrt{\\Delta x\_i^2+\\Delta y\_i^2}, \\quad r\_i = \\Vert\\mathbf{\\Delta X}\_i\\Vert = \\sqrt{\\Delta x\_i^2+\\Delta y\_i^2+\\Delta z\_i^2}$ 
+%[text] $r\_{xy,i}=\\sqrt{\\Delta x\_i^2+\\Delta y\_i^2}, \\quad r\_i = \\Vert\\mathbf{\\Delta X}\_i\\Vert = \\sqrt{\\Delta x\_i^2+\\Delta y\_i^2+\\Delta z\_i^2}$
 %[text] Аппаратура каждого поста ТИС измеряет угловое направление на цель (вектор пеленгации) строго от инвариантной горизонтальной оси $OX$ декартовой земли против движения часовой стрелки в соответствии со строгим тригонометрическим законом нелинейного отображения $\\mathbf{\\Psi}(\\mathbf{X})$:
 %[text] 
 %[text] - Прогнозный азимут ($\\alpha\\\_{pred,i}$): \
-%[text] $\\alpha\_{pred,i}(\\mathbf{X}) = \\text{atan2}(\\Delta y\_i,\\Delta x\_i) = \\text{atan2}(y - y\_{si}, \\ x - x\_{si})$ 
+%[text] $\\alpha\_{pred,i}(\\mathbf{X}) = \\text{atan2}(\\Delta y\_i,\\Delta x\_i) = \\text{atan2}(y - y\_{si}, \\ x - x\_{si})$
 %[text] - Прогнозный угол места ($\\beta\\\_{pred,i}$): \
-%[text] $\\beta\_{pred,i}(\\mathbf{X}) = \\text{atan2}(\\Delta z\_i, r\_{xy,i}) = \\text{atan2}\\left(z - z\_{si}, \\ \\sqrt{(x - x\_{si})^2 + (y - y\_{si})^2}\\right)$ 
+%[text] $\\beta\_{pred,i}(\\mathbf{X}) = \\text{atan2}(\\Delta z\_i, r\_{xy,i}) = \\text{atan2}\\left(z - z\_{si}, \\ \\sqrt{(x - x\_{si})^2 + (y - y\_{si})^2}\\right)$
 %[text] 
 %%
 %[text] ## 2. Строгий аналитический вывод декартовой матрицы Якоби ($J\_{\\text{cart}}$)
@@ -26,40 +26,40 @@
 %[text] Используя табличную производную функции $\\text{atan2}(y,x)$, где $\\frac{\\partial \\text{atan2}(y,x)}{\\partial x} = -\\frac{y}{x^2+y^2}$ и $\\frac{\\partial \\text{atan2}(y,x)}{\\partial y} = \\frac{x}{x^2+y^2}$, дифференцируем по декартовым осям:
 %[text] 
 %[text] 1. Дифференцирование по абсциссе $x$: \
-%[text]    $J\_{\\text{cart}}(2i-1, 1) = \\frac{\\partial \\alpha\_{pred,i}}{\\partial x} = -\\frac{\\Delta y\_i}{\\Delta x\_i^2 + \\Delta y\_i^2} = -\\frac{\\Delta y\_i}{r\_{xy,i}^2} \\quad \\left\[\\frac{\\text{рад}}{\\text{метр}}\\right\]$ 
+%[text] $J\_{\\text{cart}}(2i-1, 1) = \\frac{\\partial \\alpha\_{pred,i}}{\\partial x} = -\\frac{\\Delta y\_i}{\\Delta x\_i^2 + \\Delta y\_i^2} = -\\frac{\\Delta y\_i}{r\_{xy,i}^2} \\quad \\left\[\\frac{\\text{рад}}{\\text{метр}}\\right\]$
 %[text] 2. Дифференцирование по ординате $y$: \
-%[text]    $J\_{\\text{cart}}(2i-1, 2) = \\frac{\\partial \\alpha\_{pred,i}}{\\partial y} = \\frac{\\Delta x\_i}{\\Delta x\_i^2 + \\Delta y\_i^2} = \\frac{\\Delta x\_i}{r\_{xy,i}^2} \\quad \\left\[\\frac{\\text{рад}}{\\text{метр}}\\right\]$ 
+%[text] $J\_{\\text{cart}}(2i-1, 2) = \\frac{\\partial \\alpha\_{pred,i}}{\\partial y} = \\frac{\\Delta x\_i}{\\Delta x\_i^2 + \\Delta y\_i^2} = \\frac{\\Delta x\_i}{r\_{xy,i}^2} \\quad \\left\[\\frac{\\text{рад}}{\\text{метр}}\\right\]$
 %[text] 3. Дифференцирование по аппликате $z$: \
 %[text]    Поскольку функция азимута инвариантна к высоте цели:
-%[text]    $J\_{\\text{cart}}(2i-1, 3) = \\frac{\\partial \\alpha\_{pred,i}}{\\partial z} = 0 \\quad \\left\[\\frac{\\text{рад}}{\\text{метр}}\\right\]$ 
+%[text] $J\_{\\text{cart}}(2i-1, 3) = \\frac{\\partial \\alpha\_{pred,i}}{\\partial z} = 0 \\quad \\left\[\\frac{\\text{рад}}{\\text{метр}}\\right\]$
 %[text] 
 %%
 %[text] ## 2.2. Аналитический вывод строки вертикального канала (Угол места $\\beta\_{pred,i}$)
 %[text] Применяя дифференцирование сложной функции к $\\beta\_{pred,i} = \\text{atan2}(\\Delta z\_i, r\_{xy,i})$, учитываем, что полная пространственная дальность $r\_i^2 = r\_{xy,i}^2 + \\Delta z\_i^2$.
 %[text] 
 %[text] 1. Дифференцирование по абсциссе $x$: \
-%[text]    $J\_{\\text{cart}}(2i, 1) = \\frac{\\partial \\beta\_{pred,i}}{\\partial x} = \\frac{\\partial \\text{atan2}(\\Delta z\_i, r\_{xy,i})}{\\partial r\_{xy,i}} \\cdot \\frac{\\partial r\_{xy,i}}{\\partial x} = \\left(-\\frac{\\Delta z\_i}{r\_i^2}\\right) \\cdot \\frac{\\Delta x\_i}{r\_{xy,i}} = -\\frac{\\Delta x\_i \\Delta z\_i}{r\_i^2 \\cdot r\_{xy,i}} \\quad \\left\[\\frac{\\text{рад}}{\\text{метр}}\\right\]$ 
+%[text] $J\_{\\text{cart}}(2i, 1) = \\frac{\\partial \\beta\_{pred,i}}{\\partial x} = \\frac{\\partial \\text{atan2}(\\Delta z\_i, r\_{xy,i})}{\\partial r\_{xy,i}} \\cdot \\frac{\\partial r\_{xy,i}}{\\partial x} = \\left(-\\frac{\\Delta z\_i}{r\_i^2}\\right) \\cdot \\frac{\\Delta x\_i}{r\_{xy,i}} = -\\frac{\\Delta x\_i \\Delta z\_i}{r\_i^2 \\cdot r\_{xy,i}} \\quad \\left\[\\frac{\\text{рад}}{\\text{метр}}\\right\]$
 %[text] 2. Дифференцирование по ординате $y$: \
-%[text]    $J\_{\\text{cart}}(2i, 2) = \\frac{\\partial \\beta\_{pred,i}}{\\partial y} = \\frac{\\partial \\text{atan2}(\\Delta z\_i, r\_{xy,i})}{\\partial r\_{xy,i}} \\cdot \\frac{\\partial r\_{xy,i}}{\\partial y} = \\left(-\\frac{\\Delta z\_i}{r\_i^2}\\right) \\cdot \\frac{\\Delta y\_i}{r\_{xy,i}} = -\\frac{\\Delta y\_i \\Delta z\_i}{r\_i^2 \\cdot r\_{xy,i}} \\quad \\left\[\\frac{\\text{рад}}{\\text{метр}}\\right\]$ 
+%[text] $J\_{\\text{cart}}(2i, 2) = \\frac{\\partial \\beta\_{pred,i}}{\\partial y} = \\frac{\\partial \\text{atan2}(\\Delta z\_i, r\_{xy,i})}{\\partial r\_{xy,i}} \\cdot \\frac{\\partial r\_{xy,i}}{\\partial y} = \\left(-\\frac{\\Delta z\_i}{r\_i^2}\\right) \\cdot \\frac{\\Delta y\_i}{r\_{xy,i}} = -\\frac{\\Delta y\_i \\Delta z\_i}{r\_i^2 \\cdot r\_{xy,i}} \\quad \\left\[\\frac{\\text{рад}}{\\text{метр}}\\right\]$
 %[text] 3. Дифференцирование по аппликате $z$: \
-%[text]    $J\_{\\text{cart}}(2i, 3) = \\frac{\\partial \\beta\_{pred,i}}{\\partial z} = \\frac{r\_{xy,i}}{\\Delta z\_i^2 + r\_{xy,i}^2} = \\frac{r\_{xy,i}}{r\_i^2} \\quad \\left\[\\frac{\\text{рад}}{\\text{метр}}\\right\]$ 
+%[text] $J\_{\\text{cart}}(2i, 3) = \\frac{\\partial \\beta\_{pred,i}}{\\partial z} = \\frac{r\_{xy,i}}{\\Delta z\_i^2 + r\_{xy,i}^2} = \\frac{r\_{xy,i}}{r\_i^2} \\quad \\left\[\\frac{\\text{рад}}{\\text{метр}}\\right\]$
 %[text] 
 %%
 %[text] ## 3. Алгебраический оператор нелинейного декартова оценивания (Position)
 %[text] В соответствии с требованиями Эшелона А, базовый итерационный контур декартова метода минимизирует канонический функционал квадратов остаточных угловых невязок без использования искусственных масштабирующих коэффициентов шкал:
-%[text] $(J\_{\\text{cart}}^T \\cdot J\_{\\text{cart}}) \\cdot \\Delta \\mathbf{X} = J\_{\\text{cart}}^T \\cdot \\mathbf{residual}$ 
+%[text] $(J\_{\\text{cart}}^T \\cdot J\_{\\text{cart}}) \\cdot \\Delta \\mathbf{X} = J\_{\\text{cart}}^T \\cdot \\mathbf{residual}$
 %[text] Где на каждом $k$-м шаге МНК-спуска вектор угловых остаточных невязок $\\mathbf{residual} \\in \\mathbb{R}^{2M \\times 1}$ принудительно приводится к главному тригонометрическому интервалу $\[-\\pi; \\pi\]$:
-%[text] $\\mathbf{residual} = \\begin{bmatrix} \\alpha\_1 - \\alpha\_{pred,1}(\\mathbf{X}^{(k)}) \\\\ \\beta\_1 - \\beta\_{pred,1}(\\mathbf{X}^{(k)}) \\\\ \\vdots \\\\ \\alpha\_M - \\alpha\_{pred,M}(\\mathbf{X}^{(k)}) \\\\ \\beta\_M - \\beta\_{pred,M}(\\mathbf{X}^{(k)}) \\end{bmatrix}$ 
+%[text] $\\mathbf{residual} = \\begin{bmatrix} \\alpha\_1 - \\alpha\_{pred,1}(\\mathbf{X}^{(k)}) \\\\ \\beta\_1 - \\beta\_{pred,1}(\\mathbf{X}^{(k)}) \\\\ \\vdots \\\\ \\alpha\_M - \\alpha\_{pred,M}(\\mathbf{X}^{(k)}) \\\\ \\beta\_M - \\beta\_{pred,M}(\\mathbf{X}^{(k)}) \\end{bmatrix}$
 %[text] Вычисление линейного декартова вектора шага поправок $\\Delta \\mathbf{X} = \[\\Delta x, \\Delta y, \\Delta z\]^T$ (в метрах) выполняется в рамках единого расчетного контура:
-%[text] $\\Delta \\mathbf{X} = (J\_{\\text{cart}}^T \\cdot J\_{\\text{cart}})^{-1} \\cdot J\_{\\text{cart}}^T \\cdot \\mathbf{residual}$ 
-%[text] $\\mathbf{X}^{(k+1)} = \\mathbf{X}^{(k)} + \\Delta \\mathbf{X}$ 
+%[text] $\\Delta \\mathbf{X} = (J\_{\\text{cart}}^T \\cdot J\_{\\text{cart}})^{-1} \\cdot J\_{\\text{cart}}^T \\cdot \\mathbf{residual}$
+%[text] $\\mathbf{X}^{(k+1)} = \\mathbf{X}^{(k)} + \\Delta \\mathbf{X}$
 %[text] Проверка численного вырождения измерительной геометрии на каждом расчетном такте осуществляется строго по машинному нулю вещественной разрядной сетки вычислителя: $\\mathrm{rcond}(J\_{\\text{cart}}^T J\_{\\text{cart}}) \< 2.2204\\cdot10^{-16}$.
 %%
 %[text] ## 4. Алгебраический оператор оценки декартовых дисперсий (Covariance)
 %[text] В соответствии со стандартом Гаусса-Маркова, теоретическая декартова ковариационная матрица погрешностей случайного рассеяния $K\_{\\text{cart}}$ (размерность $\[\\text{метр}^2\]$) находится прямым инвертированием декартовой информационной матрицы Фишера, рассчитанной в финальной точке схождения градиентного спуска:
-%[text] $K\_{\\text{cart}} = \\left( J\_{\\text{cart}}^T \\cdot J\_{\\text{cart}} \\right)^{-1} = \\begin{bmatrix} \\sigma\_x^2 & K\_{xy} & K\_{xz} \\\\ K\_{yx} & \\sigma\_y^2 & K\_{yz} \\\\ K\_{zx} & K\_{zy} & \\sigma\_z^2 \\end{bmatrix}$ 
+%[text] $K\_{\\text{cart}} = \\left( J\_{\\text{cart}}^T \\cdot J\_{\\text{cart}} \\right)^{-1} = \\begin{bmatrix} \\sigma\_x^2 & K\_{xy} & K\_{xz} \\\\ K\_{yx} & \\sigma\_y^2 & K\_{yz} \\\\ K\_{zx} & K\_{zy} & \\sigma\_z^2 \\end{bmatrix}$
 %[text] Элементы по главной диагонали матрицы $K\_{\\text{cart}}$ возвращают честные среднеквадратические ошибки оценивания для экрана ТИС:
-%[text] $\\sigma\_x = \\sqrt{K\_{\\text{cart}}(1,1)}, \\quad \\sigma\_y = \\sqrt{K\_{\\text{cart}}(2,2)}, \\quad \\sigma\_z = \\sqrt{K\_{\\text{cart}}(3,3)}$ 
+%[text] $\\sigma\_x = \\sqrt{K\_{\\text{cart}}(1,1)}, \\quad \\sigma\_y = \\sqrt{K\_{\\text{cart}}(2,2)}, \\quad \\sigma\_z = \\sqrt{K\_{\\text{cart}}(3,3)}$
 %%
 %[text] ## 5. ЭШЕЛОН Б. Потеря скорости градиентного спуска в декартовом овраге
 %[text] Раздел фиксирует врожденное поведение и ограничения алгоритма GN на ЭТАПЕ I исследования:

@@ -20,18 +20,18 @@
 %[text] 
 %%
 %[text] ## Производные по первому столбцу Якобиана (по азимуту $\\alpha\_0$):
-%[text] - $J\\\_{\\text{GNP}}(2i-1, 1) = \\frac{\\partial \\alpha\\\_i}{\\partial \\alpha\\\_0} = \\frac{R\\\_0 \\cos\\beta\\\_0 \\cdot (\\Delta x\\\_i \\cos\\alpha\\\_0 + \\Delta y\\\_i \\sin\\alpha\\\_0)}{r\\\_{h,i}^2}$
-%[text] - $J\\\_{\\text{GNP}}(2i, 1) = \\frac{\\partial \\beta\\\_i}{\\partial \\alpha\\\_0} = \\frac{R\\\_0 \\Delta z\\\_i \\cos\\beta\\\_0 \\cdot (\\Delta x\\\_i \\sin\\alpha\\\_0 - \\Delta y\\\_i \\cos\\alpha\\\_0)}{r\\\_i^2 \\cdot r\\\_{h,i}}$ \
+%[text] $J\_{\\text{GNP}}(2i-1, 1) = \\frac{\\partial \\alpha\_i}{\\partial \\alpha\_0} = \\frac{R\_0 \\cos\\beta\_0 \\cdot (\\Delta x\_i \\cos\\alpha\_0 + \\Delta y\_i \\sin\\alpha\_0)}{r\_{h,i}^2}$
+%[text] $J\_{\\text{GNP}}(2i, 1) = \\frac{\\partial \\beta\_i}{\\partial \\alpha\_0} = \\frac{R\_0 \\Delta z\_i \\cos\\beta\_0 \\cdot (\\Delta x\_i \\sin\\alpha\_0 - \\Delta y\_i \\cos\\alpha\_0)}{r\_i^2 \\cdot r\_{h,i}}$
 %[text] 
 %%
 %[text] ## Производные по второму столбцу Якобиана (по углу места $\\beta\_0$):
-%[text] - $J\\\_{\\text{GNP}}(2i-1, 2) = \\frac{\\partial \\alpha\\\_i}{\\partial \\beta\\\_0} = \\frac{R\\\_0 \\sin\\beta\\\_0 \\cdot (\\Delta y\\\_i \\cos\\alpha\\\_0 - \\Delta x\\\_i \\sin\\alpha\\\_0)}{r\\\_{h,i}^2}$
-%[text] - $J\\\_{\\text{GNP}}(2i, 2) = \\frac{\\partial \\beta\\\_i}{\\partial \\beta\\\_0} = \\frac{R\\\_0 \\cdot \\left\[ r\\\_{h,i}^2 \\cos\\beta\\\_0 + \\Delta z\\\_i \\sin\\beta\\\_0 (\\Delta x\\\_i \\cos\\alpha\\\_0 + \\Delta y\\\_i \\sin\\alpha\\\_0) \\right\]}{r\\\_i^2 \\cdot r\\\_{h,i}}$ \
+%[text] $J\_{\\text{GNP}}(2i-1, 2) = \\frac{\\partial \\alpha\_i}{\\partial \\beta\_0} = \\frac{R\_0 \\sin\\beta\_0 \\cdot (\\Delta y\_i \\cos\\alpha\_0 - \\Delta x\_i \\sin\\alpha\_0)}{r\_{h,i}^2}$
+%[text] $J\_{\\text{GNP}}(2i, 2) = \\frac{\\partial \\beta\_i}{\\partial \\beta\_0} = \\frac{R\_0 \\cdot \\left\[ r\_{h,i}^2 \\cos\\beta\_0 + \\Delta z\_i \\sin\\beta\_0 (\\Delta x\_i \\cos\\alpha\_0 + \\Delta y\_i \\sin\\alpha\_0) \\right\]}{r\_i^2 \\cdot r\_{h,i}}$
 %[text] 
 %%
 %[text] ## Производные по третьему столбцу Якобиана (по линейной дальности в метрах R_0):
-%[text] - $J\\\_{\\text{GNP}}(2i-1, 3) = \\frac{\\partial \\alpha\\\_i}{\\partial R\\\_0} = \\frac{\\cos\\beta\\\_0 \\cdot (\\Delta x\\\_i \\sin\\alpha\\\_0 - \\Delta y\\\_i \\cos\\alpha\\\_0)}{r\\\_{h,i}^2}$
-%[text] - $J\\\_{\\text{GNP}}(2i, 3) = \\frac{\\partial \\beta\\\_i}{\\partial R\\\_0} = \\frac{r\\\_{h,i}^2 \\sin\\beta\\\_0 - \\Delta z\\\_i \\cos\\beta\\\_0 (\\Delta x\\\_i \\cos\\alpha\\\_0 + \\Delta y\\\_i \\sin\\alpha\\\_0)}{r\\\_i^2 \\cdot r\\\_{h,i}}$ \
+%[text] $J\_{\\text{GNP}}(2i-1, 3) = \\frac{\\partial \\alpha\_i}{\\partial R\_0} = \\frac{\\cos\\beta\_0 \\cdot (\\Delta x\_i \\sin\\alpha\_0 - \\Delta y\_i \\cos\\alpha\_0)}{r\_{h,i}^2}$
+%[text] $J\_{\\text{GNP}}(2i, 3) = \\frac{\\partial \\beta\_i}{\\partial R\_0} = \\frac{r\_{h,i}^2 \\sin\\beta\_0 - \\Delta z\_i \\cos\\beta\_0 (\\Delta x\_i \\cos\\alpha\_0 + \\Delta y\_i \\sin\\alpha\_0)}{r\_i^2 \\cdot r\_{h,i}}$
 %[text] 
 %[text] Где пространственные приращения определяются относительно i-го поста ТИС:
 %[text] $\\Delta x\_i = x - x\_{si}, \\quad \\Delta y\_i = y - y\_{si}, \\quad \\Delta z\_i = z - z\_{si}$

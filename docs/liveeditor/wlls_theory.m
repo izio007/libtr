@@ -6,9 +6,9 @@
 %[text] ## 1. Аппаратно-геометрические веса Гаусса-Маркова
 %[text] В отличие от равноточного метода LLS, Взвешенный Линейный МНК (WLLS) минимизирует квадратичную форму остатков, учитывая как аппаратную неравноточность измерительных каналов постов, так и нелинейное геометрическое удаление цели от постов ТИС.
 %[text] Пусть цель находится в точке с истинными декартовыми координатами $\\mathbf{X}=\[x,y,z\]^T \\in \\mathbb{R}^3$, а измерительная сеть состоит из $M$ наземных базовых постов с координатами $\\mathbf{X}\_{si}=\[x\_{si},y\_{si},z\_{si}\]^T$. Вектор пространственной дальности (визирный луч) из $i$-го поста в цель равен:
-%[text] $\\rho\_i=\\Vert\\mathbf{\\Delta X}\_i\\Vert=\\sqrt{(x-x\_{si})^2+(y-y\_{si})^2+(z-z\_{si})^2}$ 
+%[text] $\\rho\_i=\\Vert\\mathbf{\\Delta X}\_i\\Vert=\\sqrt{(x-x\_{si})^2+(y-y\_{si})^2+(z-z\_{si})^2}$
 %[text] Чтобы минимизируемый вариационный функционал взвешенных невязок $\\Phi(\\mathbf{X}) = (\\mathbf{U} - \\mathbf{\\Psi}(\\mathbf{X}))^T \\cdot W \\cdot (\\mathbf{U} - \\mathbf{\\Psi}(\\mathbf{X}))$ являлся безразмерной величиной, элементы матрицы весов Гаусса-Маркова $W$ обязаны обладать физической размерностью $\[1/\\text{метры}^2\]$. Линейная дисперсия шума на местности прямо пропорциональна квадрату плеча рычага — дальности $\\rho\_i^2$. Истинная размерная матрица весов $W$ имеет строго диагональную структуру:
-%[text] $W=\\text{diag}\\left(\\frac{1}{\\sigma\_{\\alpha 1}^2\\cdot\\rho\_1^2},\\quad\\frac{1}{\\sigma\_{\\beta 1}^2\\cdot\\rho\_1^2},\\quad\\dots,\\quad\\frac{1}{\\sigma\_{\\alpha M}^2\\cdot\\rho\_M^2},\\quad\\frac{1}{\\sigma\_{\\beta M}^2\\cdot\\rho\_M^2}\\right)$ 
+%[text] $W=\\text{diag}\\left(\\frac{1}{\\sigma\_{\\alpha 1}^2\\cdot\\rho\_1^2},\\quad\\frac{1}{\\sigma\_{\\beta 1}^2\\cdot\\rho\_1^2},\\quad\\dots,\\quad\\frac{1}{\\sigma\_{\\alpha M}^2\\cdot\\rho\_M^2},\\quad\\frac{1}{\\sigma\_{\\beta M}^2\\cdot\\rho\_M^2}\\right)$
 %[text] Поскольку в безитерационной схеме истинные дальности $\\rho\_i$ априори неизвестны, метод WLLS реализуется как двухшаговый алгоритм:
 %[text] 
 %[text] - Шаг 1: Вычисляется грубая предварительная декартова засечка координат $\\mathbf{X}\\\_{\\text{LLS}} = \[x\\\_{\\text{init}}, y\\\_{\\text{init}}, z\\\_{\\text{init}}\]^T$ из равноточного линейного декартова оператора.
@@ -21,29 +21,29 @@
 %%
 %[text] ## 2.1. Аналитический вывод строки горизонтального канала (Азимут $\\alpha\_i$)
 %[text] Вспомним каноническое горизонтальное уравнение связи LLS из теоретического базиса:
-%[text] $\\sin\\alpha\_i\\cdot x - \\cos\\alpha\_i\\cdot y = \\sin\\alpha\_i\\cdot x\_{si} - \\cos\\alpha\_i\\cdot y\_{si}$ 
+%[text] $\\sin\\alpha\_i\\cdot x - \\cos\\alpha\_i\\cdot y = \\sin\\alpha\_i\\cdot x\_{si} - \\cos\\alpha\_i\\cdot y\_{si}$
 %[text] Вводим размерный весовой коэффициент Гаусса-Маркова для азимутального канала $i$-го поста, обладающий размерностью $\[1/\\text{метр}\]$:
-%[text] $w\_{a,i} = \\frac{1}{\\sigma\_{\\alpha i}\\cdot\\rho\_i}$ 
+%[text] $w\_{a,i} = \\frac{1}{\\sigma\_{\\alpha i}\\cdot\\rho\_i}$
 %[text] Умножая каноническую строку на $w\_{a,i}$, получаем полностью безразмерную измерительную строку взвешенного уравнения связи:
-%[text] $\\frac{\\sin\\alpha\_i}{\\sigma\_{\\alpha i}\\cdot\\rho\_i}\\cdot x - \\frac{\\cos\\alpha\_i}{\\sigma\_{\\alpha i}\\cdot\\rho\_i}\\cdot y = \\frac{\\sin\\alpha\_i\\cdot x\_{si} - \\cos\\alpha\_i\\cdot y\_{si}}{\\sigma\_{\\alpha i}\\cdot\\rho\_i}$ 
+%[text] $\\frac{\\sin\\alpha\_i}{\\sigma\_{\\alpha i}\\cdot\\rho\_i}\\cdot x - \\frac{\\cos\\alpha\_i}{\\sigma\_{\\alpha i}\\cdot\\rho\_i}\\cdot y = \\frac{\\sin\\alpha\_i\\cdot x\_{si} - \\cos\\alpha\_i\\cdot y\_{si}}{\\sigma\_{\\alpha i}\\cdot\\rho\_i}$
 %[text] Данное выражение определяет первую взвешенную МНК-строку (азимутальную) измерительного ядра для $i$-го поста ТИС:
-%[text] $H\_w(2i-1, 1) = w\_{a,i} \\cdot \\sin\\alpha\_i$ 
-%[text] $H\_w(2i-1, 2) = w\_{a,i} \\cdot (-\\cos\\alpha\_i)$ 
-%[text] $H\_w(2i-1, 3) = 0$ 
-%[text] $b\_w(2i-1, 1) = w\_{a,i} \\cdot (\\sin\\alpha\_i\\cdot x\_{si} - \\cos\\alpha\_i\\cdot y\_{si})$ 
+%[text] $H\_w(2i-1, 1) = w\_{a,i} \\cdot \\sin\\alpha\_i$
+%[text] $H\_w(2i-1, 2) = w\_{a,i} \\cdot (-\\cos\\alpha\_i)$
+%[text] $H\_w(2i-1, 3) = 0$
+%[text] $b\_w(2i-1, 1) = w\_{a,i} \\cdot (\\sin\\alpha\_i\\cdot x\_{si} - \\cos\\alpha\_i\\cdot y\_{si})$
 %%
 %[text] ## 2.2. Аналитический вывод строки вертикального канала (Угол места $\\beta\_i$)
 %[text] Вспомним каноническое вертикальное уравнение связи LLS из теоретического базиса:
-%[text] $-\\cos\\alpha\_i \\sin\\beta\_i \\cdot x - \\sin\\alpha\_i \\sin\\beta\_i \\cdot y + \\cos\\beta\_i \\cdot z = -\\cos\\alpha\_i \\sin\\beta\_i \\cdot x\_{si} - \\sin\\alpha\_i \\sin\\beta\_i \\cdot y\_{si} + \\cos\\beta\_i \\cdot z\_{si}$ 
+%[text] $-\\cos\\alpha\_i \\sin\\beta\_i \\cdot x - \\sin\\alpha\_i \\sin\\beta\_i \\cdot y + \\cos\\beta\_i \\cdot z = -\\cos\\alpha\_i \\sin\\beta\_i \\cdot x\_{si} - \\sin\\alpha\_i \\sin\\beta\_i \\cdot y\_{si} + \\cos\\beta\_i \\cdot z\_{si}$
 %[text] Вводим размерный весовой коэффициент Гаусса-Маркова для угломестного канала $i$-го поста, обладающий размерностью $\[1/\\text{метр}\]$:
-%[text] $w\_{b,i} = \\frac{1}{\\sigma\_{\\beta i}\\cdot\\rho\_i}$ 
+%[text] $w\_{b,i} = \\frac{1}{\\sigma\_{\\beta i}\\cdot\\rho\_i}$
 %[text] Умножая каноническую строку на $w\_{b,i}$, получаем полностью безразмерную измерительную строку взвешенного уравнения связи:
-%[text] $-\\frac{\\cos\\alpha\_i\\sin\\beta\_i}{\\sigma\_{\\beta i}\\cdot\\rho\_i}\\cdot x - \\frac{\\sin\\alpha\_i\\sin\\beta\_i}{\\sigma\_{\\beta i}\\cdot\\rho\_i}\\cdot y + \\frac{\\cos\\beta\_i}{\\sigma\_{\\beta i}\\cdot\\rho\_i}\\cdot z = \\frac{- \\cos\\alpha\_i\\sin\\beta\_i\\cdot x\_{si} - \\sin\\alpha\_i\\sin\\beta\_i\\cdot y\_{si} + \\cos\\beta\_i\\cdot z\_{si}}{\\sigma\_{\\beta i}\\cdot\\rho\_i}$ 
+%[text] $-\\frac{\\cos\\alpha\_i\\sin\\beta\_i}{\\sigma\_{\\beta i}\\cdot\\rho\_i}\\cdot x - \\frac{\\sin\\alpha\_i\\sin\\beta\_i}{\\sigma\_{\\beta i}\\cdot\\rho\_i}\\cdot y + \\frac{\\cos\\beta\_i}{\\sigma\_{\\beta i}\\cdot\\rho\_i}\\cdot z = \\frac{- \\cos\\alpha\_i\\sin\\beta\_i\\cdot x\_{si} - \\sin\\alpha\_i\\sin\\beta\_i\\cdot y\_{si} + \\cos\\beta\_i\\cdot z\_{si}}{\\sigma\_{\\beta i}\\cdot\\rho\_i}$
 %[text] Данное выражение определяет вторую взвешенную МНК-строку (угломестную) измерительного ядра для $i$-го поста ТИС:
-%[text] $H\_w(2i, 1) = w\_{b,i} \\cdot (-\\cos\\alpha\_i \\sin\\beta\_i)$ 
-%[text] $H\_w(2i, 2) = w\_{b,i} \\cdot (-\\sin\\alpha\_i \\sin\\beta\_i)$ 
-%[text] $H\_w(2i, 3) = w\_{b,i} \\cdot \\cos\\beta\_i$ 
-%[text] $b\_w(2i, 1) = w\_{b,i} \\cdot (-\\cos\\alpha\_i\\sin\\beta\_i\\cdot x\_{si} - \\sin\\alpha\_i\\sin\\beta\_i\\cdot y\_{si} + \\cos\\beta\_i\\cdot z\_{si})$ 
+%[text] $H\_w(2i, 1) = w\_{b,i} \\cdot (-\\cos\\alpha\_i \\sin\\beta\_i)$
+%[text] $H\_w(2i, 2) = w\_{b,i} \\cdot (-\\sin\\alpha\_i \\sin\\beta\_i)$
+%[text] $H\_w(2i, 3) = w\_{b,i} \\cdot \\cos\\beta\_i$
+%[text] $b\_w(2i, 1) = w\_{b,i} \\cdot (-\\cos\\alpha\_i\\sin\\beta\_i\\cdot x\_{si} - \\sin\\alpha\_i\\sin\\beta\_i\\cdot y\_{si} + \\cos\\beta\_i\\cdot z\_{si})$
 %[text] Вычисление окончательного декартова вектора координат цели $\\mathbf{\\lambda} = \[X; Y; Z\]^T$ (в метрах) выполняется в рамках единого расчетного контура в один аналитический шаг без итерационных приближений методом обращения взвешенной нормальной матрицы:
 %[text] 
 %[text] $\\mathbf{\\lambda} = (H\_w^T \\cdot H\_w)^{-1} \\cdot H\_w^T \\cdot \\mathbf{b}\_w$
@@ -53,11 +53,11 @@
 %%
 %[text] ## 3. Декартова ковариация WLLS и инвариант Гаусса-Маркова
 %[text] Поскольку размерные весовые коэффициенты $w = 1 / (\\sigma \\cdot \\rho\_i)$ уже аналитически интегрированы внутрь структуры строк измерительной матрицы связи $H\_w$ и вектора $\\mathbf{b}\_w$ на этапе сборки уравнений, приведенная ковариационная матрица шумов нормированного измерительного пространства ТИС становится строго единичной:
-%[text] $R\_{\\text{normalized}} = I$ 
+%[text] $R\_{\\text{normalized}} = I$
 %[text] В соответствии со строго зафиксированным пунктом 3.4 регламента PaeroPrincipe.md, полный многомерный сэндвич Гаусса-Маркова для предопределенной системы уравнений нативно сворачивается через единичную матрицу, а результирующий декартов тензор ошибок рассеяния целей $K\_{\\text{cart}}$ (размерность $\[\\text{метр}^2\]$) вычисляется чистым и честным обращением нормальной матрицы взвешенной системы:
-%[text] $K\_{\\text{cart}} = (H\_w^T \\cdot H\_w)^{-1}$ 
+%[text] $K\_{\\text{cart}} = (H\_w^T \\cdot H\_w)^{-1}$
 %[text] Центральный расчетный блок inv(AtA_w) изолируется приоритетными скобками вещественной разрядной сетки вычислителя. Элементы по главной диагонали матрицы $K\_{\\text{cart}}$ возвращают честные среднеквадратические ошибки оценивания для экрана ТИС:
-%[text] $\\sigma\_x = \\sqrt{K\_{\\text{cart}}(1,1)}, \\quad \\sigma\_y = \\sqrt{K\_{\\text{cart}}(2,2)}, \\quad \\sigma\_z = \\sqrt{K\_{\\text{cart}}(3,3)}$ 
+%[text] $\\sigma\_x = \\sqrt{K\_{\\text{cart}}(1,1)}, \\quad \\sigma\_y = \\sqrt{K\_{\\text{cart}}(2,2)}, \\quad \\sigma\_z = \\sqrt{K\_{\\text{cart}}(3,3)}$
 %[text] 
 %%
 %[text] ## 4. ЭШЕЛОН Б. Физическое поведение метода на равноточном шуме
@@ -65,8 +65,6 @@
 %[text] 
 %[text] - При наличии одинакового приборного шума постов ($\\sigma\\\_{\\alpha i} = \\sigma\\\_{\\beta i} = \\sigma\\\_{\\text{const}}$), метод WLLS за счет деления строк на индивидуальные дальности $\\rho\\\_i$ искусственно занижает информационный вес дальних фланговых станций сети ТИС.
 %[text] - На равноточном шуме декартовы графики LLS и WLLS не будут близнецами. Метод WLLS деформирует геометрию эллипса рассеяния погрешностей: он частично убирает паразитный вклад перекошенных шумом фланговых плоскостей связи. Оценка дальности по оси $OY$ взвешивается по дальномерным плечам, снижая величину тригонометрического скоса и частично компенсируя продольную систематическую ошибку оценивания к измерительной базе ТИС на рубеже 450 км. \
-%[text] 
-%[text] 
 %[appendix]{"version":"1.0"}
 %---
 %[metadata:view]

@@ -27,7 +27,7 @@
 <p>где <span class="math">\(R_{\text{max}}\)</span> — жесткий физический допуск на линейное перемещение объекта за интервал <span class="math">\(\Delta t\)</span>.</p>
 <h2>Блок Б. Непрерывный анализ и управление окнами</h2>
 <p>Элемент <span class="math">\(e_i\)</span> поступает в <span class="math">\(W_{\text{main}}\)</span> со сдвигом выборки. Вычисляется текущая доля аномалий:</p>
-<div class="math">\[P_i = \frac{1}{N} \sum_{j \in W_{\text{main}}} e_j\]</div>
+<div class="math">\[\displaystyle P_i = \frac{1}{N} \sum_{j \in W_{\text{main}}} e_j\]</div>
 
 <p>   1. Режим «Норма» (<span class="math">\(P_i \le 0.25\)</span>): Вектор <span class="math">\(\vec{X}_i\)</span> признается истинным. Назначается <span class="math">\(\vec{X}_{\text{last\_valid}} = \vec{X}_i\)</span>. Окно <span class="math">\(W_{\text{alt}}\)</span> принудительно очищается (<span class="math">\(W_{\text{alt}} = \emptyset\)</span>).</p>
 <p>   2. Режим «Слепое ведение» (<span class="math">\(P_i &gt; 0.25\)</span>): Координата <span class="math">\(\vec{X}_i\)</span> блокируется и не участвует в уточнении траектории. Коррекция ССК прекращается, система переходит на чисто математический прогноз по вектору скорости. Параллельно точка <span class="math">\(\vec{X}_i\)</span> направляется в <span class="math">\(W_{\text{alt}}\)</span>.</p>

@@ -9,9 +9,10 @@
 <h2>🔬 МАТЕМАТИЧЕСКИЙ ПАСПОРТ АВТОНОМНОЙ ИМИТАЦИОННОЙ ПАРЫ ТИС (mock_theory.txt)</h2>
 <p>Настоящий документ содержит исчерпывающее аналитическое описание и строгий вывод функциональных уравнений для двух независимых утилит имитационного контура автоконтроля ТИС. Все выводы выполнены в рамках Эшелона А (Теоретический математический канон) непосредственно из геометрических инвариантов декартова пространства земли ENU, зафиксированных в манифесте tis_theory.txt.</p>
 
-<h2>1. АВТОНОМНЫЙ ОПЕРАТОР I: ИДЕАЛЬНЫЙ ДЕКАРТОВ ПОЗИЦИОНЕР (mock_position.m)## 1.1. Интерфейсный инвариант Слоя А</h2>
+<h2>1. АВТОНОМНЫЙ ОПЕРАТОР I: ИДЕАЛЬНЫЙ ДЕКАРТОВ ПОЗИЦИОНЕР (mock_position.m)</h2>
+<h2>1.1. Интерфейсный инвариант Слоя А</h2>
 <p>Для обеспечения сквозной конвейерной взаимозаменяемости с боевыми алгоритмами оценивания координат, оператор mock_position полностью дублирует их сигнатуру:</p>
-<div class="math">\[\mathbf{[status, \lambda] = mock\_position(P, alpha, beta, var\_alpha, var\_beta)}\]</div>
+<div class="math">\[[status, \lambda] = mock_{position}(P, alpha, beta, var_{alpha}, var_{beta})\]</div>
 <p>На вход подаются абсолютно точные (идеальные, незашумленные) углы пеленгации alpha, beta и декартовы метры координат постов P. Базовое условие работы либы — ввод точных исходных данных, поэтому оператор обязан выдать физически истинную, прецизионную декартову координату цели <span class="math">\(\mathbf{\lambda}_{\text{true}}\)</span>, полностью свободную от случайного Гауссова шума, итерационных недоходов и алгоритмических осцилляций спуска.</p>
 <h2>1.2. Алгебраический вывод декартовых уравнений связи лучей</h2>
 <p>Для мгновенного нахождения центра пересечения идеальных измерительных лучей в один аналитический шаг, тригонометрические пропорции нелинейных уравнений ТИС преобразуются к строгому кососимметрическому виду векторного кросс-произведения:</p>
@@ -24,9 +25,10 @@
 <div class="math">\[\mathbf{\lambda} = (AtA_{\text{init}})^{-1} \cdot H_{\text{init}}^T \cdot \mathbf{b}_{\text{init}}\]</div>
 <p>Поскольку входные углы абсолютно точны, полученный вектор <span class="math">\(\mathbf{\lambda}\)</span> тождественно равен физическому положению объекта <span class="math">\(\mathbf{\lambda}_{\text{true}}\)</span>.</p>
 
-<h2>2. АВТОНОМНЫЙ ОПЕРАТОР II: ДЕКАРТОВ РЕПЕР ТОЧНОСТИ (mock_covariance.m)## 2.1. Интерфейсный инвариант Слоя А и Спектральное расширение</h2>
+<h2>2. АВТОНОМНЫЙ ОПЕРАТОР II: ДЕКАРТОВ РЕПЕР ТОЧНОСТИ (mock_covariance.m)</h2>
+<h2>2.1. Интерфейсный инвариант Слоя А и Спектральное расширение</h2>
 <p>Ковариационный модуль имитации побитово дублирует сигнатуру прикладных утилит оценки погрешностей рассеяния объектов, но расширяется двумя новыми выходными аналитическими регистрами для явной выдачи пространственной ориентации эллипсоида погрешностей:</p>
-<div class="math">\[\mathbf{[status, K\_cart, V\_axes, S\_eigen] = mock\_covariance(P, alpha, beta, var\_alpha, var\_beta, lambda)}\]</div>
+<div class="math">\[[status, K_{cart}, V_{axes}, S_{eigen}] = mock_{covariance}(P, alpha, beta, var_{alpha}, var_{beta}, lambda)\]</div>
 
 <p>* <span class="math">\(\mathbf{K_{\text{cart}}}\)</span> — Полная декартова ковариационная матрица предела Рао-Крамера <span class="math">\([3 \times 3]\)</span>, <span class="math">\([\text{м}^2]\)</span>.</p>
 <p>* <span class="math">\(\mathbf{V_{\text{axes}}}\)</span> — Ортогональная матрица направляющих косинусов <span class="math">\([3 \times 3]\)</span>, столбцы которой задают истинное пространственное направление главных осей эллипсоида погрешностей относительно осей земли ENU.</p>
@@ -34,7 +36,7 @@
 
 <h2>2.2. Аддитивная сборка декартовой матрицы Фишера (Слой А)</h2>
 <p>Декартова информационная матрица Фишера <span class="math">\(I_{F,cart}\)</span> формируется путем кумулятивного суммирования математических ожидажений квадратов декартовых градиентов по оцениваемому декартову вектору истинного положения цели <span class="math">\(\mathbf{X}_{\text{true}} = [x_{\text{true}}, y_{\text{true}}, z_{\text{true}}]^T\)</span>. Элементы Фишера взвешиваются по паспортным дисперсиям приборного шума каналов датчиков:</p>
-<div class="math">\[I_{F,cart} = \sum_{i=1}^{M} \left[ \frac{1}{\sigma_{\alpha i}^2} \left(\frac{\partial\alpha_i}{\partial\mathbf{X}_{\text{true}}}\right)\left(\frac{\partial\alpha_i}{\partial\mathbf{X}_{\text{true}}}\right)^T + \frac{1}{\sigma_{\beta i}^2}\left(\frac{\partial\beta_i}{\partial\mathbf{X}_{\text{true}}}\right)\left(\frac{\partial\beta_i}{\partial\mathbf{X}_{\text{true}}}\right)^T \right]\]</div>
+<div class="math">\[\displaystyle I_{F,cart} = \sum_{i=1}^{M} \left[ \frac{1}{\sigma_{\alpha i}^2} \left(\frac{\partial\alpha_i}{\partial\mathbf{X}_{\text{true}}}\right)\left(\frac{\partial\alpha_i}{\partial\mathbf{X}_{\text{true}}}\right)^T + \frac{1}{\sigma_{\beta i}^2}\left(\frac{\partial\beta_i}{\partial\mathbf{X}_{\text{true}}}\right)\left(\frac{\partial\beta_i}{\partial\mathbf{X}_{\text{true}}}\right)^T \right]\]</div>
 <p>Где частные декартовы градиенты измерительных функций азимута и угла места берутся «в лоб» из прямоугольной геометрии ТИС в точке истинного репера цели <span class="math">\(\mathbf{X}_{\text{true}}\)</span>:</p>
 <div class="math">\[\frac{\partial\alpha_i}{\partial\mathbf{X}_{\text{true}}} = \begin{bmatrix} -\Delta y_i / r_{xy,i}^2 \\ \Delta x_i / r_{xy,i}^2 \\ 0 \end{bmatrix}, \quad \frac{\partial\beta_i}{\partial\mathbf{X}_{\text{true}}} = \begin{bmatrix} -(\Delta x_i \Delta z_i) / (r_i^2 \cdot r_{xy,i}) \\ -(\Delta y_i \Delta z_i) / (r_i^2 \cdot r_{xy,i}) \\ r_{xy,i} / r_i^2 \end{bmatrix}\]</div>
 <p>Пространственные приращения определяются строго относительно <span class="math">\(i\)</span>-го наземного поста ТИС:</p>
@@ -58,7 +60,7 @@
 <p>Раздел фиксирует имманентные ограничения и области численного вырождения имитационного контура ТИС:</p>
 
 <p>* При критическом сужении измерительного ракурса на удалении 450 км определитель декартовой матрицы жесткости Фишера падает в машинный ноль.</p>
-<p>* Фильтрация вырождения ранга выполняется строго по машинному нулю вещественной разрядной сетки вычислителя: <span class="math">\(\operatorname{rcond}(I_{F,\text{cart}}) &lt; 2.2204\cdot10^{-16}\)</span>. Системы рапортуют о падении жесткости (status = 2)и возвращают чистые вещественныеNaN` по всем выходным матрицам <span class="math">\(K_{\text{cart}}\)</span>, <span class="math">\(V_{\text{axes}}\)</span> и <span class="math">\(S_{\text{eigen}}\)</span>.</p>
+<p>* Фильтрация вырождения ранга выполняется строго по машинному нулю вещественной разрядной сетки вычислителя: <span class="math">\(\operatorname{rcond}(I_{F,\text{cart}}) &lt; 2.2204\cdot10^{-16}\)</span>. Системы сообщают об отказе (<code>status = 2</code>) и возвращают вещественные <code>NaN</code> по всем выходным матрицам <span class="math">\(K_{\text{cart}}\)</span>, <span class="math">\(V_{\text{axes}}\)</span> и <span class="math">\(S_{\text{eigen}}\)</span>.</p>
 
 
 <h2>4. МЕТРОЛОГИЧЕСКАЯ ДИРЕКТИВА ДЛЯ ИИ-АГЕНТОВ ИСПОЛНИТЕЛЬНОГО СЛОЯ</h2>
@@ -66,6 +68,4 @@
 
 <p>   1. mock_position.m: Сборка строк <span class="math">\(H_{\text{init}}\)</span>, безитерационное обращение нормальной матрицы и выдача чистых точных декартовых координат lambda. Исключить Холецкого и наложение случайного шума randn.</p>
 <p>   2. mock_covariance.m: Сборка декартовой информационной матрицы <span class="math">\(I_{F,cart}\)</span> строго по формулам декартовых градиентов Раздела 2.2 и ее прямое инвертирование <span class="math">\(K_{\text{cart}} = \text{inv}(I_{F,cart})\)</span> с последующим расчетом [V_axes, S_eigen] = eig(K_cart).</p>
-
-
 </main></body></html>

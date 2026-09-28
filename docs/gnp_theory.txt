@@ -5,7 +5,7 @@
 $$\mathbf{X}_{si} = [x_{si}, y_{si}, z_{si}]^T, \quad i = 1, \dots, M$$
 
 В качестве инвариантного полюса измерительной системы (фазового центра сети) выбирается геометрический центр тяжести куста постов:
-$$\mathbf{X}_0 = [x_0, y_0, z_0]^T = \frac{1}{M}\sum_{i=1}^{M}\mathbf{X}_{si}$$
+$$\displaystyle \mathbf{X}_0 = [x_0, y_0, z_0]^T = \frac{1}{M}\sum_{i=1}^{M}\mathbf{X}_{si}$$
 
 Вектор нелинейного состояния объекта Y параметризуется сферической триадой строго относительно полюса X_0 в абсолютных единицах СИ (метры, радианы):
 $$\mathbf{Y} = [\alpha_0, \beta_0, R_0]^T$$
@@ -17,16 +17,16 @@ $$\mathbf{X}(\mathbf{Y}) = \begin{bmatrix} x(\mathbf{Y}) \\ y(\mathbf{Y}) \\ z(\
 Линеаризация уравнений выполняется строго по цепочечному правилу сложной функции (J_GNP = J_cart * J_polar_to_cart), полностью исключающему тригонометрическое смещение векторов визирования в пространстве.
 
 ## Производные по первому столбцу Якобиана (по азимуту $\alpha_0$):
-* $$J_{\text{GNP}}(2i-1, 1) = \frac{\partial \alpha_i}{\partial \alpha_0} = \frac{R_0 \cos\beta_0 \cdot (\Delta x_i \cos\alpha_0 + \Delta y_i \sin\alpha_0)}{r_{h,i}^2}$$
-* $$J_{\text{GNP}}(2i, 1) = \frac{\partial \beta_i}{\partial \alpha_0} = \frac{R_0 \Delta z_i \cos\beta_0 \cdot (\Delta x_i \sin\alpha_0 - \Delta y_i \cos\alpha_0)}{r_i^2 \cdot r_{h,i}}$$
+$$J_{\text{GNP}}(2i-1, 1) = \frac{\partial \alpha_i}{\partial \alpha_0} = \frac{R_0 \cos\beta_0 \cdot (\Delta x_i \cos\alpha_0 + \Delta y_i \sin\alpha_0)}{r_{h,i}^2}$$
+$$J_{\text{GNP}}(2i, 1) = \frac{\partial \beta_i}{\partial \alpha_0} = \frac{R_0 \Delta z_i \cos\beta_0 \cdot (\Delta x_i \sin\alpha_0 - \Delta y_i \cos\alpha_0)}{r_i^2 \cdot r_{h,i}}$$
 
 ## Производные по второму столбцу Якобиана (по углу места $\beta_0$):
-* $$J_{\text{GNP}}(2i-1, 2) = \frac{\partial \alpha_i}{\partial \beta_0} = \frac{R_0 \sin\beta_0 \cdot (\Delta y_i \cos\alpha_0 - \Delta x_i \sin\alpha_0)}{r_{h,i}^2}$$
-* $$J_{\text{GNP}}(2i, 2) = \frac{\partial \beta_i}{\partial \beta_0} = \frac{R_0 \cdot \left[ r_{h,i}^2 \cos\beta_0 + \Delta z_i \sin\beta_0 (\Delta x_i \cos\alpha_0 + \Delta y_i \sin\alpha_0) \right]}{r_i^2 \cdot r_{h,i}}$$
+$$J_{\text{GNP}}(2i-1, 2) = \frac{\partial \alpha_i}{\partial \beta_0} = \frac{R_0 \sin\beta_0 \cdot (\Delta y_i \cos\alpha_0 - \Delta x_i \sin\alpha_0)}{r_{h,i}^2}$$
+$$J_{\text{GNP}}(2i, 2) = \frac{\partial \beta_i}{\partial \beta_0} = \frac{R_0 \cdot \left[ r_{h,i}^2 \cos\beta_0 + \Delta z_i \sin\beta_0 (\Delta x_i \cos\alpha_0 + \Delta y_i \sin\alpha_0) \right]}{r_i^2 \cdot r_{h,i}}$$
 
 ## Производные по третьему столбцу Якобиана (по линейной дальности в метрах R_0):
-* $$J_{\text{GNP}}(2i-1, 3) = \frac{\partial \alpha_i}{\partial R_0} = \frac{\cos\beta_0 \cdot (\Delta x_i \sin\alpha_0 - \Delta y_i \cos\alpha_0)}{r_{h,i}^2}$$
-* $$J_{\text{GNP}}(2i, 3) = \frac{\partial \beta_i}{\partial R_0} = \frac{r_{h,i}^2 \sin\beta_0 - \Delta z_i \cos\beta_0 (\Delta x_i \cos\alpha_0 + \Delta y_i \sin\alpha_0)}{r_i^2 \cdot r_{h,i}}$$
+$$J_{\text{GNP}}(2i-1, 3) = \frac{\partial \alpha_i}{\partial R_0} = \frac{\cos\beta_0 \cdot (\Delta x_i \sin\alpha_0 - \Delta y_i \cos\alpha_0)}{r_{h,i}^2}$$
+$$J_{\text{GNP}}(2i, 3) = \frac{\partial \beta_i}{\partial R_0} = \frac{r_{h,i}^2 \sin\beta_0 - \Delta z_i \cos\beta_0 (\Delta x_i \cos\alpha_0 + \Delta y_i \sin\alpha_0)}{r_i^2 \cdot r_{h,i}}$$
 
 Где пространственные приращения определяются относительно i-го поста ТИС:
 $$\Delta x_i = x - x_{si}, \quad \Delta y_i = y - y_{si}, \quad \Delta z_i = z - z_{si}$$

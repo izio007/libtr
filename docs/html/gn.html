@@ -30,22 +30,22 @@
 <p>Используя табличную производную функции <span class="math">\(\text{atan2}(y,x)\)</span>, где <span class="math">\(\frac{\partial \text{atan2}(y,x)}{\partial x} = -\frac{y}{x^2+y^2}\)</span> и <span class="math">\(\frac{\partial \text{atan2}(y,x)}{\partial y} = \frac{x}{x^2+y^2}\)</span>, дифференцируем по декартовым осям:</p>
 
 <p>   1. Дифференцирование по абсциссе <span class="math">\(x\)</span>:</p>
-<p>   <div class="math">\[J_{\text{cart}}(2i-1, 1) = \frac{\partial \alpha_{pred,i}}{\partial x} = -\frac{\Delta y_i}{\Delta x_i^2 + \Delta y_i^2} = -\frac{\Delta y_i}{r_{xy,i}^2} \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div> </p>
+<div class="math">\[J_{\text{cart}}(2i-1, 1) = \frac{\partial \alpha_{pred,i}}{\partial x} = -\frac{\Delta y_i}{\Delta x_i^2 + \Delta y_i^2} = -\frac{\Delta y_i}{r_{xy,i}^2} \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div>
 <p>   2. Дифференцирование по ординате <span class="math">\(y\)</span>:</p>
-<p>   <div class="math">\[J_{\text{cart}}(2i-1, 2) = \frac{\partial \alpha_{pred,i}}{\partial y} = \frac{\Delta x_i}{\Delta x_i^2 + \Delta y_i^2} = \frac{\Delta x_i}{r_{xy,i}^2} \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div> </p>
+<div class="math">\[J_{\text{cart}}(2i-1, 2) = \frac{\partial \alpha_{pred,i}}{\partial y} = \frac{\Delta x_i}{\Delta x_i^2 + \Delta y_i^2} = \frac{\Delta x_i}{r_{xy,i}^2} \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div>
 <p>   3. Дифференцирование по аппликате <span class="math">\(z\)</span>:</p>
 <p>   Поскольку функция азимута инвариантна к высоте цели:</p>
-<p>   <div class="math">\[J_{\text{cart}}(2i-1, 3) = \frac{\partial \alpha_{pred,i}}{\partial z} = 0 \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div> </p>
+<div class="math">\[J_{\text{cart}}(2i-1, 3) = \frac{\partial \alpha_{pred,i}}{\partial z} = 0 \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div>
 
 <h2>2.2. Аналитический вывод строки вертикального канала (Угол места <span class="math">\(\beta_{pred,i}\)</span>)</h2>
 <p>Применяя дифференцирование сложной функции к <span class="math">\(\beta_{pred,i} = \text{atan2}(\Delta z_i, r_{xy,i})\)</span>, учитываем, что полная пространственная дальность <span class="math">\(r_i^2 = r_{xy,i}^2 + \Delta z_i^2\)</span>.</p>
 
 <p>   1. Дифференцирование по абсциссе <span class="math">\(x\)</span>:</p>
-<p>   <div class="math">\[J_{\text{cart}}(2i, 1) = \frac{\partial \beta_{pred,i}}{\partial x} = \frac{\partial \text{atan2}(\Delta z_i, r_{xy,i})}{\partial r_{xy,i}} \cdot \frac{\partial r_{xy,i}}{\partial x} = \left(-\frac{\Delta z_i}{r_i^2}\right) \cdot \frac{\Delta x_i}{r_{xy,i}} = -\frac{\Delta x_i \Delta z_i}{r_i^2 \cdot r_{xy,i}} \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div> </p>
+<div class="math">\[J_{\text{cart}}(2i, 1) = \frac{\partial \beta_{pred,i}}{\partial x} = \frac{\partial \text{atan2}(\Delta z_i, r_{xy,i})}{\partial r_{xy,i}} \cdot \frac{\partial r_{xy,i}}{\partial x} = \left(-\frac{\Delta z_i}{r_i^2}\right) \cdot \frac{\Delta x_i}{r_{xy,i}} = -\frac{\Delta x_i \Delta z_i}{r_i^2 \cdot r_{xy,i}} \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div>
 <p>   2. Дифференцирование по ординате <span class="math">\(y\)</span>:</p>
-<p>   <div class="math">\[J_{\text{cart}}(2i, 2) = \frac{\partial \beta_{pred,i}}{\partial y} = \frac{\partial \text{atan2}(\Delta z_i, r_{xy,i})}{\partial r_{xy,i}} \cdot \frac{\partial r_{xy,i}}{\partial y} = \left(-\frac{\Delta z_i}{r_i^2}\right) \cdot \frac{\Delta y_i}{r_{xy,i}} = -\frac{\Delta y_i \Delta z_i}{r_i^2 \cdot r_{xy,i}} \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div> </p>
+<div class="math">\[J_{\text{cart}}(2i, 2) = \frac{\partial \beta_{pred,i}}{\partial y} = \frac{\partial \text{atan2}(\Delta z_i, r_{xy,i})}{\partial r_{xy,i}} \cdot \frac{\partial r_{xy,i}}{\partial y} = \left(-\frac{\Delta z_i}{r_i^2}\right) \cdot \frac{\Delta y_i}{r_{xy,i}} = -\frac{\Delta y_i \Delta z_i}{r_i^2 \cdot r_{xy,i}} \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div>
 <p>   3. Дифференцирование по аппликате <span class="math">\(z\)</span>:</p>
-<p>   <div class="math">\[J_{\text{cart}}(2i, 3) = \frac{\partial \beta_{pred,i}}{\partial z} = \frac{r_{xy,i}}{\Delta z_i^2 + r_{xy,i}^2} = \frac{r_{xy,i}}{r_i^2} \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div> </p>
+<div class="math">\[J_{\text{cart}}(2i, 3) = \frac{\partial \beta_{pred,i}}{\partial z} = \frac{r_{xy,i}}{\Delta z_i^2 + r_{xy,i}^2} = \frac{r_{xy,i}}{r_i^2} \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div>
 
 <h2>3. Алгебраический оператор нелинейного декартова оценивания (Position)</h2>
 <p>В соответствии с требованиями Эшелона А, базовый итерационный контур декартова метода минимизирует канонический функционал квадратов остаточных угловых невязок без использования искусственных масштабирующих коэффициентов шкал:</p>

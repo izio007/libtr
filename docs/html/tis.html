@@ -26,9 +26,9 @@
 <p>Аппаратура каждого поста ТИС измеряет угловое направление на цель (вектор пеленгации) строго от инвариантной горизонтальной оси <span class="math">\(OX\)</span> декартовой земли против движения часовой стрелки (правая тройка векторов):</p>
 
 <p>   1. Азимут (<span class="math">\(\alpha_i\)</span>) — угол в плоскости <span class="math">\(XOY\)</span> между положительным направлением оси <span class="math">\(OX\)</span> и проекцией визирного луча:</p>
-<p>   <div class="math">\[\alpha_i=\text{atan2}(\Delta y_i,\Delta x_i)\quad\rightarrow\quad\tan\alpha_i=\frac{\Delta y_i}{\Delta x_i} = \frac{y-y_{si}}{x-x_{si}}\]</div> </p>
+<div class="math">\[\alpha_i=\text{atan2}(\Delta y_i,\Delta x_i)\quad\rightarrow\quad\tan\alpha_i=\frac{\Delta y_i}{\Delta x_i} = \frac{y-y_{si}}{x-x_{si}}\]</div>
 <p>   2. Угол места (<span class="math">\(\beta_i\)</span>) — угол в вертикальной плоскости между плоскостью <span class="math">\(XOY\)</span> и пространственным визирным лучом:</p>
-<p>   <div class="math">\[\beta_i=\text{atan2}(\Delta z_i,r_{xy,i})\quad\rightarrow\quad\tan\beta_i=\frac{\Delta z_i}{r_{xy,i}} = \frac{z-z_{si}}{r_{xy,i}}\]</div> </p>
+<div class="math">\[\beta_i=\text{atan2}(\Delta z_i,r_{xy,i})\quad\rightarrow\quad\tan\beta_i=\frac{\Delta z_i}{r_{xy,i}} = \frac{z-z_{si}}{r_{xy,i}}\]</div>
 
 <p>Единичный направляющий вектор (луч пеленгации) <span class="math">\(\mathbf{1}_i\)</span>, выходящий из <span class="math">\(i\)</span>-го поста в сторону цели, формирует строго ортонормированный угловой базис визирования:</p>
 <div class="math">\[\mathbf{1}_i=[\cos\alpha_i\cos\beta_i,\sin\alpha_i\cos\beta_i,\sin\beta_i]^T,\quad\Vert\mathbf{1}_i\Vert\equiv 1\]</div>
@@ -43,9 +43,9 @@
 <p>Разворачивая данное векторное произведение в декартовых осях земли и выполняя деление строк на косинус угла места <span class="math">\(\cos\beta_i\)</span> (для исключения тригонометрических сингулярностей), получаем строго выведенную измерительную систему уравнений связи:</p>
 
 <p>   1. Горизонтальное уравнение связи (Азимут):</p>
-<p>   <div class="math">\[\sin\alpha_i\cdot x-\cos\alpha_i\cdot y=\sin\alpha_i\cdot x_{si}-\cos\alpha_i\cdot y_{si}\]</div> </p>
+<div class="math">\[\sin\alpha_i\cdot x-\cos\alpha_i\cdot y=\sin\alpha_i\cdot x_{si}-\cos\alpha_i\cdot y_{si}\]</div>
 <p>   2. Вертикальное уравнение связи (Угол места):</p>
-<p>   <div class="math">\[-\cos\alpha_i\sin\beta_i\cdot x-\sin\alpha_i\sin\beta_i\cdot y+\cos\beta_i\cdot z=-\cos\alpha_i\sin\beta_i\cdot x_{si}-\sin\alpha_i\sin\beta_i\cdot y_{si}+\cos\beta_i\cdot z_{si}\]</div> </p>
+<div class="math">\[-\cos\alpha_i\sin\beta_i\cdot x-\sin\alpha_i\sin\beta_i\cdot y+\cos\beta_i\cdot z=-\cos\alpha_i\sin\beta_i\cdot x_{si}-\sin\alpha_i\sin\beta_i\cdot y_{si}+\cos\beta_i\cdot z_{si}\]</div>
 
 
 <h2>4. Каноническая постановка метода наименьших квадратов (МНК)</h2>
@@ -66,7 +66,7 @@
 
 <h2>5. Перенос постановки в инвариантный полярный базис центра тяжести</h2>
 <p>Чтобы полностью уничтожить декартово Bias-сжатие, вызванное асимметрией линейного раскрыва котангенса на дальнем рубеже, вектор состояния задачи переносится в полярный инвариантный базис относительно мгновенного центра тяжести сети активных постов задачи ТИС <span class="math">\(\mathbf{X}_c\)</span>:</p>
-<div class="math">\[\mathbf{X}_c=[x_c,y_c,z_c]^T=\begin{bmatrix}\frac{1}{M}\sum_{i=1}^{M}x_{si},&amp;\frac{1}{M}\sum_{i=1}^{M}y_{si},&amp;\frac{1}{M}\sum_{i=1}^{M}z_{si}\end{bmatrix}^T\]</div>
+<div class="math">\[\displaystyle \mathbf{X}_c=[x_c,y_c,z_c]^T=\begin{bmatrix}\frac{1}{M}\sum_{i=1}^{M}x_{si},&amp;\frac{1}{M}\sum_{i=1}^{M}y_{si},&amp;\frac{1}{M}\sum_{i=1}^{M}z_{si}\end{bmatrix}^T\]</div>
 <p>Локальный вектор приращений цели относительно центра тяжести равен:</p>
 <div class="math">\[\mathbf{\Delta X}_c=\mathbf{X}-\mathbf{X}_c=[x-x_c,y-y_c,z-z_c]^T=[\Delta x_c,\Delta y_c,\Delta z_c]^T\]</div>
 <p>Мы выбираем новый инвариантный вектор состояния цели <span class="math">\(\mathbf{q}\)</span> в сферической (полярной) системе координат измерительного пучка:</p>
@@ -97,7 +97,7 @@
 <p>Погрешности датчиков независимы, их паспортные дисперсии формируют приборную ковариационную матрицу погрешностей. Минимум рассеяния любой несмещенной оценки координат ТИС жестко ограничен пределом Рао-Крамера (CRLB) через второй центральный момент градиента логарифма функции правдоподобия:</p>
 <div class="math">\[D(\hat{\mathbf{X}})=M[(\hat{\mathbf{X}}-\mathbf{X}_{true})(\hat{\mathbf{X}}-\mathbf{X}_{true})^T] \ge I_{F,cart}^{-1}\]</div>
 <p>Где декартова информационная матрица Фишера <span class="math">\(I_{F,cart}\)</span> является математическим ожиданием квадрата градиента по оцениваемому декартову вектору <span class="math">\(\mathbf{X}\)</span>:</p>
-<div class="math">\[I_{F,cart}=M\left[\left(\frac{\partial \ln L}{\partial \mathbf{X}}\right)\left(\frac{\partial \ln L}{\partial \mathbf{X}}\right)^T\right]=\sum_{i=1}^{M}\left[\frac{1}{\sigma_{\alpha i}^2}\left(\frac{\partial\alpha_i}{\partial\mathbf{X}}\right)\left(\frac{\partial\alpha_i}{\partial\mathbf{X}}\right)^T+\frac{1}{\sigma_{\beta i}^2}\left(\frac{\partial\beta_i}{\partial\mathbf{X}}\right)\left(\frac{\partial\beta_i}{\partial\mathbf{X}}\right)^T\right]\]</div>
+<div class="math">\[\displaystyle I_{F,cart}=M\left[\left(\frac{\partial \ln L}{\partial \mathbf{X}}\right)\left(\frac{\partial \ln L}{\partial \mathbf{X}}\right)^T\right]=\sum_{i=1}^{M}\left[\frac{1}{\sigma_{\alpha i}^2}\left(\frac{\partial\alpha_i}{\partial\mathbf{X}}\right)\left(\frac{\partial\alpha_i}{\partial\mathbf{X}}\right)^T+\frac{1}{\sigma_{\beta i}^2}\left(\frac{\partial\beta_i}{\partial\mathbf{X}}\right)\left(\frac{\partial\beta_i}{\partial\mathbf{X}}\right)^T\right]\]</div>
 <p>Для полярного пространства измерительного пучка ТИС взвешенная матрица Фишера трансформируется через ортогональный визирный Якобиан перехода <span class="math">\(J_{polar}\)</span>:</p>
 <div class="math">\[I_{polar}=J_{polar}^T\cdot I_{F,cart}\cdot J_{polar}\]</div>
 <p>Инвертирование данной информационной матрицы в рамках единого вычислительного пространства дает честную полярную ковариационную матрицу нижнего предела Рао-Крамера <span class="math">\(K_{polar, CRLB} = I_{polar}^{-1}\)</span>, диагональные элементы которой определяют физическое дно точности ТИС по осям Cross-track (поперечный промах), Along-track (угломестный промах) и Range (радиальный промах по дальности). Именно это бесшумное полярное распределение, пересчитанное в прямоугольные координаты земли, и извлекается в качестве абсолютного теоретического эталона для последующего анализа качества функционирования аналитических методов ТИС.</p>
@@ -113,9 +113,9 @@
 <p>Для построения полного ортонормированного трехмерного базиса визирования <span class="math">\(R \in \mathbb{R}^{3 \times 3}\)</span> вычисляются два ортогональных вектора боковых смещений плоскостей визирования:</p>
 
 <p>   1. Горизонтальный ортогональный вектор промаха (<span class="math">\(\mathbf{u}_{\text{cross1}}\)</span>): лежит строго в горизонтальной плоскости <span class="math">\(XOY\)</span>, ортогонален проекции луча зрения:</p>
-<p>   <div class="math">\[\mathbf{u}_{\text{cross1}} = \frac{[-u_{ry}, \ u_{rx}, \ 0]^T}{\sqrt{u_{rx}^2 + u_{ry}^2}}\]</div> </p>
+<div class="math">\[\mathbf{u}_{\text{cross1}} = \frac{[-u_{ry}, \ u_{rx}, \ 0]^T}{\sqrt{u_{rx}^2 + u_{ry}^2}}\]</div>
 <p>   2. Вертикальный ортогональный вектор промаха (<span class="math">\(\mathbf{u}_{\text{cross2}}\)</span>): достраивает правую тройку векторов через аналитическое векторное произведение:</p>
-<p>   <div class="math">\[\mathbf{u}_{\text{cross2}} = \mathbf{u}_r \times \mathbf{u}_{\text{cross1}}\]</div> </p>
+<div class="math">\[\mathbf{u}_{\text{cross2}} = \mathbf{u}_r \times \mathbf{u}_{\text{cross1}}\]</div>
 
 <p>Монолитный оператор ортогонального перехода из декартовой земли ENU в локальное измерительное пространство луча зрения наблюдателя ТИС принимает вид:</p>
 <div class="math">\[R = [\mathbf{u}_r, \ \mathbf{u}_{\text{cross1}}, \ \mathbf{u}_{\text{cross2}}] \in \mathbb{R}^{3 \times 3}, \quad R^T \cdot R = I\]</div>
