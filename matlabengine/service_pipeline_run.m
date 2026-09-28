@@ -99,6 +99,15 @@ switch stage
         assert(failures==0,'libtr:pipeline:UnitFailures','%d of %d unit tests failed',failures,numel(tests));
         metrics.total=numel(tests);
     case {'integration','png'}
+        if strcmp(stage,'png')
+            if ~isfile(fullfile(folder,'context_30km.mat')) || ...
+                    ~isfile(fullfile(folder,'context_450km.mat'))
+                service_generate_static_context;
+            end
+            metrics.context_images=generate_context_test_images(folder,folder);
+            assert(metrics.context_images.failures==0, ...
+                'libtr:pipeline:ContextImages','Context scenarios failed; see context_images.json');
+        end
         metrics.tis=test_tis_ensemble(folder);
         generate_filter2win_doc_images(folder);
         data=load(fullfile(folder,'filter2win_doc_data.mat'));

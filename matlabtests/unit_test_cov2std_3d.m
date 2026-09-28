@@ -1,4 +1,4 @@
-function unit_test_cov2std_3d()
+function unit_test_cov2std_3d(folder)
 % =========================================================================
 % ВЕРИФИКАЦИОННЫЙ ЮНИТ-ТЕСТ С ЯВНЫМ РАСЧЕТОМ ТОЧЕК 3D-ГРАНИЦЫ И СВЕРКОЙ СКО
 % СИС ТЕМНЫЙ КОНТЕНТ: СКВОЗНОЙ КОНТРОЛЬ ПОЛУОСЕЙ И СЕЧЕНИЙ ОБЪЕМНОЙ ОБOЛОЧКИ
@@ -149,7 +149,8 @@ X_ell = reshape(ellipsoid_3d(1,:), size(X_sph));
 Y_ell = reshape(ellipsoid_3d(2,:), size(Y_sphere));
 Z_ell = reshape(ellipsoid_3d(3,:), size(Z_sphere));
 
-figure('Color', 'w', 'Name', 'ТИС 3D-Верификатор: Собственные полуоси и сечения жесткости');
+fig=figure('Visible','off','Color', 'w', 'Name', 'ТИС 3D-Верификатор: Собственные полуоси и сечения жесткости');
+closer=onCleanup(@() close(fig));
 surf(X_ell, Y_ell, Z_ell, 'FaceColor', 'g', 'FaceAlpha', 0.12, 'EdgeColor', 'g', 'EdgeAlpha', 0.03, 'DisplayName', 'Эллипсоид 1-sigma');
 hold on; grid on;
 
@@ -188,6 +189,11 @@ title('Абсолютная 3D-верификация длин и точек с�
 xlabel('Восток (East / X), метры');
 ylabel('Север (North / Y), метры');
 zlabel('Высота (Up / Z), метры');
+if nargin>0
+    exportgraphics(fig,fullfile(folder,'tis_cov2std_3d.png'));
+    save(fullfile(folder,'tis_cov2std_3d.mat'),'K_cart','lambda_target', ...
+        'lambda_observer','sigma_radial','sigma_cross1','sigma_cross2');
+end
 % ВЫВОД ЗЕЛЕНОГО СТАТУСА ТОЛЬКО ПРИ ИСТИННОМ ПРОХОЖДЕНИИ АССЕРТОВ
 fprintf('  СТАТУС ЮНИТ-ТЕСТА: УСПЕШНО ПРОЙДЕН (SUCCESS)\n');
 fprintf('  Побитовое нахождение 3D-вершин полуосей на оболочке доказано.\n');

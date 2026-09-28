@@ -1,4 +1,4 @@
-function unit_test_cov2std()
+function unit_test_cov2std(folder)
 % =========================================================================
 % НАГЛЯДНЫЙ ВЕРИФИКАЦИОННЫЙ ЮНИТ-ТЕСТ С ЯВНЫМ РАСЧЕТОМ ПОЛУОСЕЙ И СВЕРКОЙ СКО
 % СИС ТЕМНЫЙ КОНТЕНТ: СВЕРКА ГЕОМЕТРИЧЕСКИХ ВЕРШИН С ВЫХОДАМИ ЯДРА СЕЧЕНИЙ
@@ -109,7 +109,8 @@ t = linspace(0, 2*pi, 200);
 circle_pts = [cos(t); sin(t)];
 ellipse_enu = V_enu * sqrt(D_enu) * circle_pts + lambda_target(1:2);
 
-figure('Color', 'w', 'Name', 'ТИС Верификатор: Собственные полуоси и сечения эллипса');
+fig=figure('Visible','off','Color', 'w', 'Name', 'ТИС Верификатор: Собственные полуоси и сечения эллипса');
+closer=onCleanup(@() close(fig));
 hold on; grid on;
 title('Абсолютная верификация длин и точек сечения в СК ENU');
 xlabel('Восток (East / X), метры'); ylabel('Север (North / Y), метры');
@@ -140,7 +141,12 @@ plot(pt_c_s(1), pt_c_s(2), 'ko', 'MarkerFaceColor', 'b', 'MarkerSize', 9, 'Displ
 line([lambda_target(1) pt_r_s(1)], [lambda_target(2) pt_r_s(2)], 'Color', 'b', 'LineWidth', 3, 'HandleVisibility', 'off');
 line([lambda_target(1) pt_c_s(1)], [lambda_target(2) pt_c_s(2)], 'Color', 'b', 'LineWidth', 3, 'HandleVisibility', 'off');
 
-axis equal; xlim([2 8]); ylim([1 9]); legend('Location', 'best');
+axis equal; legend('Location', 'best');
+if nargin>0
+    exportgraphics(fig,fullfile(folder,'tis_cov2std_2d.png'));
+    save(fullfile(folder,'tis_cov2std_2d.mat'),'K_cart','lambda_target', ...
+        'lambda_observer','sigma_radial','sigma_cross1','eq_radial','eq_cross');
+end
 
 % ВЫВОД ЗЕЛЕНОГО СТАТУСА ТОЛЬКО ПРИ ИСТИННОМ ПРОХОЖДЕНИИ АССЕРТОВ
 fprintf('\n=======================================================\n');
