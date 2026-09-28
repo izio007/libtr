@@ -19,7 +19,7 @@ lambda_target   = [5.0; 6.0; 0.0];   % Центр эллипсоида погр�
 lambda_observer = [6.0; 2.0; 0.0];   % Позиция измерительного куста ТИС (Наблюдатель)
 
 % 2. ТЕСТОВЫЙ ПРОГОН ИССЛЕДУЕМОГО МАТЕМАТИЧЕСКОГО ЯДРА СЕЧЕНИЯ
-[status, sigma_radial, sigma_cross1, ~] = ll_cov2std(K_cart, lambda_target, lambda_observer);
+[status, sigma_radial, sigma_cross1, ~] = tis_cov2std(K_cart, lambda_target, lambda_observer);
 
 if status ~= 0
     error('❌ Юнит-тест провален: Ядро сечения ТИС вернуло статус ошибки %d', status);
@@ -52,7 +52,7 @@ u_cross1 = [-u_r(2); u_r(1); 0]; u_cross1 = u_cross1 / norm(u_cross1);
 
 % Нахождение декартовых точек сечений ЛВ и нормали из ядра
 pt_r_s = lambda_target + u_r * sigma_radial;
-pt_c_s = lambda_target - u_cross1 * sigma_cross1; 
+pt_c_s = lambda_target - u_cross1 * sigma_cross1;
 
 % 6. ВЫВОД СИНХРОННОЙ ТAБЛИЦЫ СВЕРКИ ГЕОМЕТРИИ И РАДИУСОВ СЕЧЕНИЯ ТИС
 fprintf('\n===================================================================\n');

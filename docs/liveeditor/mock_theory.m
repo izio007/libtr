@@ -10,8 +10,8 @@
 %%
 %[text] ## 1.2. Алгебраический вывод декартовых уравнений связи лучей
 %[text] Для мгновенного нахождения центра пересечения идеальных измерительных лучей в один аналитический шаг, тригонометрические пропорции нелинейных уравнений ТИС преобразуются к строгому кососимметрическому виду векторного кросс-произведения:
-%[text] $H\_{\\text{init}}(2i-1, :) = \[ \\sin\\alpha\_i , -\\cos\\alpha\_i , 0 \], \\quad b\_{\\text{init}}(2i-1, 1) = \\sin\\alpha\_i \\cdot x\_{si} - \\cos\\alpha\_i \\cdot y\_{si}$ 
-%[text] $H\_{\\text{init}}(2i, :) = \[ -\\cos\\alpha\_i \\sin\\beta\_i , -\\sin\\alpha\_i \\sin\\beta\_i , \\cos\\beta\_i \]$ 
+%[text] $H\_{\\text{init}}(2i-1, :) = \\begin{bmatrix} \\sin\\alpha\_i & -\\cos\\alpha\_i & 0 \\end{bmatrix}, \\quad b\_{\\text{init}}(2i-1, 1) = \\sin\\alpha\_i \\cdot x\_{si} - \\cos\\alpha\_i \\cdot y\_{si}$ 
+%[text] $H\_{\\text{init}}(2i, :) = \\begin{bmatrix} -\\cos\\alpha\_i \\sin\\beta\_i & -\\sin\\alpha\_i \\sin\\beta\_i & \\cos\\beta\_i \\end{bmatrix}$ 
 %[text] $b\_{\\text{init}}(2i, 1) = -\\cos\\alpha\_i \\sin\\beta\_i \\cdot x\_{si} - \\sin\\alpha\_i \\sin\\beta\_i \\cdot y\_{si} + \\cos\\beta\_i \\cdot z\_{si}$ 
 %[text] Матрица нормальных уравнений жесткости старта собирается в чистой, равноточной геометрии декартова пространства без весовых коэффициентов:
 %[text] $AtA\_{\\text{init}} = H\_{\\text{init}}^T \\cdot H\_{\\text{init}}$ 
@@ -33,7 +33,7 @@
 %[text] Декартова информационная матрица Фишера $I\_{F,cart}$ формируется путем кумулятивного суммирования математических ожидажений квадратов декартовых градиентов по оцениваемому декартову вектору истинного положения цели $\\mathbf{X}\_{\\text{true}} = \[x\_{\\text{true}}, y\_{\\text{true}}, z\_{\\text{true}}\]^T$. Элементы Фишера взвешиваются по паспортным дисперсиям приборного шума каналов датчиков:
 %[text] $\\displaystyle I\_{F,cart} = \\sum\_{i=1}^{M} \\left\[ \\frac{1}{\\sigma\_{\\alpha i}^2} \\left(\\frac{\\partial\\alpha\_i}{\\partial\\mathbf{X}\_{\\text{true}}}\\right)\\left(\\frac{\\partial\\alpha\_i}{\\partial\\mathbf{X}\_{\\text{true}}}\\right)^T + \\frac{1}{\\sigma\_{\\beta i}^2}\\left(\\frac{\\partial\\beta\_i}{\\partial\\mathbf{X}\_{\\text{true}}}\\right)\\left(\\frac{\\partial\\beta\_i}{\\partial\\mathbf{X}\_{\\text{true}}}\\right)^T \\right\]$ 
 %[text] Где частные декартовы градиенты измерительных функций азимута и угла места берутся «в лоб» из прямоугольной геометрии ТИС в точке истинного репера цели $\\mathbf{X}\_{\\text{true}}$:
-%[text] $\\frac{\\partial\\alpha\_i}{\\partial\\mathbf{X}\_{\\text{true}}} = \[ -\\Delta y\_i / r\_{xy,i}^2 ; \\Delta x\_i / r\_{xy,i}^2 ; 0 \], \\quad \\frac{\\partial\\beta\_i}{\\partial\\mathbf{X}\_{\\text{true}}} = \[ -(\\Delta x\_i \\Delta z\_i) / (r\_i^2 \\cdot r\_{xy,i}) ; -(\\Delta y\_i \\Delta z\_i) / (r\_i^2 \\cdot r\_{xy,i}) ; r\_{xy,i} / r\_i^2 \]$ 
+%[text] $\\frac{\\partial\\alpha\_i}{\\partial\\mathbf{X}\_{\\text{true}}} = \\begin{bmatrix} -\\Delta y\_i / r\_{xy,i}^2 \\\\ \\Delta x\_i / r\_{xy,i}^2 \\\\ 0 \\end{bmatrix}, \\quad \\frac{\\partial\\beta\_i}{\\partial\\mathbf{X}\_{\\text{true}}} = \\begin{bmatrix} -(\\Delta x\_i \\Delta z\_i) / (r\_i^2 \\cdot r\_{xy,i}) \\\\ -(\\Delta y\_i \\Delta z\_i) / (r\_i^2 \\cdot r\_{xy,i}) \\\\ r\_{xy,i} / r\_i^2 \\end{bmatrix}$ 
 %[text] Пространственные приращения определяются строго относительно $i$-го наземного поста ТИС:
 %[text] $\\Delta x\_i = x\_{\\text{true}} - x\_{si}, \\quad \\Delta y\_i = y\_{\\text{true}} - y\_{si}, \\quad \\Delta z\_i = z\_{\\text{true}} - z\_{si}$ 
 %[text] $r\_{xy,i} = \\sqrt{\\Delta x\_i^2 + \\Delta y\_i^2}, \\quad r\_i = \\sqrt{r\_{xy,i}^2 + \\Delta z\_i^2}$ 
@@ -52,6 +52,8 @@
 %[text] 
 %%
 %[text] ## 3. СЛОЙ Б. Обнажение физических границ краха вещественной разрядной сетки
+%[text] При точном $r\_{xy,i}=0$ хотя бы для одного используемого поста декартов градиент азимута не определен. Оператор mock_covariance возвращает status=2 и NaN во всех трех выходных матрицах. Нижние зажимы дальностей не применяются; малая ненулевая дальность сама по себе не является основанием для отказа.
+%[text] Собственные векторы определены с точностью до знака. При кратных собственных значениях отдельные оси внутри соответствующего подпространства не уникальны. Углы задаются для выбранного представителя собственного вектора; проверки сравнивают спектральные равенства, ортогональность и проекторы подпространств, а не буквальное совпадение направляющих углов.
 %[text] Раздел фиксирует имманентные ограничения и области численного вырождения имитационного контура ТИС:
 %[text] 
 %[text] - При критическом сужении измерительного ракурса на удалении 450 км определитель декартовой матрицы жесткости Фишера падает в машинный ноль.

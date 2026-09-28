@@ -19,7 +19,7 @@ lambda_target   = [5.0; 6.0; 2.0];   % Трехмерный центр элли�
 lambda_observer = [6.0; 2.0; 0.5];   % Трехмерная позиция измерительного куста ТИС
 
 % 2. ТЕСТОВЫЙ ПРОГОН ИССЛЕДУЕМОГО МАТЕМАТИЧЕСКОГО ЯДРА СЕЧЕНИЯ ТИС
-[status, sigma_radial, sigma_cross1, sigma_cross2] = ll_cov2std(K_cart, lambda_target, lambda_observer);
+[status, sigma_radial, sigma_cross1, sigma_cross2] = tis_cov2std(K_cart, lambda_target, lambda_observer);
 
 if status ~= 0
     error('❌ Юнит-тест провален: Ядро сечения ТИС вернуло статус ошибки %d', status);
@@ -49,7 +49,7 @@ r_meters = norm(dr);
 u_r = dr / r_meters; % Орт 1: Направление линии визирования (ЛВ)
 
 if hypot(u_r(1), u_r(2)) > 1e-5
-    u_cross1 = [-u_r(2); u_r(1); 0]; 
+    u_cross1 = [-u_r(2); u_r(1); 0];
     u_cross1 = u_cross1 / norm(u_cross1); % Орт 2: Поперечная горизонталь
 else
     u_cross1 = [1; 0; 0];
@@ -181,12 +181,12 @@ line_los_y = [lambda_observer(2), lambda_target(2) + u_r(2)*2];
 line_los_z = [lambda_observer(3), lambda_target(3) + u_r(3)*2];
 
 plot3(line_los_x, line_los_y, line_los_z, 'm-', 'LineWidth', 1.2, 'DisplayName', 'Линия визирования (ЛВ)');
-view(3); 
-axis equal; 
+view(3);
+axis equal;
 legend('Location', 'best');
 title('Абсолютная 3D-верификация длин и точек сечения оболочки');
-xlabel('Восток (East / X), метры'); 
-ylabel('Север (North / Y), метры'); 
+xlabel('Восток (East / X), метры');
+ylabel('Север (North / Y), метры');
 zlabel('Высота (Up / Z), метры');
 % ВЫВОД ЗЕЛЕНОГО СТАТУСА ТОЛЬКО ПРИ ИСТИННОМ ПРОХОЖДЕНИИ АССЕРТОВ
 fprintf('  СТАТУС ЮНИТ-ТЕСТА: УСПЕШНО ПРОЙДЕН (SUCCESS)\n');
