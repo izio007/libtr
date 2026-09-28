@@ -12,6 +12,9 @@ file=fullfile(folder,'report.json');
 service_pipeline_write_json(file,report);
 if strcmp(request.action,'all')
     stages={'environment','unit','integration','png','documents','liveeditor'};
+elseif strcmp(request.action,'mapping')
+    stages={'mapping_unit','environment','mapping_integration','mapping_png'};
+    report.visual_review='not_requested';
 elseif strcmp(request.action,'liveeditor')
     stages={'documents','liveeditor'};
 elseif strcmp(request.action,'unit')
@@ -32,7 +35,10 @@ for k=1:numel(stages)
     clock=tic;
     log='';
     try
-        if strcmp(stages{k},'liveeditor') && ~documentsPassed
+        if strcmp(request.action,'mapping') && failed
+            item.state='blocked';
+            item.error='A prerequisite of statistical mapping failed.';
+        elseif strcmp(stages{k},'liveeditor') && ~documentsPassed
             item.state='blocked'; failed=true;
             item.error='Live Editor export not attempted: documents stage did not pass.';
         else
@@ -79,8 +85,17 @@ switch stage
         save(fullfile(folder,'engine_context.mat'),'context');
         metrics.points=context.Points;
         metrics.stations=size(context.P_max_matrix,2);
-    case 'unit'
+    case {'unit','mapping_unit'}
         tests=dir(fullfile(root,'matlabtests','unit_test_*.m'));
+        if strcmp(stage,'mapping_unit')
+            names={'unit_test_lls_position.m','unit_test_wlls_position.m', ...
+                'unit_test_gn_position.m','unit_test_gnp_position.m', ...
+                'unit_test_mock_position.m','unit_test_mock_covariance.m', ...
+                'unit_test_matmul3.m','unit_test_ensemble_metrics.m', ...
+                'unit_test_graphical_experiments.m'};
+            tests=tests(ismember({tests.name},names));
+            assert(numel(tests)==numel(names),'Missing mapping dependency tests');
+        end
         results=cell(1,numel(tests)); failures=0;
         for j=1:numel(tests)
             [~,name]=fileparts(tests(j).name);
@@ -98,6 +113,10 @@ switch stage
         service_pipeline_write_json(fullfile(folder,'unit_results.json'),results);
         assert(failures==0,'libtr:pipeline:UnitFailures','%d of %d unit tests failed',failures,numel(tests));
         metrics.total=numel(tests);
+    case 'mapping_integration'
+        metrics=test_tis_ensemble(folder);
+    case 'mapping_png'
+        metrics=generate_tis_mapping_images(folder);
     case {'integration','png'}
         if strcmp(stage,'png')
             if ~isfile(fullfile(folder,'context_30km.mat')) || ...

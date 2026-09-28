@@ -21,7 +21,7 @@ def exchange(request, port=5555, timeout=30):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['all', 'environment', 'unit', 'integration', 'png', 'documents', 'liveeditor'])
+    parser.add_argument('action', choices=['all', 'environment', 'unit', 'integration', 'png', 'documents', 'liveeditor', 'mapping'])
     parser.add_argument('--port', type=int, default=5555)
     parser.add_argument('--id', default=uuid.uuid4().hex)
     parser.add_argument('--timeout', type=float, default=600)
