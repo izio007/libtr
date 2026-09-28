@@ -10,5 +10,16 @@ x=[1 3 5;2 4 6;0 0 0]; metrics=service_ensemble_metrics(x,[0 0 0],[0;0;0]);
 assert(norm(metrics.bias-[3;4;0])<1e-12);
 assert(abs(metrics.rmse-sqrt(91/3))<1e-12);
 assert(norm(metrics.covariance-[4 4 0;4 4 0;0 0 0],'fro')<1e-12);
+prefix=service_cumulative_rmse([NaN 3 NaN 0;NaN 4 NaN 0;NaN 0 NaN 0], ...
+    [2 0 2 0],[0;0;0]);
+assert(isequal(prefix.successful,[0 1 1 2]));
+assert(isnan(prefix.rmse(1)) && prefix.rmse(2)==5 && prefix.rmse(3)==5);
+assert(abs(prefix.rmse(4)-sqrt(12.5))<1e-12);
+assert(isnan(prefix.plot_rmse(3)) && prefix.failure_fraction(4)==0.5);
+empty=service_cumulative_rmse(NaN(3,2),[2 2],[0;0;0]);
+assert(all(isnan(empty.rmse)) && all(empty.failure_fraction==1));
+invalid=service_cumulative_rmse([NaN 3;0 4;0 0],[0 0],[0;0;0]);
+assert(isequal(invalid.valid,[false true]) && invalid.rmse(2)==5);
+assert(invalid.failure_fraction(2)==0.5);
 fprintf('Graphical experiment contracts: PASS\n');
 end
