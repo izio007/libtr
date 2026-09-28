@@ -1,0 +1,145 @@
+function report = service_pipeline_run(request, folder)
+% Execute registered stages and persist failures without hiding later results.
+root=fileparts(fileparts(mfilename('fullpath')));
+previous=pwd; oldpath=path; state=rng;
+cleanup=onCleanup(@() restore(previous,oldpath,state));
+addpath(fullfile(root,'matlab'),fullfile(root,'matlabengine'),fullfile(root,'matlabtests'));
+cd(folder); rng(1729,'twister');
+report=struct('v',1,'id',request.id,'action',request.action,'state','running', ...
+    'matlab',version,'started',char(datetime('now','TimeZone','UTC')), ...
+    'stages',{{}},'visual_review','pending');
+file=fullfile(folder,'report.json');
+service_pipeline_write_json(file,report);
+if strcmp(request.action,'all')
+    stages={'environment','unit','integration','png','documents','liveeditor'};
+elseif strcmp(request.action,'liveeditor')
+    stages={'documents','liveeditor'};
+elseif strcmp(request.action,'unit')
+    stages={'environment','unit'};
+else
+    stages={request.action};
+end
+failed=false;
+documentsPassed=false;
+for k=1:numel(stages)
+    drawnow;
+    if isfile(fullfile(folder,'cancel'))
+        report.state='cancelled'; break;
+    end
+    item=struct('name',stages{k},'state','running','seconds',0,'metrics',struct(),'error','');
+    report.stages{end+1}=item;
+    service_pipeline_write_json(file,report);
+    clock=tic;
+    log='';
+    try
+        if strcmp(stages{k},'liveeditor')
+            assert(documentsPassed,'libtr:pipeline:DocumentGate', ...
+                'Live Editor export blocked: documents stage did not pass');
+        end
+        log=evalc('item.metrics=runStage(stages{k},root,folder);');
+        item.state='passed';
+        if strcmp(stages{k},'documents'), documentsPassed=true; end
+    catch exception
+        item.state='failed'; failed=true;
+        item.error=getReport(exception,'extended','hyperlinks','off');
+    end
+    item.seconds=toc(clock);
+    fid=fopen(fullfile(folder,[stages{k} '.log']),'w','n','UTF-8');
+    assert(fid~=-1,'libtr:pipeline:IO','Cannot write log');
+    fprintf(fid,'%s\n%s',log,item.error); fclose(fid);
+    report.stages{end}=item;
+    service_pipeline_write_json(file,report);
+end
+if strcmp(report.state,'running')
+    if failed, report.state='failed'; else, report.state='passed'; end
+end
+report.finished=char(datetime('now','TimeZone','UTC'));
+files=dir(fullfile(folder,'*')); files=files(~[files.isdir]);
+report.artifacts={files.name};
+service_pipeline_write_json(file,report);
+end
+
+function metrics=runStage(stage,root,folder)
+metrics=struct();
+switch stage
+    case 'documents'
+        metrics=service_validate_documents(root,folder);
+        assert(metrics.failures==0,'libtr:pipeline:Documents', ...
+            '%d documents failed; see documents_results.json',metrics.failures);
+    case 'environment'
+        service_generate_static_context;
+        context=service_init_geometry_unit;
+        assert(all(isfinite(context.alpha_noisy_matrix(:))));
+        save(fullfile(folder,'engine_context.mat'),'context');
+        metrics.points=context.Points;
+        metrics.stations=size(context.P_max_matrix,2);
+    case 'unit'
+        tests=dir(fullfile(root,'matlabtests','unit_test_*.m'));
+        results=cell(1,numel(tests)); failures=0;
+        for j=1:numel(tests)
+            [~,name]=fileparts(tests(j).name);
+            result=struct('name',name,'state','passed','error','');
+            try
+                output=evalc('feval(name);');
+            catch exception
+                output=''; result.state='failed'; failures=failures+1;
+                result.error=getReport(exception,'extended','hyperlinks','off');
+            end
+            fid=fopen(fullfile(folder,[name '.log']),'w','n','UTF-8');
+            assert(fid~=-1); fprintf(fid,'%s\n%s',output,result.error); fclose(fid);
+            results{j}=result;
+        end
+        service_pipeline_write_json(fullfile(folder,'unit_results.json'),results);
+        assert(failures==0,'libtr:pipeline:UnitFailures','%d of %d unit tests failed',failures,numel(tests));
+        metrics.total=numel(tests);
+    case {'integration','png'}
+        generate_filter2win_doc_images(folder);
+        data=load(fullfile(folder,'filter2win_doc_data.mat'));
+        assert(numel(data.t)==101 && all(diff(data.t)>0));
+        expectedMissing=data.t(:)>114 & data.t(:)<170;
+        assert(all(isnan(data.filtered(expectedMissing))), ...
+            'libtr:pipeline:Trajectory','Missing-data hold exceeded without NaN');
+        assert(all(isfinite(data.filtered(data.t(:)<30))), ...
+            'libtr:pipeline:Trajectory','Initial normal segment is not finite');
+        assert(~any(isinf(data.filtered)) && all(data.power>=0 & data.power<=20));
+        metrics.samples=numel(data.t);
+        valid=isfinite(data.filtered(:));
+        truth=data.truth(:);
+        metrics.rmse_finite=sqrt(mean((data.filtered(valid)-truth(valid)).^2));
+        metrics.finite_samples=sum(valid);
+        metrics.missing_samples=sum(~valid);
+        metrics.max_window=max(data.power);
+        metrics.seed=1729;
+        service_pipeline_write_json(fullfile(folder,'trajectory_metrics.json'),metrics);
+    case 'liveeditor'
+        sources=dir(fullfile(root,'docs','liveeditor','*_theory.m'));
+        results=cell(1,numel(sources)); failures=0;
+        for j=1:numel(sources)
+            source=fullfile(sources(j).folder,sources(j).name);
+            [~,name]=fileparts(source);
+            result=struct('name',name,'state','passed','error','');
+            try
+                issues=checkcode(source,'-id');
+                assert(isempty(issues),'libtr:pipeline:CodeAnalyzer','Code Analyzer reported %d issues',numel(issues));
+                export(source,fullfile(folder,[name '.pdf']), ...
+                    'Run',false,'HideCode',true,'OpenExportedFile',false);
+                pdf=dir(fullfile(folder,[name '.pdf'])); assert(pdf.bytes>0);
+            catch exception
+                result.state='failed'; failures=failures+1;
+                result.error=getReport(exception,'extended','hyperlinks','off');
+            end
+            results{j}=result;
+        end
+        service_pipeline_write_json(fullfile(folder,'liveeditor_results.json'),results);
+        assert(failures==0,'libtr:pipeline:LiveEditor','%d exports failed',failures);
+        metrics.exports=numel(sources);
+        metrics.executed=false;
+        metrics.visual_review='pending';
+    otherwise
+        error('libtr:pipeline:Action','Unknown stage');
+end
+end
+
+function restore(previous,oldpath,state)
+cd(previous); path(oldpath); rng(state);
+end

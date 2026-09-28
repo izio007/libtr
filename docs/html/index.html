@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>libtr — каталог математических паспортов</title>
+<style>
+body {max-width: 1100px; margin: auto; padding: 24px; line-height: 1.6; font-family: sans-serif;}
+table {border-collapse: collapse; width: 100%;} th, td {border: 1px solid #888; padding: 12px; text-align: left;}
+code {overflow-wrap: anywhere;}
+</style>
+</head>
+<body>
+<h1>libtr — каталог математических паспортов</h1>
+<p>HTML-паспорта получены из текстовых первоисточников соответствующих модулей. Изменения математического описания вносятся в исходные файлы <code>*_theory.txt</code>, затем транслируются в производные представления.</p>
+<table>
+<thead><tr><th>Модуль и паспорт</th><th>Функции ядра</th><th>Краткое описание</th></tr></thead>
+<tbody>
+<tr><td><a href="matmul3.html">matmul3</a></td><td><code>matmul3</code></td><td>Произведение трех вещественных матриц double произвольных согласованных размеров в порядке (A*B)*C, с проверками размеров и конечности.</td></tr>
+<tr><td><a href="lls.html">lls</a></td><td><code>lls_position</code>, <code>lls_covariance</code></td><td>Безитерационная линейная оценка положения методом наименьших квадратов и расчет ковариации погрешностей.</td></tr>
+<tr><td><a href="wlls.html">wlls</a></td><td><code>wlls_position</code>, <code>wlls_covariance</code></td><td>Двухшаговый взвешенный линейный метод наименьших квадратов для оценки положения и ковариации.</td></tr>
+<tr><td><a href="gn.html">gn</a></td><td><code>gn_position</code>, <code>gn_covariance</code></td><td>Нелинейная оценка положения методом Гаусса—Ньютона в декартовых координатах и расчет ковариации.</td></tr>
+<tr><td><a href="gnp.html">gnp</a></td><td><code>gnp_position</code>, <code>gnp_covariance</code></td><td>Итерационная оценка положения методом Гаусса—Ньютона в полярно-инвариантной параметризации и расчет ковариации.</td></tr>
+<tr><td><a href="filter2win.html">filter2win</a></td><td><code>filter2win</code></td><td>Двухоконный фильтр координатных аномалий для обработки одиночных выбросов, длительных смещений и пропусков измерений.</td></tr>
+<tr><td><a href="mock.html">mock</a></td><td><code>mock_position</code>, <code>mock_covariance</code></td><td>Имитационный расчет положения по идеальным углам и ковариационного репера Крамера—Рао на основе информации Фишера.</td></tr>
+</tbody>
+</table>
+</body>
+</html>

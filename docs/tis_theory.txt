@@ -74,10 +74,10 @@ $$\mathbf{X}=\mathbf{X}_c+\rho_c\cdot\mathbf{1}_c=[x_c+\rho_c\cos\alpha_c\cos\be
 
 
 ## 6. Выбор базиса векторов Якоби и ортогональный разворот луча
-Связь между дифференциалами декартовых метров земли и дифференциалами инвариантного полярного пучка \mathbf{q} определяется матрицей Якоби полярного перехода \mathbf{J}_{polar} размера 3 × 3:
+Связь между дифференциалами декартовых метров земли и дифференциалами инвариантного полярного пучка $\mathbf{q}$ определяется матрицей Якоби полярного перехода $\mathbf{J}_{polar}$ размера 3 × 3:
 $$\mathbf{J}_{polar} = \frac{\partial \mathbf{X}}{\partial \mathbf{q}} = \begin{bmatrix} \frac{\partial x}{\partial \alpha_c} & \frac{\partial x}{\partial \beta_c} & \frac{\partial x}{\partial \rho_c} \\ \frac{\partial y}{\partial \alpha_c} & \frac{\partial y}{\partial \beta_c} & \frac{\partial y}{\partial \rho_c} \\ \frac{\partial z}{\partial \alpha_c} & \frac{\partial z}{\partial \beta_c} & \frac{\partial z}{\partial \rho_c} \end{bmatrix}$$
 
-Дифференцируя уравнения обратного перехода по вектору \mathbf{q}=[\alpha_c,\beta_c,\rho_c]^T, получаем строгую аналитическую структуру Якобиана, столбцы которой образуют ортогональный визирный базис направления (Line-of-Sight, LOS) ТИС:
+Дифференцируя уравнения обратного перехода по вектору $\mathbf{q}=[\alpha_c,\beta_c,\rho_c]^T$, получаем строгую аналитическую структуру Якобиана, столбцы которой образуют ортогональный визирный базис направления (Line-of-Sight, LOS) ТИС:
 $$\mathbf{J}_{polar}=\begin{bmatrix}-\rho_c\sin\alpha_c\cos\beta_c & -\rho_c\cos\alpha_c\sin\beta_c & \cos\alpha_c\cos\beta_c \\ \rho_c\cos\alpha_c\cos\beta_c & -\rho_c\sin\alpha_c\sin\beta_c & \sin\alpha_c\cos\beta_c \\ 0 & \rho_c\cos\beta_c & \sin\beta_c\end{bmatrix}$$
 
 Инвариантный переход линеаризации МНК из декартова представления в полярную чашу осуществляется пересчетом градиентов по цепному правилу:

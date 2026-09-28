@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lls — математический паспорт</title>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},startup:{ready:()=>{MathJax.startup.defaultReady();MathJax.startup.promise.then(()=>{document.body.dataset.mathReady='true';});}}};</script>
+<script defer src="assets/tex-svg.js"></script>
+<style>body{max-width:1100px;margin:auto;padding:24px;line-height:1.6}img{max-width:100%;height:auto}table{border-collapse:collapse}td{border:1px solid #888;padding:8px}pre,.math{overflow-x:auto}p{overflow-wrap:anywhere}</style>
+</head><body><main>
+<h2>🔬 МАТЕМАТИЧЕСКИЙ ПАСПОРТ ЯДРА LLS: ПОЛНЫЙ АНАЛИТИЧЕСКИЙ ВЫВОД С НУЛЯ (lls_theory.txt)</h2>
+<p>Настоящий документ содержит исчерпывающее аналитическое описание и строгий, пошаговый вывод функциональных уравнений связи, структуры измерительной матрицы <span class="math">\(H\)</span> и вектора свободных членов <span class="math">\(\mathbf{b}\)</span> для безитерационного метода наименьших квадратов (LLS) пассивной триангуляции ТИС. Все выводы выполнены непосредственно из геометрических инвариантов правой декартовой системы координат ENU (East-North-Up) в рамках Эшелона А (Теоретический математический канон) — строго в системных единицах СИ (метры, радианы), без привлечения прикладных вычислительных констант или весовых матриц Гаусса-Маркова.</p>
+
+<h2>1. Геометрические инварианты измерительной задачи</h2>
+<p>ТИС осуществляет оценивание пространственного положения цели, находящейся в точке с истинными декартовыми координатами в локальной трехмерной прямоугольной системе ENU:</p>
+<div class="math">\[\mathbf{X}=[x,y,z]^T \in \mathbb{R}^3\]</div>
+<p>Измерительная сеть состоит из <span class="math">\(M\)</span> наземных базовых постов с известными, статичными декартовыми координатами:</p>
+<div class="math">\[\mathbf{X}_{si}=[x_{si},y_{si},z_{si}]^T,\quad i=1,\dots,M\]</div>
+<p>Для каждого поста ТИС вектор дальности (прямой визирный луч «пост <span class="math">\(\rightarrow\)</span> цель») задается пространственными приращениями в абсолютных метрах земли:</p>
+<div class="math">\[\Delta x_i = x - x_{si}, \quad \Delta y_i = y - y_{si}, \quad \Delta z_i = z - z_{si}\]</div>
+<p>Продольная дальность до цели в горизонтальной проекции <span class="math">\(XOY\)</span> и полная пространственная дальность до <span class="math">\(i\)</span>-го поста равны соответственно:</p>
+<div class="math">\[r_{xy,i}=\sqrt{\Delta x_i^2+\Delta y_i^2}, \quad r_i = \Vert\mathbf{\Delta X}_i\Vert = \sqrt{\Delta x_i^2+\Delta y_i^2+\Delta z_i^2}\]</div>
+<p>Аппаратура каждого поста ТИС измеряет угловое направление на цель (вектор пеленгации) строго от инвариантной горизонтальной оси <span class="math">\(OX\)</span> декартовой земли против движения часовой стрелки в соответствии со строгим тригонометрическим законом:</p>
+
+<p>* Азимут (<span class="math">\(\alpha_i\)</span>): угол в горизонтальной плоскости <span class="math">\(XOY\)</span> между осью <span class="math">\(OX\)</span> и проекцией визирного луча:</p>
+<div class="math">\[\alpha_i=\text{atan2}(\Delta y_i,\Delta x_i)\quad\rightarrow\quad\tan\alpha_i=\frac{\Delta y_i}{\Delta x_i} = \frac{y-y_{si}}{x-x_{si}}\]</div>
+<p>* Угол места (<span class="math">\(\beta_i\)</span>): угол в вертикальной плоскости между плоскостью <span class="math">\(XOY\)</span> и пространственным визирным лучом:</p>
+<div class="math">\[\beta_i=\text{atan2}(\Delta z_i,r_{xy,i})\quad\rightarrow\quad\tan\beta_i=\frac{\Delta z_i}{r_{xy,i}} = \frac{z-z_{si}}{r_{xy,i}}\]</div>
+
+
+<h2>2. Строгий аналитический вывод уравнений связи (Строки МНК)</h2>
+<p>Линейный безитерационный метод (LLS) требует точного преобразования нелинейных тригонометрических уравнений пеленгации к каноническому виду линейной системы нормальных уравнений:</p>
+<div class="math">\[H \cdot \mathbf{X} = \mathbf{b}\]</div>
+<h2>2.1. Аналитический вывод строки горизонтального канала (Азимут <span class="math">\(\alpha_i\)</span>)</h2>
+<p>Из определения тангенса измеряемого азимута <span class="math">\(\alpha_i\)</span> раскрываем тригонометрическую пропорцию:</p>
+<div class="math">\[\tan\alpha_i = \frac{\sin\alpha_i}{\cos\alpha_i} = \frac{y - y_{si}}{x - x_{si}}\]</div>
+<p>Раскрываем пропорцию крест-накрест, полностью избавляясь от нелинейного пространственного знаменателя в рамках единого расчетного контура:</p>
+<div class="math">\[(x - x_{si}) \cdot \sin\alpha_i = (y - y_{si}) \cdot \cos\alpha_i\]</div>
+<div class="math">\[x \cdot \sin\alpha_i - x_{si} \cdot \sin\alpha_i = y \cdot \cos\alpha_i - y_{si} \cdot \cos\alpha_i\]</div>
+<p>Группируем неизвестные декартовы координаты цели <span class="math">\((x, y)\)</span> в левой части уравнения, а известные координаты <span class="math">\(i\)</span>-го поста ТИС переносим в правую часть:</p>
+<div class="math">\[\sin\alpha_i \cdot x - \cos\alpha_i \cdot y = \sin\alpha_i \cdot x_{si} - \cos\alpha_i \cdot y_{si}\]</div>
+<p>Данное тождество определяет первую МНК-строку (азимутальную) линейного декартова оператора для <span class="math">\(i\)</span>-го поста ТИС:</p>
+<div class="math">\[H(2i-1, 1) = \sin\alpha_i\]</div>
+<div class="math">\[H(2i-1, 2) = -\cos\alpha_i\]</div>
+<div class="math">\[H(2i-1, 3) = 0\]</div>
+<div class="math">\[b(2i-1, 1) = \sin\alpha_i \cdot x_{si} - \cos\alpha_i \cdot y_{si}\]</div>
+<h2>2.2. Аналитический вывод строки вертикального канала (Угол места <span class="math">\(\beta_i\)</span>)</h2>
+<p>Из определения тангенса измеряемого угла места <span class="math">\(\beta_i\)</span> раскрываем тригонометрическую пропорцию:</p>
+<div class="math">\[\tan\beta_i = \frac{\sin\beta_i}{\cos\beta_i} = \frac{\Delta z_i}{r_{xy,i}} \quad\rightarrow\quad \Delta z_i \cdot \cos\beta_i - r_{xy,i} \cdot \sin\beta_i = 0\]</div>
+<div class="math">\[(z - z_{si}) \cdot \cos\beta_i - r_{xy,i} \cdot \sin\beta_i = 0\]</div>
+<p>Продольная горизонтальная дальность <span class="math">\(r_{xy,i}\)</span> нативно выражается через горизонтальные приращения и тригонометрические функции измерительного ракурса:</p>
+<div class="math">\[r_{xy,i} = \Delta x_i \cdot \cos\alpha_i + \Delta y_i \cdot \sin\alpha_i = (x - x_{si}) \cdot \cos\alpha_i + (y - y_{si}) \cdot \sin\alpha_i\]</div>
+<p>Подставляем полученное аналитическое выражение для <span class="math">\(r_{xy,i}\)</span> в уравнение связи угла места:</p>
+<div class="math">\[(z - z_{si}) \cdot \cos\beta_i - \left[ (x - x_{si}) \cdot \cos\alpha_i + (y - y_{si}) \cdot \sin\alpha_i \right] \cdot \sin\beta_i = 0\]</div>
+<p>Раскрываем скобки и группируем слагаемые:</p>
+<div class="math">\[z \cdot \cos\beta_i - z_{si} \cdot \cos\beta_i - x \cdot \cos\alpha_i \sin\beta_i + x_{si} \cdot \cos\alpha_i \sin\beta_i - y \cdot \sin\alpha_i \sin\beta_i + y_{si} \cdot \sin\alpha_i \sin\beta_i = 0\]</div>
+<p>Переносим неизвестные координаты цели <span class="math">\((x, y, z)\)</span> в левую часть, строго выдерживая знаки правой тройки векторов ENU:</p>
+<div class="math">\[-\cos\alpha_i \sin\beta_i \cdot x - \sin\alpha_i \sin\beta_i \cdot y + \cos\beta_i \cdot z = -\cos\alpha_i \sin\beta_i \cdot x_{si} - \sin\alpha_i \sin\beta_i \cdot y_{si} + \cos\beta_i \cdot z_{si}\]</div>
+<p>Данное тождество определяет вторую МНК-строку (угломестную) линейного декартова оператора для <span class="math">\(i\)</span>-го поста ТИС:</p>
+<div class="math">\[H(2i, 1) = -\cos\alpha_i \sin\beta_i\]</div>
+<div class="math">\[H(2i, 2) = -\sin\alpha_i \sin\beta_i\]</div>
+<div class="math">\[H(2i, 3) = \cos\beta_i\]</div>
+<div class="math">\[b(2i, 1) = -\cos\alpha_i \sin\beta_i \cdot x_{si} - \sin\alpha_i \sin\beta_i \cdot y_{si} + \cos\beta_i \cdot z_{si}\]</div>
+
+<p>3. Алгебраический оператор безитерационного оценивания (Position)</p>
+<p>В соответствии с требованиями Эшелона А, базовый измерительный контур оперирует исключительно равноточной системой сформированных линейных нормальных уравнений без весовых коэффициентов и без использования начального приближения:</p>
+<div class="math">\[(\mathbf{H}^T \mathbf{H}) \mathbf{\lambda} = \mathbf{H}^T \mathbf{b}\]</div>
+<p>Где матрица H имеет размер [2M x 3], а вектор свободных членов b — размер [2M x 1]. Прямой безитерационный расчет декартова вектора координат объекта <span class="math">\(\mathbf{\lambda} = [X; Y; Z]^T\)</span> (в метрах) выполняется в рамках единого расчетного контура методом обращения нормальной матрицы:</p>
+<div class="math">\[\mathbf{\lambda} = (\mathbf{H}^T \mathbf{H})^{-1} \mathbf{H}^T \mathbf{b}\]</div>
+<p>Проверка численного вырождения измерительной геометрии на каждом этапе осуществляется строго по машинному нулю вещественной разрядной сетки вычислителя.</p>
+
+<h2>4. ЭШЕЛОН Б. Имманентное котангенсное Bias-сжатие на траверзе</h2>
+<p>Данное каноническое линейное описание Слоя А содержит в себе скрытый, неустранимый геометрический порок, подлежащий фиксации на ЭТАПЕ I исследования:</p>
+
+<p>* Рассмотрим критический случай, когда цель находится на траверзе центра измерительной базы ТИС (<span class="math">\(x = 0\)</span>) на экстремальном удалении (<span class="math">\(y = 450\)</span> км). Реперный базовый пост расположен в начале координат плоскости (<span class="math">\(x_{si} = 0, y_{si} = 0 \rightarrow b = 0\)</span>). Истинный азимут равен <span class="math">\(\alpha_0 = 90^{\circ} = \pi/2\)</span> рад.</p>
+<p>* При наличии случайного приборного шума угловых датчиков <span class="math">\(n\)</span>, измеренный азимут равен <span class="math">\(\alpha = 90^{\circ} + n\)</span>. Подставляя данный зашумленный ракурс в первую азимутальную строку связи Слоя А, получаем:</p>
+<div class="math">\[\sin(90^{\circ} + n) \cdot x - \cos(90^{\circ} + n) \cdot y = 0\]</div>
+<p>* Используя строгие тригонометрические формулы приведения <span class="math">\(\sin(90^{\circ} + n) = \cos(n)\)</span> и <span class="math">\(\cos(90^{\circ} + n) = -\sin(n)\)</span>, линеаризованная МНК-строка принимает вид:</p>
+<div class="math">\[\cos(n) \cdot x + \sin(n) \cdot y = 0 \quad\rightarrow\quad y = -x \cdot \cot(n)\]</div>
+<p>* Поскольку приборный шум угловых датчиков ТИС <span class="math">\(n\)</span> центрирован и симметричен, математическое ожидание оценки дальности <span class="math">\(y\)</span> завязано на нелинейную функцию котангенса, которая при <span class="math">\(n \rightarrow 0\)</span> стремится к бесконечности несимметрично. Из-за нелинейного раскрыва котангенса случайное облако рассеяния линейного метода деформируется: оно катастрофически сжимается и смещается в сторону измерительной базы ТИС.</p>
+
+<p>Это порождает мощнейшую систематическую ошибку оценивания (занижения дальности), которая делает невозможным точное определение координат на дальнем рубеже и физически не позволяет линейному методу пробить котангенсное сжатие без подключения честных нелинейных итераций.</p>
+</main></body></html>

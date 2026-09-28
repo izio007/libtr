@@ -1,6 +1,6 @@
 clear; clc; close all;
 service_generate_static_context;
-test_list = {'unit_test_cov2std', 'unit_test_cov2std_3d', 'unit_test_lls_position', 'unit_test_wlls_position', 'unit_test_gn_position', 'unit_test_gnp_position'};
+test_list = {'unit_test_matmul3', 'unit_test_cov2std', 'unit_test_cov2std_3d', 'unit_test_lls_position', 'unit_test_wlls_position', 'unit_test_gn_position', 'unit_test_gnp_position'};
 report_file = 'unit_tests_report.txt';
 fid = fopen(report_file, 'w');
 if fid == -1

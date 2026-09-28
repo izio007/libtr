@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>matmul3 — математический паспорт</title>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},startup:{ready:()=>{MathJax.startup.defaultReady();MathJax.startup.promise.then(()=>{document.body.dataset.mathReady='true';});}}};</script>
+<script defer src="assets/tex-svg.js"></script>
+<style>body{max-width:1100px;margin:auto;padding:24px;line-height:1.6}img{max-width:100%;height:auto}table{border-collapse:collapse}td{border:1px solid #888;padding:8px}pre,.math{overflow-x:auto}p{overflow-wrap:anywhere}</style>
+</head><body><main>
+<h1>Математический паспорт ядра matmul3: произведение трех вещественных матриц</h1>
+
+<h2>1. Назначение и контракт</h2>
+
+<p>Сигнатура вызова: <code>[status, D] = matmul3(A, B, C)</code>. Оператор вычисляет <code>D = (A*B)*C</code> без изменения входов, глобального состояния, файловых операций, печати и генерации случайных данных.</p>
+
+<p>Входы: <span class="math">\(A\)</span> размера <span class="math">\(m \times n\)</span>, <span class="math">\(B\)</span> размера <span class="math">\(n \times p\)</span>, <span class="math">\(C\)</span> размера <span class="math">\(p \times q\)</span>. Выход: <span class="math">\(D\)</span> размера <span class="math">\(m \times q\)</span>.</p>
+
+<div class="math">\[A \in \mathbb{R}^{m \times n}, \qquad B \in \mathbb{R}^{n \times p}, \qquad C \in \mathbb{R}^{p \times q}, \qquad D=(AB)C \in \mathbb{R}^{m \times q}.\]</div>
+
+<p>Размеры <span class="math">\(m,n,p,q\)</span> произвольны, неотрицательны и ограничены только возможностями и доступной памятью MATLAB; фиксированных верхних границ нет.</p>
+
+<p>Допускаются только полные двумерные вещественные массивы <code>double</code>. Строки, столбцы и скаляры являются матрицами со строго согласованными внутренними размерами. Скалярного расширения, преобразования типов и постраничной обработки нет. Комплексные, разреженные, логические, целочисленные массивы, <code>single</code> и массивы с нетривиальными измерениями после второго отклоняются.</p>
+
+<h2>2. Математическая модель</h2>
+
+<p>Промежуточная матрица <span class="math">\(T=AB\)</span> имеет размер <span class="math">\(m \times p\)</span>. По определению матричного произведения:</p>
+
+<div class="math">\[T_{il}=\sum_{k=1}^{n}A_{ik}B_{kl}, \qquad i=1,\ldots,m, \quad l=1,\ldots,p.\]</div>
+
+<p>Второй этап вычисляет <span class="math">\(D=TC\)</span>:</p>
+
+<div class="math">\[D_{ij}=\sum_{l=1}^{p}T_{il}C_{lj}, \qquad i=1,\ldots,m, \quad j=1,\ldots,q.\]</div>
+
+<p>Подстановка первого выражения во второе дает математическую модель всего оператора:</p>
+
+<div class="math">\[D_{ij}=\sum_{l=1}^{p}\left(\sum_{k=1}^{n}A_{ik}B_{kl}\right)C_{lj}.\]</div>
+
+<p>Обратимость не требуется: нулевые, вырожденные и плохо обусловленные матрицы допустимы. Проверка <code>rcond</code> не выполняется.</p>
+
+<p>Ядро использует две базовые матричные операции: <code>T = A*B</code>, затем <code>D = T*C</code>. Порядок скобок фиксирован, автоматический выбор порядка отсутствует. В обычной плотной модели требуется <span class="math">\(mnp+mpq\)</span> скалярных умножений и <span class="math">\(mp\)</span> элементов промежуточной матрицы, дополнительно память результата и проверок конечности.</p>
+
+<h2>3. Статусы и граничные случаи</h2>
+
+<table>
+<tr><td>status</td><td>Условие</td><td>Выход D</td></tr>
+<tr><td>0</td><td>Успех</td><td>Полная вещественная double-матрица размера m × q</td></tr>
+<tr><td>1</td><td>Неподдерживаемый тип, структура или несогласованные размеры</td><td>Скалярный вещественный NaN</td></tr>
+<tr><td>2</td><td>NaN/Inf во входах, промежуточном или конечном результате</td><td>NaN(m,q)</td></tr>
+</table>
+
+<p>Приоритет проверок: типы и структура, согласование размеров, конечность всех входов, нулевые размеры, первое умножение и проверка <span class="math">\(T\)</span>, второе умножение и проверка <span class="math">\(D\)</span>. При одновременно неверных размерах и <code>NaN</code> возвращается <code>status = 1</code>.</p>
+
+<p>При численном отказе весь выход заменяется на <code>NaN(m,q)</code>, частичный результат не возвращается.</p>
+
+<p>При любой нулевой размерности и конечных входах возвращаются <code>zeros(m,q)</code> и <code>status = 0</code> без умножений. При <span class="math">\(n=0\)</span> или <span class="math">\(p=0\)</span> это соответствует нулевой сумме; при <span class="math">\(m=0\)</span> или <span class="math">\(q=0\)</span> результат пуст и сохраняет заданную форму. Все входы проверяются до этого правила, даже при пустом результате. Пустой аварийный выход <code>NaN(m,q)</code> не содержит элементов, поэтому признаком отказа служит <code>status</code>.</p>
+
+<h2>4. Численные ограничения</h2>
+
+<p>Переполнение выбранного промежуточного произведения вызывает отказ, даже если другой порядок дал бы конечный результат. Потеря точности, исчезновение малых величин и конечные ошибки округления не диагностируются. Масштабирование и регуляризация отсутствуют. Фиксация скобок не гарантирует побитового совпадения с другими реализациями и будущим C99-контуром.</p>
+
+<p>Математическая ассоциативность произведения не означает равенства результатов при разных порядках операций в арифметике с плавающей точкой. Поэтому контракт задает именно последовательность <span class="math">\((AB)C\)</span>, а не произвольную перегруппировку множителей.</p>
+
+<p>Неверное число аргументов и ошибки выделения памяти остаются исключениями MATLAB, а не кодами <code>status</code>.</p>
+
+<h2>5. Исполняемый пример</h2>
+
+<p>Перед выполнением добавьте каталог <code>f:\sy\workspace\libtr\matlab</code> в путь MATLAB. Ожидается <code>status = 0</code> и столбец <span class="math">\(D\)</span> с элементами <span class="math">\(63\)</span> и <span class="math">\(143\)</span>.</p>
+
+<pre><code>
+A = [1 2; 3 4];
+B = [5 6; 7 8];
+C = [1; 2];
+[status, D] = matmul3(A, B, C);
+assert(status == 0);
+assert(isequal(D, [63; 143]));
+</code></pre>
+
+<h2>6. Верификация</h2>
+
+<p>После добавления каталогов <code>f:\sy\workspace\libtr\matlab</code> и <code>f:\sy\workspace\libtr\matlabtests</code> в путь вызовите <code>unit_test_matmul3</code>. Тест проверяет точные примеры, прямоугольные размеры, все комбинации размеров от 0 до 2, вырожденные матрицы, ошибки типов и форм, <code>NaN</code>/<code>Inf</code>, переполнение обоих этапов, приоритет проверок, неизменность входов и состояния генератора.</p>
+
+<p>Независимый эталон для дробных данных вычисляет явную двойную сумму <code>A(i,k)*B(k,l)*C(l,j)</code>. Для каждого элемента <span class="math">\(S_{ij}\)</span> равна сумме модулей этих слагаемых:</p>
+
+<div class="math">\[S_{ij}=\sum_{k=1}^{n}\sum_{l=1}^{p}|A_{ik}B_{kl}C_{lj}|.\]</div>
+
+<p>Допуск сравнения с эталоном <span class="math">\(R\)</span> задается формулой:</p>
+
+<div class="math">\[\tau_{ij}=32\,\operatorname{eps}\,(n+p+1)\max(1,S_{ij}), \qquad |D_{ij}-R_{ij}|\leq\tau_{ij}.\]</div>
+
+<p>Здесь <code>eps</code> — шаг от 1 до следующего большего числа <code>double</code> в MATLAB. Это консервативный тестовый допуск для выбранных небольших матриц, а не универсальная гарантия точности. Дополнительно проверяется совпадение с явно левосторонним произведением.</p>
+
+<p>Тест восстанавливает состояние генератора и при исключении, не создает файлы и графики. Он включен в <code>run_all_unit_tests</code>. Общий запуск выполняется из <code>f:\sy\workspace\libtr\runtime</code> с каталогами <code>f:\sy\workspace\libtr\matlab</code>, <code>f:\sy\workspace\libtr\matlabengine</code> и <code>f:\sy\workspace\libtr\matlabtests</code> в пути: существующий runner пишет отчет и контексты в текущий каталог. Перенос в C99 не входит в Фазу 1.</p>
+</main></body></html>

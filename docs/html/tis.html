@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tis — математический паспорт</title>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},startup:{ready:()=>{MathJax.startup.defaultReady();MathJax.startup.promise.then(()=>{document.body.dataset.mathReady='true';});}}};</script>
+<script defer src="assets/tex-svg.js"></script>
+<style>body{max-width:1100px;margin:auto;padding:24px;line-height:1.6}img{max-width:100%;height:auto}table{border-collapse:collapse}td{border:1px solid #888;padding:8px}pre,.math{overflow-x:auto}p{overflow-wrap:anywhere}</style>
+</head><body><main>
+<p>расчет истинного сечения оболочки эллипсоида жесткости через инверсию матрицы Фишера inv(K_cart) выполнен безупречно. Перенос вычислений из декартовых координат земли ENU в локальное пространство луча зрения Info_los = R&#x27; * Info_cart * R исключает математический подлог «тени эллипсоида», возвращая честные СКО промаха цели, очищенные от паразитных боковых проекций.</p>
+
+<h2>🔬 МАТЕМАТИЧЕСКИЙ ПАСПОРТ ВЫЧИСЛИТЕЛЬНОГО КОНТУРА ТИС (tis_theory.txt)</h2>
+<p>Настоящий документ содержит исчерпывающее аналитическое описание, строгий вывод функциональных уравнений связи и теоретических пределов точности для триангуляционно-измерительных систем (ТИС). Описание выполнено в рамках Эшелона А (Теоретический математический канон) — строго в системных единицах СИ (метры, радианы, секунды), без привлечения прикладных вычислических констант или алгоритмических процедур спуска.</p>
+
+<h2>1. Геометрия измерительного пространства на декартовой земле</h2>
+<p>Триангуляционно-Измерительная Система (ТИС) осуществляет оценивание пространственного положения цели, находящейся в точке с истинными декартовыми координатами в локальной трехмерной прямоугольной системе ENU (East-North-Up):</p>
+<div class="math">\[\mathbf{X}=[x,y,z]^T \in \mathbb{R}^3\]</div>
+<p>Измерительная сеть состоит из <span class="math">\(M\)</span> наземных базовых постов с известными, статичными декартовыми координатами:</p>
+<div class="math">\[\mathbf{X}_{si}=[x_{si},y_{si},z_{si}]^T,\quad i=1,\dots,M\]</div>
+<p>Для каждого поста ТИС вектор геометрического смещения (визирный луч «пост <span class="math">\(\rightarrow\)</span> цель») задается разностью декартовых координат:</p>
+<div class="math">\[\mathbf{\Delta X}_i=\mathbf{X}-\mathbf{X}_{si}=[x-x_{si},y-y_{si},z-z_{si}]^T=[\Delta x_i,\Delta y_i,\Delta z_i]^T\]</div>
+<p>Продольная дальность до цели в горизонтальной проекции <span class="math">\(XOY\)</span> и полная пространственная дальность до <span class="math">\(i\)</span>-го поста равны соответственно:</p>
+<div class="math">\[r_{xy,i}=\sqrt{\Delta x_i^2+\Delta y_i^2}\]</div>
+<div class="math">\[\rho_i=\Vert\mathbf{\Delta X}_i\Vert=\sqrt{\Delta x_i^2+\Delta y_i^2+\Delta z_i^2}\]</div>
+
+<h2>2. Выбор базиса измерительных векторов и тригонометрический закон OX</h2>
+<p>Аппаратура каждого поста ТИС измеряет угловое направление на цель (вектор пеленгации) строго от инвариантной горизонтальной оси <span class="math">\(OX\)</span> декартовой земли против движения часовой стрелки (правая тройка векторов):</p>
+
+<p>   1. Азимут (<span class="math">\(\alpha_i\)</span>) — угол в плоскости <span class="math">\(XOY\)</span> между положительным направлением оси <span class="math">\(OX\)</span> и проекцией визирного луча:</p>
+<p>   <div class="math">\[\alpha_i=\text{atan2}(\Delta y_i,\Delta x_i)\quad\rightarrow\quad\tan\alpha_i=\frac{\Delta y_i}{\Delta x_i} = \frac{y-y_{si}}{x-x_{si}}\]</div> </p>
+<p>   2. Угол места (<span class="math">\(\beta_i\)</span>) — угол в вертикальной плоскости между плоскостью <span class="math">\(XOY\)</span> и пространственным визирным лучом:</p>
+<p>   <div class="math">\[\beta_i=\text{atan2}(\Delta z_i,r_{xy,i})\quad\rightarrow\quad\tan\beta_i=\frac{\Delta z_i}{r_{xy,i}} = \frac{z-z_{si}}{r_{xy,i}}\]</div> </p>
+
+<p>Единичный направляющий вектор (луч пеленгации) <span class="math">\(\mathbf{1}_i\)</span>, выходящий из <span class="math">\(i\)</span>-го поста в сторону цели, формирует строго ортонормированный угловой базис визирования:</p>
+<div class="math">\[\mathbf{1}_i=[\cos\alpha_i\cos\beta_i,\sin\alpha_i\cos\beta_i,\sin\beta_i]^T,\quad\Vert\mathbf{1}_i\Vert\equiv 1\]</div>
+
+<h2>3. Вывод функциональных уравнений связи через векторное кросс-произведение</h2>
+<p>Истинные декартовы координаты цели жестко связаны с вектором направления луча через нелинейный масштаб пространственной дальности <span class="math">\(\rho_i\)</span>:</p>
+<div class="math">\[\mathbf{X}=\mathbf{X}_{si}+\rho_i\cdot\mathbf{1}_i\]</div>
+<p>Чтобы исключить неизвестную нелинейную дальность <span class="math">\(\rho_i\)</span> без привлечения прикладных итераций и сформировать строгую замкнутую алгебраическую постановку задачи, обе части уравнения слева умножаются на кососимметрическую матрицу векторного произведения <span class="math">\([\mathbf{1}_i]_\times\)</span> луча пеленгации. Поскольку векторное произведение соосных векторов тождественно равно нулю (<span class="math">\([\mathbf{1}_i]_\times\cdot\mathbf{1}_i\equiv\mathbf{0}\)</span>), нелинейный масштаб дальности аннулируется, порождая инвариантное функциональное уравнение связи:</p>
+<div class="math">\[[ \mathbf{1}_i ]_\times \cdot \mathbf{X} = [ \mathbf{1}_i ]_\times \cdot \mathbf{X}_{si}\]</div>
+<p>Где кососимметрический оператор <span class="math">\([\mathbf{1}_i]_\times\)</span> полностью определяется компонентами единичного вектора направления:</p>
+<div class="math">\[[\mathbf{1}_i]_\times = \begin{bmatrix} 0 &amp; -\sin\beta_i &amp; \sin\alpha_i\cos\beta_i \\ \sin\beta_i &amp; 0 &amp; -\cos\alpha_i\cos\beta_i \\ -\sin\alpha_i\cos\beta_i &amp; \cos\alpha_i\cos\beta_i &amp; 0 \end{bmatrix}\]</div>
+<p>Разворачивая данное векторное произведение в декартовых осях земли и выполняя деление строк на косинус угла места <span class="math">\(\cos\beta_i\)</span> (для исключения тригонометрических сингулярностей), получаем строго выведенную измерительную систему уравнений связи:</p>
+
+<p>   1. Горизонтальное уравнение связи (Азимут):</p>
+<p>   <div class="math">\[\sin\alpha_i\cdot x-\cos\alpha_i\cdot y=\sin\alpha_i\cdot x_{si}-\cos\alpha_i\cdot y_{si}\]</div> </p>
+<p>   2. Вертикальное уравнение связи (Угол места):</p>
+<p>   <div class="math">\[-\cos\alpha_i\sin\beta_i\cdot x-\sin\alpha_i\sin\beta_i\cdot y+\cos\beta_i\cdot z=-\cos\alpha_i\sin\beta_i\cdot x_{si}-\sin\alpha_i\sin\beta_i\cdot y_{si}+\cos\beta_i\cdot z_{si}\]</div> </p>
+
+
+<h2>4. Каноническая постановка метода наименьших квадратов (МНК)</h2>
+<p>В условиях реального радиоэлектронного наблюдения точные угловые значения <span class="math">\(\alpha_i\)</span> и <span class="math">\(\beta_i\)</span> искажены аддитивным шумом измерений. Измерительная система становится избыточной и стохастической, что требует перехода к вариационной постановке.</p>
+<p>Пусть измерительный вектор истинных пеленгов <span class="math">\(\mathbf{\Psi}(\mathbf{X}) \in \mathbb{R}^{2M}\)</span> представляет собой нелинейное отображение декартова пространства в угловое поле датчиков:</p>
+<div class="math">\[\mathbf{\Psi}(\mathbf{X}) = [\alpha_{pred,1}(\mathbf{X}), \beta_{pred,1}(\mathbf{X}), \dots, \alpha_{pred,M}(\mathbf{X}), \beta_{pred,M}(\mathbf{X})]^T\]</div>
+<p>Вектор реальных зашумленных измерений ТИС имеет вид:</p>
+<div class="math">\[\mathbf{U} = [\alpha_{1}, \beta_{1}, \dots, \alpha_{M}, \beta_{M}]^T\]</div>
+<p>Каноническая нелинейная постановка МНК по критерию Гаусса-Маркова требует нахождения декартова вектора состояния <span class="math">\(\hat{\mathbf{X}}\)</span>, минимизирующего взвешенный функционал квадратов остаточных угловых невязок ТИС:</p>
+<div class="math">\[\hat{\mathbf{X}} = \arg \min_{\mathbf{X}} \Phi(\mathbf{X})\]</div>
+<div class="math">\[\Phi(\mathbf{X}) = (\mathbf{U} - \mathbf{\Psi}(\mathbf{X}))^T \cdot W \cdot (\mathbf{U} - \mathbf{\Psi}(\mathbf{X}))\]</div>
+<p>Где <span class="math">\(W \in \mathbb{R}^{2M \times 2M}\)</span> — диагональная весовая матрица, элементы которой определяются приборной точностью датчиков и имеют размерность <span class="math">\([1/\text{рад}^2]\)</span>:</p>
+<div class="math">\[W = \text{diag}\left(\frac{1}{\sigma_{\alpha 1}^2}, \frac{1}{\sigma_{\beta 1}^2}, \dots, \frac{1}{\sigma_{\alpha M}^2}, \frac{1}{\sigma_{\beta M}^2}\right)\]</div>
+<p>Линеаризация данного вариационного уравнения по методу Гаусса-Ньютона в окрестности текущего приближения <span class="math">\(\mathbf{X}^{(k)}\)</span> порождает итерационный шаг поправок <span class="math">\(\Delta \mathbf{X} = [\Delta x, \Delta y, \Delta z]^T\)</span>:</p>
+<div class="math">\[(J_{\text{cart}}^T \cdot W \cdot J_{\text{cart}}) \cdot \Delta \mathbf{X} = J_{\text{cart}}^T \cdot W \cdot (\mathbf{U} - \mathbf{\Psi}(\mathbf{X}^{(k)}))\]</div>
+<div class="math">\[\mathbf{X}^{(k+1)} = \mathbf{X}^{(k)} + \Delta \mathbf{X}\]</div>
+<p>где <span class="math">\(J_{\text{cart}} \in \mathbb{R}^{2M \times 3}\)</span> — декартова матрица Якоби (градиентное поле измерительного пространства).</p>
+
+<h2>5. Перенос постановки в инвариантный полярный базис центра тяжести</h2>
+<p>Чтобы полностью уничтожить декартово Bias-сжатие, вызванное асимметрией линейного раскрыва котангенса на дальнем рубеже, вектор состояния задачи переносится в полярный инвариантный базис относительно мгновенного центра тяжести сети активных постов задачи ТИС <span class="math">\(\mathbf{X}_c\)</span>:</p>
+<div class="math">\[\mathbf{X}_c=[x_c,y_c,z_c]^T=\begin{bmatrix}\frac{1}{M}\sum_{i=1}^{M}x_{si},&amp;\frac{1}{M}\sum_{i=1}^{M}y_{si},&amp;\frac{1}{M}\sum_{i=1}^{M}z_{si}\end{bmatrix}^T\]</div>
+<p>Локальный вектор приращений цели относительно центра тяжести равен:</p>
+<div class="math">\[\mathbf{\Delta X}_c=\mathbf{X}-\mathbf{X}_c=[x-x_c,y-y_c,z-z_c]^T=[\Delta x_c,\Delta y_c,\Delta z_c]^T\]</div>
+<p>Мы выбираем новый инвариантный вектор состояния цели <span class="math">\(\mathbf{q}\)</span> в сферической (полярной) системе координат измерительного пучка:</p>
+<div class="math">\[\mathbf{q}=[\alpha_c,\beta_c,\rho_c]^T\]</div>
+<p>Связь между декартовым пространством земли и инвариантным полярным базисом пучка задается строгими функциональными преобразованиями:</p>
+
+<p>* Прямой переход («Земля → Пучок»):</p>
+<div class="math">\[\rho_c=\Vert\mathbf{\Delta X}_c\Vert=\sqrt{\Delta x_c^2+\Delta y_c^2+\Delta z_c^2}\]</div>
+<div class="math">\[\alpha_c=\text{atan2}(\Delta y_c,\Delta x_c)\]</div>
+<div class="math">\[\beta_c=\text{atan2}(\Delta z_c,\sqrt{\Delta x_c^2+\Delta y_c^2})\]</div>
+<p>* Обратный переход («Пучок → Земля»):</p>
+<div class="math">\[\mathbf{X}=\mathbf{X}_c+\rho_c\cdot\mathbf{1}_c=[x_c+\rho_c\cos\alpha_c\cos\beta_c,\ y_c+\rho_c\sin\alpha_c\cos\beta_c,\ z_c+\rho_c\sin\beta_c]^T\]</div>
+
+
+<h2>6. Выбор базиса векторов Якоби и ортогональный разворот луча</h2>
+<p>Связь между дифференциалами декартовых метров земли и дифференциалами инвариантного полярного пучка <span class="math">\(\mathbf{q}\)</span> определяется матрицей Якоби полярного перехода <span class="math">\(\mathbf{J}_{polar}\)</span> размера 3 × 3:</p>
+<div class="math">\[\mathbf{J}_{polar} = \frac{\partial \mathbf{X}}{\partial \mathbf{q}} = \begin{bmatrix} \frac{\partial x}{\partial \alpha_c} &amp; \frac{\partial x}{\partial \beta_c} &amp; \frac{\partial x}{\partial \rho_c} \\ \frac{\partial y}{\partial \alpha_c} &amp; \frac{\partial y}{\partial \beta_c} &amp; \frac{\partial y}{\partial \rho_c} \\ \frac{\partial z}{\partial \alpha_c} &amp; \frac{\partial z}{\partial \beta_c} &amp; \frac{\partial z}{\partial \rho_c} \end{bmatrix}\]</div>
+
+<p>Дифференцируя уравнения обратного перехода по вектору <span class="math">\(\mathbf{q}=[\alpha_c,\beta_c,\rho_c]^T\)</span>, получаем строгую аналитическую структуру Якобиана, столбцы которой образуют ортогональный визирный базис направления (Line-of-Sight, LOS) ТИС:</p>
+<div class="math">\[\mathbf{J}_{polar}=\begin{bmatrix}-\rho_c\sin\alpha_c\cos\beta_c &amp; -\rho_c\cos\alpha_c\sin\beta_c &amp; \cos\alpha_c\cos\beta_c \\ \rho_c\cos\alpha_c\cos\beta_c &amp; -\rho_c\sin\alpha_c\sin\beta_c &amp; \sin\alpha_c\cos\beta_c \\ 0 &amp; \rho_c\cos\beta_c &amp; \sin\beta_c\end{bmatrix}\]</div>
+
+<p>Инвариантный переход линеаризации МНК из декартова представления в полярную чашу осуществляется пересчетом градиентов по цепному правилу:</p>
+<div class="math">\[\mathbf{J}_{\text{GNP}} = \mathbf{J}_{\text{cart}} \cdot \mathbf{J}_{polar}\]</div>
+
+<h2>7. Теоретический предел точности Рао-Крамера (CRLB)</h2>
+<p>Пусть аппаратура постов ТИС генерирует вектор случайных измерительных погрешностей (Гауссов шум угловых каналов) <span class="math">\(\mathbf{n}=[\delta\alpha_1,\delta\beta_1,\dots,\delta\alpha_M,\delta\beta_M]^T\)</span>. Математическое ожидание (первый момент) измерительного шума строго равно нулю:</p>
+<div class="math">\[M[\mathbf{n}]=\mathbf{0}\]</div>
+<p>Погрешности датчиков независимы, их паспортные дисперсии формируют приборную ковариационную матрицу погрешностей. Минимум рассеяния любой несмещенной оценки координат ТИС жестко ограничен пределом Рао-Крамера (CRLB) через второй центральный момент градиента логарифма функции правдоподобия:</p>
+<div class="math">\[D(\hat{\mathbf{X}})=M[(\hat{\mathbf{X}}-\mathbf{X}_{true})(\hat{\mathbf{X}}-\mathbf{X}_{true})^T] \ge I_{F,cart}^{-1}\]</div>
+<p>Где декартова информационная матрица Фишера <span class="math">\(I_{F,cart}\)</span> является математическим ожиданием квадрата градиента по оцениваемому декартову вектору <span class="math">\(\mathbf{X}\)</span>:</p>
+<div class="math">\[I_{F,cart}=M\left[\left(\frac{\partial \ln L}{\partial \mathbf{X}}\right)\left(\frac{\partial \ln L}{\partial \mathbf{X}}\right)^T\right]=\sum_{i=1}^{M}\left[\frac{1}{\sigma_{\alpha i}^2}\left(\frac{\partial\alpha_i}{\partial\mathbf{X}}\right)\left(\frac{\partial\alpha_i}{\partial\mathbf{X}}\right)^T+\frac{1}{\sigma_{\beta i}^2}\left(\frac{\partial\beta_i}{\partial\mathbf{X}}\right)\left(\frac{\partial\beta_i}{\partial\mathbf{X}}\right)^T\right]\]</div>
+<p>Для полярного пространства измерительного пучка ТИС взвешенная матрица Фишера трансформируется через ортогональный визирный Якобиан перехода <span class="math">\(J_{polar}\)</span>:</p>
+<div class="math">\[I_{polar}=J_{polar}^T\cdot I_{F,cart}\cdot J_{polar}\]</div>
+<p>Инвертирование данной информационной матрицы в рамках единого вычислительного пространства дает честную полярную ковариационную матрицу нижнего предела Рао-Крамера <span class="math">\(K_{polar, CRLB} = I_{polar}^{-1}\)</span>, диагональные элементы которой определяют физическое дно точности ТИС по осям Cross-track (поперечный промах), Along-track (угломестный промах) и Range (радиальный промах по дальности). Именно это бесшумное полярное распределение, пересчитанное в прямоугольные координаты земли, и извлекается в качестве абсолютного теоретического эталона для последующего анализа качества функционирования аналитических методов ТИС.</p>
+
+<h2>8. ДОПОЛНЕНИЕ: ТЕОРЕТИЧЕСКИЙ ВЫВОД ОПЕРАТОРА СЕЧЕНИЯ ЭЛЛИПСОИДА ЖЕСТКОСТИ (ll_cov2std)</h2>
+<p>Настоящий раздел формирует строгое аналитическое описание Слоя А и Слоя Б для оператора ll_cov2std, осуществляющего прецизионное извлечение полуосей пространственного сечения 3D-эллипсоида рассеяния погрешностей плоскостями визирования.</p>
+<h2>8.1. СЛОЙ А. Математический канон формирования визирного базиса</h2>
+<p>Пусть в прямоугольном декартовом пространстве локальной земли ENU задана расчетная точка центра оценивания <span class="math">\(\mathbf{X} = [x, y, z]^T\)</span> и точка расположения фазового центра (полюса) измерительной системы <span class="math">\(\mathbf{X}_0 = [x_0, y_0, z_0]^T\)</span>. Вектор пространственного удаления (визирный луч) определяется разностью координат:</p>
+<div class="math">\[\mathbf{\Delta X} = \mathbf{X} - \mathbf{X}_0 = [\Delta x, \Delta y, \Delta z]^T\]</div>
+<div class="math">\[R_0 = \Vert\mathbf{\Delta X}\Vert = \sqrt{\Delta x^2 + \Delta y^2 + \Delta z^2}\]</div>
+<p>Единичный направляющий вектор радиального направления визирования <span class="math">\(\mathbf{u}_r\)</span> (Line-of-Sight, LOS) составляет:</p>
+<div class="math">\[\mathbf{u}_r = \frac{\mathbf{\Delta X}}{R_0} = [u_{rx}, u_{ry}, u_{rz}]^T, \quad \Vert\mathbf{u}_r\Vert \equiv 1\]</div>
+<p>Для построения полного ортонормированного трехмерного базиса визирования <span class="math">\(R \in \mathbb{R}^{3 \times 3}\)</span> вычисляются два ортогональных вектора боковых смещений плоскостей визирования:</p>
+
+<p>   1. Горизонтальный ортогональный вектор промаха (<span class="math">\(\mathbf{u}_{\text{cross1}}\)</span>): лежит строго в горизонтальной плоскости <span class="math">\(XOY\)</span>, ортогонален проекции луча зрения:</p>
+<p>   <div class="math">\[\mathbf{u}_{\text{cross1}} = \frac{[-u_{ry}, \ u_{rx}, \ 0]^T}{\sqrt{u_{rx}^2 + u_{ry}^2}}\]</div> </p>
+<p>   2. Вертикальный ортогональный вектор промаха (<span class="math">\(\mathbf{u}_{\text{cross2}}\)</span>): достраивает правую тройку векторов через аналитическое векторное произведение:</p>
+<p>   <div class="math">\[\mathbf{u}_{\text{cross2}} = \mathbf{u}_r \times \mathbf{u}_{\text{cross1}}\]</div> </p>
+
+<p>Монолитный оператор ортогонального перехода из декартовой земли ENU в локальное измерительное пространство луча зрения наблюдателя ТИС принимает вид:</p>
+<div class="math">\[R = [\mathbf{u}_r, \ \mathbf{u}_{\text{cross1}}, \ \mathbf{u}_{\text{cross2}}] \in \mathbb{R}^{3 \times 3}, \quad R^T \cdot R = I\]</div>
+<h2>8.2. Алгебраический оператор сечения оболочки эллипсоида жесткости</h2>
+<p>В соответствии со стандартом оптимального оценивания, полная декартова ковариационная матрица погрешностей случайного рассеяния <span class="math">\(K_{\text{cart}} \in \mathbb{R}^{3 \times 3}\)</span> описывает форму распределения ошибок. Однако прямой линейный поворот тензора погрешностей <span class="math">\(R^T K_{\text{cart}} R\)</span> является математически дефектным для задач ТИС, так как из-за пространственных перекрестных корреляций завышает радиусы полуосей, подмешивая боковые сдвиги («тень» эллипсоида) в вектор взгляда.</p>
+<p>Для извлечения истинных радиусов пересечения осей с физической оболочкой эллипсоида, расчет переносится в пространство жесткости (информационное пространство Фишера) путем обращения декартовой ковариации:</p>
+<div class="math">\[I_{\text{F,cart}} = K_{\text{cart}}^{-1}\]</div>
+<p>Тензорный разворот информационной матрицы жесткости в локальный ортогональный базис луча зрения ТИС выполняется непрерывным преобразованием:</p>
+<div class="math">\[I_{\text{LOS}} = R^T \cdot I_{\text{F,cart}} \cdot R = \begin{bmatrix} I_{rr} &amp; I_{r1} &amp; I_{r2} \\ I_{1r} &amp; I_{11} &amp; I_{12} \\ I_{2r} &amp; I_{21} &amp; I_{22} \end{bmatrix}\]</div>
+<p>Истинные радиусы полуосей пространственного сечения оболочки 3D-эллипсоида жесткости плоскостями визирования вычисляются строго через извлечение квадратных корней из обратных диагональных элементов матрицы жесткости <span class="math">\(I_{\text{LOS}}\)</span>:</p>
+
+<p>* Истинный радиальный радиус строго вдоль 3D-луча зрения (<span class="math">\(\sigma_{\text{radial}}\)</span>):</p>
+<div class="math">\[\sigma_{\text{radial}} = \frac{1}{\sqrt{I_{\text{LOS}}(1,1)}}\]</div>
+<p>* Истинная полуось сечения в горизонтальной плоскости визирования (<span class="math">\(\sigma_{\text{cross1}}\)</span>):</p>
+<div class="math">\[\sigma_{\text{cross1}} = \frac{1}{\sqrt{I_{\text{LOS}}(2,2)}}\]</div>
+<p>* Истинная полуось сечения в вертикальной плоскости визирования (<span class="math">\(\sigma_{\text{cross2}}\)</span>):</p>
+<div class="math">\[\sigma_{\text{cross2}} = \frac{1}{\sqrt{I_{\text{LOS}}(3,3)}}\]</div>
+
+<h2>8.3. СЛОЙ Б. Имманентные ограничения и область вырождения</h2>
+<p>В соответствии с прикладной физикой ТИС, оператор сечения жесткости содержит врожденные топологические ограничения:</p>
+
+<p>* Ограничение 1 (Аппаратный вылет): Если число обусловленности декартовой ковариационной матрицы пробивает машинный ноль вещественной разрядной сетки вычислителя (<span class="math">\(\text{rcond}(K_{\text{cart}}) &lt; 2.2204\cdot10^{-16}\)</span>), декартов эллипсоид теряет ранг, превращаясь в плоский нефизический диск. Матрица жесткости <span class="math">\(I_{\text{F,cart}}\)</span> не может быть корректно вычислена ввиду деления на ноль, и оператор прекращает расчет, возвращая status = 2 и вещественные NaN по всем трем каналам.</p>
+<p>* Ограничение 2 (Зенитное исключение): В случае стремления горизонтального промаха к абсолютному нулю (<span class="math">\(r_{xy} \rightarrow 0\)</span>), направление горизонтального вектора <span class="math">\(\mathbf{u}_{\text{cross1}}\)</span> испытывает фазовый разрыв. Данный сценарий пролета строго над фазовым центром поста признан нереализуемым на практике и вписан в эксплуатационные ограничения. При <span class="math">\(r_{\text{meters}} &lt; 10^{-3}\)</span> м алгоритм фиксирует вырождение дальности луча и генерирует аналитический отмах.</p>
+</main></body></html>

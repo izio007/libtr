@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gn — математический паспорт</title>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},startup:{ready:()=>{MathJax.startup.defaultReady();MathJax.startup.promise.then(()=>{document.body.dataset.mathReady='true';});}}};</script>
+<script defer src="assets/tex-svg.js"></script>
+<style>body{max-width:1100px;margin:auto;padding:24px;line-height:1.6}img{max-width:100%;height:auto}table{border-collapse:collapse}td{border:1px solid #888;padding:8px}pre,.math{overflow-x:auto}p{overflow-wrap:anywhere}</style>
+</head><body><main>
+<h2>🔬 МАТЕМАТИЧЕСКИЙ ПАСПОРТ ЯДРА GN: ПОЛНЫЙ АНАЛИТИЧЕСКИЙ ВЫВОД С НУЛЯ (gn_theory.txt)</h2>
+<p>Настоящий документ содержит исчерпывающее аналитическое описание и строгий, пошаговый вывод нелинейных уравнений связи и структуры декартовой матрицы Якоби (<span class="math">\(J_{\text{cart}}\)</span>) для классического итерационного метода Гаусса-Ньютона (GN). Все выводы выполнены непосредственно в декартовых координатах локальной прямоугольной системы земли ENU (East-North-Up) в рамках Эшелона А (Теоретический математический канон) — строго в системных единицах СИ (метры, радианы), без привлечения прикладных масштабирующих коэффициентов, весовых матриц Гаусса-Маркова или искусственных порогов.</p>
+<h2>1. Геометрические инварианты измерительной задачи</h2>
+<p>ТИС осуществляет оценивание пространственного положения цели, находящейся в точке с истинными декартовыми координатами в локальной трехмерной прямоугольной системе ENU:</p>
+<div class="math">\[\mathbf{X}=[x,y,z]^T \in \mathbb{R}^3\]</div>
+<p>Измерительная сеть состоит из <span class="math">\(M\)</span> наземных базовых постов с известными, статичными декартовыми координатами:</p>
+<div class="math">\[\mathbf{X}_{si}=[x_{si},y_{si},z_{si}]^T,\quad i=1,\dots,M\]</div>
+<p>Для каждого поста ТИС вектор дальности (прямой визирный луч «пост <span class="math">\(\rightarrow\)</span> цель») задается пространственными приращениями в абсолютных метрах земли:</p>
+<div class="math">\[\Delta x_i = x - x_{si}, \quad \Delta y_i = y - y_{si}, \quad \Delta z_i = z - z_{si}\]</div>
+<p>Продольная дальность до цели в горизонтальной проекции <span class="math">\(XOY\)</span> и полная пространственная дальность до <span class="math">\(i\)</span>-го поста равны соответственно:</p>
+<div class="math">\[r_{xy,i}=\sqrt{\Delta x_i^2+\Delta y_i^2}, \quad r_i = \Vert\mathbf{\Delta X}_i\Vert = \sqrt{\Delta x_i^2+\Delta y_i^2+\Delta z_i^2}\]</div>
+<p>Аппаратура каждого поста ТИС измеряет угловое направление на цель (вектор пеленгации) строго от инвариантной горизонтальной оси <span class="math">\(OX\)</span> декартовой земли против движения часовой стрелки в соответствии со строгим тригонометрическим законом нелинейного отображения <span class="math">\(\mathbf{\Psi}(\mathbf{X})\)</span>:</p>
+
+<p>* Прогнозный азимут (<span class="math">\(\alpha_{pred,i}\)</span>):</p>
+<div class="math">\[\alpha_{pred,i}(\mathbf{X}) = \text{atan2}(\Delta y_i,\Delta x_i) = \text{atan2}(y - y_{si}, \ x - x_{si})\]</div>
+<p>* Прогнозный угол места (<span class="math">\(\beta_{pred,i}\)</span>):</p>
+<div class="math">\[\beta_{pred,i}(\mathbf{X}) = \text{atan2}(\Delta z_i, r_{xy,i}) = \text{atan2}\left(z - z_{si}, \ \sqrt{(x - x_{si})^2 + (y - y_{si})^2}\right)\]</div>
+
+<h2>2. Строгий аналитический вывод декартовой матрицы Якоби (<span class="math">\(J_{\text{cart}}\)</span>)</h2>
+<p>Классический нелинейный метод Гаусса-Ньютона требует вычисления частных производных измерительных функций <span class="math">\(\alpha_{pred,i}\)</span> и <span class="math">\(\beta_{pred,i}\)</span> по оцениваемому декартову вектору состояния <span class="math">\(\mathbf{X} = [x, y, z]^T\)</span>. Матрица Якоби <span class="math">\(J_{\text{cart}} \in \mathbb{R}^{2M \times 3}\)</span> формируется построчно через базовые правила дифференцирования.</p>
+<h2>2.1. Аналитический вывод строки горизонтального канала (Азимут <span class="math">\(\alpha_{pred,i}\)</span>)</h2>
+<p>Используя табличную производную функции <span class="math">\(\text{atan2}(y,x)\)</span>, где <span class="math">\(\frac{\partial \text{atan2}(y,x)}{\partial x} = -\frac{y}{x^2+y^2}\)</span> и <span class="math">\(\frac{\partial \text{atan2}(y,x)}{\partial y} = \frac{x}{x^2+y^2}\)</span>, дифференцируем по декартовым осям:</p>
+
+<p>   1. Дифференцирование по абсциссе <span class="math">\(x\)</span>:</p>
+<p>   <div class="math">\[J_{\text{cart}}(2i-1, 1) = \frac{\partial \alpha_{pred,i}}{\partial x} = -\frac{\Delta y_i}{\Delta x_i^2 + \Delta y_i^2} = -\frac{\Delta y_i}{r_{xy,i}^2} \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div> </p>
+<p>   2. Дифференцирование по ординате <span class="math">\(y\)</span>:</p>
+<p>   <div class="math">\[J_{\text{cart}}(2i-1, 2) = \frac{\partial \alpha_{pred,i}}{\partial y} = \frac{\Delta x_i}{\Delta x_i^2 + \Delta y_i^2} = \frac{\Delta x_i}{r_{xy,i}^2} \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div> </p>
+<p>   3. Дифференцирование по аппликате <span class="math">\(z\)</span>:</p>
+<p>   Поскольку функция азимута инвариантна к высоте цели:</p>
+<p>   <div class="math">\[J_{\text{cart}}(2i-1, 3) = \frac{\partial \alpha_{pred,i}}{\partial z} = 0 \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div> </p>
+
+<h2>2.2. Аналитический вывод строки вертикального канала (Угол места <span class="math">\(\beta_{pred,i}\)</span>)</h2>
+<p>Применяя дифференцирование сложной функции к <span class="math">\(\beta_{pred,i} = \text{atan2}(\Delta z_i, r_{xy,i})\)</span>, учитываем, что полная пространственная дальность <span class="math">\(r_i^2 = r_{xy,i}^2 + \Delta z_i^2\)</span>.</p>
+
+<p>   1. Дифференцирование по абсциссе <span class="math">\(x\)</span>:</p>
+<p>   <div class="math">\[J_{\text{cart}}(2i, 1) = \frac{\partial \beta_{pred,i}}{\partial x} = \frac{\partial \text{atan2}(\Delta z_i, r_{xy,i})}{\partial r_{xy,i}} \cdot \frac{\partial r_{xy,i}}{\partial x} = \left(-\frac{\Delta z_i}{r_i^2}\right) \cdot \frac{\Delta x_i}{r_{xy,i}} = -\frac{\Delta x_i \Delta z_i}{r_i^2 \cdot r_{xy,i}} \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div> </p>
+<p>   2. Дифференцирование по ординате <span class="math">\(y\)</span>:</p>
+<p>   <div class="math">\[J_{\text{cart}}(2i, 2) = \frac{\partial \beta_{pred,i}}{\partial y} = \frac{\partial \text{atan2}(\Delta z_i, r_{xy,i})}{\partial r_{xy,i}} \cdot \frac{\partial r_{xy,i}}{\partial y} = \left(-\frac{\Delta z_i}{r_i^2}\right) \cdot \frac{\Delta y_i}{r_{xy,i}} = -\frac{\Delta y_i \Delta z_i}{r_i^2 \cdot r_{xy,i}} \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div> </p>
+<p>   3. Дифференцирование по аппликате <span class="math">\(z\)</span>:</p>
+<p>   <div class="math">\[J_{\text{cart}}(2i, 3) = \frac{\partial \beta_{pred,i}}{\partial z} = \frac{r_{xy,i}}{\Delta z_i^2 + r_{xy,i}^2} = \frac{r_{xy,i}}{r_i^2} \quad \left[\frac{\text{рад}}{\text{метр}}\right]\]</div> </p>
+
+<h2>3. Алгебраический оператор нелинейного декартова оценивания (Position)</h2>
+<p>В соответствии с требованиями Эшелона А, базовый итерационный контур декартова метода минимизирует канонический функционал квадратов остаточных угловых невязок без использования искусственных масштабирующих коэффициентов шкал:</p>
+<div class="math">\[(J_{\text{cart}}^T \cdot J_{\text{cart}}) \cdot \Delta \mathbf{X} = J_{\text{cart}}^T \cdot \mathbf{residual}\]</div>
+<p>Где на каждом <span class="math">\(k\)</span>-м шаге МНК-спуска вектор угловых остаточных невязок <span class="math">\(\mathbf{residual} \in \mathbb{R}^{2M \times 1}\)</span> принудительно приводится к главному тригонометрическому интервалу <span class="math">\([-\pi; \pi]\)</span>:</p>
+<div class="math">\[\mathbf{residual} = \begin{bmatrix} \alpha_1 - \alpha_{pred,1}(\mathbf{X}^{(k)}) \\ \beta_1 - \beta_{pred,1}(\mathbf{X}^{(k)}) \\ \vdots \\ \alpha_M - \alpha_{pred,M}(\mathbf{X}^{(k)}) \\ \beta_M - \beta_{pred,M}(\mathbf{X}^{(k)}) \end{bmatrix}\]</div>
+<p>Вычисление линейного декартова вектора шага поправок <span class="math">\(\Delta \mathbf{X} = [\Delta x, \Delta y, \Delta z]^T\)</span> (в метрах) выполняется в рамках единого расчетного контура:</p>
+<div class="math">\[\Delta \mathbf{X} = (J_{\text{cart}}^T \cdot J_{\text{cart}})^{-1} \cdot J_{\text{cart}}^T \cdot \mathbf{residual}\]</div>
+<div class="math">\[\mathbf{X}^{(k+1)} = \mathbf{X}^{(k)} + \Delta \mathbf{X}\]</div>
+<p>Проверка численного вырождения измерительной геометрии на каждом расчетном такте осуществляется строго по машинному нулю вещественной разрядной сетки вычислителя: <span class="math">\(\operatorname{rcond}(J_{\text{cart}}^T J_{\text{cart}}) &lt; 2.2204\cdot10^{-16}\)</span>.</p>
+<h2>4. Алгебраический оператор оценки декартовых дисперсий (Covariance)</h2>
+<p>В соответствии со стандартом Гаусса-Маркова, теоретическая декартова ковариационная матрица погрешностей случайного рассеяния <span class="math">\(K_{\text{cart}}\)</span> (размерность <span class="math">\([\text{метр}^2]\)</span>) находится прямым инвертированием декартовой информационной матрицы Фишера, рассчитанной в финальной точке схождения градиентного спуска:</p>
+<div class="math">\[K_{\text{cart}} = \left( J_{\text{cart}}^T \cdot J_{\text{cart}} \right)^{-1} = \begin{bmatrix} \sigma_x^2 &amp; K_{xy} &amp; K_{xz} \\ K_{yx} &amp; \sigma_y^2 &amp; K_{yz} \\ K_{zx} &amp; K_{zy} &amp; \sigma_z^2 \end{bmatrix}\]</div>
+<p>Элементы по главной диагонали матрицы <span class="math">\(K_{\text{cart}}\)</span> возвращают честные среднеквадратические ошибки оценивания для экрана ТИС:</p>
+<div class="math">\[\sigma_x = \sqrt{K_{\text{cart}}(1,1)}, \quad \sigma_y = \sqrt{K_{\text{cart}}(2,2)}, \quad \sigma_z = \sqrt{K_{\text{cart}}(3,3)}\]</div>
+<h2>5. ЭШЕЛОН Б. Потеря скорости градиентного спуска в декартовом овраге</h2>
+<p>Раздел фиксирует врожденное поведение и ограничения алгоритма GN на ЭТАПЕ I исследования:</p>
+
+<p>* На экстремальном удалении объекта от базы сети (<span class="math">\(R_0 = 450\)</span> км) декартовы градиенты азимута и угла места становятся ничтожно малыми. Все элементы матрицы <span class="math">\(J_{\text{cart}}\)</span> обратно пропорциональны дальности цели (<span class="math">\(\sim 1/r_{xy,i}\)</span> или <span class="math">\(\sim 1/r_i\)</span>).</p>
+<p>* При <span class="math">\(R_0 = 450\,000\)</span> метров порядок элементов матрицы Якоби падает до нано-величин <span class="math">\(\sim 2.22 \cdot 10^{-6}\)</span> рад/м. При формировании информационной матрицы <span class="math">\(AtA = J_{\text{cart}}^T \cdot J_{\text{cart}}\)</span> ее элементы схлопываются до масштаба <span class="math">\(\sim 10^{-11} \dots 10^{-12}\)</span>.</p>
+<p>* Целевая функция МНК <span class="math">\(\Phi(\mathbf{X})\)</span> превращается в вытянутый декартов овраг с абсолютно плоским дном. Направляющая производная вдоль оси дальности цели стремится к нулю. Классический метод Гаусса-Ньютона теряет скорость спуска: вектор шага поправок <span class="math">\(\Delta \mathbf{X}\)</span> рассчитывается вычислителем в условиях ограниченной разрядной сетки с лавинообразными ошибками округления. Алгоритм совершает ложно затухающие шаги по 1–2 метра, досрочно останавливается на фланговом пологом плато задолго до достижения реального минимума измерительных невязок и фиксирует нефизическую координату (например, отметку 874 км). Декартов нелинейный овраг полностью парализует сходимость без нормировки шкал.</p>
+
+<h2>6. 📜 МЕТРОЛОГИЧЕСКАЯ ДИРЕКТИВА ДЛЯ ИИ-АГЕНТОВ ИСПОЛНИТЕЛЬНОГО СЛОЯ</h2>
+<p>Кодирующим ИИ-агентам предписывается посимвольно реализовать математические операторы gn_position.m и gn_covariance.m строго по вышеприведенным изолированным уравнениям Слоя А (в чистых декартовых метрах СИ, со сквозным приведением фазы невязок, остановом по стабилизации измерительного функционала угловых невязок и проверкой вырождения по машинному нулю вещественной разрядной сетки), зафиксировав аварийный отмах status = 2 по условию <span class="math">\(\operatorname{rcond}(J_{\text{cart}}^T J_{\text{cart}}) &lt; 2.2204\cdot10^{-16}\)</span>.</p>
+</main></body></html>
