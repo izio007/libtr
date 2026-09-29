@@ -132,8 +132,8 @@ switch stage
         metrics=generate_tis_mapping_images(folder);
     case {'integration','png'}
         if strcmp(stage,'png')
-            if ~isfile(fullfile(folder,'context_30km.mat')) || ...
-                    ~isfile(fullfile(folder,'context_450km.mat'))
+            scenarios=tis_trajectory_scenarios;
+            if ~all(cellfun(@(cfg) isfile(fullfile(folder,tis_context_filename(cfg))),scenarios))
                 service_generate_static_context;
             end
             metrics.context_images=generate_context_test_images(folder,folder);

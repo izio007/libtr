@@ -1,18 +1,14 @@
 function DataContext = service_init_geometry_criteria(contextFileName)
-% CORE ENGINE: UNIFIED DATA CONTEXT DISPATCHER (LEGACY UNIT TESTS ALIGNMENT)
-% PATH: f:\sy\workspace\libtr\matlab\service_init_geometry_criteria.m
-
-    if nargin < 1
-        contextFileName = 'context_unit_geometry.mat';
-    end
-
-    % Нативно маршрутизируем вызов в зависимости от затребованного юнит-тестами MAT-файла
-    if contains(contextFileName, '30km')
-        DataContext = service_init_geometry_30km(contextFileName);
-    elseif contains(contextFileName, '450km')
-        DataContext = service_init_geometry_450km(contextFileName);
-    else
-        % Дефолтный бесшумный верификационный полигон 5 структур для unit-тестов
-        DataContext = service_init_geometry_unit(contextFileName);
-    end
+% Dispatch by configuration schema, never by artifact name.
+if nargin<1, contextFileName='context_unit_geometry.mat'; end
+saved=load(contextFileName); names=fieldnames(saved);
+assert(numel(names)==1,'libtr:context:Schema','Expected one configuration');
+cfg=saved.(names{1});
+if isfield(cfg.Trajectory,'Points')
+    DataContext=service_init_geometry_trajectory(contextFileName);
+elseif isfield(cfg.Trajectory,'RangeSteps')
+    DataContext=service_init_geometry_unit(contextFileName);
+else
+    error('libtr:context:Schema','Unknown trajectory schema');
+end
 end

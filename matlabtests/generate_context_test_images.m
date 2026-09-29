@@ -3,10 +3,13 @@ setup_test_paths;
 % Full trajectories and central-point ensembles from saved configurations.
 state=rng; cleanup=onCleanup(@() rng(state));
 if ~isfolder(folder), mkdir(folder); end
-names={'30km','450km'}; reports={}; files={};
+scenarios=tis_trajectory_scenarios;
+names=cellfun(@(cfg) erase(erase(tis_context_filename(cfg),'context_'),'.mat'), ...
+    scenarios,'UniformOutput',false); reports={}; files={};
 for c=1:numel(names)
     input=fullfile(contextFolder,['context_' names{c} '.mat']);
-    data=load(input); cfg=data.(['cfg_' names{c}]);
+    data=load(input); fields=fieldnames(data); assert(numel(fields)==1);
+    cfg=data.(fields{1});
     counts=unique(round(logspace(log10(4),log10(124),20)));
     M=counts(cfg.Hardware.Fixed_N_Index);
     anchors=[cfg.Stations.X_anchors;cfg.Stations.Y_anchors;cfg.Stations.Z_anchors];

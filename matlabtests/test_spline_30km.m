@@ -7,7 +7,8 @@ setup_test_paths;
 clear; clc; close all;
 
 % Загрузка изолированной измерительной шины данных ближней зоны
-DataContext = service_init_geometry_30km('context_30km.mat');
+scenarios=tis_trajectory_scenarios;
+DataContext=service_init_geometry_criteria(tis_context_filename(scenarios{1}));
 
 cfg_methods   = DataContext.Methods.ActiveMethods;
 method_labels = DataContext.Methods.Labels;
