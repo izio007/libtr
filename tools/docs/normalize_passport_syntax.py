@@ -36,7 +36,7 @@ def normalize(text):
 
 
 if __name__ == '__main__':
-    for path in sorted(DOCS.glob('*_theory.txt')):
+    for path in sorted(DOCS.glob('*_theory.md')):
         original = path.read_text(encoding='utf-8-sig')
         updated = normalize(original)
         assert normalize(updated) == updated

@@ -33,7 +33,7 @@ cleanup=onCleanup(@() rmdir(folder,'s'));
 copyfile(fullfile(root,'PlainTextPrincipe.md'),folder);
 mkdir(fullfile(folder,'docs','html'));
 mkdir(fullfile(folder,'docs','liveeditor'));
-source=fullfile(folder,'docs','probe_theory.txt');
+source=fullfile(folder,'docs','probe_theory.md');
 writeText(source,'$\lambda \in A \times B$');
 writeText(fullfile(folder,'docs','html','probe.html'),'<span class="math"></span>');
 writeText(fullfile(folder,'docs','liveeditor','probe_theory.m'), ...

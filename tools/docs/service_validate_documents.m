@@ -3,13 +3,13 @@ function metrics = service_validate_documents(root, folder)
 % Read the approved profile instead of maintaining a stale duplicate.
 standard = readUtf8(fullfile(root,'PlainTextPrincipe.md'));
 [allowed, version] = service_parse_document_profile(standard);
-sources = dir(fullfile(root,'docs','*_theory.txt'));
+sources = dir(fullfile(root,'docs','*_theory.md'));
 assert(~isempty(sources),'libtr:docs:Empty','No document sources');
 results = cell(1,numel(sources));
 failures = 0;
 for k=1:numel(sources)
     source = fullfile(sources(k).folder,sources(k).name);
-    name = erase(sources(k).name,'_theory.txt');
+    name = erase(sources(k).name,'_theory.md');
     result = struct('name',name,'state','passed','errors',{{}}, ...
         'formulas',0,'png',0,'html_rendering','pending','visual_audit','pending');
     try

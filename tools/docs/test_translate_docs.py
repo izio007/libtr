@@ -25,7 +25,7 @@ class TranslationTests(unittest.TestCase):
 
     def test_generated_matrix_structure_entire_package(self):
         checked = 0
-        for source in tr.DOCS.glob('*_theory.txt'):
+        for source in tr.DOCS.glob('*_theory.md'):
             live = (tr.DOCS/'liveeditor'/f'{source.stem}.m').read_text(encoding='utf-8')
             for token in tr.TOKEN.finditer(source.read_text(encoding='utf-8-sig')):
                 if r'\begin{bmatrix}' in token[0] or r'\begin{cases}' in token[0]:
@@ -56,7 +56,7 @@ class TranslationTests(unittest.TestCase):
         self.assertIn('<code>A*B</code>', result)
 
     def test_sources_and_outputs(self):
-        for source in sorted(tr.DOCS.glob('*_theory.txt')):
+        for source in sorted(tr.DOCS.glob('*_theory.md')):
             with self.subTest(source=source.name):
                 text = source.read_text(encoding='utf-8-sig')
                 code = False
@@ -85,14 +85,14 @@ class TranslationTests(unittest.TestCase):
 
     def test_reject_pseudographics(self):
         with tempfile.TemporaryDirectory() as tmp:
-            p = Path(tmp)/'bad_theory.txt'
+            p = Path(tmp)/'bad_theory.md'
             p.write_text('25 | •••••••', encoding='utf-8')
             with self.assertRaisesRegex(ValueError, 'text drawings'):
                 tr.build(p)
 
     def test_reject_missing_image(self):
         with tempfile.TemporaryDirectory() as tmp:
-            p = Path(tmp)/'bad_theory.txt'
+            p = Path(tmp)/'bad_theory.md'
             p.write_text('[image: deliberately_absent_image.png]', encoding='utf-8')
             with self.assertRaisesRegex(ValueError, 'Missing real PNG'):
                 tr.build(p)

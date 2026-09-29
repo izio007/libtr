@@ -1,4 +1,4 @@
-"""Translate all *_theory.txt sources without editing mathematical content.
+"""Translate all *_theory.md sources without editing mathematical content.
 
 Run with Python 3. Standard library only. PNGs must be generated beforehand.
 """
@@ -163,5 +163,5 @@ def build(source):
 
 
 if __name__ == '__main__':
-    for source in sorted(DOCS.glob('*_theory.txt')):
+    for source in sorted(DOCS.glob('*_theory.md')):
         build(source)
