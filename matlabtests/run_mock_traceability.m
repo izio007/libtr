@@ -1,6 +1,6 @@
 function report = run_mock_traceability(folder)
 setup_test_paths;
-% Executable companion to def.m; no estimator implementation is duplicated.
+% Standalone mock traceability runner; no estimator implementation is duplicated.
 root=fileparts(fileparts(mfilename('fullpath')));
 if nargin==0
     folder=tempname(fullfile(root,'runtime'));
@@ -30,7 +30,7 @@ report=struct('tests',{results},'passed',all(cellfun(@(r) r.passed,results)), ..
     'complete_contract_coverage',false,'source','docs/mock_theory.txt', ...
     'limitations',{{'Status 1 and invalid-input domain are not fully specified in TXT.', ...
     'Bias evidence belongs to Monte Carlo experiments, not ideal mock.', ...
-    'Historical def.m statements are not current acceptance evidence.'}});
+    'Historical research statements are not current acceptance evidence.'}});
 % Flat covariance call, followed by a visualization of its actual eigenvectors.
 P=[-20000 20000 0 0;0 0 -20000 20000;200 200 200 200];
 truth=[0;160000;10000]; d=truth-P;

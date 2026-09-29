@@ -1,7 +1,7 @@
 # Mock traceability: current scope
 
 SSOT: docs/mock_theory.txt. No kernel or mathematical source was changed.
-def.m now calls run_mock_traceability and retains its original historical text.
+Research limitations: docs/tis_research_theory.txt. Run run_mock_traceability directly.
 Historical success claims are explicitly not current acceptance evidence.
 
 | Source | Implementation | Independent check |
@@ -31,7 +31,7 @@ assignment separately. No claim of exhaustive coverage is made.
   predicate is reciprocal condition number. Range alone is not the predicate.
 - Ideal mock does not establish noisy-estimator Bias. The existing dynamic and
   static graphical experiments are separate evidence; their numeric results
-  are not hard-coded as expected values in def.m.
+  are not hard-coded as expected values in the research overview.
 - Internal stage observability and a formula-by-formula exhaustive inventory
   remain pending. Current tests do not prove 100 percent contract coverage.
 
@@ -43,4 +43,4 @@ inputs and spectral outputs are saved in mock_traceability.mat. Each new run
 uses a new folder. The targeted validation used a clean MATLAB batch process:
 the TCP protocol has no dedicated action for this scenario. No document gate
 or Live Editor export was run. Whole-file execution/rendering of historical
-def.m has not been validated; the new companion was executed directly.
+The historical def.m was not validated; run_mock_traceability was executed directly. The research overview now resides in docs/tis_research_theory.txt.
