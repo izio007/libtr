@@ -3,7 +3,7 @@ function report = service_pipeline_run(request, folder)
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 previous=pwd; oldpath=path; state=rng;
 cleanup=onCleanup(@() restore(previous,oldpath,state));
-addpath(fullfile(root,'matlabtests'));
+addpath(fullfile(root,'matlab','tests'));
 setup_test_paths;
 cd(folder); rng(1729,'twister');
 report=struct('v',1,'id',request.id,'action',request.action,'state','running', ...
@@ -95,7 +95,7 @@ switch stage
         metrics.points=context.Points;
         metrics.stations=size(context.P_max_matrix,2);
     case {'unit','mapping_unit'}
-        tests=dir(fullfile(root,'matlabtests','unit_test_*.m'));
+        tests=dir(fullfile(root,'matlab','tests','unit_test_*.m'));
         if strcmp(stage,'mapping_unit')
             names={'unit_test_lls_position.m','unit_test_wlls_position.m', ...
                 'unit_test_gn_position.m','unit_test_gnp_position.m', ...

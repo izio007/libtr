@@ -1,9 +1,9 @@
 function unit_test_engine_isolation
 setup_test_paths;
 % Common adapter works without scenario functions on the search path.
-root=fileparts(fileparts(mfilename('fullpath')));
+root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 old=path; cleanup=onCleanup(@() path(old));
-rmpath(fullfile(root,'matlabtests'));
+rmpath(fullfile(root,'matlab','tests'));
 P=[-20000 20000 0 0;0 0 -20000 20000;200 200 200 200];
 targets=[0 0 -20000+1e-4;160000 450000 0;10000 10000 1200];
 for k=1:size(targets,2)

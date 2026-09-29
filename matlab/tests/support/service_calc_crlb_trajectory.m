@@ -1,7 +1,6 @@
 function crlb = service_calc_crlb_trajectory(DataContext, N_active)
 % COMPUTATION KERNEL: INVARIANT THEORETICAL RAO-CRAMER SECTIONS CALCULATOR
 % SYSTEM MATRIX CONTEXT: STRICT GENERAL PRINCIPLE / K_CART TO LOS COV2STD Contract
-% PATH: f:\sy\workspace\libtr\matlab\service_calc_crlb_trajectory.m
 
     Points = length(DataContext.X_true);
 

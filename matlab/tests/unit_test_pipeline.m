@@ -1,7 +1,7 @@
 function unit_test_pipeline()
 setup_test_paths;
 % Direct dispatcher regression without a second TCP server or recursion.
-root=fileparts(fileparts(mfilename('fullpath')));
+root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 folder=tempname(fullfile(root,'runtime'));
 mkdir(folder);
 cleanup=onCleanup(@() rmdir(folder,'s'));

@@ -1,7 +1,7 @@
 function unit_test_context_configuration
 % Changing a physical parameter must not require changing any dispatch names.
 setup_test_paths;
-root=fileparts(fileparts(mfilename('fullpath')));
+root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 folder=tempname(fullfile(root,'runtime')); mkdir(folder);
 cleanup=onCleanup(@() rmdir(folder,'s'));
 scenarios=tis_trajectory_scenarios;

@@ -1,6 +1,6 @@
 function unit_test_production_isolation
 % Production dependency closure must not include development infrastructure.
-root=fileparts(fileparts(mfilename('fullpath')));
+root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 old=path; cleanup=onCleanup(@() path(old));
 restoredefaultpath;
 addpath(fullfile(root,'matlab'),fullfile(root,'matlab','engine'));
@@ -10,7 +10,7 @@ for k=1:numel(files)
     file=fullfile(files(k).folder,files(k).name);
     text=fileread(file);
     assert(isempty(regexpi(text, ...
-        'matlabtests|\b(addpath|rmpath|eval|evalin|feval|str2func|fopen|fprintf|save|load|figure|randn|rng|global)\b','once')), ...
+        'matlabtests|matlab[/\\]tests|\b(addpath|rmpath|eval|evalin|feval|str2func|fopen|fprintf|save|load|figure|randn|rng|global)\b','once')), ...
         'libtr:isolation:Source','Forbidden dependency or side effect: %s',file);
     dependencies=matlab.codetools.requiredFilesAndProducts(file);
     for j=1:numel(dependencies)

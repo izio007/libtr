@@ -1,7 +1,7 @@
 function unit_test_document_profile()
 setup_test_paths;
 % Verify the approved profile and the gate without production documents.
-root=fileparts(fileparts(mfilename('fullpath')));
+root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 for file={'service_parse_document_profile.m','service_validate_documents.m'}
     issues=checkcode(fullfile(root,'tools','docs',file{1}),'-id');
     assert(isempty(issues),'Document gate Code Analyzer findings');

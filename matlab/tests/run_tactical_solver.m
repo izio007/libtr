@@ -1,7 +1,6 @@
 function SolverOut = run_tactical_solver(DataContext, N_Stations, fh_solver, fh_covariance)
 % COMPUTATION KERNEL: TACTICAL PATH EXECUTION RUNNER (STERILE INTERFACE CONTRACT)
 % SYSTEM MATRIX CONTEXT: DE CARTESIAN INVARIANT SEPARATION / PURE SHIELD CONTRACT
-% PATH: f:\sy\workspace\libtr\matlab\run_tactical_solver.m
 
     Points = length(DataContext.X_true);
     SolverOut.X_est = zeros(1, Points); SolverOut.Y_est = zeros(1, Points); SolverOut.Z_est = zeros(1, Points);

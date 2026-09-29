@@ -1,7 +1,7 @@
 function report = run_mock_traceability(folder)
 setup_test_paths;
 % Standalone mock traceability runner; no estimator implementation is duplicated.
-root=fileparts(fileparts(mfilename('fullpath')));
+root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 if nargin==0
     folder=tempname(fullfile(root,'runtime'));
 end

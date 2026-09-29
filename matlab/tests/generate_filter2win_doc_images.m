@@ -1,6 +1,6 @@
 function generate_filter2win_doc_images(out)
 % GENERATE_FILTER2WIN_DOC_IMAGES Снимки фактического исполнения filter2win.
-root = fileparts(fileparts(mfilename('fullpath')));
+root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
 if nargin == 0, out = fullfile(root, 'runtime'); end
 if ~exist(out, 'dir'), mkdir(out); end
 oldpath = path;
@@ -38,7 +38,7 @@ end
 
 function [t, truth, measured, filtered, power] = calculate(root)
 % Используется существующий расчетный сценарий, а не вручную заданный выход.
-source = fileread(fullfile(root,'matlabtests','test_twofilter.m'));
+source = fileread(fullfile(root,'matlab','tests','test_twofilter.m'));
 source = strrep(source,'clear; clc;','');
 source = strrep(source, ...
     'matplot_twofilter_screen(t_axes, X_true, X_meas, X_filtered_history, W_alt_power_history);','');
