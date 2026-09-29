@@ -5,7 +5,7 @@ assert(~isempty(v),'libtr:docs:Standard','Missing standard version');
 version=v{1};
 lines=regexp(standard,'\r\n|\n|\r','split');
 first=find(~cellfun('isempty',regexp(lines,'^\s*9\.\s+','once')));
-assert(numel(first)==1,'libtr:docs:Standard','Expected one profile item 9');
+assert(isscalar(first),'libtr:docs:Standard','Expected one profile item 9');
 last=find(~cellfun('isempty',regexp(lines,'^\s*10\.\s+','once')));
 last=last(last>first);
 assert(~isempty(last),'libtr:docs:Standard','Missing profile boundary item 10');
@@ -20,7 +20,7 @@ for k=first+1:last(1)-1
     assert(~isempty(category),'libtr:docs:Standard', ...
         'Malformed profile category on line %d',k);
     index=find(strcmp(strtrim(category{1}),expected));
-    assert(numel(index)==1,'libtr:docs:Standard', ...
+    assert(isscalar(index),'libtr:docs:Standard', ...
         'Unknown profile category on line %d',k);
     assert(~seen(index),'libtr:docs:Standard', ...
         'Duplicate profile category on line %d',k);

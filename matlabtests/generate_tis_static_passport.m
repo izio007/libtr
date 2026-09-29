@@ -1,4 +1,5 @@
 function report = generate_tis_static_passport(folder,runs,repeats,range,mode)
+setup_test_paths;
 % Heavy four-post experiment; repeated raw observations, never averaged angles.
 if nargin<2, runs=5000; end
 if nargin<3, repeats=[1 2 4 8 16 31]; end

@@ -1,4 +1,5 @@
 function report = run_mock_traceability(folder)
+setup_test_paths;
 % Executable companion to def.m; no estimator implementation is duplicated.
 root=fileparts(fileparts(mfilename('fullpath')));
 if nargin==0

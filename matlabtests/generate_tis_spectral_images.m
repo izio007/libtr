@@ -1,4 +1,5 @@
 function report=generate_tis_spectral_images(folder)
+setup_test_paths;
 % Compare saved empirical clouds and independent truth-based Fisher references.
 data=load(fullfile(folder,'tis_ensemble.mat'),'records','summary');
 methods={'lls_position','wlls_position','gn_position','gnp_position'};

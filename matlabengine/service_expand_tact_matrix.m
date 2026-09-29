@@ -1,7 +1,6 @@
 function [P_exp, V_a_exp, V_b_exp] = service_expand_tact_matrix(P_base, V_a_base, V_b_base, N_total_exp)
 % =========================================================================
 % СЛУЖЕБНАЯ ФУНКЦИЯ: ЦИКЛИЧЕСКОЕ РАСШИРЕНИЕ ИЗМЕРИТЕЛЬНЫХ МАТРИЦ ТИС
-% Path: d:\workspace\libtr\matlabtests\service_expand_tact_matrix.m
 % =========================================================================
 
 P_exp = zeros(3, N_total_exp);

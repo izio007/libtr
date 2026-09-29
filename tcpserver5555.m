@@ -2,7 +2,7 @@
 % documents checks PlainTextPrincipe before liveeditor exports.
 % JSON Lines: {"v":1,"op":"submit","id":"docs_check","action":"documents"}
 root = fileparts(mfilename('fullpath'));
-addpath(fullfile(root, 'matlabengine'));
+addpath(fullfile(root, 'tools', 'pipeline'));
 if exist('pipeline', 'var')
     pipeline.stop();
 end

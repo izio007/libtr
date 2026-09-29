@@ -1,4 +1,5 @@
 function report = generate_tis_mapping_images(folder)
+setup_test_paths;
 % Plot saved Cartesian solutions, never recompute or fabricate estimates.
 data=load(fullfile(folder,'tis_ensemble.mat'),'records','summary');
 assert(data.summary.failures==0,'libtr:mapping:Prerequisite','Integration failed');

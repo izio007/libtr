@@ -1,4 +1,5 @@
 function summary = generate_context_test_images(contextFolder,folder)
+setup_test_paths;
 % Full trajectories and central-point ensembles from saved configurations.
 state=rng; cleanup=onCleanup(@() rng(state));
 if ~isfolder(folder), mkdir(folder); end

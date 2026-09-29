@@ -1,7 +1,7 @@
 function endpoint = service_pipeline_server(port)
 % Local JSON Lines endpoint; computation is serial and cooperative.
 if nargin == 0, port = 5555; end
-root = fileparts(fileparts(mfilename('fullpath')));
+root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
 jobs = fullfile(root, 'runtime', 'pipeline');
 if ~isfolder(jobs), mkdir(jobs); end
 queue = {};

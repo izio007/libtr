@@ -1,4 +1,5 @@
 function unit_test_ensemble_metrics
+setup_test_paths;
 % Independent exact moments, failure accounting, and exception injection.
 X=[1 3 5;2 2 2;0 0 0]; truth=[1;2;0];
 m=service_ensemble_metrics(X,[0 0 0],truth);

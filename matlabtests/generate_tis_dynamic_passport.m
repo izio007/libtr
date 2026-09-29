@@ -1,4 +1,5 @@
 function report = generate_tis_dynamic_passport(contextFile,folder,runs)
+setup_test_paths;
 % Four-panel trajectory passport with independent ensembles at every cell.
 if nargin<3, runs=32; end
 validateattributes(runs,{'double'},{'scalar','integer','>=',2});

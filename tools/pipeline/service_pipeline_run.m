@@ -1,9 +1,10 @@
 function report = service_pipeline_run(request, folder)
 % Execute registered stages and persist failures without hiding later results.
-root=fileparts(fileparts(mfilename('fullpath')));
+root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 previous=pwd; oldpath=path; state=rng;
 cleanup=onCleanup(@() restore(previous,oldpath,state));
-addpath(fullfile(root,'matlab'),fullfile(root,'matlabengine'),fullfile(root,'matlabtests'));
+addpath(fullfile(root,'matlabtests'));
+setup_test_paths;
 cd(folder); rng(1729,'twister');
 report=struct('v',1,'id',request.id,'action',request.action,'state','running', ...
     'matlab',version,'started',char(datetime('now','TimeZone','UTC')), ...

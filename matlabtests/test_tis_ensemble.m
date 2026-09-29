@@ -1,4 +1,5 @@
 function summary = test_tis_ensemble(folder,N,enforceAcceptance)
+setup_test_paths;
 % Five independent geometry families, persisted evidence before acceptance.
 if nargin<2, N=64; end
 if nargin<3, enforceAcceptance=true; end

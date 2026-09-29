@@ -1,4 +1,5 @@
 function record = tis_experiment_cell(stations,truth,sigma,repeats,runs,file)
+setup_test_paths;
 % Scenario adapter: common observations, independent estimators, saved evidence.
 [P,alpha,beta,variance]=service_sample_bearings(stations,truth,sigma,repeats,runs);
 methods={'lls_position','wlls_position','gn_position','gnp_position'};

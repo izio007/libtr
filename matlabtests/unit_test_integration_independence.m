@@ -1,4 +1,5 @@
 function unit_test_integration_independence
+setup_test_paths;
 % Regression: truth is for scoring only; WLLS weights use preliminary LLS.
 P=[-5000 5000 -4000 6000;-3000 -2000 4000 5000;0 100 200 300];
 x=[1200;160000;3000]; d=x-P;

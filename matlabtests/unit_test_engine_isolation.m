@@ -1,4 +1,5 @@
 function unit_test_engine_isolation
+setup_test_paths;
 % Common adapter works without scenario functions on the search path.
 root=fileparts(fileparts(mfilename('fullpath')));
 old=path; cleanup=onCleanup(@() path(old));

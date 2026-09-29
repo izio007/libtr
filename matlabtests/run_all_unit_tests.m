@@ -1,3 +1,4 @@
+setup_test_paths;
 clear; clc; close all;
 service_generate_static_context;
 test_files=dir(fullfile(fileparts(mfilename('fullpath')),'unit_test_*.m'));

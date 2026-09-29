@@ -1,4 +1,5 @@
 function unit_test_graphical_experiments
+setup_test_paths;
 % Raw repetition layout and independent scalar checks of ensemble metrics.
 state=rng; cleanup=onCleanup(@() rng(state)); rng(17,'twister');
 P=[-20000 20000 0 0;0 0 -20000 20000;200 200 200 200]; truth=[0;160000;10000];
