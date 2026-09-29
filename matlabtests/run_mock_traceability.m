@@ -8,7 +8,7 @@ end
 assert(~isfolder(folder),'libtr:trace:Exists','Use a new output folder');
 mkdir(folder);
 previous=path; cleanup=onCleanup(@() path(previous));
-addpath(fullfile(root,'matlab'),fullfile(root,'matlabengine'));
+addpath(fullfile(root,'matlab'),fullfile(root,'matlab','engine'));
 tests={'unit_test_mock_position','unit_test_mock_covariance'};
 sections={'1.2: ray/projector equations and ideal position', ...
     '2.2, 2.3, 3: gradients, Fisher, spectrum, zenith'};

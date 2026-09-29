@@ -3,8 +3,8 @@ function unit_test_production_isolation
 root=fileparts(fileparts(mfilename('fullpath')));
 old=path; cleanup=onCleanup(@() path(old));
 restoredefaultpath;
-addpath(fullfile(root,'matlab'),fullfile(root,'matlabengine'));
-files=dir(fullfile(root,'matlabengine','*.m'));
+addpath(fullfile(root,'matlab'),fullfile(root,'matlab','engine'));
+files=dir(fullfile(root,'matlab','engine','*.m'));
 assert(~isempty(files));
 for k=1:numel(files)
     file=fullfile(files(k).folder,files(k).name);
@@ -16,8 +16,8 @@ for k=1:numel(files)
     for j=1:numel(dependencies)
         dependency=dependencies{j};
         if startsWith(dependency,[root filesep])
-            assert(startsWith(dependency,fullfile(root,'matlabengine')) || ...
-                startsWith(dependency,[fullfile(root,'matlab') filesep]), ...
+            assert(startsWith(dependency,fullfile(root,'matlab','engine')) || ...
+                strcmp(fileparts(dependency),fullfile(root,'matlab')), ...
                 'libtr:isolation:Dependency','Forbidden dependency: %s',dependency);
         end
     end
