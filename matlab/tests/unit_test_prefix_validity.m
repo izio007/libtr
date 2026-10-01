@@ -1,5 +1,24 @@
 function unit_test_prefix_validity
 setup_test_paths;
+base=[3 0;4 0;0 0]; truth=zeros(3,1);
+badInputs={{single(base),[0 0],truth}, {complex(base,ones(3,2)),[0 0],truth}, ...
+    {zeros(3,0),[],truth}, {base,[0 NaN],truth}, {base,[0 0.5],truth}, ...
+    {base,[0 0],single(truth)}, {base,[0 0],[NaN;0;0]}, ...
+    {base,[0 0],complex(truth,ones(3,1))}};
+for k=1:numel(badInputs)
+    args=badInputs{k}; caught=false;
+    try
+        service_cumulative_rmse(args{:});
+    catch e
+        caught=strcmp(e.identifier,'libtr:metrics:Input');
+    end
+    assert(caught);
+end
+row=service_cumulative_rmse(base,[0 0],truth);
+column=service_cumulative_rmse(base,[0;0],truth);
+assert(isequaln(row,column));
+missing=service_cumulative_rmse([NaN Inf 3;0 0 4;0 0 0],[0 0 0],truth);
+assert(isequal(missing.valid,logical([0 0 1])) && missing.rmse(3)==5);
 X=[3 300 0 NaN 9;4 400 0 0 0;0 0 0 0 0]; s=[0 0 0 0 2];
 p=service_cumulative_rmse(X,s,zeros(3,1),logical([1 0 1 1 1]));
 assert(isequal(p.valid,logical([1 0 1 0 0])));
@@ -36,5 +55,5 @@ for m=1:4
     end
 end
 assert(numel(report.files)==4);
-fprintf('PREFIX-VALID-001/002 PASS; %s\n',folder);
+fprintf('PREFIX-VALID-001/002/003 PASS; %s\n',folder);
 end
