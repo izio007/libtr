@@ -33,7 +33,12 @@ for m=1:4
     sd=NaN(3,numel(t)); bound=sd; spatial=NaN(size(t));
     for k=1:numel(t)
         d=load(fullfile(folder,sprintf('cell_%d_%d.mat',selected,k)),'results');
-        r=d.results{m}; valid=r.statuses==0 & all(isfinite(r.samples),1); x=r.samples(:,valid);
+        r=d.results{m}; valid=r.valid;
+        assert(islogical(valid) && isequal(size(valid),[1 size(r.samples,2)]) && ...
+            sum(valid)==r.metrics.successful && ...
+            sum(valid)==records{selected,k}.successful(m), ...
+            'libtr:experiment:Validity','Inconsistent result validity');
+        x=r.samples(:,valid);
         scatter3(ax1,x(1,:),x(2,:),x(3,:),3,'.');
         sd(:,k)=records{selected,k}.std(:,m); bound(:,k)=records{selected,k}.crlb_std;
         spatial(k)=records{selected,k}.rmse(m);

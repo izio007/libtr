@@ -1,3 +1,13 @@
+# RESULT-01: динамическое облако — 01.10.2026
+
+Коммит: «Use dynamic result validity, PASS».
+Критерий DYNAMIC-VALID-001 в matlab/tests/dynamic_rng_contract.md.
+Локальная маска заменена result.valid; добавлена сверка счётчиков перед
+отрисовкой. TCP dynamic_valid_20261001_111304 PASS на PID 28860 без перезапуска.
+Проверены все ячейки сокращённого сценария и прежняя RNG-последовательность.
+Граф runtime/traceability/graph_dynamic_valid_20261001_111304.json.
+Инъекция несогласованного MAT и полная эталонная приёмка не выполнены.
+
 # RESULT-01: накопленный RMSE — 01.10.2026
 
 Коммит: «Honor validity in prefix metrics, PASS».

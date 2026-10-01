@@ -21,11 +21,18 @@ for n=1:numel(report.counts)
         expectedA=a+d.sigma*randn(size(d.P,2),2);
         expectedB=b+d.sigma*randn(size(d.P,2),2);
         assert(isequal(d.alpha,expectedA) && isequal(d.beta,expectedB));
+        for m=1:numel(d.results)
+            r=d.results{m};
+            expected=r.statuses==0 & all(isfinite(r.samples),1) & ~r.contract_violations;
+            assert(isequal(r.valid,expected));
+            assert(sum(r.valid)==r.metrics.successful);
+            assert(sum(r.valid)==report.records{n,k}.successful(m));
+        end
     end
 end
 assert(numel(report.files)==4);
 for k=1:numel(report.files)
     image=imread(fullfile(folder,report.files{k})); assert(~isempty(image));
 end
-fprintf('DYNAMIC-RNG-001/002 PASS; %s\n',folder);
+fprintf('DYNAMIC-RNG-001/002 and DYNAMIC-VALID-001 PASS; %s\n',folder);
 end
