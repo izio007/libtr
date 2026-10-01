@@ -1,6 +1,7 @@
 function report = service_pipeline_run(request, folder)
 % Execute registered stages and persist failures without hiding later results.
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
+selected=service_pipeline_select_test(request,root);
 previous=pwd; oldpath=path; state=rng;
 cleanup=onCleanup(@() restore(previous,oldpath,state));
 addpath(fullfile(root,'matlab','tests'));
@@ -10,6 +11,11 @@ report=struct('v',1,'id',request.id,'action',request.action,'state','running', .
     'matlab',version,'started',char(datetime('now','TimeZone','UTC')), ...
     'stages',{{}},'visual_review','pending');
 file=fullfile(folder,'report.json');
+report.context_protocol=2;
+report.host_pid=feature('getpid');
+if isfield(request,'test_sha256')
+    report.test_sha256=service_pipeline_test_version(request,root);
+end
 service_pipeline_write_json(file,report);
 if strcmp(request.action,'all')
     stages={'environment','unit','integration','png','documents','liveeditor'};
@@ -22,7 +28,8 @@ elseif strcmp(request.action,'mapping5000')
 elseif strcmp(request.action,'liveeditor')
     stages={'documents','liveeditor'};
 elseif strcmp(request.action,'unit')
-    stages={'environment','unit'};
+    if isempty(selected), stages={'environment','unit'};
+    else, stages={'unit'}; end
 else
     stages={request.action};
 end
@@ -47,7 +54,7 @@ for k=1:numel(stages)
             item.state='blocked'; failed=true;
             item.error='Live Editor export not attempted: documents stage did not pass.';
         else
-            log=evalc('item.metrics=runStage(stages{k},root,folder);');
+            log=evalc('item.metrics=runStage(stages{k},root,folder,selected);');
             item.state='passed';
             if strcmp(stages{k},'ensemble5000') && item.metrics.failures>0
                 item.state='failed'; failed=true;
@@ -82,7 +89,7 @@ report.artifacts={files.name};
 service_pipeline_write_json(file,report);
 end
 
-function metrics=runStage(stage,root,folder)
+function metrics=runStage(stage,root,folder,selected)
 metrics=struct();
 switch stage
     case 'documents'
@@ -96,6 +103,10 @@ switch stage
         metrics.stations=size(context.P_max_matrix,2);
     case {'unit','mapping_unit'}
         tests=dir(fullfile(root,'matlab','tests','unit_test_*.m'));
+        if ~isempty(selected)
+            tests=tests(strcmp({tests.name},[selected '.m']));
+            assert(numel(tests)==1,'libtr:pipeline:Test','Selected test missing');
+        end
         if strcmp(stage,'mapping_unit')
             names={'unit_test_lls_position.m','unit_test_wlls_position.m', ...
                 'unit_test_gn_position.m','unit_test_gnp_position.m', ...
@@ -110,6 +121,7 @@ switch stage
             [~,name]=fileparts(tests(j).name);
             result=struct('name',name,'state','passed','error','');
             try
+                service_pipeline_reset(root);
                 output=evalc('feval(name);');
             catch exception
                 output=''; result.state='failed'; failures=failures+1;

@@ -1,7 +1,7 @@
 function record = tis_experiment_cell(stations,truth,sigma,repeats,runs,file)
 setup_test_paths;
 % Scenario adapter: common observations, independent estimators, saved evidence.
-[P,alpha,beta,variance]=service_sample_bearings(stations,truth,sigma,repeats,runs);
+[P,alpha,beta,variance]=test_sample_bearings(stations,truth,sigma,repeats,runs);
 methods={'lls_position','wlls_position','gn_position','gnp_position'};
 results=cell(1,4);
 d=truth-P;
@@ -13,7 +13,7 @@ record=struct('truth',truth,'crlb_status',crlbStatus,'crlb_std',sqrt(diag(K)), .
     'violations',zeros(1,4),'successful',zeros(1,4));
 for m=1:4
     results{m}=service_run_ensemble(str2func(methods{m}),P,alpha,beta,variance,variance,truth);
-    r=results{m}; valid=r.statuses==0 & all(isfinite(r.samples),1);
+    r=results{m}; valid=r.valid;
     record.rmse(m)=r.metrics.rmse; record.bias(:,m)=r.metrics.bias;
     record.std(:,m)=sqrt(diag(r.metrics.covariance));
     record.failure_fraction(m)=r.metrics.failure_fraction;

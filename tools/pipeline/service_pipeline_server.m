@@ -35,6 +35,8 @@ endpoint = struct('server', server, 'worker', worker, 'stop', @shutdown);
                 'libtr:pipeline:Protocol','Expected v=1 and op');
             switch request.op
                 case 'ping'
+                    reply.pid=feature('getpid');
+                    reply.context_protocol=2;
                     reply.active = active;
                     reply.queued = numel(queue);
                     reply.actions = {'all','environment','unit','integration','png','documents','liveeditor','mapping','mapping5000'};
@@ -49,10 +51,23 @@ endpoint = struct('server', server, 'worker', worker, 'stop', @shutdown);
                         assert(isfield(request,'action') && ischar(request.action) && ...
                             ismember(request.action,{'all','environment','unit','integration','png','documents','liveeditor','mapping','mapping5000'}), ...
                             'libtr:pipeline:Action','Unknown action');
+                        selected=service_pipeline_select_test(request,root);
+                        if isfield(request,'test_sha256')
+                            service_pipeline_test_version(request,root);
+                        end
                         if isfile(file)
                             saved = jsondecode(fileread(fullfile(folder,'request.json')));
                             assert(strcmp(saved.action,request.action), ...
                                 'libtr:pipeline:Conflict','Id belongs to another action');
+                            savedTest='';
+                            oldHash=''; newHash='';
+                            if isfield(saved,'test_sha256'), oldHash=saved.test_sha256; end
+                            if isfield(request,'test_sha256'), newHash=request.test_sha256; end
+                            assert(strcmp(oldHash,newHash),'libtr:pipeline:Conflict', ...
+                                'Id belongs to another test version');
+                            if isfield(saved,'test'), savedTest=saved.test; end
+                            assert(strcmp(savedTest,selected), ...
+                                'libtr:pipeline:Conflict','Id belongs to another test selection');
                         else
                             assert(numel(queue)<16,'libtr:pipeline:Busy','Queue is full');
                             mkdir(folder);
@@ -89,6 +104,10 @@ endpoint = struct('server', server, 'worker', worker, 'stop', @shutdown);
         active=request.id;
         folder=fullfile(jobs,active);
         try
+            service_pipeline_reset(root);
+            if isfield(request,'test_sha256')
+                service_pipeline_test_version(request,root);
+            end
             service_pipeline_run(request,folder);
         catch exception
             file=fullfile(folder,'report.json');

@@ -116,7 +116,7 @@ dx_axis1  = pt_axis1_vertex - lambda_target(:);
 dx_axis2  = pt_axis2_vertex - lambda_target(:);
 dx_axis3  = pt_axis3_vertex - lambda_target(:);
 
-% Вычисление квадратичных форм (каждая обязана быть побитово равна строго 1.0)
+% Квадратичные формы проверяются относительно 1.0 с абсолютным допуском tol.
 eq_radial = dx_radial' * Info_cart * dx_radial;
 eq_cross1 = dx_cross1' * Info_cart * dx_cross1;
 eq_cross2 = dx_cross2' * Info_cart * dx_cross2;
@@ -132,12 +132,9 @@ fprintf('  Форма для вершины минимальной оси:%12.10
 fprintf('  Форма для вершины средней оси:   %12.10f\n', eq_axis2);
 fprintf('  Форма для вершины максимальной оси:%12.10f\n', eq_axis3);
 
-% Жесткий допуск по машинному нулю
+% Абсолютный допуск проверки безразмерного геометрического инварианта.
 tol = 1e-10;
-if abs(eq_radial - 1.0) > tol || abs(eq_cross1 - 1.0) > tol || abs(eq_cross2 - 1.0) > tol || ...
-   abs(eq_axis1 - 1.0) > tol  || abs(eq_axis2 - 1.0) > tol  || abs(eq_axis3 - 1.0) > tol
-    error('❌ Юнит-тест провален: Квадратичная форма не равна 1.0! Точки оторвались от 3D-оболочки!');
-end
+assert_unit_quadratic_forms([eq_radial eq_cross1 eq_cross2 eq_axis1 eq_axis2 eq_axis3],tol);
 
 % 10. ГРАФИЧЕСКИЙ БЛОК: СТРОИМ ПРОСТРАНСТВЕННУЮ 3D-СЦЕНУ ENU
 [X_sph, Y_sphere, Z_sphere] = sphere(40);
@@ -195,6 +192,6 @@ if nargin>0
 end
 % ВЫВОД ЗЕЛЕНОГО СТАТУСА ТОЛЬКО ПРИ ИСТИННОМ ПРОХОЖДЕНИИ АССЕРТОВ
 fprintf('  СТАТУС ЮНИТ-ТЕСТА: УСПЕШНО ПРОЙДЕН (SUCCESS)\n');
-fprintf('  Побитовое нахождение 3D-вершин полуосей на оболочке доказано.\n');
+fprintf('  Проверка |q - 1| <= %.1e выполнена для 3D-сечений и вершин полуосей.\n', tol);
 
 end

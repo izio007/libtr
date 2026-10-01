@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "inputs": [
+    {"path": "tools/pipeline/provenance_contract.md", "role": "contract"},
+    {"path": "tools/pipeline/provenance_snapshot.py", "role": "collector"},
+    {"path": "tools/pipeline/test_provenance_snapshot.py", "role": "check"},
+    {"path": "tools/pipeline/provenance_snapshot_inputs.json", "role": "input_declaration"}
+  ]
+}

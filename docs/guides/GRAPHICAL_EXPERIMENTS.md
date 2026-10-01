@@ -72,7 +72,7 @@ Each mode produces four independent figures with three vertical panels.
 
 ## Execution and evidence
 
-Run functions with matlab/, matlabengine/, matlabtests/ on MATLAB path. Output
+Run via the existing TCP endpoint; matlab/tests/setup_test_paths.m composes the test paths. Output
 folders must be new. MAT files retain observations, estimates, statuses and
 metrics for every cell. JSON reports separate execution, contract violations,
 numerical failures and PNG counts. Failed numerical trials make the report

@@ -35,20 +35,19 @@ for c=1:numel(names)
         'cfg','P','truth','t','alpha','beta','aa','bb','variance','mid');
     for m=1:numel(cfg.Methods.Solvers)
         method=cfg.Methods.Solvers{m}; solver=str2func(method);
-        trajectory=NaN(size(truth)); statuses=NaN(size(t));
-        for k=1:numel(t)
-            [statuses(k),trajectory(:,k)]=solver(P,alpha(:,k),beta(:,k),variance,variance);
-        end
+        pathResult=service_run_path(solver,t,P,alpha,beta,variance,variance,truth);
+        trajectory=pathResult.samples; statuses=pathResult.statuses;
         ensemble=service_run_ensemble(solver,P,aa,bb,variance,variance,truth(:,mid));
         [mockStatus,mock]=mock_position(P,a(:,mid),b(:,mid),variance,variance);
         report=struct('context',names{c},'method',method,'samples',N, ...
-            'trajectory_failures',sum(statuses~=0 | any(~isfinite(trajectory),1)), ...
+            'trajectory_failures',sum(~pathResult.valid), ...
             'metrics',ensemble.metrics,'mock_status',mockStatus, ...
             'mock_delta',norm(mock-truth(:,mid)));
         report.passed=report.trajectory_failures==0 && ...
+            ~any(pathResult.contract_violations) && ...
             ensemble.metrics.failure_fraction==0 && ~any(ensemble.contract_violations) && mockStatus==0;
         stem=['context_' names{c} '_' method];
-        save(fullfile(folder,[stem '.mat']),'trajectory','statuses','ensemble','report');
+        save(fullfile(folder,[stem '.mat']),'trajectory','statuses','ensemble','report','pathResult');
         fig=figure('Visible','off','Position',[100 100 1200 850]);
         closer=onCleanup(@() close(fig)); tiledlayout(fig,2,2);
         nexttile; plot3(truth(1,:),truth(2,:),truth(3,:),'k-', ...
@@ -58,7 +57,7 @@ for c=1:numel(names)
         nexttile; plot(t,sqrt(sum((trajectory-truth).^2,1)));
         grid on; xlabel('Normalized trajectory time'); ylabel('Single-sample error (m)');
         title(sprintf('Trajectory failures: %d',report.trajectory_failures));
-        nexttile; cloud=ensemble.samples-truth(:,mid);
+        nexttile; cloud=ensemble.samples(:,ensemble.valid)-truth(:,mid);
         scatter3(cloud(1,:),cloud(2,:),cloud(3,:),4,'.'); hold on;
         mu=ensemble.metrics.bias; plot3(mu(1),mu(2),mu(3),'rx','MarkerSize',12);
         grid on; axis equal; xlabel('East error (m)'); ylabel('North error (m)'); zlabel('Up error (m)');

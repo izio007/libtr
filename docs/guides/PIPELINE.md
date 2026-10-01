@@ -4,9 +4,12 @@ All repository paths below are relative to the repository root.
 
 ## Launch and scope
 
-Run `tcpserver5555` from the repository root in MATLAB. The script derives all
-paths from its own location. The endpoint listens only on 127.0.0.1:5555.
-Stop it with `pipeline.stop()`. Do not stop/restart while a job is executing.
+Run `tools/matlab/tcpserver5555.m` once in a dedicated MATLAB process after
+checking the existing endpoint and queue. It derives paths from its location.
+The endpoint listens only on 127.0.0.1:5555. Normal tests reuse this process.
+For a planned idle shutdown, create `runtime/pipeline/stop-server`, wait for
+the owned host to exit, then remove the marker before a new start.
+Do not stop/restart while a job is executing or queued.
 Only one pipeline server may own the runtime job directory in production.
 
 This is a serial, cooperative MATLAB timer queue, not a separate worker process.
@@ -22,7 +25,7 @@ The legacy raw MATLAB-code protocol is intentionally removed: no network eval.
 
 ```json
 {"v":1,"op":"ping"}
-{"v":1,"op":"submit","id":"review_001","action":"all"}
+{"v":1,"op":"submit","id":"review_001","action":"unit","test":"unit_test_matmul3"}
 {"v":1,"op":"status","id":"review_001"}
 {"v":1,"op":"cancel","id":"review_001"}
 ```
@@ -43,7 +46,7 @@ Cancellation of an already terminal job does not change its outcome.
 `all` runs all five stages even if a prior stage fails, recording every failure.
 `unit` automatically initializes environment first. Environment writes static
 contexts in the job directory and initializes the existing unit geometry engine.
-Unit discovery uses matlabtests/unit_test_*.m; every test gets a separate log
+Unit discovery uses matlab/tests/unit_test_*.m; every test gets a separate log
 and result. Existing missing dependencies remain failures, not skips.
 
 Integration currently registers the deterministic filter2win trajectory with
@@ -81,10 +84,10 @@ changing already published documentation. Review generated PDFs separately.
 
 ## Client
 
-matlabtests/pipeline_client.py uses Python standard library only. Example:
+tools/pipeline/pipeline_client.py uses Python standard library only. Example:
 
 ```text
-python matlabtests/pipeline_client.py all --id review_001 --timeout 600
+python tools/pipeline/pipeline_client.py unit --test unit_test_matmul3 --test-sha256 current --id review_001 --timeout 600
 ```
 
 Exit status is zero only for passed. Timeout/disconnect does not cancel the

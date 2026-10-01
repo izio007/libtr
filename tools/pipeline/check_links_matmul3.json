@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {"name": "unit_test_matmul3", "criterion": "MATMUL3-VERIFY-001", "definition": "docs/matmul3_theory.md", "source": "matlab/tests/unit_test_matmul3.m"}
+  ]
+}

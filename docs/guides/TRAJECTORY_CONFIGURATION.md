@@ -1,7 +1,7 @@
 # Единая конфигурация траекторных сценариев
 
 Параметры ближнего и дальнего интеграционных сценариев определяются в
-`matlabtests/tis_trajectory_scenarios.m`. Для изменения рубежа меняется только
+`matlab/tests/tis_trajectory_scenarios.m`. Для изменения рубежа меняется только
 `near.Trajectory.Y_center_true` либо `far.Trajectory.Y_center_true` (метры).
 Остальные параметры сценария при этом остаются прежними.
 

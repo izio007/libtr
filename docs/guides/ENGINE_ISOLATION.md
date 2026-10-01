@@ -1,3 +1,5 @@
+> Исторический отчёт: размещение на момент прежнего этапа. Не инструкция запуска. Текущие пути — PRODUCTION_SERVICE_LAYOUT.md и .clinerules.
+
 # Engine isolation audit
 
 Common numerical services must not select a scenario by name, distance or test

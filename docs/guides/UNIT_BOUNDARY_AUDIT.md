@@ -2,7 +2,7 @@
 
 ## Проверенный промежуточный объем
 
-`matlabtests/unit_test_covariance_boundaries.m` вызывается без движка и сценарных
+`matlab/tests/unit_test_covariance_boundaries.m` вызывается без движка и сценарных
 контекстов. Общий обнаружитель `unit_test_*.m` включает его автоматически.
 
 - Пять ковариационных интерфейсов LLS/WLLS/GN/GNP/mock: недостаток постов

@@ -22,8 +22,9 @@ Existing tis_geometry_N.png figures additionally show error clouds and axes.
 Validation: runtime/pipeline/mapping_recovery_01/report.json records four passed
 stages, nine passed unit tests and zero failures across 64 ensemble cases.
 The test used a clean TCP worker on port 5556; the existing worker on 5555 was
-not terminated. Restart tcpserver5555.m normally to activate the new action on
-5555. A pending visual document audit is unrelated to numerical completion;
+not terminated. This describes a historical run, not a current restart instruction.
+Current startup and context refresh are documented in PIPELINE.md.
+A pending visual document audit is unrelated to numerical completion;
 this action reports visual_review=not_requested, not approved.
 
 The environment stage saves standard contexts; the integration stage uses its

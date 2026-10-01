@@ -1,14 +1,13 @@
 function report = run_mock_traceability(folder)
-setup_test_paths;
 % Standalone mock traceability runner; no estimator implementation is duplicated.
+previous=path; cleanup=onCleanup(@() path(previous));
+setup_test_paths;
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 if nargin==0
     folder=tempname(fullfile(root,'runtime'));
 end
 assert(~isfolder(folder),'libtr:trace:Exists','Use a new output folder');
 mkdir(folder);
-previous=path; cleanup=onCleanup(@() path(previous));
-addpath(fullfile(root,'matlab'),fullfile(root,'matlab','engine'));
 tests={'unit_test_mock_position','unit_test_mock_covariance'};
 sections={'1.2: ray/projector equations and ideal position', ...
     '2.2, 2.3, 3: gradients, Fisher, spectrum, zenith'};

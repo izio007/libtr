@@ -6,9 +6,10 @@ if ~exist(out, 'dir'), mkdir(out); end
 oldpath = path;
 state = rng;
 cleanup = onCleanup(@() restore(oldpath, state));
-addpath(fullfile(root,'matlab'));
+addpath(fullfile(root,'matlab','function'), ...
+    fullfile(root,'matlab','tests','support'));
 rng(1729, 'twister');
-[t, truth, measured, filtered, power] = calculate(root);
+[t, truth, measured, filtered, power] = filter2win_scenario;
 save(fullfile(out,'filter2win_doc_data.mat'), ...
     't','truth','measured','filtered','power');
 f = figure('Visible','off','Color','w','Position',[100 100 1100 550]);
@@ -34,20 +35,6 @@ fileCleanup = onCleanup(@() fclose(fid));
 fprintf(fid,'seed=1729\nsamples=%d\nfinite_output=%d\nmax_window=%g\n', ...
     numel(t),sum(isfinite(filtered)),max(power));
 fprintf('filter2win PNG snapshots: SUCCESS\n');
-end
-
-function [t, truth, measured, filtered, power] = calculate(root)
-% Используется существующий расчетный сценарий, а не вручную заданный выход.
-source = fileread(fullfile(root,'matlab','tests','test_twofilter.m'));
-source = strrep(source,'clear; clc;','');
-source = strrep(source, ...
-    'matplot_twofilter_screen(t_axes, X_true, X_meas, X_filtered_history, W_alt_power_history);','');
-eval(source);
-t = t_axes;
-truth = X_true;
-measured = X_meas;
-filtered = X_filtered_history;
-power = W_alt_power_history;
 end
 
 function restore(oldpath, state)

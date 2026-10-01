@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "check_mapping": "tools/pipeline/check_links_matmul3.json",
+  "inputs": [
+    {"path": "tools/pipeline/service_pipeline_reset.m", "role": "context_reset"},
+    {"path": "tools/pipeline/service_pipeline_host.m", "role": "host"},
+    {"path": "tools/pipeline/check_mapping.py", "role": "mapping_validator"},
+    {"path": "tools/pipeline/check_preflight.py", "role": "preflight"},
+    {"path": "docs/matmul3_theory.md", "role": "criterion_definition"},
+    {"path": "tools/pipeline/check_links_matmul3.json", "role": "criterion_mapping"},
+    {"path": "tools/pipeline/artifact_registry.py", "role": "artifact_collector"},
+    {"path": "tools/pipeline/traceability_builder.py", "role": "artifact_publisher"},
+    {"path": "matlab/function/matmul3.m", "role": "kernel"},
+    {"path": "matlab/tests/unit_test_matmul3.m", "role": "check"},
+    {"path": "matlab/tests/setup_test_paths.m", "role": "path_setup"},
+    {"path": "tools/pipeline/service_pipeline_server.m", "role": "server"},
+    {"path": "tools/pipeline/service_pipeline_run.m", "role": "dispatcher"},
+    {"path": "tools/pipeline/pipeline_client.py", "role": "client"},
+    {"path": "tools/pipeline/provenance_attempt.py", "role": "collector"},
+    {"path": "tools/pipeline/provenance_snapshot.py", "role": "collector"},
+    {"path": "tools/pipeline/provenance_contract.md", "role": "collector_contract"}
+  ]
+}
