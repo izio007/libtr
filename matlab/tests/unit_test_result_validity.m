@@ -54,6 +54,14 @@ for k=1:numel(models)
     bad=m; bad.result.samples=single(bad.result.samples); rejects(bad);
     bad=m; bad.result.samples=complex(bad.result.samples,ones(size(bad.result.samples))); rejects(bad);
     bad=m; bad.result.errors=bad.result.errors.'; rejects(bad);
+    for value={42,zeros(0,2),struct(),{'nested'},string('text'),char('ab','cd'),repmat('a',0,2)}
+        bad=m; bad.result.errors{1}=value{1}; rejects(bad);
+    end
+    diagnostic=m;
+    diagnostic.result.errors={repmat('a',1,0),sprintf('Диагностика\nSecond line')};
+    checked=test_model_result(diagnostic);
+    assert(isequal(checked.errors,diagnostic.result.errors));
+    assert(isequal(checked.valid,[true false]));
     r=test_model_result(m);
     assert(isequal(r.valid,[true false]) && r.metrics.successful==1);
     assert(r.metrics.failure_fraction==0.5 && abs(r.metrics.rmse-sqrt(rows))<1e-14);
