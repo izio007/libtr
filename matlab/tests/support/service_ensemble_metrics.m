@@ -1,8 +1,14 @@
 function metrics = service_ensemble_metrics(samples, statuses, truth)
 % Conditional ensemble statistics; see docs/guides/ENSEMBLE_VALIDATION.md.
-assert(isa(samples,'double') && isreal(samples) && size(samples,1)==3);
-assert(isequal(size(truth),[3 1]) && all(isfinite(truth)));
-assert(numel(statuses)==size(samples,2) && ~isempty(statuses));
+id='libtr:metrics:EnsembleInput';
+assert(isa(samples,'double') && isreal(samples) && ismatrix(samples) && ...
+    size(samples,1)==3 && size(samples,2)>0,id,'Expected real double 3-by-N samples');
+assert(isa(truth,'double') && isreal(truth) && ...
+    isequal(size(truth),[3 1]) && all(isfinite(truth)),id,'Invalid truth');
+assert(isnumeric(statuses) && isreal(statuses) && isvector(statuses) && ...
+    numel(statuses)==size(samples,2),id,'Expected one status per sample');
+assert(all(isnan(statuses(:)) | (isfinite(statuses(:)) & ...
+    statuses(:)==fix(statuses(:)))),id,'Expected integer status or NaN exclusion');
 valid=statuses(:).'==0 & all(isfinite(samples),1);
 metrics.total=size(samples,2);
 metrics.successful=sum(valid);
