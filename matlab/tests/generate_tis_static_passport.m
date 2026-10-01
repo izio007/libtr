@@ -33,7 +33,7 @@ for m=1:4
     rmse=NaN(size(repeats)); failures=0;
     for k=1:numel(repeats)
         data=load(fullfile(folder,sprintf('repeat_%d.mat',repeats(k))),'results');
-        r=data.results{m}; valid=r.statuses==0 & all(isfinite(r.samples),1);
+        r=data.results{m}; valid=r.valid;
         x=r.samples(:,valid); failures=failures+runs-sum(valid);
         label=sprintf('k=%d (%d/%d)',repeats(k),sum(valid),runs);
         scatter3(ax1,x(1,:),x(2,:),x(3,:),3,'.','DisplayName',label);
@@ -56,7 +56,7 @@ for m=1:4
         plot(ax2,repeats,reference,'--','Color',[0.65 0.65 0.65],'DisplayName','CRLB reference');
         set(ax2,'XScale','log'); xlabel(ax2,'$N_{\mathrm{accum}}$','Interpreter','latex');
     else
-        prefix=service_cumulative_rmse(r.samples,r.statuses,truth);
+        prefix=service_cumulative_rmse(r.samples,r.statuses,truth,r.valid);
         plot(ax2,prefix.K,prefix.plot_rmse,'LineWidth',1.5,'DisplayName','Conditional RMSE');
         xlabel(ax2,'$K$','Interpreter','latex');
         save(fullfile(folder,['prefix_' methods{m} '.mat']),'prefix');

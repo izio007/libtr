@@ -136,6 +136,13 @@ gnp_theory.m, gn_theory.m, filter2win_theory.m и filter2win_theory.pdf.
   зависимости; исторические отчёты не меняются, неизвестное влияние видно.
 
 ### RESULT-01. Потребители результатов движка
+- [x] Статический сценарий: облако, счётчик и накопленный RMSE используют valid.
+  service_cumulative_rmse принимает дополнительную логическую маску допуска;
+  прежние три аргумента сохранены. PREFIX-VALID-001/002 PASS через TCP
+  prefix_valid_20261001_111029, PID 28860. Инъекции неверных масок и исключённого
+  конечного значения, прежняя регрессия и режим B (4 реализации) проверены.
+  Коммит: «Honor validity in prefix metrics, PASS». Остальные потребители
+  и совместимость исторических MAT остаются открытыми.
 - [ ] Проверить generate_tis_dynamic_passport, generate_tis_static_passport,
   generate_tis_mapping_images, generate_tis_spectral_images и сборщиков records:
   какие данные уже содержат valid, какие требуют явной адаптации старого формата.

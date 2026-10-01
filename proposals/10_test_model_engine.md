@@ -1,3 +1,15 @@
+# RESULT-01: накопленный RMSE — 01.10.2026
+
+Коммит: «Honor validity in prefix metrics, PASS».
+Контракт matlab/tests/prefix_validity_contract.md, PREFIX-VALID-001/002.
+Маска допуска дополняет, но не ослабляет контроль статуса и конечности.
+Статический сценарий использует result.valid для облака и prefix RMSE.
+TCP prefix_valid_20261001_111029 PASS, PID 28860: инъекции, прежняя регрессия,
+режим B и сверка каждого префикса по сохранённым MAT. Исходные результаты
+не изменяются. Исторические MAT без valid требуют отдельной адаптации.
+Граф runtime/traceability/graph_prefix_valid_20261001_111029.json.
+Визуальная приёмка и полные эталонные сценарии не выполнены.
+
 # Динамический RNG-контекст — 01.10.2026
 
 ENG-03, DYNAMIC-RNG-001/002. Коммит: «Explicit dynamic scenario RNG, PASS».
