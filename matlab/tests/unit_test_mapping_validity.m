@@ -11,6 +11,17 @@ bad=r; bad.metrics.successful=3; rejects(bad);
 bad=r; bad.valid=double(bad.valid); rejects(bad);
 bad=r; bad.valid=bad.valid.'; rejects(bad);
 rejects(rmfield(r,'valid'));
+for field={'samples','statuses','metrics','contract_violations'}
+    rejects(rmfield(r,field{1}));
+end
+rejects([]); rejects([r r]);
+bad=r; bad.samples={1}; rejects(bad);
+bad=r; bad.samples=complex(r.samples,ones(size(r.samples))); rejects(bad);
+bad=r; bad.statuses=[0 NaN 2]; rejects(bad);
+bad=r; bad.statuses=[0 0.5 2]; rejects(bad);
+bad=r; bad.metrics=[]; rejects(bad);
+bad=r; bad.metrics=struct; rejects(bad);
+bad=r; bad.metrics.successful='2'; rejects(bad);
 % Synthetic records exercise rendering, not estimator acceptance.
 r.contract_violations=false(1,3); r.statuses=[0 0 2];
 r.truth=zeros(3,1); r.passed=true; r.point=1;
