@@ -37,8 +37,6 @@ n=c; n.N=20; n.R_MAX=8; n.S=6;
 x=randn(1,5000); y=zeros(size(x)); s=struct('X_MAIN_REF',0);
 for t=1:numel(x), s=step(n,s,t,x(t)); y(t)=s.X_FILTERED_OUTPUT; end
 assert(all(isfinite(y)) && sqrt(mean(y(100:end).^2))<0.4*sqrt(mean(x(100:end).^2)));
-fprintf('filter2win contract and Gaussian noise: PASS; RMSE in=%g out=%g\n', ...
-    sqrt(mean(x(100:end).^2)),sqrt(mean(y(100:end).^2)));
 end
 
 function s=step(c,s,t,x)

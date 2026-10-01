@@ -12,7 +12,8 @@ import uuid
 from pipeline_client import exchange
 
 ROOT = Path(__file__).resolve().parents[2]
-SUITES = {'matmul3': 'unit_test_matmul3', 'runner_contract': None}
+SUITES = {'matmul3': 'unit_test_matmul3', 'runner_contract': None,
+          'filter2win_package': 'unit_test_filter2win_package'}
 
 
 def load_config(path, root=ROOT):
@@ -54,6 +55,10 @@ def execute(config):
             raise RuntimeError(output.getvalue())
         return result.testsRun
     name = SUITES[config['suite']]
+    if config['suite'] == 'filter2win_package':
+        host = exchange(dict(v=1, op='ping'), timeout=min(30, config['timeout_seconds']))
+        if host.get('active') or host.get('queued'):
+            raise RuntimeError('Server is busy; package job was not submitted')
     request = dict(v=1, op='submit', id=uuid.uuid4().hex, action='unit', test=name,
                    test_sha256=hashlib.sha256((ROOT/'matlab/tests'/(name+'.m')).read_bytes()).hexdigest())
     deadline = time.monotonic() + config['timeout_seconds']

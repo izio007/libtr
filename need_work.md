@@ -2,6 +2,25 @@
 
 ## F2W-PACK-01. Предпроверка автономного выпуска — 02.10.2026
 
+Собран полный по форматам архив runtime/Release/filter2win/0.1.1/
+filter2win-0.1.1.zip (SHA-256 в archive_report.json рядом). Реальный запуск
+attempt02 через tools/runner.sh: PASS; в results/matlab_results.json восемь
+групп checks: разрешение двух ядер, изоляция path, FIFO, filter2win, PNG,
+два экспорта документов. В архиве MD/HTML/PDF/MLX/M, PNG, MAT, конфигурации,
+результаты и манифест. PNG просмотрены; контейнеры MLX/PDF/PNG проверены,
+финальный ZIP распакован и хеши совпали. Имена запрещённых функций недоступны
+на path, производственный пакет содержит только filter2win и fifo_double.
+Использован существующий PID 28860 с изолированным path, не новый сервер.
+Визуальная приёмка PDF/HTML/MLX, полная читаемость и свежий процесс остаются
+NOT_RUN; общий release PASS не заявлен. Прежние блокеры ниже — история
+предпроверки, отсутствие suite/форматов устранено этим шагом.
+
+Попытка 0.1.1-attempt01: штатный runner выполнил реальный MATLAB job
+f32ded68c207401fa3c54a874d6cad9a; FAILED на проверке изоляции: restoredefaultpath
+сохранил F:\Documents\MATLAB. Расчётные checks не начались. Исправление адаптера:
+удалять все пути вне matlabroot перед добавлением путей распакованного пакета.
+Снимок: runtime/defects/defect_20261002_f2w_userpath.json; повтор — attempt02.
+
 Первый фактический кандидат: runtime/Release/filter2win/0.1.0-attempt01/
 filter2win-0.1.0-candidate.zip, сборщик tools/package_filter2win.py.
 Включены два ядра, два теста, JSON FIFO, два MD-паспорта, HTML с локальным

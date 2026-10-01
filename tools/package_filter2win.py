@@ -7,6 +7,7 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import sys
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,6 +17,8 @@ FILES = (
     'matlab/tests/unit_test_filter2win.m',
     'matlab/tests/unit_test_fifo_double.m',
     'matlab/tests/configs/fifo_double_cases.json',
+    'matlab/tests/configs/filter2win_package_case.json',
+    'matlab/tests/run_filter2win_package.m',
     'docs/filter2win_theory.md',
     'docs/fifo_double_theory.md',
 )
@@ -53,6 +56,7 @@ def build(version, destination):
     # Reuse the repository exporter, but redirect every output into staging.
     spec = importlib.util.spec_from_file_location('filter2win_doc_export', ROOT / 'tools/docs/translate_docs.py')
     exporter = importlib.util.module_from_spec(spec)
+    sys.dont_write_bytecode = True
     spec.loader.exec_module(exporter)
     exporter.ROOT = package
     exporter.DOCS = package / 'docs'
