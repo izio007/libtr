@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "nodes": [
+    {"id":"REAL-CLOUD-CHECK","kind":"check","path":"matlab/tests/unit_test_real_cloud_consumers.m"},
     {"id":"CLOUD-VALID-CONTRACT","kind":"contract","path":"matlab/tests/mapping_validity_contract.md"},
     {"id":"CLOUD-VALID-CHECK","kind":"check","path":"matlab/tests/unit_test_mapping_validity.m"},
     {"id":"CLOUD-VALID-IMPL","kind":"implementation","path":"matlab/tests/support/test_result_valid_mask.m"},
@@ -164,6 +165,9 @@
     {"id": "TCP-PROTOCOL-CHECK", "kind": "check", "path": "tools/pipeline/test_targeted_protocol.py"}
   ],
   "edges": [
+    {"source":"REAL-CLOUD-CHECK","target":"CLOUD-VALID-CONTRACT","relation":"verifies"},
+    {"source":"REAL-CLOUD-CHECK","target":"CLOUD-MAPPING","relation":"depends"},
+    {"source":"REAL-CLOUD-CHECK","target":"CLOUD-SPECTRAL","relation":"depends"},
     {"source":"CLOUD-VALID-CHECK","target":"CLOUD-VALID-CONTRACT","relation":"verifies"},
     {"source":"CLOUD-MAPPING","target":"CLOUD-VALID-IMPL","relation":"depends"},
     {"source":"CLOUD-SPECTRAL","target":"CLOUD-VALID-IMPL","relation":"depends"},

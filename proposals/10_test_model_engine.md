@@ -1,3 +1,13 @@
+# RESULT-01: реальные ансамбли — 01.10.2026
+
+Коммит «Verify real ensemble consumers, PASS», критерий CLOUD-VALID-003.
+TCP real_cloud_20261001_111959 PASS на PID 28860: N=8, 64 записи,
+failed records=0/64. Mapping/spectral выполнены на фактических результатах
+LLS/WLLS/GN/GNP. Сохранённый tis_ensemble.mat не изменён генераторами.
+Данные: runtime/tpe7d0e106_6050_4ebe_852b_189c77a1ddd4.
+Граф: runtime/traceability/graph_real_cloud_20261001_111959.json.
+Это адресная интеграция, не полная эталонная или статистическая приёмка.
+
 # RESULT-01: mapping/spectral — 01.10.2026
 
 Коммит: «Validate mapping and spectral result masks, PASS».
