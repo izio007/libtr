@@ -33,7 +33,7 @@ for m=1:4
     rmse=NaN(size(repeats)); failures=0;
     for k=1:numel(repeats)
         data=load(fullfile(folder,sprintf('repeat_%d.mat',repeats(k))),'results');
-        r=data.results{m}; valid=r.valid;
+        r=data.results{m}; valid=test_result_valid_mask(r);
         x=r.samples(:,valid); failures=failures+runs-sum(valid);
         label=sprintf('k=%d (%d/%d)',repeats(k),sum(valid),runs);
         scatter3(ax1,x(1,:),x(2,:),x(3,:),3,'.','DisplayName',label);

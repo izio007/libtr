@@ -253,3 +253,9 @@ TCP validity_consumers_20260930: PASS; сохранённые метрики с�
 - [x] CLOUD-VALID-004: отсутствующие поля, массив структур, некорректные samples/statuses/metrics отклоняются с libtr:result:Validity. TCP validity_shape_20261001_07 PASS; PID 28860, проверен SHA-256 теста. Синтетические mapping/spectral также выполнены.
 - [ ] Исторические MAT без valid не мигрированы; эталонная приёмка 30/450 км остаётся открытой.
 Коммит шага: Harden persisted result structure validation, PASS (индекс — в Git-истории темы).
+
+
+## RESULT-01: единая проверка static/dynamic (шаг 08)
+- [x] CLOUD-VALID-005: оба потребителя используют test_result_valid_mask; dynamic сохраняет сверку со сводкой. TCP unit_test_static_rng_valid_08_20261001 и unit_test_dynamic_rng_valid_08_20261001 PASS, PID 28860 без перезапуска, SHA-256 выбранных тестов проверен. Проверены сохранённые маски, повторяемость наблюдений, глобальный RNG и читаемость PNG.
+- [ ] Исторические MAT и эталонная приёмка 30/450 км остаются открытыми. HTML/Live Editor не генерировались.
+Коммит темы: Unify static and dynamic result validation, PASS.

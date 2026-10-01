@@ -17,6 +17,10 @@ for repeat=[1 2]
     expectedA=a+d.sigma*randn(size(d.P,2),2);
     expectedB=b+d.sigma*randn(size(d.P,2),2);
     assert(isequal(d.alpha,expectedA) && isequal(d.beta,expectedB));
+    for m=1:numel(d.results)
+        valid=test_result_valid_mask(d.results{m});
+        assert(sum(valid)==d.record.successful(m));
+    end
 end
 for k=1:numel(report.files)
     image=imread(fullfile(folder,report.files{k})); assert(~isempty(image));

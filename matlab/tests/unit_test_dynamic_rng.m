@@ -23,6 +23,7 @@ for n=1:numel(report.counts)
         assert(isequal(d.alpha,expectedA) && isequal(d.beta,expectedB));
         for m=1:numel(d.results)
             r=d.results{m};
+            assert(isequal(test_result_valid_mask(r),r.valid));
             expected=r.statuses==0 & all(isfinite(r.samples),1) & ~r.contract_violations;
             assert(isequal(r.valid,expected));
             assert(sum(r.valid)==r.metrics.successful);
