@@ -28,6 +28,37 @@ m=service_ensemble_metrics([X NaN(3,1)],[0 0 0 2],truth);
 assert(m.failure_fraction==0.25 && m.successful==3);
 m=service_ensemble_metrics(NaN(3,2),[2 2],truth);
 assert(m.failure_fraction==1 && isnan(m.rmse));
+% Six symmetric offsets: analytic second moments, no production oracle.
+center=[4;5;6]; target=[1;1;1];
+cloud=center+[diag([1 2 3]) -diag([1 2 3])];
+q=service_ensemble_metrics(cloud,zeros(1,6),target);
+K=diag([2 8 18])/5;
+assert(isequal(q.mean,center) && isequal(q.bias,[3;4;5]));
+assert(norm(q.covariance-K,'fro')<1e-12);
+assert(abs(q.rmse^2-(50+28/6))<1e-12);
+assert(abs(q.rmse^2-(sum(q.bias.^2)+5/6*trace(q.covariance)))<1e-12);
+assert(norm(q.axes*diag(q.eigenvalues)*q.axes.'-K,'fro')<1e-12);
+assert(norm(q.axes.'*q.axes-eye(3),'fro')<1e-12);
+assert(norm(sort(q.semiaxes)-sqrt(diag(K)))<1e-12);
+permuted=service_ensemble_metrics(cloud(:,[6 2 4 1 5 3]),zeros(1,6),target);
+excluded=service_ensemble_metrics([cloud [1e9;1e9;1e9] NaN(3,1)], ...
+    [zeros(1,6) NaN 0],target);
+for candidate={permuted,excluded}
+    z=candidate{1};
+    assert(isequal(z.mean,q.mean) && isequal(z.bias,q.bias));
+    assert(norm(z.covariance-K,'fro')<1e-12 && abs(z.rmse-q.rmse)<1e-12);
+end
+assert(excluded.successful==6 && excluded.failure_fraction==0.25);
+one=service_ensemble_metrics([center NaN(3,1)],[0 2],target);
+none=service_ensemble_metrics([center NaN(3,1)],[NaN 2],target);
+assert(one.successful==1 && one.failure_fraction==0.5);
+assert(isequal(one.mean,center) && isequal(one.bias,[3;4;5]));
+assert(abs(one.rmse-sqrt(50))<1e-12);
+assert(none.successful==0 && none.failure_fraction==1 && isnan(none.rmse));
+assert(all(isnan(none.mean)) && all(isnan(none.bias)));
+for field={'covariance','axes','eigenvalues','semiaxes','psi','theta'}
+    assert(all(isnan(one.(field{1})(:))) && all(isnan(none.(field{1})(:))));
+end
 P=zeros(3,2); a=zeros(2,3); v=ones(2,1);
 r=service_run_ensemble(@expectedFailure,P,a,a,v,v,zeros(3,1));
 assert(all(r.statuses==2) && ~any(r.contract_violations));
