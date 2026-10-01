@@ -17,7 +17,7 @@ for g=1:5
         for k=1:numel(records)
             r=records{k};
             inputs=load(fullfile(folder,sprintf('tis_inputs_%d_%d.mat',g,r.point)),'posts');
-            valid=r.statuses==0 & all(isfinite(r.samples),1);
+            valid=test_result_valid_mask(r);
             assert(sum(valid)==r.metrics.successful && r.passed);
             scatter(ax,r.samples(1,valid)/1000,r.samples(2,valid)/1000,8,'.');
             plot(ax,r.truth(1)/1000,r.truth(2)/1000,'kx','MarkerSize',10);

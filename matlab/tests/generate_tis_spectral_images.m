@@ -22,7 +22,7 @@ for g=1:5
         title(ax(4),'Elevation: sign-aligned axes'); ylabel(ax(4),'Degrees');
         colors=lines(3);
         for t=1:numel(records)
-            r=records{t}; valid=r.statuses==0 & all(isfinite(r.samples),1);
+            r=records{t}; valid=test_result_valid_mask(r);
             assert(sum(valid)==r.metrics.successful);
             cloud=r.samples(:,valid)-r.truth;
             scatter3(ax(1),cloud(1,:),cloud(2,:),cloud(3,:),2,'.','HandleVisibility','off');
