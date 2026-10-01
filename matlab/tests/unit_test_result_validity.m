@@ -13,6 +13,22 @@ for k=1:numel(models)
     m.result.contract_violations=[false true];
     m.result.errors{2}='Injected diagnostic';
     raw=m.result;
+    rejects([], 'libtr:testmodel:Context');
+    rejects([m m], 'libtr:testmodel:Context');
+    for field={'cursor','result'}
+        rejects(rmfield(m,field{1}),'libtr:testmodel:Context');
+    end
+    for field={'samples','statuses','contract_violations','errors'}
+        bad=m; bad.result=rmfield(bad.result,field{1});
+        rejects(bad,'libtr:testmodel:Context');
+    end
+    bad=m; bad.result=[m.result m.result]; rejects(bad,'libtr:testmodel:Context');
+    for cursor={[],[2 2],NaN,Inf,-1,0.5,'2',complex(2,1)}
+        bad=m; bad.cursor=cursor{1}; rejects(bad,'libtr:testmodel:Context');
+    end
+    for cursor=[0 1 3]
+        bad=m; bad.cursor=cursor; rejects(bad,'libtr:testmodel:Incomplete');
+    end
     bad=m; bad.result.contract_violations=bad.result.contract_violations.'; rejects(bad);
     bad=m; bad.result.contract_violations=double(bad.result.contract_violations); rejects(bad);
     bad=m; bad.result.statuses=bad.result.statuses.'; rejects(bad);
@@ -37,12 +53,13 @@ r=test_model_result(m); assert(all(r.valid) && r.metrics.successful==2);
 unit_test_path_model;
 fprintf('Explicit validity mask, raw evidence preservation and lifecycle regressions PASS\n');
 end
-function rejects(model)
+function rejects(model,id)
+if nargin<2, id='libtr:testmodel:ResultShape'; end
 caught=false;
 try
     test_model_result(model);
 catch e
-    caught=strcmp(e.identifier,'libtr:testmodel:ResultShape');
+    caught=strcmp(e.identifier,id);
 end
 assert(caught,'Expected explicit result shape rejection');
 end

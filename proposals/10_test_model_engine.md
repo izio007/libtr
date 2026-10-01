@@ -289,3 +289,9 @@ TCP validity_consumers_20260930: PASS; сохранённые метрики с�
 - [x] TEST-VALID-003: формы и типы samples/statuses/contract_violations/errors проверяются до вычисления valid. Инъекции во всех трёх режимах отклоняются с ResultShape. TCP unit_test_result_validity_shape_13_20261001 и unit_test_ensemble_metrics_shape_13_20261001 PASS, PID 28860 без перезапуска, SHA-256 тестов проверен. Штатные NaN-статусы исключений сохранены.
 - [ ] Исторические MAT, полнота схемы контекста и эталонная приёмка 30/450 км остаются открытыми.
 Коммит темы: Guard result reduction against mask expansion, PASS.
+
+
+## RESULT-01: оболочка контекста и курсор (шаг 14)
+- [x] TEST-VALID-004: скалярность контекста/result, обязательные поля и конечный целый курсор проверены до публикации. Инъекции во всех трёх режимах различают Context и Incomplete. TCP result_context_14_20261001 PASS, PID 28860 без перезапуска; SHA-256 теста проверен. Прежние проверки result.valid и жизненного цикла сохранены.
+- [ ] Полная схема входного контекста, исторические MAT и эталонная приёмка 30/450 км остаются открытыми.
+Коммит темы: Validate result context and completion cursor, PASS.
