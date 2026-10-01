@@ -15,7 +15,22 @@ bad=result; bad.contract_violations=false; rejects(bad);
 for status=[-1 3 Inf -Inf 0.5]
     bad=result; bad.statuses=status; rejects(bad);
 end
-fprintf('CLOUD-VALID-007 exception roundtrip PASS: %s\n',file);
+for status=[0 1 2]
+    bad=result; bad.statuses=status; bad.contract_violations=false;
+    if status==0
+        bad.samples(1)=Inf;
+    else
+        bad.samples(1)=1;
+    end
+    rejects(bad);
+    bad.contract_violations=true;
+    assert(~test_result_valid_mask(bad));
+end
+for status=[1 2]
+    refusal=result; refusal.statuses=status; refusal.contract_violations=false;
+    assert(~test_result_valid_mask(refusal));
+end
+fprintf('CLOUD-VALID-007/008 exception and refusal consistency PASS: %s\n',file);
 end
 function [s,x]=throws(varargin)
 s=NaN; x=NaN(3,1);

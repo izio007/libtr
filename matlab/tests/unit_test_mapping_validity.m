@@ -24,6 +24,7 @@ bad=r; bad.metrics=struct; rejects(bad);
 bad=r; bad.metrics.successful='2'; rejects(bad);
 % Synthetic records exercise rendering, not estimator acceptance.
 r.contract_violations=false(1,3); r.statuses=[0 0 2];
+r.samples(:,3)=NaN; % A regular refusal must not contain a finite estimate.
 r.truth=zeros(3,1); r.passed=true; r.point=1;
 r.reference_status=0; r.reference_spectrum=diag([1 2 3]); r.reference_axes=eye(3);
 methods={'lls_position','wlls_position','gn_position','gnp_position'};
