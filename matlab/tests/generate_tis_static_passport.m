@@ -11,14 +11,14 @@ validateattributes(runs,{'double'},{'scalar','integer','>=',2});
 validateattributes(repeats,{'double'},{'vector','integer','positive','increasing'});
 validateattributes(range,{'double'},{'scalar','finite','positive'});
 assert(~isfolder(folder),'libtr:experiment:Output','Use a new output folder');
-mkdir(folder); state=rng; cleanup=onCleanup(@() rng(state));
-seed=1337+strcmp(mode,'B'); rng(seed,'twister');
+mkdir(folder);
+seed=1337+strcmp(mode,'B'); context=engine_rng_init(seed);
 stations=[-20000 20000 0 0;0 0 -20000 20000;200 200 200 200];
 truth=[0;range;10000]; sigma=2*pi/180;
 records=cell(1,numel(repeats));
 for k=1:numel(repeats)
-    records{k}=tis_experiment_cell(stations,truth,sigma,repeats(k),runs, ...
-        fullfile(folder,sprintf('repeat_%d.mat',repeats(k))));
+    [records{k},context]=tis_experiment_cell(stations,truth,sigma,repeats(k),runs, ...
+        fullfile(folder,sprintf('repeat_%d.mat',repeats(k))),context);
     fprintf('Static repeats=%d runs=%d complete\n',repeats(k),runs); drawnow;
 end
 methods={'LLS','WLLS','GN','GNP'}; files=cell(1,4);

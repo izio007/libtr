@@ -1,6 +1,12 @@
 {
   "schema_version": 1,
   "nodes": [
+    {"id":"STATIC-RNG-CONTRACT","kind":"contract","path":"matlab/tests/static_rng_contract.md"},
+    {"id":"STATIC-RNG-IMPL","kind":"implementation","path":"matlab/tests/generate_tis_static_passport.m"},
+    {"id":"STATIC-RNG-CHECK","kind":"check","path":"matlab/tests/unit_test_static_rng.m"},
+    {"id":"CELL-CONTEXT-CONTRACT","kind":"contract","path":"matlab/tests/matlab_layout_contract.md"},
+    {"id":"CELL-CONTEXT-IMPL","kind":"implementation","path":"matlab/tests/tis_experiment_cell.m"},
+    {"id":"CELL-CONTEXT-CHECK","kind":"check","path":"matlab/tests/unit_test_cell_context.m"},
     {"id":"ENGINE-RNG-CONTRACT","kind":"contract","path":"matlab/tests/engine_rng_contract.md"},
     {"id":"ENGINE-RNG-INIT","kind":"implementation","path":"matlab/engine/engine_rng_init.m"},
     {"id":"ENGINE-RNG-NORMAL","kind":"implementation","path":"matlab/engine/engine_rng_normal.m"},
@@ -147,6 +153,13 @@
     {"id": "TCP-PROTOCOL-CHECK", "kind": "check", "path": "tools/pipeline/test_targeted_protocol.py"}
   ],
   "edges": [
+    {"source":"STATIC-RNG-CHECK","target":"STATIC-RNG-CONTRACT","relation":"verifies"},
+    {"source":"STATIC-RNG-CHECK","target":"STATIC-RNG-IMPL","relation":"depends"},
+    {"source":"STATIC-RNG-IMPL","target":"CELL-CONTEXT-IMPL","relation":"depends"},
+    {"source":"STATIC-RNG-IMPL","target":"ENGINE-RNG-INIT","relation":"depends"},
+    {"source":"CELL-CONTEXT-CHECK","target":"CELL-CONTEXT-CONTRACT","relation":"verifies"},
+    {"source":"CELL-CONTEXT-CHECK","target":"CELL-CONTEXT-IMPL","relation":"depends"},
+    {"source":"CELL-CONTEXT-IMPL","target":"ENGINE-RNG-NORMAL","relation":"depends"},
     {"source":"ENGINE-RNG-CHECK","target":"ENGINE-RNG-CONTRACT","relation":"verifies"},
     {"source":"ENGINE-RNG-CHECK","target":"ENGINE-RNG-INIT","relation":"depends"},
     {"source":"ENGINE-RNG-CHECK","target":"ENGINE-RNG-NORMAL","relation":"depends"},
