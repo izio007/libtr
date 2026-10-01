@@ -13,6 +13,23 @@ for k=1:numel(models)
     m.result.contract_violations=[false true];
     m.result.errors{2}='Injected diagnostic';
     raw=m.result;
+    rejects(rmfield(m,'truth'),'libtr:testmodel:Context');
+    for value={NaN,zeros(2),single(m.truth),complex(m.truth,ones(size(m.truth)))}
+        bad=m; bad.truth=value{1}; rejects(bad,'libtr:testmodel:Context');
+    end
+    for value={'unknown',42,{'trajectory'}}
+        bad=m; bad.mode=value{1}; rejects(bad,'libtr:testmodel:Context');
+    end
+    if k>1
+        bad=m; bad.truth=m.truth(:,1); rejects(bad,'libtr:testmodel:Context');
+        rejects(rmfield(m,'time'),'libtr:testmodel:Context');
+        bad=m; bad.parameter=[0 1]; rejects(bad,'libtr:testmodel:Context');
+        for value={[0 0],[1 0],[0 NaN],[0;1],single([0 1])}
+            bad=m; bad.time=value{1}; rejects(bad,'libtr:testmodel:Context');
+        end
+    else
+        bad=m; bad.time=[0 1]; rejects(bad,'libtr:testmodel:Context');
+    end
     rejects([], 'libtr:testmodel:Context');
     rejects([m m], 'libtr:testmodel:Context');
     for field={'cursor','result'}

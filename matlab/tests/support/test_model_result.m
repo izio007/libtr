@@ -12,6 +12,30 @@ assert(isnumeric(model.cursor) && isreal(model.cursor) && isscalar(model.cursor)
 assert(model.cursor==numel(model.result.statuses), ...
     'libtr:testmodel:Incomplete','Model is not complete');
 result=model.result;
+id='libtr:testmodel:Context';
+mode='ensemble';
+if isfield(model,'mode')
+    assert(ischar(model.mode) && isrow(model.mode) && ...
+        any(strcmp(model.mode,{'trajectory','scalar'})),id,'Unknown result mode');
+    mode=model.mode;
+end
+N=numel(result.statuses);
+truthSize=[3 1];
+if strcmp(mode,'trajectory'), truthSize=[3 N]; end
+if strcmp(mode,'scalar'), truthSize=[1 N]; end
+assert(isfield(model,'truth') && isa(model.truth,'double') && isreal(model.truth) && ...
+    isequal(size(model.truth),truthSize) && all(isfinite(model.truth(:))), ...
+    id,'Invalid truth for result mode');
+if ~strcmp(mode,'ensemble')
+    hasTime=isfield(model,'time'); hasParameter=isfield(model,'parameter');
+    assert(xor(hasTime,hasParameter) && ...
+        (~strcmp(mode,'scalar') || hasTime),id,'Ambiguous or missing result scale');
+    if hasTime, scale=model.time; else, scale=model.parameter; end
+    assert(isa(scale,'double') && isreal(scale) && isequal(size(scale),[1 N]) && ...
+        all(isfinite(scale)) && all(diff(scale)>0),id,'Invalid result scale');
+else
+    assert(~isfield(model,'time') && ~isfield(model,'parameter'),id,'Unexpected ensemble scale');
+end
 id='libtr:testmodel:ResultShape';
 rows=3;
 if isfield(model,'mode') && strcmp(model.mode,'scalar'), rows=1; end
