@@ -1,0 +1,9 @@
+{
+  "capacity": 3,
+  "values": [0.25, -1.5, 2.75, 3.125, -4.5, 5.25, 6.75],
+  "times": [0, 1, 3, 4, 8, 9, 12],
+  "expected_values": [-4.5, 5.25, 6.75],
+  "expected_times": [8, 9, 12],
+  "single_capacity": 1,
+  "invalid_capacity": 0
+}
