@@ -259,3 +259,9 @@ TCP validity_consumers_20260930: PASS; сохранённые метрики с�
 - [x] CLOUD-VALID-005: оба потребителя используют test_result_valid_mask; dynamic сохраняет сверку со сводкой. TCP unit_test_static_rng_valid_08_20261001 и unit_test_dynamic_rng_valid_08_20261001 PASS, PID 28860 без перезапуска, SHA-256 выбранных тестов проверен. Проверены сохранённые маски, повторяемость наблюдений, глобальный RNG и читаемость PNG.
 - [ ] Исторические MAT и эталонная приёмка 30/450 км остаются открытыми. HTML/Live Editor не генерировались.
 Коммит темы: Unify static and dynamic result validation, PASS.
+
+
+## RESULT-01: проверка границ ячейки и контекстного генератора (шаг 09)
+- [x] CLOUD-VALID-006: tis_experiment_cell и generate_context_test_images используют общий валидатор перед сводкой и выборкой облака. TCP validity_consumers_09_20261001 PASS, PID 28860 без перезапуска; SHA-256 теста проверен. Выполнены сверка сохранённых метрик, проверки result.valid и сокращённые оба контекста.
+- [ ] Исторические MAT и эталонная приёмка 30/450 км остаются открытыми; успех интеграции не заменяет ручной контроль.
+Коммит темы: Validate cell and context result boundaries, PASS.

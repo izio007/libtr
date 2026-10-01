@@ -18,7 +18,7 @@ record=struct('truth',truth,'crlb_status',crlbStatus,'crlb_std',sqrt(diag(K)), .
     'violations',zeros(1,4),'successful',zeros(1,4));
 for m=1:4
     results{m}=service_run_ensemble(str2func(methods{m}),P,alpha,beta,variance,variance,truth);
-    r=results{m}; valid=r.valid;
+    r=results{m}; valid=test_result_valid_mask(r);
     record.rmse(m)=r.metrics.rmse; record.bias(:,m)=r.metrics.bias;
     record.std(:,m)=sqrt(diag(r.metrics.covariance));
     record.failure_fraction(m)=r.metrics.failure_fraction;

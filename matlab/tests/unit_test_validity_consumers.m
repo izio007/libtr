@@ -10,6 +10,7 @@ record=tis_experiment_cell([-5000 5000 0 0;0 0 -5000 5000;0 0 0 0], ...
 d=load(file);
 for k=1:numel(d.results)
     r=d.results{k};
+    assert(isequal(test_result_valid_mask(r),r.valid));
     assert(record.successful(k)==sum(r.valid));
     assert(record.successful(k)==r.metrics.successful);
     if any(r.valid)

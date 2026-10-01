@@ -38,9 +38,11 @@ for c=1:numel(names)
         pathResult=service_run_path(solver,t,P,alpha,beta,variance,variance,truth);
         trajectory=pathResult.samples; statuses=pathResult.statuses;
         ensemble=service_run_ensemble(solver,P,aa,bb,variance,variance,truth(:,mid));
+        pathValid=test_result_valid_mask(pathResult);
+        ensembleValid=test_result_valid_mask(ensemble);
         [mockStatus,mock]=mock_position(P,a(:,mid),b(:,mid),variance,variance);
         report=struct('context',names{c},'method',method,'samples',N, ...
-            'trajectory_failures',sum(~pathResult.valid), ...
+            'trajectory_failures',sum(~pathValid), ...
             'metrics',ensemble.metrics,'mock_status',mockStatus, ...
             'mock_delta',norm(mock-truth(:,mid)));
         report.passed=report.trajectory_failures==0 && ...
@@ -57,7 +59,7 @@ for c=1:numel(names)
         nexttile; plot(t,sqrt(sum((trajectory-truth).^2,1)));
         grid on; xlabel('Normalized trajectory time'); ylabel('Single-sample error (m)');
         title(sprintf('Trajectory failures: %d',report.trajectory_failures));
-        nexttile; cloud=ensemble.samples(:,ensemble.valid)-truth(:,mid);
+        nexttile; cloud=ensemble.samples(:,ensembleValid)-truth(:,mid);
         scatter3(cloud(1,:),cloud(2,:),cloud(3,:),4,'.'); hold on;
         mu=ensemble.metrics.bias; plot3(mu(1),mu(2),mu(3),'rx','MarkerSize',12);
         grid on; axis equal; xlabel('East error (m)'); ylabel('North error (m)'); zlabel('Up error (m)');
