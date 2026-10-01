@@ -6,7 +6,7 @@ validateattributes(runs,{'double'},{'scalar','integer','>=',2});
 assert(~isfolder(folder),'libtr:experiment:Output','Use a new output folder');
 data=load(contextFile); fields=fieldnames(data); assert(isscalar(fields));
 cfg=data.(fields{1}); mkdir(folder);
-state=rng; cleanup=onCleanup(@() rng(state)); rng(cfg.Hardware.Random_Seed,'twister');
+context=engine_rng_init(cfg.Hardware.Random_Seed);
 counts=unique(round(logspace(log10(4),log10(124),20)));
 anchors=[cfg.Stations.X_anchors;cfg.Stations.Y_anchors;cfg.Stations.Z_anchors];
 t=linspace(0,1,cfg.Trajectory.Points);
@@ -17,9 +17,9 @@ records=cell(numel(counts),numel(t));
 for n=1:numel(counts)
     stations=spline(1:4,anchors,linspace(1,4,counts(n)));
     for k=1:numel(t)
-        records{n,k}=tis_experiment_cell(stations,truth(:,k), ...
+        [records{n,k},context]=tis_experiment_cell(stations,truth(:,k), ...
             cfg.Hardware.D_Error_Degree*pi/180,1,runs, ...
-            fullfile(folder,sprintf('cell_%d_%d.mat',n,k)));
+            fullfile(folder,sprintf('cell_%d_%d.mat',n,k)),context);
     end
     fprintf('Dynamic stations=%d points=%d runs=%d complete\n',counts(n),numel(t),runs); drawnow;
 end

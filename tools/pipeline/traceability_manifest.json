@@ -1,6 +1,9 @@
 {
   "schema_version": 1,
   "nodes": [
+    {"id":"DYNAMIC-RNG-CONTRACT","kind":"contract","path":"matlab/tests/dynamic_rng_contract.md"},
+    {"id":"DYNAMIC-RNG-IMPL","kind":"implementation","path":"matlab/tests/generate_tis_dynamic_passport.m"},
+    {"id":"DYNAMIC-RNG-CHECK","kind":"check","path":"matlab/tests/unit_test_dynamic_rng.m"},
     {"id":"STATIC-RNG-CONTRACT","kind":"contract","path":"matlab/tests/static_rng_contract.md"},
     {"id":"STATIC-RNG-IMPL","kind":"implementation","path":"matlab/tests/generate_tis_static_passport.m"},
     {"id":"STATIC-RNG-CHECK","kind":"check","path":"matlab/tests/unit_test_static_rng.m"},
@@ -153,6 +156,10 @@
     {"id": "TCP-PROTOCOL-CHECK", "kind": "check", "path": "tools/pipeline/test_targeted_protocol.py"}
   ],
   "edges": [
+    {"source":"DYNAMIC-RNG-CHECK","target":"DYNAMIC-RNG-CONTRACT","relation":"verifies"},
+    {"source":"DYNAMIC-RNG-CHECK","target":"DYNAMIC-RNG-IMPL","relation":"depends"},
+    {"source":"DYNAMIC-RNG-IMPL","target":"CELL-CONTEXT-IMPL","relation":"depends"},
+    {"source":"DYNAMIC-RNG-IMPL","target":"ENGINE-RNG-INIT","relation":"depends"},
     {"source":"STATIC-RNG-CHECK","target":"STATIC-RNG-CONTRACT","relation":"verifies"},
     {"source":"STATIC-RNG-CHECK","target":"STATIC-RNG-IMPL","relation":"depends"},
     {"source":"STATIC-RNG-IMPL","target":"CELL-CONTEXT-IMPL","relation":"depends"},
