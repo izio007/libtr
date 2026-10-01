@@ -13,6 +13,14 @@ for k=1:numel(models)
     m.result.contract_violations=[false true];
     m.result.errors{2}='Injected diagnostic';
     raw=m.result;
+    bad=m; bad.result.contract_violations=bad.result.contract_violations.'; rejects(bad);
+    bad=m; bad.result.contract_violations=double(bad.result.contract_violations); rejects(bad);
+    bad=m; bad.result.statuses=bad.result.statuses.'; rejects(bad);
+    bad=m; bad.result.statuses(1)=Inf; rejects(bad);
+    bad=m; bad.result.statuses(1)=3; rejects(bad);
+    bad=m; bad.result.samples=single(bad.result.samples); rejects(bad);
+    bad=m; bad.result.samples=complex(bad.result.samples,ones(size(bad.result.samples))); rejects(bad);
+    bad=m; bad.result.errors=bad.result.errors.'; rejects(bad);
     r=test_model_result(m);
     assert(isequal(r.valid,[true false]) && r.metrics.successful==1);
     assert(r.metrics.failure_fraction==0.5 && abs(r.metrics.rmse-sqrt(rows))<1e-14);
@@ -28,6 +36,15 @@ m=models{1}; m=test_model_step(m); m=test_model_step(m);
 r=test_model_result(m); assert(all(r.valid) && r.metrics.successful==2);
 unit_test_path_model;
 fprintf('Explicit validity mask, raw evidence preservation and lifecycle regressions PASS\n');
+end
+function rejects(model)
+caught=false;
+try
+    test_model_result(model);
+catch e
+    caught=strcmp(e.identifier,'libtr:testmodel:ResultShape');
+end
+assert(caught,'Expected explicit result shape rejection');
 end
 function [s,x]=position(varargin)
 s=0; x=ones(3,1);

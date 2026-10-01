@@ -283,3 +283,9 @@ TCP validity_consumers_20260930: PASS; сохранённые метрики с�
 - [x] ENSEMBLE-MOMENTS-002: шеститочечный осевой репер, ненулевое смещение, тождество RMSE, спектральная реконструкция, перестановка и исключённые реализации; n=0/1. TCP ensemble_moments_12_20261001 PASS, PID 28860 без перезапуска; SHA-256 теста проверен. Производственная реализация метрик не изменена.
 - [ ] Статистическая сходимость, исторические MAT и эталонная приёмка 30/450 км не закрыты этим репером.
 Коммит темы: Verify analytic ensemble moment invariants, PASS.
+
+
+## RESULT-01: защита редукции от расширения масок (шаг 13)
+- [x] TEST-VALID-003: формы и типы samples/statuses/contract_violations/errors проверяются до вычисления valid. Инъекции во всех трёх режимах отклоняются с ResultShape. TCP unit_test_result_validity_shape_13_20261001 и unit_test_ensemble_metrics_shape_13_20261001 PASS, PID 28860 без перезапуска, SHA-256 тестов проверен. Штатные NaN-статусы исключений сохранены.
+- [ ] Исторические MAT, полнота схемы контекста и эталонная приёмка 30/450 км остаются открытыми.
+Коммит темы: Guard result reduction against mask expansion, PASS.
