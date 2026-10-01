@@ -62,6 +62,20 @@ for k=1:numel(models)
     checked=test_model_result(diagnostic);
     assert(isequal(checked.errors,diagnostic.result.errors));
     assert(isequal(checked.valid,[true false]));
+    for status=[0 1 2 NaN]
+        bad=m; bad.result.statuses(1)=status;
+        if status==0, bad.result.samples(1,1)=Inf; end
+        rejects(bad,'libtr:testmodel:ResultConsistency');
+        bad.result.contract_violations(1)=true;
+        accepted=test_model_result(bad);
+        assert(~accepted.valid(1) && isequaln(accepted.statuses,bad.result.statuses));
+    end
+    for status=[1 2]
+        refusal=m; refusal.result.statuses(1)=status;
+        refusal.result.samples(:,1)=NaN;
+        accepted=test_model_result(refusal);
+        assert(~accepted.valid(1) && ~accepted.contract_violations(1));
+    end
     r=test_model_result(m);
     assert(isequal(r.valid,[true false]) && r.metrics.successful==1);
     assert(r.metrics.failure_fraction==0.5 && abs(r.metrics.rmse-sqrt(rows))<1e-14);
