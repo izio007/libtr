@@ -1,7 +1,12 @@
-function record = tis_experiment_cell(stations,truth,sigma,repeats,runs,file)
+function [record,next] = tis_experiment_cell(stations,truth,sigma,repeats,runs,file,context)
 setup_test_paths;
 % Scenario adapter: common observations, independent estimators, saved evidence.
-[P,alpha,beta,variance]=test_sample_bearings(stations,truth,sigma,repeats,runs);
+if nargin<7
+    [P,alpha,beta,variance,next,initial]=test_sample_bearings(stations,truth,sigma,repeats,runs);
+else
+    initial=context;
+    [P,alpha,beta,variance,next]=service_sample_bearings(stations,truth,sigma,repeats,runs,context);
+end
 methods={'lls_position','wlls_position','gn_position','gnp_position'};
 results=cell(1,4);
 d=truth-P;
@@ -26,5 +31,5 @@ for m=1:4
     end
 end
 save(file,'stations','truth','sigma','repeats','runs','P','alpha','beta', ...
-    'variance','results','record','K','methods');
+    'variance','results','record','K','methods','initial','next');
 end

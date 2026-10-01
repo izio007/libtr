@@ -1,6 +1,13 @@
 # Незавершённые работы
 
 ## Ошибка изоляции коммита a59e7a1c91464dce3e7cde581f1384efb0181352
+- [x] CELL-CONTEXT повторно проверен 01.10.2026 и подготовлен отдельным
+  коммитом «Complete explicit cell context, PASS»: контракт, адаптер, ячейка,
+  unit_test_cell_context. Три адресных TCP-запуска PASS на PID 28860:
+  unit_test_cell_context_verify_20261001_110241,
+  unit_test_static_rng_verify_20261001_110303,
+  unit_test_context_engine_verify_20261001_110331.
+  Нормативные изменения не входят в этот пакет; прежняя ошибка истории остаётся.
 - [ ] Раздельно проверить и зафиксировать оставшийся пакет CELL-CONTEXT и
   нормативные изменения. Коммит статического RNG включил прежние записи
   CELL-CONTEXT в общих need_work/proposals/traceability_manifest и запись
