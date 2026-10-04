@@ -39,6 +39,8 @@ FILES = (
     'matlab/tests/configs/fifo_double_cases.json',
     'matlab/tests/configs/filter2win_package_case.json',
     'matlab/tests/run_filter2win_package.m',
+    'tools/matlab/filter2win_package_host.m',
+    'tools/filter2win_package_runner.py',
     'docs/filter2win_theory.md',
     'docs/fifo_double_theory.md',
 )
@@ -69,9 +71,28 @@ def build(version, destination):
             text = f'% filter2win package version: {version}\n' + text
         elif source.suffix == '.md':
             text = f'<!-- filter2win package version: {version} -->\n' + text
+        elif source.suffix == '.py':
+            text = f'# filter2win package version: {version}\n' + text
         # Test JSON has an existing schema; version is in the manifest.
         target.write_text(text, encoding='utf-8')
         origins[relative] = digest(source)
+
+    case_file = package / 'matlab/tests/configs/filter2win_package_case.json'
+    case = json.loads(case_file.read_text(encoding='utf-8'))
+    case['package_version'] = version
+    case.pop('package_relative_root', None)
+    write_json(case_file, case)
+    write_json(package / 'matlab/tests/configs/package_runner.json', {
+        'schema_version': 1, 'suite': 'filter2win_package', 'timeout_seconds': 600})
+    (package / 'tools/runner.sh').write_text(
+        '#!/usr/bin/env bash\n'
+        f'# filter2win {version}\n'
+        'set -euo pipefail\n'
+        'root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"\n'
+        'exec python3 "$root/tools/filter2win_package_runner.py" "$@"\n', encoding='utf-8')
+    (package / 'startup.m').write_text(
+        f'% filter2win package version: {version}\n'
+        '% Intentionally empty: shadows user startup during isolated acceptance.\n', encoding='utf-8')
 
     # Reuse the repository exporter, but redirect every output into staging.
     spec = importlib.util.spec_from_file_location('filter2win_doc_export', ROOT / 'tools/docs/translate_docs.py')
@@ -84,8 +105,9 @@ def build(version, destination):
         (exporter.DOCS / folder).mkdir()
     for name in ('filter2win', 'fifo_double'):
         exporter.build(exporter.DOCS / (name + '_theory.md'))
+        # R2025a supports %[text]; keep the generated rich-text representation.
         live = exporter.DOCS / 'liveeditor' / (name + '_theory.m')
-        live.write_text(f'% filter2win package version: {version}\n' + live.read_text(encoding='utf-8'), encoding='utf-8')
+        live.write_text(f'%[text] filter2win package version: {version}\n' + live.read_text(encoding='utf-8'), encoding='utf-8')
         html = exporter.DOCS / 'html' / (name + '.html')
         text = html.read_text(encoding='utf-8')
         text = text.replace('<!DOCTYPE html>\n', f'<!DOCTYPE html><!-- filter2win package version: {version} -->\n', 1)

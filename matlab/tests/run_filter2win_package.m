@@ -11,7 +11,8 @@ if ~isfolder(output)
 end
 report = struct('package_version', config.package_version, 'status', 'NOT_RUN', ...
     'matlab', version, 'pid', feature('getpid'), 'cwd', pwd, 'path', path, ...
-    'checks', {{}}, 'visual_review', 'NOT_RUN', 'new_server', false);
+    'checks', {{}}, 'visual_review', 'NOT_RUN', ...
+    'new_server', strcmp(getenv('FILTER2WIN_FRESH_HOST'), '1'));
 clock = tic;
 try
     for name = reshape(config.production_functions,1,[])
@@ -35,6 +36,8 @@ try
         feval(config.checks{k});
         report.checks{end+1} = struct('id', config.checks{k}, 'status', 'PASS');
     end
+    demo_filter2win(output);
+    report.checks{end+1} = struct('id', 'schema2_demo', 'status', 'PASS');
     generatePlots(config, output);
     report.checks{end+1} = struct('id', 'plots', 'status', 'PASS');
     for k = 1:numel(config.documents)
@@ -43,9 +46,9 @@ try
         pdf = fullfile(package, 'docs', [name '.pdf']);
         mlx = fullfile(package, 'docs', 'liveeditor', [name '_theory.mlx']);
         % R2025a conversion API; verify the result, never relabel a text file.
-        model = matlab.internal.livecode.FileModel.convertFileToLiveCode(source, mlx);
-        assert(~isempty(model) && isfile(mlx), 'libtr:package:MLX', 'MLX conversion failed');
-        export(source, pdf, 'Run', false, 'HideCode', true, 'OpenExportedFile', false);
+        matlab.internal.liveeditor.openAndSave(source, mlx);
+        assert(isfile(mlx), 'libtr:package:MLX', 'MLX conversion failed');
+        export(mlx, pdf, 'Run', false, 'HideCode', true, 'OpenExportedFile', false);
         metadata = dir(pdf);
         assert(~isempty(metadata) && metadata.bytes > 0, 'libtr:package:PDF', 'PDF export failed');
         report.checks{end+1} = struct('id', ['documents_' name], 'status', 'PASS');

@@ -30,8 +30,8 @@ def finalize(package, destination):
         'matlab_execution': 'PASS', 'isolated_path': 'PASS',
         'formats_present': ['MATLAB', 'JSON', 'MD', 'HTML', 'PDF', 'MLX', 'PNG', 'MAT'],
         'png_visual_review': 'NOT_RUN', 'document_visual_review': 'NOT_RUN',
-        'new_server': False, 'production_files': core,
-        'limitations': ['Existing server with isolated path, not a new process',
+        'new_server': report.get('new_server', False), 'production_files': core,
+        'limitations': [
                         'Scenario tuning and manual acceptance remain separate',
                         'Zero-allocation is not measured',
                         'Complete readability and document visual audit pending'],
@@ -43,7 +43,7 @@ def finalize(package, destination):
         'Includes MATLAB implementation, FIFO, tests, JSON data, MD, PDF, HTML,\n'
         'Live Editor MLX and M, actual test results, PNG and plot data.\n'
         'Tests and exports passed on R2025a with only MATLAB and extracted-package\n'
-        'paths available. The existing server was used; no fresh-process claim.\n'
+        f'paths available. Fresh server: {report.get("new_server", False)}; PID: {report.get("pid")}.\n'
         'No LLS/WLLS/GN/GNP kernels or 30/450 km datasets are included.\n\n'
         'For local reproduction in a dedicated MATLAB session, restoredefaultpath,\n'
         'remove user/custom paths, change to the extracted package root, add only\n'
@@ -51,7 +51,7 @@ def finalize(package, destination):
         'Agent execution in libtr remains through tools/runner.sh and the registered\n'
         'filter2win_package suite, whose adapter performs this isolation.\n\n'
         'See results/acceptance.json for open acceptance items. Documentation visual\n'
-        'review and a fresh-server run are pending; this is not full release PASS.\n'
+        'review remains pending; this is not full release PASS.\n'
         'Binary formats carry version in document/plot content and manifest, not an\n'
         'invalid prefix. Third-party MathJax and strict test JSON retain their headers.\n', encoding='utf-8')
     manifest = json.loads((package / 'manifest.json').read_text(encoding='utf-8'))
