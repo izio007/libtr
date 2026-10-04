@@ -13,7 +13,11 @@ from pipeline_client import exchange
 
 ROOT = Path(__file__).resolve().parents[2]
 SUITES = {'matmul3': 'unit_test_matmul3', 'runner_contract': None,
-          'filter2win_package': 'unit_test_filter2win_package'}
+          'filter2win_package': 'unit_test_filter2win_package',
+          'filter2win': 'unit_test_filter2win',
+          'fifo_double': 'unit_test_fifo_double',
+          'filter2win_demo': 'unit_test_filter2win_demo',
+          'filter2win_consumers': 'unit_test_filter_engine_scenario'}
 
 
 def load_config(path, root=ROOT):
@@ -55,7 +59,8 @@ def execute(config):
             raise RuntimeError(output.getvalue())
         return result.testsRun
     name = SUITES[config['suite']]
-    if config['suite'] == 'filter2win_package':
+    if config['suite'] in ('filter2win_package', 'filter2win', 'fifo_double',
+                           'filter2win_demo', 'filter2win_consumers'):
         host = exchange(dict(v=1, op='ping'), timeout=min(30, config['timeout_seconds']))
         if host.get('active') or host.get('queued'):
             raise RuntimeError('Server is busy; package job was not submitted')

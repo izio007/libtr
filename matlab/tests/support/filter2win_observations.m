@@ -1,10 +1,8 @@
 function [cfg,ctx,t,truth,measured,missing] = filter2win_observations
 % Synthetic input only; preserves the original single rand draw and ordering.
-cfg=struct('N',20,'S',6,'R_MAX',5,'R_ALT_MAX',6, ...
-    'T_PROLONGATION_MAX',15,'T_TIMEOUT_CLEAR',70,'V',0, ...
-    'DT',3,'T_MAX',300,'STATUS_SUCCESS',0);
+cfg=filter2win_config;
 ctx=struct('X_MAIN_REF',10);
-t=0:cfg.DT:cfg.T_MAX;
+t=0:3:300;
 truth=10.0*ones(1,numel(t));
 measured=truth;
 measured(t==30)=40;

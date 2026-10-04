@@ -1,45 +1,49 @@
 function unit_test_filter2win
-% Independent arithmetic and state-transition checks of the scalar contract.
-c=struct('N',4,'S',3,'R_MAX',2,'R_ALT_MAX',1, ...
-    'T_PROLONGATION_MAX',3,'T_TIMEOUT_CLEAR',10);
-s=struct('X_MAIN_REF',0);
-s=step(c,s,0,0); s=step(c,s,1,2); assert(s.X_FILTERED_OUTPUT==1);
-s=step(c,s,2,30); assert(s.X_FILTERED_OUTPUT==1 && ~s.ACCEPTED);
-s=step(c,s,3,1); assert(s.X_FILTERED_OUTPUT==1 && s.W_ALT_POWER_OUTPUT==0);
-% False initial hypothesis and switching on precisely the third candidate.
-s=struct('X_MAIN_REF',100);
-s=step(c,s,0,9); s=step(c,s,1,10); assert(~s.REACQUIRED);
-s=step(c,s,2,11); assert(s.REACQUIRED && s.X_FILTERED_OUTPUT==10);
-s=step(c,s,3,100); s=step(c,s,4,100); s=step(c,s,5,100);
-assert(s.REACQUIRED && s.X_FILTERED_OUTPUT==100);
-% Whole-window compactness; an incompatible sample starts a new hypothesis.
-s=struct('X_MAIN_REF',0);
-s=step(c,s,0,10); s=step(c,s,1,10); s=step(c,s,2,30);
-assert(~s.REACQUIRED && s.W_ALT_POWER_OUTPUT==1);
-% Hold and alternative expiry are independent and include exact boundaries.
-s=struct('X_MAIN_REF',0); s=step(c,s,0,10);
-s=step(c,s,3,NaN); assert(s.X_FILTERED_OUTPUT==0 && s.W_ALT_POWER_OUTPUT==1);
-s=step(c,s,4,NaN); assert(isnan(s.X_FILTERED_OUTPUT) && s.W_ALT_POWER_OUTPUT==1);
-s=step(c,s,10,NaN); assert(s.W_ALT_POWER_OUTPUT==1);
-s=step(c,s,11,NaN); assert(s.W_ALT_POWER_OUTPUT==0);
-% Expired main samples cannot bias the first new accepted observation.
-s=struct('X_MAIN_REF',0); s=step(c,s,0,0); s=step(c,s,11,2);
-assert(s.X_FILTERED_OUTPUT==2);
-old=s; [st,s]=filter2win(c,s,11,1,false); assert(st==1 && isequaln(s,old));
-[st,s]=filter2win(c,s,12,Inf,false); assert(st==1 && isequaln(s,old));
-bad=c; bad.S=1; [st,s]=filter2win(bad,s,12,0,false); assert(st==1 && isequaln(s,old));
-% Known velocity is applied consistently to both windows.
-v=c; v.V=2; s=struct('X_MAIN_REF',0);
-for t=0:20, s=step(v,s,t,2*t); assert(s.X_FILTERED_OUTPUT==2*t); end
-% Gaussian noise, fixed seed, no hidden truth input or scenario switch.
-state=rng; cleanup=onCleanup(@() rng(state)); rng(7301,'twister');
-n=c; n.N=20; n.R_MAX=8; n.S=6;
-x=randn(1,5000); y=zeros(size(x)); s=struct('X_MAIN_REF',0);
-for t=1:numel(x), s=step(n,s,t,x(t)); y(t)=s.X_FILTERED_OUTPUT; end
-assert(all(isfinite(y)) && sqrt(mean(y(100:end).^2))<0.4*sqrt(mean(x(100:end).^2)));
+% F2W-S2-02/04/05: independent robust arithmetic and API invariants.
+root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
+addpath(fullfile(root,'matlab','tests','support'));
+c=filter2win_config;
+p=jsondecode(fileread(fullfile(root,'matlab','tests','configs','filter2win_schema2_cases.json')));
+[ok,reason]=filter2win_validate(c); assert(ok,reason);
+samples=struct('time',p.model_time(:).','value',p.model_value(:).');
+m=filter2win_model(samples,c.main);
+assert(abs(m.level-p.expected_median)<=p.tolerance);
+assert(abs(m.mad-p.expected_mad)<=p.tolerance);
+w=c.main; w.model='linear';
+samples.value=p.line_level+p.line_velocity*samples.time;
+m=filter2win_model(samples,w);
+assert(abs(m.velocity-p.line_velocity)<=p.tolerance);
+assert(abs(m.level-samples.value(end))<=p.tolerance && m.mad<=p.tolerance);
+w.model='known_velocity'; w.known_velocity=p.line_velocity;
+m=filter2win_model(samples,w);
+assert(abs(m.level-samples.value(end))<=p.tolerance);
+a=struct(); b=struct('X_MAIN_REF',p.unrelated_reference);
+for k=1:numel(p.startup_time)
+    t=p.startup_time(k);
+    [rc,a]=filter2win(c,a,t,p.level,false); assert(rc==0);
+    [rc,b]=filter2win(c,b,t,p.level,false); assert(rc==0);
+    assert(isequaln(a.X_FILTERED_OUTPUT,b.X_FILTERED_OUTPUT));
+    assert(a.FILTER_VALID==isfinite(a.X_FILTERED_OUTPUT));
+    if k<c.main.min_samples || t-p.startup_time(1)<c.main.min_span_seconds
+        assert(~a.FILTER_VALID);
+    end
 end
-
-function s=step(c,s,t,x)
-[status,s]=filter2win(c,s,double(t),double(x),isnan(x));
-assert(status==0);
+assert(a.FILTER_STATUS==2 && abs(a.X_FILTERED_OUTPUT-p.level)<=p.tolerance);
+old=a;
+[rc,a]=filter2win(c,a,p.startup_time(end),p.level,false);
+assert(rc==1 && isequaln(a,old));
+flat=struct('N',1);
+[rc,out]=filter2win(flat,old,p.refusal_time,p.level,false);
+assert(rc==1 && isequaln(out,old));
+bad=c; bad.schema_version=1;
+[rc,a]=filter2win(bad,a,p.refusal_time,p.level,false);
+assert(rc==1 && isequaln(a,old));
+legacy=struct('FILTER_STATE',struct('anchor',p.level));
+[rc,out]=filter2win(c,legacy,p.refusal_time,p.level,false);
+assert(rc==1 && isequaln(out,legacy));
+for k=1:numel(p.gap_time)
+    [rc,a]=filter2win(c,old,p.gap_time(k),NaN,true);
+    assert(rc==0 && a.FILTER_STATUS==p.gap_status(k));
+    assert(a.FILTER_VALID==p.gap_valid(k));
+end
 end

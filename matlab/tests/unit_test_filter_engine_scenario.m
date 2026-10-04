@@ -10,8 +10,7 @@ z(t>=171 & t<=216)=25; z(t==252 | t==255)=28;
 noise=4*rand(size(z))-2;
 z=z+noise; z(t>100 & t<170)=NaN;
 expectedRng=rng;
-cfg=struct('N',20,'S',6,'R_MAX',5,'R_ALT_MAX',6, ...
-    'T_PROLONGATION_MAX',15,'T_TIMEOUT_CLEAR',70,'V',0);
+cfg=filter2win_config;
 ctx=struct('X_MAIN_REF',10); y=zeros(numel(t),1); p=y;
 for k=1:numel(t)
     [s,ctx]=filter2win(cfg,ctx,t(k),z(k),isnan(z(k)));

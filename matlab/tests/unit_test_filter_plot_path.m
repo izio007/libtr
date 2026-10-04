@@ -16,8 +16,8 @@ end
 data=load(fullfile(folder,'filter2win_doc_data.mat'));
 assert(numel(data.t)==101 && any(isnan(data.measured)));
 addpath(fullfile(root,'matlab','function'));
-cfg=struct('N',20,'S',6,'R_MAX',5,'R_ALT_MAX',6, ...
-    'T_PROLONGATION_MAX',15,'T_TIMEOUT_CLEAR',70,'V',0);
+addpath(fullfile(root,'matlab','tests','support'));
+cfg=filter2win_config;
 ctx=struct('X_MAIN_REF',10);
 actual=zeros(numel(data.t),1); power=actual;
 for k=1:numel(data.t)
