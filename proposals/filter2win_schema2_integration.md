@@ -62,3 +62,23 @@ Python check test_filter_scenario_declaration проверяет согласо�
 Проверка этого шага: runner_contract.json — PASS, 3/3 checks, 0.04 s;
 адресный git diff --check — без ошибок. Изменённые MATLAB-файлы перечитаны.
 Расчётная проверка переноса NOT_RUN: постоянный сервер :5555 недоступен.
+
+## Фактическое исполнение после восстановления сервера
+
+Дата в MATLAB-отчётах: 04-Oct-2026, R2025a, постоянный host PID 17328.
+Все четыре задания выполнены последовательно через tools/runner.sh.
+Время runner включает транспорт и подготовку; 1/1 означает suite,
+не количество внутренних assert.
+
+| Suite | Результат | Время runner, s | ID в runtime/pipeline |
+|---|---|---|---|
+| fifo_double | PASS | 12.46 | ee64704b678c474ca80c4666a1380d5c |
+| filter2win | PASS | 7.93 | d271d543e06646f7886f081c284d030a |
+| filter2win_consumers | PASS | 31.21 | b78dbaafcd58499880a109d497f46898 |
+| filter2win_demo | PASS | 15.13 | e70e5573408c42669f37c7020215f972 |
+
+report.json каждого задания содержит state=passed и test_sha256.
+В каталоге демо созданы filter2win_demo.mat, filter2win_demo.png и
+FILTER_STATUS_debug.log. PNG прочитан: отображаются измерения, модель
+входного плато, сглаженный выход и рабочие статусы. Ручной контроль Шефом
+остаётся отдельно; это не полный release PASS и не покрытие всех 17 режимов.
