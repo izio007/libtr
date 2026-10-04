@@ -1,0 +1,29 @@
+# Учёт интеграции пользовательского filter2win_package
+
+Источник: C:\Users\pavrad\Documents\Codex\2026-10-02\pt\outputs\filter2win_package.
+Рабочий проект: f:\sy\workspace\libtr. Резервная копия старого ядра не создаётся.
+
+| Материал источника | Решение |
+| --- | --- |
+| matlab/function/*.m (8 файлов) | Перенесены побайтово; единственная рабочая реализация |
+| examples/demo_filter2win.m | matlab/tests/demo_filter2win.m; адаптирован корень |
+| matlab/tests/support/*.m | Перенесены |
+| filter2win_config.json, filter2win_demo_scenario.json | Перенесены без изменения профиля |
+| unit_test_fifo_double.m, unit_test_filter2win_demo.m | Адаптированы к штатному runner |
+| unit_test_filter2win_candidate.m, filter2win_cases.json | Заменены актуальными независимыми проверками схемы 2; все 17 режимов PASS |
+| *_runner.json | Зарегистрированы в диспетчере libtr |
+| verification/inspect_package.py и .sh | Проверки зависимостей, событий, уникальности правил и 17 обработчиков перенесены в test_declarative_runner.py; отдельный обход runner не нужен |
+| verification/*.json, *.log, REPORT.txt | Исторические свидетельства исходного пакета; не выдаются за результаты libtr и не копируются |
+| README.txt, docs/CONTRACT.txt, integration/VS_CODE_HANDOFF.txt | Учтены в docs/filter2win_theory.md и proposals/filter2win_schema2_integration.md; устаревший контракт схемы 1 не вводится как второй SSOT |
+| reference/libtr/* | Историческая реализация, не зависимость; исключена согласно требованию не хранить резервную копию |
+| reference/README.txt, control_annotated.png | Просмотрены как исторические требования. Позднейшее требование автономного захвата плато имеет приоритет; рисунок не численный эталон новой схемы |
+
+Состав сборщика расширен до восьми ядер, конфигураций, support, демо и
+адаптированных тестов. Исполнитель пакета использует свежий ctx и alt.count,
+а не удалённый W_ALT_POWER_OUTPUT. Финализатор не присваивает визуальный PASS
+автоматически. Статическая проверка состава выполняется через runner_contract.
+
+Экспорт документов, изолированное исполнение нового архива и ручная приёмка
+остаются отдельным Release: сейчас не выполнялись. Существовавшие изменения
+экспорта/отдельного сервера сохраняются в рабочем дереве и не относятся к
+коммиту адаптации схемы 2. Старый архив 0.1.1 не подтверждает новую реализацию.

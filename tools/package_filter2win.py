@@ -11,9 +11,29 @@ import sys
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
+PRODUCTION = (
+    'fifo_double', 'filter2win', 'filter2win_band', 'filter2win_features',
+    'filter2win_model', 'filter2win_rule_checks', 'filter2win_status_name',
+    'filter2win_validate',
+)
 FILES = (
     'matlab/function/filter2win.m',
     'matlab/function/fifo_double.m',
+    'matlab/function/filter2win_band.m',
+    'matlab/function/filter2win_features.m',
+    'matlab/function/filter2win_model.m',
+    'matlab/function/filter2win_rule_checks.m',
+    'matlab/function/filter2win_status_name.m',
+    'matlab/function/filter2win_validate.m',
+    'matlab/tests/support/filter2win_config.m',
+    'matlab/tests/support/filter2win_debug_line.m',
+    'matlab/tests/demo_filter2win.m',
+    'matlab/tests/unit_test_filter2win_candidate.m',
+    'matlab/tests/unit_test_filter2win_demo.m',
+    'matlab/tests/configs/filter2win_config.json',
+    'matlab/tests/configs/filter2win_cases.json',
+    'matlab/tests/configs/filter2win_schema2_cases.json',
+    'matlab/tests/configs/filter2win_demo_scenario.json',
     'matlab/tests/unit_test_filter2win.m',
     'matlab/tests/unit_test_fifo_double.m',
     'matlab/tests/configs/fifo_double_cases.json',
@@ -92,13 +112,13 @@ def build(version, destination):
         '# filter2win — source candidate, NOT_RUN\n\n'
         'This is not an accepted release. PDF, MLX, PNG and executed test evidence\n'
         'are not yet available. See results/acceptance.json.\n\n'
-        'Production code consists of filter2win.m and fifo_double.m.\n'
+        'Production code consists of eight schema-2 kernels listed in manifest.json.\n'
         'No positioning algorithms or 30/450 km datasets are included.\n'
         'Runtime isolation has not been demonstrated.\n\n'
         'HTML uses the bundled MathJax asset. Live Editor .m is a text source,\n'
         'not a binary .mlx. JSON and third-party MathJax retain their original\n'
         'format/header; their package version is recorded in manifest.json.\n'
-        'The transitional minimum-window requirements remain unresolved.\n', encoding='utf-8')
+        'Schema-2 profiles require a fresh context; old flat configurations are incompatible.\n', encoding='utf-8')
     commit = subprocess.check_output(['git', '--no-pager', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True).strip()
     manifest = {'package_version': version, 'source_commit': commit,
                 'source_dirty': bool(subprocess.check_output(

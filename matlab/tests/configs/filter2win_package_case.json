@@ -1,12 +1,13 @@
-{"package_version":"0.1.1",
-  "package_relative_root":"runtime/Release/filter2win/0.1.1-attempt02/verification/filter2win-0.1.1",
-  "filter":{"N":4,"S":3,"R_MAX":2,"R_ALT_MAX":1,"T_PROLONGATION_MAX":3,"T_TIMEOUT_CLEAR":10},
+{"package_version":"0.2.0",
+  "package_relative_root":"runtime/Release/filter2win/0.2.0/verification/filter2win-0.2.0",
+  "filter_config":"filter2win_config.json",
+  "production_functions":["fifo_double","filter2win","filter2win_band","filter2win_features","filter2win_model","filter2win_rule_checks","filter2win_status_name","filter2win_validate"],
   "initial_reference":0,
   "time":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
   "measurement":[0,2,1,0,20,10,10,10,10,10,10,10,10,10,10,10],
   "missing":[false,false,false,false,false,false,false,false,false,true,true,true,true,true,false,false],
   "reference":[0,0,0,0,0,10,10,10,10,10,10,10,10,10,10,10],
-  "checks":["unit_test_fifo_double","unit_test_filter2win"],
+  "checks":["unit_test_fifo_double","unit_test_filter2win","unit_test_filter2win_candidate"],
   "documents":["filter2win","fifo_double"],
   "forbidden_functions":["lls_position","wlls_position","gn_position","gnp_position","lls_covariance","wlls_covariance","gn_covariance","gnp_covariance"]
 }

@@ -3,6 +3,8 @@ function run_filter2win_package
 package = fileparts(fileparts(fileparts(mfilename('fullpath'))));
 config = jsondecode(fileread(fullfile(package, 'matlab', 'tests', ...
     'configs', 'filter2win_package_case.json')));
+addpath(fullfile(package,'matlab','tests','support'));
+config.filter=filter2win_config(fullfile(package,'matlab','tests','configs',config.filter_config));
 output = fullfile(package, 'results');
 if ~isfolder(output)
     mkdir(output);
@@ -12,7 +14,7 @@ report = struct('package_version', config.package_version, 'status', 'NOT_RUN', 
     'checks', {{}}, 'visual_review', 'NOT_RUN', 'new_server', false);
 clock = tic;
 try
-    for name = {'filter2win', 'fifo_double'}
+    for name = reshape(config.production_functions,1,[])
         resolved = which(name{1});
         expected = fullfile(package, 'matlab', 'function', [name{1} '.m']);
         assert(strcmpi(resolved, expected), 'libtr:package:Path', 'Wrong function: %s', resolved);
@@ -68,12 +70,12 @@ reference = config.reference(:);
 missing = config.missing(:);
 filtered = NaN(size(time));
 power = zeros(size(time));
-state = struct('X_MAIN_REF', config.initial_reference);
+state = struct();
 for k = 1:numel(time)
     [status, state] = filter2win(config.filter, state, time(k), measurement(k), missing(k));
     assert(status == 0, 'libtr:package:Scenario', 'Filter refused sample %d', k);
     filtered(k) = state.X_FILTERED_OUTPUT;
-    power(k) = state.W_ALT_POWER_OUTPUT;
+    power(k) = state.FILTER_STATE.alt.count;
 end
 save(fullfile(output, 'plot_data.mat'), 'time', 'measurement', 'reference', 'missing', 'filtered', 'power');
 fig = figure('Visible', 'off', 'Color', 'w');

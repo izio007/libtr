@@ -2,10 +2,44 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+import importlib.util
+import re
 from declarative_runner import load_config
 
 
 class ConfigTests(unittest.TestCase):
+    def test_filter_package_schema2_closure(self):
+        root = Path(__file__).resolve().parents[2]
+        spec = importlib.util.spec_from_file_location('package_filter2win', root/'tools/package_filter2win.py')
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        self.assertEqual(len(module.FILES), len(set(module.FILES)))
+        for name in module.FILES:
+            self.assertTrue((root/name).is_file(), name)
+        functions = set(module.PRODUCTION)
+        for name in functions:
+            relative = 'matlab/function/' + name + '.m'
+            self.assertIn(relative, module.FILES)
+            text = (root/relative).read_text(encoding='utf-8')
+            references = set(re.findall(r'\b(filter2win_[a-z_]+|fifo_double)\s*\(', text))
+            self.assertFalse(references - functions)
+        cfg = json.loads((root/'matlab/tests/configs/filter2win_config.json').read_text())
+        self.assertEqual(cfg['schema_version'], 2)
+        rules = cfg['rules']
+        self.assertEqual(len(rules), len({r['priority'] for r in rules}))
+        self.assertEqual(len(rules), len({r['name'] for r in rules}))
+        text = (root/'matlab/function/filter2win_features.m').read_text()
+        events = set(re.findall(r'^\s*e\.([A-Z_]+)\s*=', text, re.M))
+        self.assertFalse({r['event'] for r in rules} - events)
+        text = (root/'matlab/function/filter2win.m').read_text()
+        handlers = set(map(int, re.findall(r'^\s*case\s+(\d+)\b', text, re.M)))
+        self.assertEqual(handlers, set(range(17)))
+        case = json.loads((root/'matlab/tests/configs/filter2win_package_case.json').read_text())
+        self.assertEqual(set(case['production_functions']), functions)
+        self.assertIn('matlab/tests/configs/'+case['filter_config'], module.FILES)
+        for name in case['checks']:
+            self.assertIn('matlab/tests/'+name+'.m', module.FILES)
+
     def test_filter_scenario_declaration(self):
         root = Path(__file__).resolve().parents[2]
         folder = root / 'matlab/tests/configs'

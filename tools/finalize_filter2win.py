@@ -3,7 +3,7 @@ import argparse
 import json
 from pathlib import Path
 import zipfile
-from package_filter2win import digest, write_json
+from package_filter2win import digest, write_json, PRODUCTION
 
 
 def finalize(package, destination):
@@ -23,16 +23,16 @@ def finalize(package, destination):
         if not (package / 'results' / (name + '.png')).read_bytes().startswith(b'\x89PNG\r\n\x1a\n'):
             raise ValueError('Invalid PNG signature')
     core = sorted(p.name for p in (package / 'matlab/function').glob('*.m'))
-    if core != ['fifo_double.m', 'filter2win.m']:
+    if core != sorted(name + '.m' for name in PRODUCTION):
         raise ValueError('Unexpected production dependency')
     acceptance = {
         'package_version': version, 'status': 'NOT_RUN', 'release_accepted': False,
         'matlab_execution': 'PASS', 'isolated_path': 'PASS',
         'formats_present': ['MATLAB', 'JSON', 'MD', 'HTML', 'PDF', 'MLX', 'PNG', 'MAT'],
-        'png_visual_review': 'PASS', 'document_visual_review': 'NOT_RUN',
+        'png_visual_review': 'NOT_RUN', 'document_visual_review': 'NOT_RUN',
         'new_server': False, 'production_files': core,
         'limitations': ['Existing server with isolated path, not a new process',
-                        'Minimum-window transition requirements remain open',
+                        'Scenario tuning and manual acceptance remain separate',
                         'Zero-allocation is not measured',
                         'Complete readability and document visual audit pending'],
     }
