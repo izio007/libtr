@@ -16,6 +16,7 @@ SUITES = {'matmul3': 'unit_test_matmul3', 'runner_contract': None,
           'filter2win_package': 'unit_test_filter2win_package',
           'filter2win': 'unit_test_filter2win',
           'filter2win_candidate': 'unit_test_filter2win_candidate',
+          'filter2win_isolation': 'unit_test_filter2win_isolation',
           'fifo_double': 'unit_test_fifo_double',
           'filter2win_demo': 'unit_test_filter2win_demo',
           'filter2win_consumers': 'unit_test_filter_engine_scenario'}
@@ -61,7 +62,7 @@ def execute(config):
         return result.testsRun
     name = SUITES[config['suite']]
     if config['suite'] in ('filter2win_package', 'filter2win', 'filter2win_candidate', 'fifo_double',
-                           'filter2win_demo', 'filter2win_consumers'):
+                           'filter2win_demo', 'filter2win_consumers', 'filter2win_isolation'):
         host = exchange(dict(v=1, op='ping'), timeout=min(30, config['timeout_seconds']))
         if host.get('active') or host.get('queued'):
             raise RuntimeError('Server is busy; package job was not submitted')

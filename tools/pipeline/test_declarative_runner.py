@@ -4,10 +4,29 @@ import tempfile
 import unittest
 import importlib.util
 import re
+import hashlib
 from declarative_runner import load_config
 
 
 class ConfigTests(unittest.TestCase):
+    def test_filter_source_inventory(self):
+        root = Path(__file__).resolve().parents[2]
+        inventory = json.loads((root/'proposals/filter2win_source_inventory.json').read_text(encoding='utf-8'))
+        entries = inventory['entries']
+        self.assertEqual(len(entries), len({entry['source'] for entry in entries}))
+        for entry in entries:
+            self.assertRegex(entry['source_sha256'], r'^[0-9a-f]{64}$')
+            self.assertIn(entry['decision'], ('identical', 'adapted', 'excluded_historical_reference',
+                                             'superseded_verification', 'superseded_schema1_document'))
+            if entry['target']:
+                target = root/entry['target']
+                self.assertTrue(target.is_file(), entry['target'])
+                if entry['decision'] == 'identical':
+                    self.assertEqual(hashlib.sha256(target.read_bytes()).hexdigest(), entry['source_sha256'])
+        kernels = [e for e in entries if e['source'].startswith('matlab/function/')]
+        self.assertEqual(len(kernels), 8)
+        self.assertTrue(all(e['decision'] == 'identical' for e in kernels))
+
     def test_filter_package_schema2_closure(self):
         root = Path(__file__).resolve().parents[2]
         spec = importlib.util.spec_from_file_location('package_filter2win', root/'tools/package_filter2win.py')
@@ -39,6 +58,10 @@ class ConfigTests(unittest.TestCase):
         self.assertIn('matlab/tests/configs/'+case['filter_config'], module.FILES)
         for name in case['checks']:
             self.assertIn('matlab/tests/'+name+'.m', module.FILES)
+        isolation = json.loads((root/'matlab/tests/configs/filter2win_isolation.json').read_text())
+        self.assertFalse(set(isolation['files']) - set(module.FILES))
+        for name in isolation['checks']:
+            self.assertIn('matlab/tests/'+name+'.m', isolation['files'])
 
     def test_filter_scenario_declaration(self):
         root = Path(__file__).resolve().parents[2]

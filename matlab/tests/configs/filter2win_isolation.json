@@ -1,0 +1,27 @@
+{
+  "files": [
+    "matlab/function/fifo_double.m",
+    "matlab/function/filter2win.m",
+    "matlab/function/filter2win_band.m",
+    "matlab/function/filter2win_features.m",
+    "matlab/function/filter2win_model.m",
+    "matlab/function/filter2win_rule_checks.m",
+    "matlab/function/filter2win_status_name.m",
+    "matlab/function/filter2win_validate.m",
+    "matlab/tests/support/filter2win_config.m",
+    "matlab/tests/support/filter2win_debug_line.m",
+    "matlab/tests/unit_test_fifo_double.m",
+    "matlab/tests/unit_test_filter2win.m",
+    "matlab/tests/unit_test_filter2win_candidate.m",
+    "matlab/tests/unit_test_filter2win_demo.m",
+    "matlab/tests/demo_filter2win.m",
+    "matlab/tests/configs/fifo_double_cases.json",
+    "matlab/tests/configs/filter2win_config.json",
+    "matlab/tests/configs/filter2win_cases.json",
+    "matlab/tests/configs/filter2win_schema2_cases.json",
+    "matlab/tests/configs/filter2win_demo_scenario.json"
+  ],
+  "checks": ["unit_test_fifo_double", "unit_test_filter2win", "unit_test_filter2win_candidate", "unit_test_filter2win_demo"],
+  "forbidden_functions": ["lls_position", "wlls_position", "gn_position", "gnp_position"],
+  "artifacts": ["filter2win_candidate_contract.mat", "filter2win_demo.mat", "filter2win_demo.png", "FILTER_STATUS_debug.log"]
+}

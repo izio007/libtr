@@ -1,5 +1,11 @@
 # Учёт интеграции пользовательского filter2win_package
 
+Слияние завершено. Пофайловый учёт с хешами источника:
+proposals/filter2win_source_inventory.json. Актуальная автономная копия
+выполнена через штатный runner без путей проекта: FIFO, основные checks,
+17 режимов и демо PASS; report.json задания 380a7cda09b140d99b69556840380e3f.
+Это проверка слияния на постоянном host, не выпуск и не новый MATLAB-процесс.
+
 Источник: C:\Users\pavrad\Documents\Codex\2026-10-02\pt\outputs\filter2win_package.
 Рабочий проект: f:\sy\workspace\libtr. Резервная копия старого ядра не создаётся.
 

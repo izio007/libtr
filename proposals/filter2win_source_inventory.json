@@ -1,0 +1,240 @@
+{
+    "schema_version":  1,
+    "source_root":  "C:\\Users\\pavrad\\Documents\\Codex\\2026-10-02\\pt\\outputs\\filter2win_package",
+    "entries":  [
+                    {
+                        "source":  "docs/CONTRACT.txt",
+                        "source_sha256":  "e5cee3c0bfc154c1119abe062fcae93b647db9a611ab4f42b08e5daaa6969619",
+                        "decision":  "superseded_schema1_document",
+                        "target":  "docs/filter2win_theory.md"
+                    },
+                    {
+                        "source":  "examples/demo_filter2win.m",
+                        "source_sha256":  "94a1fbe6f0fc3079947831ee2bd3b5f458315fc7fd0e212761205b3c311a7ba4",
+                        "decision":  "adapted",
+                        "target":  "matlab/tests/demo_filter2win.m"
+                    },
+                    {
+                        "source":  "integration/VS_CODE_HANDOFF.txt",
+                        "source_sha256":  "42137054fb678a410b7bcab7f230bf38a570fc824f03ee504110a8d9d21747aa",
+                        "decision":  "superseded_schema1_document",
+                        "target":  "docs/filter2win_theory.md"
+                    },
+                    {
+                        "source":  "matlab/function/fifo_double.m",
+                        "source_sha256":  "a5ba86344daff6694b42c7fab286232db10e32e0e041ba5960840cb0036a4233",
+                        "decision":  "identical",
+                        "target":  "matlab/function/fifo_double.m"
+                    },
+                    {
+                        "source":  "matlab/function/filter2win.m",
+                        "source_sha256":  "8c89ac034c769a273eb20ba513b9dd62589b203b5b495f333520df15f17a0c50",
+                        "decision":  "identical",
+                        "target":  "matlab/function/filter2win.m"
+                    },
+                    {
+                        "source":  "matlab/function/filter2win_band.m",
+                        "source_sha256":  "c358c638077b9e44b472002d126005564f10768a5d5a98171ca3d162e89088a6",
+                        "decision":  "identical",
+                        "target":  "matlab/function/filter2win_band.m"
+                    },
+                    {
+                        "source":  "matlab/function/filter2win_features.m",
+                        "source_sha256":  "28d47575c3d60b4503470efee7d9deb2e73fc44f945b79cbfcb7579b31b9dc30",
+                        "decision":  "identical",
+                        "target":  "matlab/function/filter2win_features.m"
+                    },
+                    {
+                        "source":  "matlab/function/filter2win_model.m",
+                        "source_sha256":  "0adb1d545ebe874d7025019d35927fe3d7379c0acf70021c7aea4c9d3932f150",
+                        "decision":  "identical",
+                        "target":  "matlab/function/filter2win_model.m"
+                    },
+                    {
+                        "source":  "matlab/function/filter2win_rule_checks.m",
+                        "source_sha256":  "0399c32f56bcf72f1e97b70226bf2542b100741e47ed340f1cd6101212846c00",
+                        "decision":  "identical",
+                        "target":  "matlab/function/filter2win_rule_checks.m"
+                    },
+                    {
+                        "source":  "matlab/function/filter2win_status_name.m",
+                        "source_sha256":  "9147aa810b2e0b043d29fdd4c217bb93b11a56378138f629f50e229a55315d2e",
+                        "decision":  "identical",
+                        "target":  "matlab/function/filter2win_status_name.m"
+                    },
+                    {
+                        "source":  "matlab/function/filter2win_validate.m",
+                        "source_sha256":  "e858c0aec1799ad0b592ccfd295471f4d6a92ff76ecbc84562a91f62e84e117f",
+                        "decision":  "identical",
+                        "target":  "matlab/function/filter2win_validate.m"
+                    },
+                    {
+                        "source":  "matlab/tests/configs/fifo_double_runner.json",
+                        "source_sha256":  "321a4d43f641d5caf7fa55584fe3b4e69669b9f2baf7d7e0fb93aeeeddf7be8b",
+                        "decision":  "identical",
+                        "target":  "matlab/tests/configs/fifo_double_runner.json"
+                    },
+                    {
+                        "source":  "matlab/tests/configs/filter2win_candidate_runner.json",
+                        "source_sha256":  "6e7cb4eb6bd87e1bf1aedaae0f358513b0c31fefb02347b1beebc81b9bfb1239",
+                        "decision":  "adapted",
+                        "target":  "matlab/tests/configs/filter2win_candidate_runner.json"
+                    },
+                    {
+                        "source":  "matlab/tests/configs/filter2win_cases.json",
+                        "source_sha256":  "90aeac45f6e09eebc1dda57a4cee3cbed2e61db23b59fb6fd63bb47e427245f9",
+                        "decision":  "adapted",
+                        "target":  "matlab/tests/configs/filter2win_cases.json"
+                    },
+                    {
+                        "source":  "matlab/tests/configs/filter2win_config.json",
+                        "source_sha256":  "2ac5f84ba6492e01cc12f0045610d50a9063bc6e6e84f11235719803ae93b001",
+                        "decision":  "identical",
+                        "target":  "matlab/tests/configs/filter2win_config.json"
+                    },
+                    {
+                        "source":  "matlab/tests/configs/filter2win_demo_runner.json",
+                        "source_sha256":  "5fe61fb787f2d9cc1cc08134288f2aef40aec26c303b684e645112c758649f6f",
+                        "decision":  "identical",
+                        "target":  "matlab/tests/configs/filter2win_demo_runner.json"
+                    },
+                    {
+                        "source":  "matlab/tests/configs/filter2win_demo_scenario.json",
+                        "source_sha256":  "3bb580cabd8931e309c30070bfaa8ce889eb1c074df95075ed17cb3826f43f01",
+                        "decision":  "identical",
+                        "target":  "matlab/tests/configs/filter2win_demo_scenario.json"
+                    },
+                    {
+                        "source":  "matlab/tests/support/filter2win_config.m",
+                        "source_sha256":  "b7417ef2781ede226ed4c3a36f1dbbe20cf5c61b7b9656cd1ea2e0ba4a2e6a2c",
+                        "decision":  "identical",
+                        "target":  "matlab/tests/support/filter2win_config.m"
+                    },
+                    {
+                        "source":  "matlab/tests/support/filter2win_debug_line.m",
+                        "source_sha256":  "0c2eadf5ae4214f1f9d4484ddd0f5d416cf2386e5f086850fcd0daa5298b86bf",
+                        "decision":  "identical",
+                        "target":  "matlab/tests/support/filter2win_debug_line.m"
+                    },
+                    {
+                        "source":  "matlab/tests/unit_test_fifo_double.m",
+                        "source_sha256":  "2b670d63eda86f56f163dab53664be50ddbc1e92f28b3c8b424851ca59d7810e",
+                        "decision":  "adapted",
+                        "target":  "matlab/tests/unit_test_fifo_double.m"
+                    },
+                    {
+                        "source":  "matlab/tests/unit_test_filter2win_candidate.m",
+                        "source_sha256":  "64bd16cbdb39d023b0c01f6ef934dbc39abbae7e92cda27a5028bdde7cb2208c",
+                        "decision":  "adapted",
+                        "target":  "matlab/tests/unit_test_filter2win_candidate.m"
+                    },
+                    {
+                        "source":  "matlab/tests/unit_test_filter2win_demo.m",
+                        "source_sha256":  "9a11cb6ef837828046105c13d406ed561e8d30f95741154c898febe299f37cef",
+                        "decision":  "adapted",
+                        "target":  "matlab/tests/unit_test_filter2win_demo.m"
+                    },
+                    {
+                        "source":  "README.txt",
+                        "source_sha256":  "a6de2dbd9d9b00b8e51eec14973925061f790ab12f28a9319c2bcebf5042ee25",
+                        "decision":  "adapted",
+                        "target":  "proposals/filter2win_package_integration_inventory.md"
+                    },
+                    {
+                        "source":  "reference/control_annotated.png",
+                        "source_sha256":  "bb25d15b932cb80bb7f826a7839f16a1dcb3b2167eb0a2a28f8370ac67bc15e1",
+                        "decision":  "excluded_historical_reference",
+                        "target":  null
+                    },
+                    {
+                        "source":  "reference/libtr/docs/filter2win_theory.md",
+                        "source_sha256":  "a92690d8a89d1735589b93baac19e684a286fff6f5305da8e195b96fd2bb9e4b",
+                        "decision":  "excluded_historical_reference",
+                        "target":  null
+                    },
+                    {
+                        "source":  "reference/libtr/matlab/function/fifo_clear.m",
+                        "source_sha256":  "157e664f87d41bf38370e009a1b0aba592caaca1fb34a4dbe403df2d4a9b7374",
+                        "decision":  "excluded_historical_reference",
+                        "target":  null
+                    },
+                    {
+                        "source":  "reference/libtr/matlab/function/fifo_delete_at.m",
+                        "source_sha256":  "581d0419b7341fbd70d31f256f406397bfbd4c834cdde0cc8dd3a31cb195e9ed",
+                        "decision":  "excluded_historical_reference",
+                        "target":  null
+                    },
+                    {
+                        "source":  "reference/libtr/matlab/function/fifo_peek_recent.m",
+                        "source_sha256":  "f229d6c946ee4180d77b281a80ee706176391ca396655c2770fc64ebde83a3ef",
+                        "decision":  "excluded_historical_reference",
+                        "target":  null
+                    },
+                    {
+                        "source":  "reference/libtr/matlab/function/fifo_push.m",
+                        "source_sha256":  "f54d00a8e270a8d263c718c5a975b46ce6d22e6082f47344169309943d9feb8d",
+                        "decision":  "excluded_historical_reference",
+                        "target":  null
+                    },
+                    {
+                        "source":  "reference/libtr/matlab/function/filter2win.m",
+                        "source_sha256":  "e72e7d7ce2ad23304277593668cdbd67994b715b90f85fb96ef09f2da9e5c6ab",
+                        "decision":  "excluded_historical_reference",
+                        "target":  null
+                    },
+                    {
+                        "source":  "reference/libtr/matlab/tests/support/filter2win_observations.m",
+                        "source_sha256":  "f014e0d34a7a52bfb25fd3dfc1a1dbceaa89c9476096ac1994e32004b561824b",
+                        "decision":  "excluded_historical_reference",
+                        "target":  null
+                    },
+                    {
+                        "source":  "reference/libtr/matlab/tests/unit_test_filter2win.m",
+                        "source_sha256":  "6abce3225a95b088357eeeab5e7e79c359e651c38e4f3e49355222663b2d7cea",
+                        "decision":  "excluded_historical_reference",
+                        "target":  null
+                    },
+                    {
+                        "source":  "reference/README.txt",
+                        "source_sha256":  "d27ceeccf92fbcdf548f2b2487178ee086089aedb2b1f56be7ac81fb348722be",
+                        "decision":  "excluded_historical_reference",
+                        "target":  null
+                    },
+                    {
+                        "source":  "verification/inspect_package.py",
+                        "source_sha256":  "6fbd27d38c81ee5b1dfe07053980b0bfdf5851011392f0bd3993359d9f1bf0a6",
+                        "decision":  "superseded_verification",
+                        "target":  "tools/pipeline/test_declarative_runner.py"
+                    },
+                    {
+                        "source":  "verification/inspect_package.sh",
+                        "source_sha256":  "5176dbcfa005464c64d26f36d7ae83d78f152cbc7f69e2647583484d5dad3988",
+                        "decision":  "superseded_verification",
+                        "target":  "tools/pipeline/test_declarative_runner.py"
+                    },
+                    {
+                        "source":  "verification/matlab_code_analyzer.log",
+                        "source_sha256":  "a02a525cbebce76cf4580f3aae12851fe1b9f50dbafcdbc3e6cb91c9a8990f25",
+                        "decision":  "superseded_verification",
+                        "target":  "tools/pipeline/test_declarative_runner.py"
+                    },
+                    {
+                        "source":  "verification/package_inspection.json",
+                        "source_sha256":  "d06bd67411e90ad9f15fd6380f0cc71e0239e6fd5a585d6ba382ca5d6c252fe7",
+                        "decision":  "superseded_verification",
+                        "target":  "tools/pipeline/test_declarative_runner.py"
+                    },
+                    {
+                        "source":  "verification/package_manifest.json",
+                        "source_sha256":  "e1578de729ee596d8c584971da4e5cbddb9e5f0803aa8a8fe570e5e797d7acf9",
+                        "decision":  "superseded_verification",
+                        "target":  "tools/pipeline/test_declarative_runner.py"
+                    },
+                    {
+                        "source":  "verification/REPORT.txt",
+                        "source_sha256":  "ed3a4f70f4c69eb3bbdfee00e31454f25f0467a07db516eab83e26d363e44552",
+                        "decision":  "superseded_verification",
+                        "target":  "tools/pipeline/test_declarative_runner.py"
+                    }
+                ]
+}
