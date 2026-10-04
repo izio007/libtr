@@ -1,0 +1,17 @@
+{
+  "seed": 1729,
+  "rng_algorithm": "twister",
+  "start_time": 0,
+  "time_step": 3,
+  "end_time": 300,
+  "expected_samples": 101,
+  "initial_reference": 10,
+  "truth_level": 10,
+  "plateaus": [[60, 100, 25], [171, 216, 25]],
+  "spikes": [[30, 40], [252, 28], [255, 28]],
+  "noise_width": 4,
+  "noise_offset": -2,
+  "missing_open_interval": [100, 170],
+  "rmse_tolerance": 1e-14,
+  "invalid_capacity": 0
+}

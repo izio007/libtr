@@ -8,7 +8,8 @@ state = rng;
 cleanup = onCleanup(@() restore(oldpath, state));
 addpath(fullfile(root,'matlab','function'), ...
     fullfile(root,'matlab','tests','support'));
-rng(1729, 'twister');
+spec=filter2win_observation_config;
+rng(spec.seed,spec.rng_algorithm);
 [t, truth, measured, filtered, power] = filter2win_scenario;
 save(fullfile(out,'filter2win_doc_data.mat'), ...
     't','truth','measured','filtered','power');
@@ -19,7 +20,7 @@ plot(t,measured,'r.');
 plot(t,filtered,'b-','LineWidth',1.5);
 grid on;
 xlabel('Time, s'); ylabel('X, km');
-title('filter2win: actual kernel output, seed 1729');
+title(sprintf('filter2win: actual kernel output, seed %d',spec.seed));
 legend('Reference','Measurements','Filter output','Location','best');
 exportgraphics(f,fullfile(out,'filter2win_trajectory.png'),'Resolution',150);
 clf(f);
@@ -27,14 +28,14 @@ stairs(t,power,'b-','LineWidth',1.5); grid on;
 xlabel('Time, s'); ylabel('Alternative window count');
 title('filter2win: actual alternative window occupancy');
 exportgraphics(f,fullfile(out,'filter2win_window.png'),'Resolution',150);
-assert(numel(t)==101 && all(isfinite(power)));
+assert(numel(t)==spec.expected_samples && all(isfinite(power)));
 cfg=filter2win_config;
 assert(all(power >= 0 & power <= cfg.alt.capacity));
 fid = fopen(fullfile(out,'filter2win_image_metrics.txt'),'w');
 assert(fid ~= -1);
 fileCleanup = onCleanup(@() fclose(fid));
-fprintf(fid,'seed=1729\nsamples=%d\nfinite_output=%d\nmax_window=%g\n', ...
-    numel(t),sum(isfinite(filtered)),max(power));
+fprintf(fid,'seed=%d\nsamples=%d\nfinite_output=%d\nmax_window=%g\n', ...
+    spec.seed,numel(t),sum(isfinite(filtered)),max(power));
 fprintf('filter2win PNG snapshots: SUCCESS\n');
 end
 

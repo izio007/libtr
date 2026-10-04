@@ -14,11 +14,12 @@ for name={'filter2win_doc_data.mat','filter2win_trajectory.png', ...
     assert(numel(file)==1 && file.bytes>0);
 end
 data=load(fullfile(folder,'filter2win_doc_data.mat'));
-assert(numel(data.t)==101 && any(isnan(data.measured)));
 addpath(fullfile(root,'matlab','function'));
 addpath(fullfile(root,'matlab','tests','support'));
 cfg=filter2win_config;
-ctx=struct('X_MAIN_REF',10);
+spec=filter2win_observation_config;
+assert(numel(data.t)==spec.expected_samples && any(isnan(data.measured)));
+ctx=struct('X_MAIN_REF',spec.initial_reference);
 actual=zeros(numel(data.t),1); power=actual;
 for k=1:numel(data.t)
     [status,ctx]=filter2win(cfg,ctx,data.t(k),data.measured(k),isnan(data.measured(k)));

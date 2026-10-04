@@ -2,21 +2,33 @@ function unit_test_filter_engine_scenario
 setup_test_paths;
 clear filter2win_scenario filter2win_observations generate_filter2win_doc_images;
 old=rng; cleanup=onCleanup(@() rng(old));
-rng(1729,'twister');
-t=0:3:300; truth=10*ones(size(t)); z=truth;
-z(t==30)=40; z(t>=60 & t<=100)=25;
-z(t>=171 & t<=216)=25; z(t==252 | t==255)=28;
+spec=filter2win_observation_config;
+rng(spec.seed,spec.rng_algorithm);
+t=spec.start_time:spec.time_step:spec.end_time;
+truth=spec.truth_level*ones(size(t)); z=truth;
+% Independent scalar reconstruction, not a call to the observation generator.
+for j=1:numel(t)
+    for k=1:size(spec.plateaus,1)
+        if t(j)>=spec.plateaus(k,1) && t(j)<=spec.plateaus(k,2)
+            z(j)=spec.plateaus(k,3);
+        end
+    end
+    for k=1:size(spec.spikes,1)
+        if t(j)==spec.spikes(k,1), z(j)=spec.spikes(k,2); end
+    end
+end
 % Preserve original rounding: add the precomputed noise.
-noise=4*rand(size(z))-2;
-z=z+noise; z(t>100 & t<170)=NaN;
+noise=spec.noise_width*rand(size(z))+spec.noise_offset;
+z=z+noise;
+z(t>spec.missing_open_interval(1) & t<spec.missing_open_interval(2))=NaN;
 expectedRng=rng;
 cfg=filter2win_config;
-ctx=struct('X_MAIN_REF',10); y=zeros(numel(t),1); p=y;
+ctx=struct('X_MAIN_REF',spec.initial_reference); y=zeros(numel(t),1); p=y;
 for k=1:numel(t)
     [s,ctx]=filter2win(cfg,ctx,t(k),z(k),isnan(z(k)));
     assert(s==0); y(k)=ctx.X_FILTERED_OUTPUT; p(k)=ctx.W_ALT_POWER_OUTPUT;
 end
-rng(1729,'twister');
+rng(spec.seed,spec.rng_algorithm);
 [actualT,actualTruth,actualZ,actualY,actualP]=filter2win_scenario;
 assert(isequaln({t,truth,z,y,p},{actualT,actualTruth,actualZ,actualY,actualP}));
 assert(isequal(rng,expectedRng));
