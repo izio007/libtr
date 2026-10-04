@@ -9,6 +9,46 @@ from declarative_runner import load_config
 
 
 class ConfigTests(unittest.TestCase):
+    def test_filter_release_gate(self):
+        root = Path(__file__).resolve().parents[2]
+        spec = importlib.util.spec_from_file_location('acceptance', root/'tools/filter2win_acceptance.py')
+        gate = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(gate)
+        with tempfile.TemporaryDirectory() as tmp:
+            package = Path(tmp)
+            (package/'results').mkdir()
+            artifact = package/'kernel.m'
+            artifact.write_text('original')
+            report = dict(package_version='0.2.0', status='PASS', new_server=True)
+            self.assertEqual(gate.evaluate(package, report)['status'], 'NOT_RUN')
+            review = dict(schema_version=1, package_version='0.2.0',
+                          candidate_sha256=gate.fingerprint(package),
+                          checks={name: dict(status='PASS', reviewer='test fixture',
+                                             evidence='synthetic evidence', criterion='fixture')
+                                  for name in gate.REQUIRED})
+            path = package/'results/release_review.json'
+            def save():
+                path.write_text(json.dumps(review))
+            save()
+            self.assertTrue(gate.evaluate(package, report)['release_accepted'])
+            self.assertEqual(gate.evaluate(package, report), gate.evaluate(package, report))
+            report['new_server'] = False
+            with self.assertRaises(ValueError):
+                gate.evaluate(package, report)
+            report['new_server'] = True
+            review['checks']['pdf_visual']['status'] = 'FAILED'
+            save()
+            self.assertEqual(gate.evaluate(package, report)['status'], 'FAILED')
+            review['checks']['pdf_visual']['reviewer'] = ''
+            save()
+            with self.assertRaises(ValueError):
+                gate.evaluate(package, report)
+            review['checks']['pdf_visual']['reviewer'] = 'test fixture'
+            save()
+            artifact.write_text('changed')
+            with self.assertRaises(ValueError):
+                gate.evaluate(package, report)
+
     def test_filter_source_inventory(self):
         root = Path(__file__).resolve().parents[2]
         inventory = json.loads((root/'proposals/filter2win_source_inventory.json').read_text(encoding='utf-8'))

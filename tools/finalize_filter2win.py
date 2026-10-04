@@ -4,9 +4,12 @@ import json
 from pathlib import Path
 import zipfile
 from package_filter2win import digest, write_json, PRODUCTION
+from filter2win_acceptance import evaluate
 
 
 def finalize(package, destination):
+    if destination.exists():
+        raise ValueError('Destination already exists; no package metadata was changed')
     report = json.loads((package / 'results/matlab_results.json').read_text(encoding='utf-8'))
     if report['status'] != 'PASS':
         raise ValueError('A passing package execution is required')
@@ -36,6 +39,12 @@ def finalize(package, destination):
                         'Zero-allocation is not measured',
                         'Complete readability and document visual audit pending'],
     }
+    acceptance.update(evaluate(package, report))
+    acceptance['png_visual_review'] = acceptance['checks']['png_visual']
+    acceptance['document_visual_review'] = (
+        'PASS' if all(acceptance['checks'][name] == 'PASS'
+                      for name in ('html_visual', 'pdf_visual', 'mlx_visual')) else 'NOT_RUN')
+    acceptance['limitations'] = ['Zero-allocation is not measured']
     write_json(package / 'results/acceptance.json', acceptance)
     (package / 'README.md').write_text(
         f'<!-- filter2win package version: {version} -->\n'
@@ -50,14 +59,16 @@ def finalize(package, destination):
         'matlab/function and matlab/tests, then call run_filter2win_package.\n'
         'Agent execution in libtr remains through tools/runner.sh and the registered\n'
         'filter2win_package suite, whose adapter performs this isolation.\n\n'
-        'See results/acceptance.json for open acceptance items. Documentation visual\n'
-        'review remains pending; this is not full release PASS.\n'
+        f'Release acceptance: {acceptance["status"]}.\n'
+        f'Remaining checks: {", ".join(acceptance["remaining"]) or "none"}.\n'
+        'See results/acceptance.json for evidence-bound acceptance.\n'
         'Binary formats carry version in document/plot content and manifest, not an\n'
         'invalid prefix. Third-party MathJax and strict test JSON retain their headers.\n', encoding='utf-8')
     manifest = json.loads((package / 'manifest.json').read_text(encoding='utf-8'))
     previous = {entry['path']: entry for entry in manifest['files']}
     manifest['files'] = []
     manifest['execution'] = 'PASS'
+    manifest['status'] = acceptance['status']
     for path in sorted(package.rglob('*')):
         if path.is_file() and path.name != 'manifest.json':
             relative = path.relative_to(package).as_posix()
@@ -80,7 +91,7 @@ def finalize(package, destination):
     write_json(destination / 'archive_report.json', dict(package_version=version,
         archive=str(target), sha256=digest(target), file_count=len(manifest['files']) + 1,
         archive_integrity='PASS', extracted_hashes='PASS', execution='PASS',
-        release_acceptance='NOT_RUN'))
+        release_acceptance=acceptance['status']))
     print(target)
     print('SHA256 ' + digest(target))
 
