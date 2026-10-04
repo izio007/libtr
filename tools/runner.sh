@@ -5,4 +5,5 @@ if [[ $# != 1 ]]; then
     printf '%s\n' 'Usage: tools/runner.sh <config.json>' >&2
     exit 2
 fi
+export PYTHONDONTWRITEBYTECODE=1
 exec python3 "$root/tools/pipeline/declarative_runner.py" "$1"

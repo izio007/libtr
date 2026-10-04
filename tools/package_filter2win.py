@@ -41,6 +41,7 @@ FILES = (
     'matlab/tests/run_filter2win_package.m',
     'tools/matlab/filter2win_package_host.m',
     'tools/filter2win_package_runner.py',
+    'tools/pipeline/engine.py',
     'docs/filter2win_theory.md',
     'docs/fifo_double_theory.md',
 )

@@ -1,4 +1,4 @@
-"""Initial registered-suite entrypoint; scenario routing remains RUN-02."""
+"""Registered handlers and strict configuration for the pipeline engine."""
 import contextlib
 import hashlib
 import io
@@ -9,10 +9,11 @@ import time
 import unittest
 import uuid
 
-from pipeline_client import exchange
+from engine import Pipeline, exchange, run_job
 
 ROOT = Path(__file__).resolve().parents[2]
 SUITES = {'matmul3': 'unit_test_matmul3', 'runner_contract': None,
+          'pipeline_engine': None,
           'filter2win_package': 'unit_test_filter2win_package',
           'filter2win': 'unit_test_filter2win',
           'filter2win_candidate': 'unit_test_filter2win_candidate',
@@ -51,9 +52,10 @@ def load_config(path, root=ROOT):
 
 
 def execute(config):
-    if config['suite'] == 'runner_contract':
-        suite = unittest.defaultTestLoader.discover(str(ROOT / 'tools/pipeline'),
-                                                  pattern='test_declarative_runner.py')
+    if config['suite'] in ('runner_contract', 'pipeline_engine'):
+        patterns = ('test_engine.py', 'test_provenance_attempt.py') if config['suite'] == 'pipeline_engine' else ('test_declarative_runner.py',)
+        suite = unittest.TestSuite(unittest.defaultTestLoader.discover(
+            str(ROOT / 'tools/pipeline'), pattern=pattern) for pattern in patterns)
         output = io.StringIO()
         with contextlib.redirect_stdout(output), contextlib.redirect_stderr(output):
             result = unittest.TextTestRunner(stream=output, failfast=True).run(suite)
@@ -61,21 +63,12 @@ def execute(config):
             raise RuntimeError(output.getvalue())
         return result.testsRun
     name = SUITES[config['suite']]
-    if config['suite'] in ('filter2win_package', 'filter2win', 'filter2win_candidate', 'fifo_double',
-                           'filter2win_demo', 'filter2win_consumers', 'filter2win_isolation'):
-        host = exchange(dict(v=1, op='ping'), timeout=min(30, config['timeout_seconds']))
-        if host.get('active') or host.get('queued'):
-            raise RuntimeError('Server is busy; package job was not submitted')
+    host = exchange(dict(v=1, op='ping'), timeout=min(30, config['timeout_seconds']))
+    if host.get('active') or host.get('queued'):
+        raise RuntimeError('Server is busy; job was not submitted')
     request = dict(v=1, op='submit', id=uuid.uuid4().hex, action='unit', test=name,
                    test_sha256=hashlib.sha256((ROOT/'matlab/tests'/(name+'.m')).read_bytes()).hexdigest())
-    deadline = time.monotonic() + config['timeout_seconds']
-    response = exchange(request, timeout=min(30, config['timeout_seconds']))
-    while response['report']['state'] in ('queued', 'running'):
-        left = deadline - time.monotonic()
-        if left <= 0:
-            raise TimeoutError('Deadline exceeded; server job not cancelled: ' + request['id'])
-        time.sleep(min(0.2, left))
-        response = exchange(dict(v=1, op='status', id=request['id']), timeout=min(30, left))
+    response = run_job(request, timeout=config['timeout_seconds'], transport=exchange)
     if response['report']['state'] != 'passed':
         raise RuntimeError(json.dumps(response, ensure_ascii=False))
     # Count the selected suite check, not its unreported internal assertions.
@@ -88,7 +81,9 @@ def main():
         if len(sys.argv) != 2:
             raise ValueError('Expected one configuration path')
         config, config_hash = load_config(sys.argv[1])
-        total = execute(config)
+        pipeline = Pipeline(ROOT, config, config_hash)
+        report = pipeline.run([(config['suite'], lambda: execute(config))])
+        total = report['stages'][0]['result']
         print(f'[SUITE PASS] Executed {total}/{total} checks successfully. Execution time: {time.monotonic()-start:.2f}s.')
         return 0
     except Exception as error:
