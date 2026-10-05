@@ -10,6 +10,7 @@ import unittest
 import uuid
 
 from engine import Pipeline, exchange, run_job
+from result_store import validate
 
 ROOT = Path(__file__).resolve().parents[2]
 SUITES = {'matmul3': 'unit_test_matmul3', 'runner_contract': None,
@@ -39,7 +40,8 @@ def load_config(path, root=ROOT):
             result[key] = value
         return result
     config = json.loads(raw, object_pairs_hook=unique)
-    if not isinstance(config, dict) or set(config) != {'schema_version', 'suite', 'timeout_seconds'}:
+    required = {'schema_version', 'suite', 'timeout_seconds'}
+    if not isinstance(config, dict) or not required <= set(config) or set(config) - required - {'expectations'}:
         raise ValueError('Unexpected configuration fields')
     if type(config['schema_version']) is not int or config['schema_version'] != 1:
         raise ValueError('Unsupported schema')
@@ -48,6 +50,9 @@ def load_config(path, root=ROOT):
     timeout = config['timeout_seconds']
     if type(timeout) is not int or not 1 <= timeout <= 3600:
         raise ValueError('Invalid transport timeout')
+    validate(config.get('expectations', {}))
+    if set(config.get('expectations', {})) - {config['suite']}:
+        raise ValueError('Expectation for unknown suite stage')
     return config, hashlib.sha256(raw).hexdigest()
 
 
@@ -83,7 +88,7 @@ def main():
         config, config_hash = load_config(sys.argv[1])
         pipeline = Pipeline(ROOT, config, config_hash)
         report = pipeline.run([(config['suite'], lambda: execute(config))])
-        total = report['stages'][0]['result']
+        total = json.loads(Path(report['stages'][0]['result_ref']['path']).read_text(encoding='utf-8'))
         print(f'[SUITE PASS] Executed {total}/{total} checks successfully. Execution time: {time.monotonic()-start:.2f}s.')
         return 0
     except Exception as error:

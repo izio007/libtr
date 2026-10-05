@@ -8,12 +8,50 @@ from engine import Pipeline, run_job
 
 
 class EngineTests(unittest.TestCase):
+    def test_result_identity_and_expectations(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            def run(value, rules):
+                engine = Pipeline(tmp, {'suite': 'metrics', 'expectations': {'check': rules}}, 'hash')
+                engine.run([('check', lambda: value)])
+                return engine.report['stages'][0]['result_ref']
+            rules = [dict(path=['rmse'], kind='range', min=0, max=1)]
+            first = run({'rmse': 0.5}, rules)
+            repeated = run({'rmse': 0.5}, rules)
+            self.assertEqual(first['sha256'], repeated['sha256'])
+            self.assertEqual(repeated['change'], 'UNCHANGED')
+            self.assertEqual(len(list((Path(tmp)/'runtime/pipeline_results').glob('*.json'))), 1)
+            changed = run({'rmse': 0.4}, [dict(path=['rmse'], kind='delta', min=-0.2, max=0)])
+            self.assertEqual(changed['assessment']['status'], 'PASS')
+            self.assertEqual(changed['change'], 'CHANGED')
+            with self.assertRaisesRegex(ValueError, 'expectations'):
+                run({'rmse': 0.4}, [dict(path=['rmse'], kind='range', min=0, max=0.3)])
+            self.assertEqual(run({'rmse': 0.4}, rules)['change'], 'UNCHANGED')
+
+    def test_expectation_refusals(self):
+        from result_store import assess, validate
+        for value, prior, rule in [
+                ({}, None, dict(path=['missing'], kind='equal', value=1)),
+                (1, None, dict(path=[], kind='delta', min=0, max=1)),
+                (True, None, dict(path=[], kind='range', min=0, max=1)),
+                (float('nan'), None, dict(path=[], kind='range', min=0, max=1))]:
+            self.assertEqual(assess(value, prior, [rule])['status'], 'FAILED')
+        with self.assertRaises(ValueError):
+            validate({'check': [dict(path=[], kind='range', min=2, max=1)]})
+        with tempfile.TemporaryDirectory() as tmp:
+            engine = Pipeline(tmp, {'expectations': {'first': [dict(path=[], kind='equal', value=1)]}}, 'hash')
+            later = Mock()
+            with self.assertRaises(ValueError):
+                engine.run([('first', lambda: 2), ('later', later)])
+            later.assert_not_called()
+            self.assertEqual(engine.report['stages'][1]['status'], 'NOT_RUN')
+
     def test_success_report(self):
         with tempfile.TemporaryDirectory() as tmp:
             engine = Pipeline(tmp, {'suite': 'fixture'}, 'config-hash')
             report = engine.run([('first', lambda: 2), ('second', lambda: 3)])
             self.assertEqual(report['status'], 'PASS')
-            self.assertEqual([s['result'] for s in report['stages']], [2, 3])
+            self.assertEqual([json.loads(Path(s['result_ref']['path']).read_text())
+                              for s in report['stages']], [2, 3])
             self.assertEqual(json.loads((engine.folder/'report.json').read_text()), report)
             self.assertEqual(report['config_sha256'], 'config-hash')
 

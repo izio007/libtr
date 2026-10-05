@@ -7,6 +7,7 @@ import tempfile
 import time
 import traceback
 import uuid
+from result_store import store, validate
 
 
 def exchange(request, port=5555, timeout=30):
@@ -78,18 +79,26 @@ class Pipeline:
         self.folder = self.root / 'runtime/pipeline_runs' / self.id
         self.report = dict(id=self.id, status='NOT_RUN', config=config,
                            config_sha256=config_hash, stages=[])
+        self.expectations = config.get('expectations', {})
+        validate(self.expectations)
 
     def run(self, stages):
         names = [name for name, _ in stages]
         if not names or len(names) != len(set(names)):
             raise ValueError('Pipeline requires unique nonempty stages')
+        if set(self.expectations) - set(names):
+            raise ValueError('Expectation for unknown stage')
         self.report['stages'] = [dict(id=name, status='NOT_RUN') for name in names]
         path = self.folder / 'report.json'
         write_json(path, self.report)
         for record, (_, handler) in zip(self.report['stages'], stages):
             started = time.monotonic()
             try:
-                record['result'] = handler()
+                value = handler()
+                record['result_ref'] = store(self.root, self.report['config'].get('suite'),
+                    record['id'], value, self.expectations.get(record['id'], []), write_json)
+                if record['result_ref']['assessment']['status'] == 'FAILED':
+                    raise ValueError('Result violates declared expectations')
                 record['status'] = 'PASS'
             except (Exception, KeyboardInterrupt) as error:
                 record['status'] = self.report['status'] = 'FAILED'
@@ -97,7 +106,8 @@ class Pipeline:
                 location = dict(file=frames[-1].filename, line=frames[-1].lineno) if frames else None
                 defect = dict(status='FAILED', test_id=record['id'], location=location,
                               condition='Stage must complete', failure_reason=str(error),
-                              expected=None, actual=type(error).__name__,
+                               expected=self.expectations.get(record['id']),
+                               actual=record.get('result_ref', type(error).__name__),
                               memory_snapshot=dict(config=self.report['config'],
                                                    rng=None, inputs=None, state=None),
                               pipeline_id=self.id)

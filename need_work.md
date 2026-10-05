@@ -7,6 +7,14 @@
 
 ## PIPELINE-ENGINE
 
+Результаты клиента дедуплицируются по SHA-256; expectations (equal/range/delta)
+проверяются и при неизменном результате. Адресный suite 21/21 PASS.
+Осталось: передавать реальные MATLAB metrics вместо числа 1; серверные логи
+ещё не дедуплицируются. Не объявлять численную оценку MATLAB подключённой.
+runner_contract FAILED на составе текущего filter2win isolation: отсутствуют
+filter2win_system.json и filter2win_system_run.m в списке упаковки.
+Снимок: runtime/defects/defect_41be0650d83a408daf31efd4c877dc76.json.
+
 Есть общий клиентский engine; прежние проверки 19/19 и 6/6 PASS.
 Осталось: предметные MATLAB handlers, серверный Fail-Fast, тихие успешные
 логи, явный job id в клиентском результате. Контракт: tools/pipeline/engine_contract.md.
