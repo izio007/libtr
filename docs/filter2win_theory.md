@@ -96,7 +96,10 @@ F2W-S2-02/04/05 — unit_test_filter2win и JSON filter2win_schema2_cases;
 F2W-S2-03 — unit_test_fifo_double по docs/fifo_double_theory.md;
 F2W-S2-06 — test_filter_step и unit_test_filter_engine_scenario;
 F2W-S2-07 — unit_test_filter2win_demo и demo_filter2win.
-Запуск только через tools/runner.sh. MATLAB checks NOT_RUN: :5555 недоступен.
-Полное покрытие 17 режимов не заявляется. Постоянная ёмкость FIFO не доказывает
+F2W-S2-09 — unit_test_filter2win_candidate и filter2win_cases.json:
+все 17 режимов, стабилизация, частичное окно и перенос времени/координат.
+Запуск в libtr только через tools/runner.sh. Актуальные результаты конкретного
+выпуска находятся в results/matlab_results.json; покрытие режимов не означает
+исчерпывающей проверки сочетаний политик. Постоянная ёмкость FIFO не доказывает
 Zero-Allocation MATLAB: диагностика, чтение и попарные наклоны создают массивы.
 C99 не переносился. Старые выпускные представления не описывают эту редакцию.

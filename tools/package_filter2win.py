@@ -119,6 +119,11 @@ def build(version, destination):
 
     results = package / 'results'
     results.mkdir()
+    # Installed Windows Chrome prints the generated HTML; no MATLAB Editor needed.
+    renderer = ROOT / 'tools/docs/render_filter2win_pdf.ps1'
+    native = lambda p: subprocess.check_output(['cygpath', '-w', str(p)], text=True).strip()
+    subprocess.run(['/cygdrive/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe', '-NoProfile', '-ExecutionPolicy', 'Bypass',
+                    '-File', native(renderer), '-Package', native(package)], check=True)
     write_json(results / 'acceptance.json', {
         'package_version': version,
         'status': 'NOT_RUN',
@@ -127,14 +132,14 @@ def build(version, destination):
             'matlab_tests', 'isolated_server', 'dependency_closure',
             'readability_review', 'html_visual_review', 'pdf_export',
             'mlx_export', 'png_generation')},
-        'missing_required_formats': ['PDF', 'MLX', 'PNG'],
+        'missing_required_formats': ['MLX', 'PNG'],
         'note': 'Source candidate only. Existing project test results were not reused.',
     })
     (package / 'README.md').write_text(
         f'<!-- filter2win package version: {version} -->\n'
         '# filter2win — source candidate, NOT_RUN\n\n'
-        'This is not an accepted release. PDF, MLX, PNG and executed test evidence\n'
-        'are not yet available. See results/acceptance.json.\n\n'
+        'This is not an accepted release. HTML/PDF are generated; MLX, PNG and\n'
+        'executed test evidence are pending. See results/acceptance.json.\n\n'
         'Production code consists of eight schema-2 kernels listed in manifest.json.\n'
         'No positioning algorithms or 30/450 km datasets are included.\n'
         'Runtime isolation has not been demonstrated.\n\n'

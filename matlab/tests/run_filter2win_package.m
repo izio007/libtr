@@ -46,9 +46,20 @@ try
         pdf = fullfile(package, 'docs', [name '.pdf']);
         mlx = fullfile(package, 'docs', 'liveeditor', [name '_theory.mlx']);
         % R2025a conversion API; verify the result, never relabel a text file.
-        matlab.internal.liveeditor.openAndSave(source, mlx);
+        model=matlab.internal.livecode.FileModel.convertFileToLiveCode(source, mlx);
+        assert(~isempty(model),'libtr:package:MLX','Live Code conversion failed');
         assert(isfile(mlx), 'libtr:package:MLX', 'MLX conversion failed');
-        export(mlx, pdf, 'Run', false, 'HideCode', true, 'OpenExportedFile', false);
+        container=java.util.zip.ZipFile(mlx);
+        containerCleanup=onCleanup(@() container.close());
+        assert(~isempty(container.getEntry('matlab/document.xml')), ...
+            'libtr:package:MLX','Not a binary Live Code container');
+        clear containerCleanup;
+        % PDF is rendered from the same generated HTML by the release builder.
+        % MLX conversion remains MATLAB-native and independent of the CEF editor.
+        handle=fopen(pdf,'r');
+        assert(handle~=-1,'libtr:package:PDF','Missing rendered PDF');
+        signature=fread(handle,5,'*char')'; fclose(handle);
+        assert(strcmp(signature,'%PDF-'),'libtr:package:PDF','Invalid PDF signature');
         metadata = dir(pdf);
         assert(~isempty(metadata) && metadata.bytes > 0, 'libtr:package:PDF', 'PDF export failed');
         report.checks{end+1} = struct('id', ['documents_' name], 'status', 'PASS');
