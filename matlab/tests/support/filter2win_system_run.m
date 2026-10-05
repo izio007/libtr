@@ -17,6 +17,25 @@ for j=1:numel(p.seeds)
     verify(isequaln(rng,rng_after),'F2W-SYS-001','Filter does not consume RNG',rng,tr);
     verify(all(diff(tr.time)>0) && numel(unique(diff(tr.time)))>1, ...
         'F2W-SYS-001','Strictly increasing irregular timestamps',diff(tr.time),tr);
+    verify(isequal(unique(data.phase),1:5),'F2W-SYS-001', ...
+        'Initial plateau, persistent error, return, gap, and renewal are present',unique(data.phase),tr);
+    verify(data.origin>=p.time_origin_range(1) && data.origin<=p.time_origin_range(2), ...
+        'F2W-SYS-001',p.time_origin_range,data.origin,tr);
+    nominal=data.levels([1 5]);
+    verify(all(nominal>=p.level_range(1) & nominal<=p.level_range(2)) && ...
+        abs(data.jump)>=p.jump_range(1) && abs(data.jump)<=p.jump_range(2), ...
+        'F2W-SYS-001','Realized nominal levels and jump follow declared ranges', ...
+        [nominal data.jump],tr);
+    durations=data.requested_durations([1 2 3 5]);
+    verify(all(durations>=p.phase_duration_range(1) & durations<=p.phase_duration_range(2)), ...
+        'F2W-SYS-001',p.phase_duration_range,durations,tr);
+    intervals=tr.time-[data.origin tr.time(1:end-1)]; intervals=intervals(data.phase~=4);
+    verify(all(intervals>=p.dt_range(1)-p.tolerance & intervals<=p.dt_range(2)+p.tolerance), ...
+        'F2W-SYS-001',p.dt_range,intervals,tr);
+    ordinary=~data.missing & ~data.spike;
+    verify(all(abs(data.measured(ordinary)-data.plateau_model(ordinary))<=p.noise_bound+p.tolerance), ...
+        'F2W-SYS-005','Actual non-spike measurements obey the declared noise support', ...
+        data.measured(ordinary)-data.plateau_model(ordinary),tr);
     for phase=[1 5]
         idx=find(data.phase==phase); count=1:numel(idx);
         span=tr.time(idx)-tr.time(idx(1));
@@ -139,6 +158,7 @@ origin=draw(p.time_origin_range); base=draw(p.level_range); jump=draw(p.jump_ran
 if rand<0.5, jump=-jump; end
 renewal=draw(p.level_range);
 time=[]; phase=[]; levels=[base base+jump base base renewal];
+requested_durations=NaN(1,5); event_times=NaN(1,5);
 cursor=origin;
 for j=1:5
     if j==4
@@ -148,12 +168,14 @@ for j=1:5
             c.flow.timeout_seconds c.flow.timeout_seconds+e];
         times=cursor+offsets;
     else
-        duration=draw(p.phase_duration_range); finish=cursor+duration; times=[];
+        duration=draw(p.phase_duration_range); requested_durations(j)=duration;
+        finish=cursor+duration; times=[];
         while cursor<finish
             cursor=cursor+draw(p.dt_range);
             if cursor<finish, times(end+1)=cursor; end %#ok<AGROW>
         end
     end
+    event_times(j)=times(1);
     time=[time times]; phase=[phase j*ones(size(times))]; %#ok<AGROW>
     cursor=times(end);
 end
@@ -176,7 +198,8 @@ end
 missing=phase==4; measured(missing)=NaN;
 data=struct('time',time,'phase',phase,'measured',measured,'missing',missing, ...
     'reference',reference,'plateau_model',plateau_model,'spike',spike, ...
-    'levels',levels,'jump',jump,'noise_profile',noise_profile);
+    'levels',levels,'jump',jump,'noise_profile',noise_profile,'origin',origin, ...
+    'requested_durations',requested_durations,'event_times',event_times);
 end
 
 function value=draw(bounds)
