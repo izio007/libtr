@@ -6,7 +6,7 @@
 
 Фильтр не получает истинную координату, названия этапов сценария или внешнее разрешение переключения. Статистически пригодная ошибочная группа может стать активной. Полное подавление одиночного попадания в уже готовую альтернативу несовместимо с требованием немедленно использовать эту альтернативу.
 
-Производственная точка входа — filter2win. Текущая конфигурация по умолчанию: [filter2win_config.json](../matlab/tests/configs/filter2win_config.json), schema_version=3. [Схема 2](filter2win_schema2_theory.md) сохранена для явно выбранного старого профиля filter2win_schema2_config.json; её очищающая логика не применяется к схеме 3. Состояния разных схем и конфигураций не смешиваются: изменение cfg требует нового ctx.
+Производственная точка входа — filter2win. Практический профиль по умолчанию: [filter2win_config.json](../matlab/tests/configs/filter2win_config.json), profile_version=1. Чистая функция filter2win_settings раскрывает его в cfg с schema_version=3; filter2win_config делает это при чтении JSON. [Схема 2](filter2win_schema2_theory.md) сохранена для явно выбранного старого профиля filter2win_schema2_config.json; её очищающая логика не применяется к схеме 3. Состояния разных схем и конфигураций не смешиваются: изменение cfg требует нового ctx.
 
 ## F2W-S3-01. Память
 
@@ -125,3 +125,34 @@ FILTER_STATUS совпадает с s.status. FILTER_VALID эквивалент�
 Штатные точки запуска: filter2win_runner.json, fifo_double_runner.json, filter2win_demo_runner.json через tools/runner.sh. Состояние фактического исполнения фиксируется отчётами pipeline и карточкой need_work.md. Наличие этого текста или графика само по себе не является PASS.
 
 Настоящий оптимизатор, пространственный вектор координат, эксплуатационная настройка на полевых данных и выпуск пакета этим изменением не сертифицируются.
+
+## Практический профиль настроек
+
+Профиль версии 1 содержит window (capacity, min_samples, min_span_seconds,
+radius, max_mad, max_range), hold (outliers_seconds, missing_seconds),
+handover и return_to_main (wait_seconds, duration_seconds).
+Необязательные main/alt переопределяют отдельные общие параметры window.
+Радиус задаёт обе стороны окрестности; время возврата отображается в
+return_wait_seconds и return_duration_seconds внутреннего handover.
+Основные параметры обязательны; опечатки не игнорируются.
+
+Необязательный advanced задаёт только отличия математических настроек.
+Настройки правил адресуются по имени. Число/время готовности и пределы
+качества имеют единственное место задания в window/main/alt; они не
+дублируются в advanced. Последний может задать асимметричные радиусы,
+модель движения, отсечение, динамику окрестности и правила переходов.
+Окончательная cfg проходит обычную проверку filter2win_validate_persistent.
+
+Значения математических деталей по умолчанию: constant; trim_fraction=0;
+trim.k=4, mad_scale=1.4826, scale_floor=0.12, min_samples=min(5,capacity);
+band.mad_multiplier=0, mad_floor=0.12, growth_per_second=0;
+max_adaptive_radius и max_abs_velocity без конечного ограничения.
+Форма smoothstep, on_missing=pause. Правила сохраняют перечисленные выше
+события и обработчики: текущее подходящее попадание, без добавочной выдержки.
+Короткий профиль рассчитан на capacity>=3; он не вводит другой алгоритм.
+
+[Человеческий справочник настройки](../proposals/filter2win_testing_methodology.md#как-настроить-фильтр).
+Реперы прежних полных профилей сохранены до изменения в
+filter2win_expanded_reference.json и filter2win_observation_reference.json.
+unit_test_filter2win_settings проверяет точное равенство раскрытой cfg,
+отличия окон, расширенные правила и отказ неверных настроек.

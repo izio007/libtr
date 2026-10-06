@@ -32,7 +32,12 @@
     "matlab/tests/configs/filter2win_schema2_config.json",
     "matlab/tests/configs/filter2win_schema3_cases.json",
     "matlab/tests/configs/filter2win_optimizer_experiments.json",
-    "docs/filter2win_schema2_theory.md"
+    "docs/filter2win_schema2_theory.md",
+    "matlab/function/filter2win_settings.m",
+    "matlab/tests/unit_test_filter2win_settings.m",
+    "matlab/tests/configs/filter2win_expanded_reference.json",
+    "matlab/tests/configs/filter2win_observation_reference.json",
+    "matlab/tests/configs/filter2win_observation_filter.json"
   ],
   "checks": [
     "unit_test_fifo_double",

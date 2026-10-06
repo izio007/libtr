@@ -1,5 +1,5 @@
 function cfg=filter2win_config(file)
-% Schema 3 by default; explicit schema-2 files retain the legacy policy.
+% Compact profile by default; explicit full schema-2/3 files are also read.
 % Changing schema/parameters requires a fresh ctx, not the old FILTER_STATE.
 % known_velocity is used only with model='known_velocity', in units/s.
 % Schema 3 requires trim_fraction=0; detected extremes use FIFO retain.
@@ -10,6 +10,10 @@ if nargin<1
     file=fullfile(root,'matlab','tests','configs','filter2win_config.json');
 end
 cfg=jsondecode(fileread(file));
+if isfield(cfg,'profile_version')
+    cfg=filter2win_settings(cfg);
+    return;
+end
 % Schema 3 has no time pruning, partial-output bypass or hidden reset.
 if cfg.schema_version==3
     for name={'main','alt'}
