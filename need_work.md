@@ -2,6 +2,12 @@
 
 ## F2W-RELEASE-030
 
+Единая команда выпуска: tools/release_filter2win.sh; инструкция
+tools/RELEASE_FILTER2WIN.md. Сквозная упаковка существующего кандидата проверена:
+runtime/Release/filter2win/0.3.0-orchestrated/archive_report.json.
+Новый адаптер использует общий Pipeline; новая сборка и host replacement
+через этот адаптер ещё не проверены. Не повторять ручную цепочку команд.
+
 Отдельный пакет собран: runtime/Release/filter2win/0.3.0/filter2win-0.3.0.zip.
 19 групп MATLAB PASS, runner_contract 7/7 PASS, ZIP/хеши распаковки PASS.
 Контракт и SHA-256: proposals/filter2win_release_030.md.
