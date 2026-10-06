@@ -1,0 +1,2336 @@
+{
+  "kind": "stationary_target_optimizer_output_model",
+  "seed": 20261006,
+  "random_algorithm": "LCG 1664525/1013904223 + Box-Muller; explicit samples below",
+  "physical_model": "one coordinate of a stationary target; synthetic optimizer estimates, no sensor/optimizer executed",
+  "target": 46.287,
+  "alternative_offset": 22.131,
+  "parameters": {
+    "capacity": 18,
+    "radii": [
+      1.5,
+      1.5
+    ],
+    "hold_seconds": 8,
+    "confirmation": "none",
+    "retention": "fifo_and_detected_outlier_removal",
+    "unready_alternative": "collect_candidates_and_remove_detected_extremes; not eligible for output until ready",
+    "ready_window_quality_failure": "reject_without_mutation",
+    "trim_rule": "median_MAD_fence",
+    "trim_min_samples": 5,
+    "mad_scale": 1.4826,
+    "trim_k": 4,
+    "sigma_floor": 0.12,
+    "min_samples": 8,
+    "min_span_seconds": 5,
+    "max_mad": 0.25,
+    "max_range": 0.9
+  },
+  "scenarios": [
+    {
+      "id": "P01",
+      "title": "Неподвижная цель: шум и одиночный срыв",
+      "prehistory": {
+        "A": [
+          [
+            -30,
+            46.2698
+          ],
+          [
+            -28.2,
+            46.3783
+          ],
+          [
+            -26.4,
+            46.4329
+          ],
+          [
+            -24.6,
+            46.3587
+          ],
+          [
+            -22.8,
+            46.0842
+          ],
+          [
+            -21,
+            46.3402
+          ],
+          [
+            -19.2,
+            46.3064
+          ],
+          [
+            -17.4,
+            46.1201
+          ],
+          [
+            -15.6,
+            46.3273
+          ],
+          [
+            -13.8,
+            46.1946
+          ],
+          [
+            -12,
+            46.4663
+          ],
+          [
+            -10.2,
+            46.312
+          ],
+          [
+            -8.399999999999999,
+            46.2427
+          ],
+          [
+            -6.599999999999998,
+            46.3379
+          ],
+          [
+            -4.800000000000001,
+            46.3464
+          ],
+          [
+            -3,
+            46.2246
+          ]
+        ],
+        "B": []
+      },
+      "events": [
+        {
+          "t": 0.8108,
+          "x": 46.3039,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 3.4274,
+          "x": 46.2297,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 5.7851,
+          "x": 46.3362,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 6.558,
+          "x": 45.9538,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 7.3572,
+          "x": 46.3674,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 9.8037,
+          "x": 46.2731,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 10.2067,
+          "x": 46.3048,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 10.8793,
+          "x": 46.264,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 13.1309,
+          "x": 46.1441,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 14.0915,
+          "x": 46.3709,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 14.5775,
+          "x": 105.9122,
+          "truth": 46.287,
+          "source_for_review": "gross"
+        },
+        {
+          "t": 16.249,
+          "x": 46.2254,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 18.4689,
+          "x": 46.2007,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 20.0967,
+          "x": 46.218,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 20.3815,
+          "x": 46.3028,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 22.2091,
+          "x": 46.3095,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 24.4393,
+          "x": 46.0459,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 24.8333,
+          "x": 46.32,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 26.4333,
+          "x": 46.2283,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 28.7408,
+          "x": 46.2858,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 30.1237,
+          "x": 46.3228,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 32.1215,
+          "x": 46.1952,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 34.1657,
+          "x": 46.0334,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 35.6123,
+          "x": 46.3717,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 37.047,
+          "x": 46.1769,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 38.4895,
+          "x": 46.3033,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 40.1852,
+          "x": 46.3141,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 42.358,
+          "x": 46.2314,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 44.7361,
+          "x": 46.1274,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        }
+      ],
+      "expected": {
+        "switches": 0
+      }
+    },
+    {
+      "id": "P02",
+      "title": "Первый кандидат — выброс; затем компактная группа",
+      "prehistory": {
+        "A": [
+          [
+            -30,
+            46.1776
+          ],
+          [
+            -28.2,
+            46.2845
+          ],
+          [
+            -26.4,
+            46.2304
+          ],
+          [
+            -24.6,
+            46.2417
+          ],
+          [
+            -22.8,
+            46.3606
+          ],
+          [
+            -21,
+            46.4049
+          ],
+          [
+            -19.2,
+            46.3413
+          ],
+          [
+            -17.4,
+            46.2365
+          ],
+          [
+            -15.6,
+            46.3682
+          ],
+          [
+            -13.8,
+            46.3145
+          ],
+          [
+            -12,
+            46.295
+          ],
+          [
+            -10.2,
+            46.2389
+          ],
+          [
+            -8.399999999999999,
+            46.2072
+          ],
+          [
+            -6.599999999999998,
+            46.0971
+          ],
+          [
+            -4.800000000000001,
+            46.3026
+          ],
+          [
+            -3,
+            46.1694
+          ]
+        ],
+        "B": []
+      },
+      "events": [
+        {
+          "t": 1.9323,
+          "x": 46.1832,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 3.0279,
+          "x": 46.4385,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 3.3752,
+          "x": 46.2134,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 5.966,
+          "x": 46.0761,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 7.1144,
+          "x": 46.1904,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 7.8792,
+          "x": 46.3464,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 8.5122,
+          "x": 46.3734,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 9.5554,
+          "x": 106.1072,
+          "truth": 46.287,
+          "source_for_review": "gross"
+        },
+        {
+          "t": 10.0239,
+          "x": 68.2521,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 11.4753,
+          "x": 68.4302,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 12.3158,
+          "x": 68.3682,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 12.7643,
+          "x": 68.3427,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 15.1603,
+          "x": 68.458,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 16.1856,
+          "x": 68.4068,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 17.4388,
+          "x": 68.4025,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 19.0294,
+          "x": 68.2591,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 21.3663,
+          "x": 68.5489,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 23.6248,
+          "x": 68.3748,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 25.1872,
+          "x": 68.4233,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 27.7951,
+          "x": 68.4043,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 30.2427,
+          "x": 68.4466,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 30.6306,
+          "x": 68.4714,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 30.9842,
+          "x": 68.364,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 33.501,
+          "x": 68.5716,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 35.5771,
+          "x": 46.1078,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 38.2062,
+          "x": 46.298,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 40.4991,
+          "x": 46.4343,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 41.6195,
+          "x": 46.2028,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 44.1774,
+          "x": 46.4154,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 45.6333,
+          "x": 46.3251,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 47.1073,
+          "x": 46.4849,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 49.7194,
+          "x": 46.2195,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 52.0499,
+          "x": 46.221,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 53.7072,
+          "x": 46.2795,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        }
+      ],
+      "expected": {
+        "alternative_eventually_ready": true,
+        "first_main_return_immediate": true
+      }
+    },
+    {
+      "id": "P03",
+      "title": "Короткая серия ошибочных решений",
+      "prehistory": {
+        "A": [
+          [
+            -30,
+            46.3429
+          ],
+          [
+            -28.2,
+            46.2672
+          ],
+          [
+            -26.4,
+            46.1737
+          ],
+          [
+            -24.6,
+            46.239
+          ],
+          [
+            -22.8,
+            46.3297
+          ],
+          [
+            -21,
+            46.3953
+          ],
+          [
+            -19.2,
+            46.2895
+          ],
+          [
+            -17.4,
+            46.2389
+          ],
+          [
+            -15.6,
+            46.181
+          ],
+          [
+            -13.8,
+            46.224
+          ],
+          [
+            -12,
+            46.1828
+          ],
+          [
+            -10.2,
+            46.2293
+          ],
+          [
+            -8.399999999999999,
+            46.217
+          ],
+          [
+            -6.599999999999998,
+            46.2805
+          ],
+          [
+            -4.800000000000001,
+            46.3435
+          ],
+          [
+            -3,
+            46.3536
+          ]
+        ],
+        "B": []
+      },
+      "events": [
+        {
+          "t": 2.3789,
+          "x": 46.2824,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 2.691,
+          "x": 46.3774,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 4.0109,
+          "x": 46.3196,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 4.9573,
+          "x": 46.2501,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 5.5019,
+          "x": 46.4159,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 6.9742,
+          "x": 46.3904,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 7.9524,
+          "x": 46.1437,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 9.8565,
+          "x": 46.3912,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 10.2689,
+          "x": 46.0318,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 11.9277,
+          "x": 68.5616,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 14.5664,
+          "x": 68.5722,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 15.2746,
+          "x": 68.1584,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 17.1629,
+          "x": 68.588,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 18.2006,
+          "x": 46.4881,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 18.8953,
+          "x": 46.2784,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 20.97,
+          "x": 46.3266,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 23.5167,
+          "x": 46.3464,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 25.5255,
+          "x": 46.2338,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 26.4891,
+          "x": 46.086,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 27.6153,
+          "x": 46.3212,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 29.4579,
+          "x": 46.2549,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 31.0133,
+          "x": 46.4056,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 33.0653,
+          "x": 46.5891,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 34.997,
+          "x": 46.2646,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 37.2192,
+          "x": 46.1769,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 37.5958,
+          "x": 46.2334,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 39.474,
+          "x": 46.3669,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 40.0844,
+          "x": 46.101,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 42.0795,
+          "x": 46.2345,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 44.5962,
+          "x": 46.3658,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 45.1068,
+          "x": 46.1489,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        }
+      ],
+      "expected": {
+        "switches": 0,
+        "alternative_unready": true
+      }
+    },
+    {
+      "id": "P04",
+      "title": "Неготовое B сохраняется и дозаполняется после паузы",
+      "prehistory": {
+        "A": [
+          [
+            -30,
+            46.1883
+          ],
+          [
+            -28.2,
+            46.3469
+          ],
+          [
+            -26.4,
+            46.2584
+          ],
+          [
+            -24.6,
+            46.2173
+          ],
+          [
+            -22.8,
+            46.3131
+          ],
+          [
+            -21,
+            46.2464
+          ],
+          [
+            -19.2,
+            46.2217
+          ],
+          [
+            -17.4,
+            46.3848
+          ],
+          [
+            -15.6,
+            46.3519
+          ],
+          [
+            -13.8,
+            46.3259
+          ],
+          [
+            -12,
+            46.2808
+          ],
+          [
+            -10.2,
+            46.2996
+          ],
+          [
+            -8.399999999999999,
+            46.2472
+          ],
+          [
+            -6.599999999999998,
+            46.2867
+          ],
+          [
+            -4.800000000000001,
+            46.2438
+          ],
+          [
+            -3,
+            46.323
+          ]
+        ],
+        "B": [
+          [
+            -4.199999999999999,
+            68.4942
+          ],
+          [
+            -2.8,
+            68.4693
+          ],
+          [
+            -1.4,
+            68.3767
+          ]
+        ]
+      },
+      "events": [
+        {
+          "t": 2.3544,
+          "x": 46.3611,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 2.6545,
+          "x": 46.4805,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 3.8478,
+          "x": 46.3072,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 4.9726,
+          "x": 46.1259,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 6.5439,
+          "x": 46.196,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 7.8953,
+          "x": 46.6115,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 8.5007,
+          "x": 68.5648,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 10.1697,
+          "x": 68.35,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 11.4997,
+          "x": 68.4121,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 13.8318,
+          "x": 68.4597,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 18.2191,
+          "x": null,
+          "truth": 46.287,
+          "source_for_review": "missing"
+        },
+        {
+          "t": 19.5532,
+          "x": null,
+          "truth": 46.287,
+          "source_for_review": "missing"
+        },
+        {
+          "t": 54.9394,
+          "x": null,
+          "truth": 46.287,
+          "source_for_review": "missing"
+        },
+        {
+          "t": 56.3599,
+          "x": null,
+          "truth": 46.287,
+          "source_for_review": "missing"
+        },
+        {
+          "t": 58.5848,
+          "x": null,
+          "truth": 46.287,
+          "source_for_review": "missing"
+        },
+        {
+          "t": 59.3636,
+          "x": null,
+          "truth": 46.287,
+          "source_for_review": "missing"
+        },
+        {
+          "t": 60.2433,
+          "x": 68.5346,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 61.2385,
+          "x": 68.389,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 62.3404,
+          "x": 68.4851,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 64.6649,
+          "x": 68.4792,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 66.3167,
+          "x": 68.2713,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 68.6522,
+          "x": 46.3082,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 69.9358,
+          "x": 46.4851,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 71.5541,
+          "x": 46.3683,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 72.1715,
+          "x": 46.2738,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 72.9908,
+          "x": 46.3335,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 73.7115,
+          "x": 46.292,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 74.2896,
+          "x": 46.2654,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 76.5117,
+          "x": 46.2613,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 76.9088,
+          "x": 46.3676,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        }
+      ],
+      "expected": {
+        "fifo_unchanged_on_missing": true,
+        "first_after_gap_activates_B": true,
+        "first_main_return_immediate": true
+      }
+    },
+    {
+      "id": "P05",
+      "title": "Разброс вырос: контроль до записи в FIFO",
+      "prehistory": {
+        "A": [
+          [
+            -30,
+            46.3552
+          ],
+          [
+            -28.2,
+            46.35
+          ],
+          [
+            -26.4,
+            46.3615
+          ],
+          [
+            -24.6,
+            46.2133
+          ],
+          [
+            -22.8,
+            46.4503
+          ],
+          [
+            -21,
+            46.2402
+          ],
+          [
+            -19.2,
+            46.2533
+          ],
+          [
+            -17.4,
+            46.2745
+          ],
+          [
+            -15.6,
+            46.2673
+          ],
+          [
+            -13.8,
+            46.1439
+          ],
+          [
+            -12,
+            46.2274
+          ],
+          [
+            -10.2,
+            46.1818
+          ],
+          [
+            -8.399999999999999,
+            46.2727
+          ],
+          [
+            -6.599999999999998,
+            46.2676
+          ],
+          [
+            -4.800000000000001,
+            46.2618
+          ],
+          [
+            -3,
+            46.344
+          ]
+        ],
+        "B": [
+          [
+            -16.799999999999997,
+            68.4605
+          ],
+          [
+            -15.399999999999999,
+            68.3284
+          ],
+          [
+            -14,
+            68.2879
+          ],
+          [
+            -12.6,
+            68.4911
+          ],
+          [
+            -11.2,
+            68.4725
+          ],
+          [
+            -9.799999999999999,
+            68.3135
+          ],
+          [
+            -8.399999999999999,
+            68.5687
+          ],
+          [
+            -7,
+            68.4244
+          ],
+          [
+            -5.6,
+            68.3745
+          ],
+          [
+            -4.199999999999999,
+            68.4363
+          ],
+          [
+            -2.8,
+            68.4595
+          ],
+          [
+            -1.4,
+            68.361
+          ]
+        ]
+      },
+      "events": [
+        {
+          "t": 1.056,
+          "x": 46.4904,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 2.1729,
+          "x": 46.5417,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 4.0845,
+          "x": 46.2784,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 6.5393,
+          "x": 46.2253,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 6.9926,
+          "x": 46.1964,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 7.9493,
+          "x": 46.4513,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 9.2576,
+          "x": 46.2606,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 10.7547,
+          "x": 46.2289,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 12.5159,
+          "x": 47.2655,
+          "truth": 46.287,
+          "source_for_review": "wide+"
+        },
+        {
+          "t": 15.1506,
+          "x": 45.3296,
+          "truth": 46.287,
+          "source_for_review": "wide-"
+        },
+        {
+          "t": 16.8485,
+          "x": 47.2538,
+          "truth": 46.287,
+          "source_for_review": "wide+"
+        },
+        {
+          "t": 19.1918,
+          "x": 45.3215,
+          "truth": 46.287,
+          "source_for_review": "wide-"
+        },
+        {
+          "t": 20.3869,
+          "x": 47.2735,
+          "truth": 46.287,
+          "source_for_review": "wide+"
+        },
+        {
+          "t": 21.5075,
+          "x": 45.3104,
+          "truth": 46.287,
+          "source_for_review": "wide-"
+        },
+        {
+          "t": 23.2877,
+          "x": 47.2562,
+          "truth": 46.287,
+          "source_for_review": "wide+"
+        },
+        {
+          "t": 25.7814,
+          "x": 45.3224,
+          "truth": 46.287,
+          "source_for_review": "wide-"
+        },
+        {
+          "t": 27.2167,
+          "x": 47.237,
+          "truth": 46.287,
+          "source_for_review": "wide+"
+        },
+        {
+          "t": 27.5487,
+          "x": 45.3483,
+          "truth": 46.287,
+          "source_for_review": "wide-"
+        },
+        {
+          "t": 28.2576,
+          "x": 47.2627,
+          "truth": 46.287,
+          "source_for_review": "wide+"
+        },
+        {
+          "t": 29.0971,
+          "x": 45.3237,
+          "truth": 46.287,
+          "source_for_review": "wide-"
+        },
+        {
+          "t": 29.4526,
+          "x": 47.2393,
+          "truth": 46.287,
+          "source_for_review": "wide+"
+        },
+        {
+          "t": 30.41,
+          "x": 45.3031,
+          "truth": 46.287,
+          "source_for_review": "wide-"
+        },
+        {
+          "t": 31.1387,
+          "x": 47.1802,
+          "truth": 46.287,
+          "source_for_review": "wide+"
+        },
+        {
+          "t": 32.863,
+          "x": 45.3324,
+          "truth": 46.287,
+          "source_for_review": "wide-"
+        },
+        {
+          "t": 34.6847,
+          "x": 47.2236,
+          "truth": 46.287,
+          "source_for_review": "wide+"
+        },
+        {
+          "t": 36.7565,
+          "x": 45.3375,
+          "truth": 46.287,
+          "source_for_review": "wide-"
+        },
+        {
+          "t": 38.9214,
+          "x": 47.2168,
+          "truth": 46.287,
+          "source_for_review": "wide+"
+        },
+        {
+          "t": 40.4258,
+          "x": 45.3971,
+          "truth": 46.287,
+          "source_for_review": "wide-"
+        },
+        {
+          "t": 42.9015,
+          "x": 47.2145,
+          "truth": 46.287,
+          "source_for_review": "wide+"
+        },
+        {
+          "t": 44.4098,
+          "x": 45.3313,
+          "truth": 46.287,
+          "source_for_review": "wide-"
+        },
+        {
+          "t": 45.7878,
+          "x": 47.2568,
+          "truth": 46.287,
+          "source_for_review": "wide+"
+        },
+        {
+          "t": 46.2595,
+          "x": 45.3209,
+          "truth": 46.287,
+          "source_for_review": "wide-"
+        },
+        {
+          "t": 48.8727,
+          "x": 47.2223,
+          "truth": 46.287,
+          "source_for_review": "wide+"
+        },
+        {
+          "t": 51.0203,
+          "x": 45.309,
+          "truth": 46.287,
+          "source_for_review": "wide-"
+        },
+        {
+          "t": 51.5147,
+          "x": 46.3273,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 53.5155,
+          "x": 46.4009,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 54.5877,
+          "x": 46.1175,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 55.2746,
+          "x": 46.2209,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 57.6037,
+          "x": 46.2371,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 59.7854,
+          "x": 46.3578,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 61.6264,
+          "x": 46.2334,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 62.4801,
+          "x": 46.3356,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 62.9892,
+          "x": 46.5292,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 65.592,
+          "x": 46.4771,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        }
+      ],
+      "expected": {
+        "quality_rejections": true,
+        "rejected_point_leaves_fifo_unchanged": true
+      }
+    },
+    {
+      "id": "P06",
+      "title": "Один результат около готовой альтернативы",
+      "prehistory": {
+        "A": [
+          [
+            -30,
+            46.4113
+          ],
+          [
+            -28.2,
+            46.1399
+          ],
+          [
+            -26.4,
+            46.3125
+          ],
+          [
+            -24.6,
+            46.1992
+          ],
+          [
+            -22.8,
+            46.3212
+          ],
+          [
+            -21,
+            46.1442
+          ],
+          [
+            -19.2,
+            46.2898
+          ],
+          [
+            -17.4,
+            46.3295
+          ],
+          [
+            -15.6,
+            46.3562
+          ],
+          [
+            -13.8,
+            46.2869
+          ],
+          [
+            -12,
+            46.4189
+          ],
+          [
+            -10.2,
+            46.2626
+          ],
+          [
+            -8.399999999999999,
+            46.2992
+          ],
+          [
+            -6.599999999999998,
+            46.4082
+          ],
+          [
+            -4.800000000000001,
+            46.1337
+          ],
+          [
+            -3,
+            46.2376
+          ]
+        ],
+        "B": [
+          [
+            -16.799999999999997,
+            68.3818
+          ],
+          [
+            -15.399999999999999,
+            68.4027
+          ],
+          [
+            -14,
+            68.4611
+          ],
+          [
+            -12.6,
+            68.4686
+          ],
+          [
+            -11.2,
+            68.5161
+          ],
+          [
+            -9.799999999999999,
+            68.332
+          ],
+          [
+            -8.399999999999999,
+            68.5299
+          ],
+          [
+            -7,
+            68.2916
+          ],
+          [
+            -5.6,
+            68.4122
+          ],
+          [
+            -4.199999999999999,
+            68.3689
+          ],
+          [
+            -2.8,
+            68.4647
+          ],
+          [
+            -1.4,
+            68.3422
+          ]
+        ]
+      },
+      "events": [
+        {
+          "t": 1.7388,
+          "x": 46.3201,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 2.5614,
+          "x": 46.2715,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 4.2919,
+          "x": 46.2656,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 6.0963,
+          "x": 46.2239,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 8.5833,
+          "x": 46.2599,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 10.8864,
+          "x": 46.171,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 13.1196,
+          "x": 46.0902,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 15.0644,
+          "x": 46.3531,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 16.8204,
+          "x": 46.4596,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 18.2262,
+          "x": 46.3603,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 19.7546,
+          "x": 68.5773,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 21.0694,
+          "x": 46.3583,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 22.112,
+          "x": 46.351,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 24.304,
+          "x": 46.3418,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 26.0594,
+          "x": 46.3888,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 27.4752,
+          "x": 46.319,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 28.8403,
+          "x": 46.3029,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 30.9541,
+          "x": 46.2611,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 33.138,
+          "x": 46.4399,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 34.6888,
+          "x": 46.2979,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 35.7861,
+          "x": 46.4232,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 36.7374,
+          "x": 46.2281,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 37.1,
+          "x": 46.5344,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        }
+      ],
+      "expected": {
+        "first_wrong_activates_B": true,
+        "first_main_return_immediate": true
+      }
+    },
+    {
+      "id": "P07",
+      "title": "Неустойчивые решения между двумя областями",
+      "prehistory": {
+        "A": [
+          [
+            -30,
+            46.3918
+          ],
+          [
+            -28.2,
+            46.331
+          ],
+          [
+            -26.4,
+            46.3321
+          ],
+          [
+            -24.6,
+            46.1827
+          ],
+          [
+            -22.8,
+            46.3945
+          ],
+          [
+            -21,
+            46.2155
+          ],
+          [
+            -19.2,
+            46.3741
+          ],
+          [
+            -17.4,
+            46.1821
+          ],
+          [
+            -15.6,
+            46.1815
+          ],
+          [
+            -13.8,
+            46.3889
+          ],
+          [
+            -12,
+            46.4912
+          ],
+          [
+            -10.2,
+            46.3701
+          ],
+          [
+            -8.399999999999999,
+            46.446
+          ],
+          [
+            -6.599999999999998,
+            46.3905
+          ],
+          [
+            -4.800000000000001,
+            46.2095
+          ],
+          [
+            -3,
+            46.4131
+          ]
+        ],
+        "B": [
+          [
+            -16.799999999999997,
+            68.3498
+          ],
+          [
+            -15.399999999999999,
+            68.5095
+          ],
+          [
+            -14,
+            68.4848
+          ],
+          [
+            -12.6,
+            68.4162
+          ],
+          [
+            -11.2,
+            68.4633
+          ],
+          [
+            -9.799999999999999,
+            68.2333
+          ],
+          [
+            -8.399999999999999,
+            68.4092
+          ],
+          [
+            -7,
+            68.4508
+          ],
+          [
+            -5.6,
+            68.4024
+          ],
+          [
+            -4.199999999999999,
+            68.5787
+          ],
+          [
+            -2.8,
+            68.3869
+          ],
+          [
+            -1.4,
+            68.3963
+          ]
+        ]
+      },
+      "events": [
+        {
+          "t": 1.0562,
+          "x": 46.1783,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 3.2765,
+          "x": 46.1323,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 4.4018,
+          "x": 46.4389,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 6.1593,
+          "x": 46.0362,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 7.6617,
+          "x": 46.4189,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 9.9937,
+          "x": 46.1583,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 10.4008,
+          "x": 46.4318,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 12.0949,
+          "x": 46.3256,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 13.338,
+          "x": 57.3985,
+          "truth": 46.287,
+          "source_for_review": "middle"
+        },
+        {
+          "t": 14.0199,
+          "x": 57.2777,
+          "truth": 46.287,
+          "source_for_review": "middle"
+        },
+        {
+          "t": 15.103,
+          "x": 57.3644,
+          "truth": 46.287,
+          "source_for_review": "middle"
+        },
+        {
+          "t": 15.6514,
+          "x": 57.3682,
+          "truth": 46.287,
+          "source_for_review": "middle"
+        },
+        {
+          "t": 17.604,
+          "x": 57.339,
+          "truth": 46.287,
+          "source_for_review": "middle"
+        },
+        {
+          "t": 18.0217,
+          "x": 57.1292,
+          "truth": 46.287,
+          "source_for_review": "middle"
+        },
+        {
+          "t": 19.0672,
+          "x": 57.3082,
+          "truth": 46.287,
+          "source_for_review": "middle"
+        },
+        {
+          "t": 21.1892,
+          "x": 57.4374,
+          "truth": 46.287,
+          "source_for_review": "middle"
+        },
+        {
+          "t": 23.0985,
+          "x": 57.2727,
+          "truth": 46.287,
+          "source_for_review": "middle"
+        },
+        {
+          "t": 23.4869,
+          "x": 57.3884,
+          "truth": 46.287,
+          "source_for_review": "middle"
+        },
+        {
+          "t": 24.2376,
+          "x": 57.2987,
+          "truth": 46.287,
+          "source_for_review": "middle"
+        },
+        {
+          "t": 25.6273,
+          "x": 57.4461,
+          "truth": 46.287,
+          "source_for_review": "middle"
+        },
+        {
+          "t": 27.9066,
+          "x": 46.5476,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 28.9093,
+          "x": 46.2458,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 29.591,
+          "x": 46.2926,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 31.0632,
+          "x": 46.3969,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 31.6121,
+          "x": 46.185,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 33.734,
+          "x": 46.3671,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 34.7505,
+          "x": 46.4952,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 35.1758,
+          "x": 46.3625,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 37.145,
+          "x": 46.3166,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 37.4425,
+          "x": 46.1116,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        }
+      ],
+      "expected": {
+        "middle_rejected": true
+      }
+    },
+    {
+      "id": "P08",
+      "title": "Готовое B: первое попадание после пропусков",
+      "prehistory": {
+        "A": [
+          [
+            -30,
+            46.4113
+          ],
+          [
+            -28.2,
+            46.1399
+          ],
+          [
+            -26.4,
+            46.3125
+          ],
+          [
+            -24.6,
+            46.1992
+          ],
+          [
+            -22.8,
+            46.3212
+          ],
+          [
+            -21,
+            46.1442
+          ],
+          [
+            -19.2,
+            46.2898
+          ],
+          [
+            -17.4,
+            46.3295
+          ],
+          [
+            -15.6,
+            46.3562
+          ],
+          [
+            -13.8,
+            46.2869
+          ],
+          [
+            -12,
+            46.4189
+          ],
+          [
+            -10.2,
+            46.2626
+          ],
+          [
+            -8.399999999999999,
+            46.2992
+          ],
+          [
+            -6.599999999999998,
+            46.4082
+          ],
+          [
+            -4.800000000000001,
+            46.1337
+          ],
+          [
+            -3,
+            46.2376
+          ]
+        ],
+        "B": [
+          [
+            -16.799999999999997,
+            68.3818
+          ],
+          [
+            -15.399999999999999,
+            68.4027
+          ],
+          [
+            -14,
+            68.4611
+          ],
+          [
+            -12.6,
+            68.4686
+          ],
+          [
+            -11.2,
+            68.5161
+          ],
+          [
+            -9.799999999999999,
+            68.332
+          ],
+          [
+            -8.399999999999999,
+            68.5299
+          ],
+          [
+            -7,
+            68.2916
+          ],
+          [
+            -5.6,
+            68.4122
+          ],
+          [
+            -4.199999999999999,
+            68.3689
+          ],
+          [
+            -2.8,
+            68.4647
+          ],
+          [
+            -1.4,
+            68.3422
+          ]
+        ]
+      },
+      "events": [
+        {
+          "t": 2.3544,
+          "x": 46.3611,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 2.6545,
+          "x": 46.4805,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 3.8478,
+          "x": 46.3072,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 4.9726,
+          "x": 46.1259,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 6.5439,
+          "x": 46.196,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 7.8953,
+          "x": 46.6115,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 18.2191,
+          "x": null,
+          "truth": 46.287,
+          "source_for_review": "missing"
+        },
+        {
+          "t": 19.5532,
+          "x": null,
+          "truth": 46.287,
+          "source_for_review": "missing"
+        },
+        {
+          "t": 54.9394,
+          "x": null,
+          "truth": 46.287,
+          "source_for_review": "missing"
+        },
+        {
+          "t": 56.3599,
+          "x": null,
+          "truth": 46.287,
+          "source_for_review": "missing"
+        },
+        {
+          "t": 58.5848,
+          "x": null,
+          "truth": 46.287,
+          "source_for_review": "missing"
+        },
+        {
+          "t": 59.3636,
+          "x": null,
+          "truth": 46.287,
+          "source_for_review": "missing"
+        },
+        {
+          "t": 60.2433,
+          "x": 68.5346,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 61.2385,
+          "x": 68.389,
+          "truth": 46.287,
+          "source_for_review": "wrong"
+        },
+        {
+          "t": 68.6522,
+          "x": 46.3082,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 69.9358,
+          "x": 46.4851,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 71.5541,
+          "x": 46.3683,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 72.1715,
+          "x": 46.2738,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 72.9908,
+          "x": 46.3335,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 73.7115,
+          "x": 46.292,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 74.2896,
+          "x": 46.2654,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 76.5117,
+          "x": 46.2613,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        },
+        {
+          "t": 76.9088,
+          "x": 46.3676,
+          "truth": 46.287,
+          "source_for_review": "normal"
+        }
+      ],
+      "expected": {
+        "fifo_unchanged_on_missing": true,
+        "first_after_gap_activates_B": true,
+        "first_main_return_immediate": true
+      }
+    }
+  ]
+}
