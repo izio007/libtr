@@ -1,12 +1,17 @@
 function [rc,ctx,debug]=filter2win(cfg,ctx,current_time,X_meas_tick,is_nan_tick)
 % FILTER2WIN Autonomous configurable two-window scalar state machine.
 % rc=0: step executed, possibly NaN output. rc=1: ctx unchanged.
-% ctx.FILTER_STATE.status and ctx.FILTER_STATUS: operating mode 0..16.
+% ctx.FILTER_STATE.status and ctx.FILTER_STATUS: schema-specific mode.
 % Only real measurements enter either FIFO. No synthetic window padding.
-% Schema 2 changes MAD fields/state: initialize ctx=struct() when adopting it.
-% handover.settle_seconds and settle_min_samples both set to zero disable
-% post-capture model freezing. All elapsed-time guards use input timestamps.
+% Initialize ctx=struct() when changing schema or parameters.
+% All elapsed-time guards use input timestamps.
 % Optional third output also explains refused steps without mutating ctx.
+% Schema 3 is the default persistent-window implementation.
+% Schema 2 remains available only with its explicit legacy configuration.
+if isstruct(cfg) && isscalar(cfg) && isfield(cfg,'schema_version') && isequal(cfg.schema_version,3)
+    [rc,ctx,debug]=filter2win_persistent(cfg,ctx,current_time,X_meas_tick,is_nan_tick);
+    return;
+end
 rc=1;
 debug=struct('api_status',1,'reason','INVALID_INPUT','time',current_time);
 [ok,reason]=filter2win_validate(cfg);

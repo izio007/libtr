@@ -16,8 +16,7 @@ end
 data=load(fullfile(folder,'filter2win_doc_data.mat'));
 addpath(fullfile(root,'matlab','function'));
 addpath(fullfile(root,'matlab','tests','support'));
-cfg=filter2win_config;
-spec=filter2win_observation_config;
+[spec,cfg]=filter2win_observation_config;
 assert(numel(data.t)==spec.expected_samples && any(isnan(data.measured)));
 ctx=struct('X_MAIN_REF',spec.initial_reference);
 actual=zeros(numel(data.t),1); power=actual;

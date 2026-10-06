@@ -4,6 +4,9 @@ if d.api_status~=0
     text=sprintf('[REFUSED] Reason: %s | Numerical state unchanged.\n',d.reason);
     return;
 end
+if isfield(d,'schema_version') && d.schema_version==3
+    text=filter2win_debug_persistent(d); return;
+end
 g=d.guards;
 text=sprintf(['[TACT %04d] Time: %.9g s | Status: %d (%s) | Meas: %.9g' ...
     ' | Valid: %d | Output: %.9g\n' ...

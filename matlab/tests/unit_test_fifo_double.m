@@ -9,6 +9,16 @@ end
 [rc,unchanged,d]=fifo_double('read',q);
 assert(rc==0 && isequaln(q,unchanged));
 assert(isequal(d.time,c.expected_times(:).') && isequal(d.value,c.expected_values(:).'));
+% Retain operates on chronological positions after ring wraparound.
+[rc,kept,removed]=fifo_double('retain',q,c.retain_mask);
+assert(rc==0 && isequal(removed.time,c.removed_times(:).') && kept.last_time==q.last_time);
+[~,~,data]=fifo_double('read',kept);
+assert(isequal(data.time,c.retained_times(:).') && isequal(data.value,c.retained_values(:).'));
+[rc,unchanged]=fifo_double('retain',q,true(1,q.count)); assert(rc==0 && isequaln(q,unchanged));
+[rc,unchanged]=fifo_double('retain',q,c.invalid_mask); assert(rc==1 && isequaln(q,unchanged));
+[rc,empty]=fifo_double('retain',q,false(1,q.count)); assert(rc==0 && empty.count==0 && empty.last_time==q.last_time);
+[rc,unchanged]=fifo_double('push',empty,c.times(end),c.values(end)); assert(rc==1 && isequaln(empty,unchanged));
+[rc,unchanged]=fifo_double('retain',q,[true false]); assert(rc==1 && isequaln(q,unchanged));
 old=q; [rc,q]=fifo_double('push',q,c.times(end),c.values(end));
 assert(rc==1 && isequaln(q,old));
 [rc,q]=fifo_double('push',q,c.times(end)+1,NaN);

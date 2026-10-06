@@ -14,9 +14,21 @@ ROOT = Path(__file__).resolve().parents[1]
 PRODUCTION = (
     'fifo_double', 'filter2win', 'filter2win_band', 'filter2win_features',
     'filter2win_model', 'filter2win_rule_checks', 'filter2win_status_name',
-    'filter2win_validate',
+    'filter2win_validate', 'filter2win_persistent', 'filter2win_validate_persistent',
 )
 FILES = (
+    'matlab/function/filter2win_persistent.m',
+    'matlab/function/filter2win_validate_persistent.m',
+    'matlab/tests/support/filter2win_debug_persistent.m',
+    'matlab/tests/support/filter2win_persistent_run.m',
+    'matlab/tests/unit_test_filter2win_persistent.m',
+    'matlab/tests/unit_test_filter2win_schema2.m',
+    'matlab/tests/configs/filter2win_schema2_config.json',
+    'matlab/tests/configs/filter2win_schema3_cases.json',
+    'matlab/tests/configs/filter2win_optimizer_experiments.json',
+    'docs/filter2win_schema2_theory.md',
+    'matlab/tests/support/filter2win_system_run.m',
+    'matlab/tests/configs/filter2win_system.json',
     'matlab/function/filter2win.m',
     'matlab/function/fifo_double.m',
     'matlab/function/filter2win_band.m',

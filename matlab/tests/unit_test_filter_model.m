@@ -1,10 +1,9 @@
 function unit_test_filter_model
 setup_test_paths;
 clear test_model_step test_model_result test_filter_init test_filter_step;
-spec=filter2win_observation_config;
+[spec,cfg]=filter2win_observation_config;
 saved=rng; cleanup=onCleanup(@() rng(saved)); rng(spec.seed,spec.rng_algorithm);
 [t,truth,z,y,p]=filter2win_scenario;
-cfg=filter2win_config;
 ctx=struct('X_MAIN_REF',spec.initial_reference);
 m=test_filter_init(cfg,ctx,t,z,isnan(z),truth);
 other=m;

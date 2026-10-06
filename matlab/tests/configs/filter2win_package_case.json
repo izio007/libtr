@@ -1,7 +1,7 @@
 {"package_version":"0.2.0",
   "package_relative_root":"runtime/Release/filter2win/0.2.0-attempt02/verification/filter2win-0.2.0",
   "filter_config":"filter2win_config.json",
-  "production_functions":["fifo_double","filter2win","filter2win_band","filter2win_features","filter2win_model","filter2win_rule_checks","filter2win_status_name","filter2win_validate"],
+  "production_functions":["fifo_double","filter2win","filter2win_band","filter2win_features","filter2win_model","filter2win_rule_checks","filter2win_status_name","filter2win_validate","filter2win_persistent","filter2win_validate_persistent"],
   "initial_reference":0,
   "time":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
   "measurement":[0,2,1,0,20,10,10,10,10,10,10,10,10,10,10,10],

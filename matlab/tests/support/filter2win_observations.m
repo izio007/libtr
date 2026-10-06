@@ -1,7 +1,6 @@
 function [cfg,ctx,t,truth,measured,missing] = filter2win_observations
 % Synthetic input only; preserves the original single rand draw and ordering.
-cfg=filter2win_config;
-spec=filter2win_observation_config;
+[spec,cfg]=filter2win_observation_config;
 ctx=struct('X_MAIN_REF',spec.initial_reference);
 t=spec.start_time:spec.time_step:spec.end_time;
 truth=spec.truth_level*ones(1,numel(t));

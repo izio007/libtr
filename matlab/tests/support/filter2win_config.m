@@ -1,18 +1,32 @@
 function cfg=filter2win_config(file)
-% Schema 2: robust median/MAD policy; no plateau coordinates/times here.
+% Schema 3 by default; explicit schema-2 files retain the legacy policy.
 % Changing schema/parameters requires a fresh ctx, not the old FILTER_STATE.
 % known_velocity is used only with model='known_velocity', in units/s.
-% trim_fraction is trimmed independently at each tail (0 <= fraction < .5).
+% Schema 3 requires trim_fraction=0; detected extremes use FIFO retain.
 % mad_floor/max_mad/margins/range are in measurement units, not variance.
-% compatibility.method: median_band | nearest_neighbor | trimmed_range.
-% on_incompatible='ignore' preserves evidence until BOTH configured streak
-% thresholds are met, then restarts from the current real observation.
-% null streak thresholds disable that restart. Null upper bounds mean Inf.
+% Null upper bounds mean Inf. Schema-2-only fields are normalized below.
 if nargin<1
     root=fileparts(fileparts(fileparts(fileparts(mfilename('fullpath')))));
     file=fullfile(root,'matlab','tests','configs','filter2win_config.json');
 end
 cfg=jsondecode(fileread(file));
+% Schema 3 has no time pruning, partial-output bypass or hidden reset.
+if cfg.schema_version==3
+    for name={'main','alt'}
+        for key={'max_mad','max_range','max_abs_velocity','max_adaptive_radius'}
+            if isempty(cfg.(name{1}).band.(key{1})), cfg.(name{1}).band.(key{1})=Inf; end
+        end
+    end
+    for key={'outlier_hold_seconds','gap_hold_seconds'}
+        if isempty(cfg.flow.(key{1})), cfg.flow.(key{1})=Inf; end
+    end
+    for k=1:numel(cfg.rules)
+        for j=1:numel(cfg.rules(k).conditions)
+            if isempty(cfg.rules(k).conditions(j).value), cfg.rules(k).conditions(j).value=Inf; end
+        end
+    end
+    return;
+end
 % JSON has no infinity. A null upper bound means that limit is disabled.
 windows={'main','alt'};
 for k=1:numel(windows)

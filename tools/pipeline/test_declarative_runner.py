@@ -65,9 +65,9 @@ class ConfigTests(unittest.TestCase):
                     self.assertEqual(hashlib.sha256(target.read_bytes()).hexdigest(), entry['source_sha256'])
         kernels = [e for e in entries if e['source'].startswith('matlab/function/')]
         self.assertEqual(len(kernels), 8)
-        self.assertTrue(all(e['decision'] == 'identical' for e in kernels))
+        self.assertTrue(all(e['decision'] in ('identical', 'adapted') for e in kernels))
 
-    def test_filter_package_schema2_closure(self):
+    def test_filter_package_schema3_closure(self):
         root = Path(__file__).resolve().parents[2]
         spec = importlib.util.spec_from_file_location('package_filter2win', root/'tools/package_filter2win.py')
         module = importlib.util.module_from_spec(spec)
@@ -83,16 +83,22 @@ class ConfigTests(unittest.TestCase):
             references = set(re.findall(r'\b(filter2win_[a-z_]+|fifo_double)\s*\(', text))
             self.assertFalse(references - functions)
         cfg = json.loads((root/'matlab/tests/configs/filter2win_config.json').read_text())
-        self.assertEqual(cfg['schema_version'], 2)
+        self.assertEqual(cfg['schema_version'], 3)
+        legacy = json.loads((root/'matlab/tests/configs/filter2win_schema2_config.json').read_text())
+        self.assertEqual(legacy['schema_version'], 2)
         rules = cfg['rules']
         self.assertEqual(len(rules), len({r['priority'] for r in rules}))
         self.assertEqual(len(rules), len({r['name'] for r in rules}))
-        text = (root/'matlab/function/filter2win_features.m').read_text()
-        events = set(re.findall(r'^\s*e\.([A-Z_]+)\s*=', text, re.M))
+        text = (root/'matlab/function/filter2win_persistent.m').read_text()
+        events = set(re.findall(r"'([A-Z_]+)'", text))
         self.assertFalse({r['event'] for r in rules} - events)
-        text = (root/'matlab/function/filter2win.m').read_text()
-        handlers = set(map(int, re.findall(r'^\s*case\s+(\d+)\b', text, re.M)))
-        self.assertEqual(handlers, set(range(17)))
+        handlers = set()
+        for group, single in re.findall(r'case\s+(?:\{([0-9, ]+)\}|(\d+))', text):
+            handlers.update(map(int, re.findall(r'\d+', group or single)))
+        expected = set(range(9)) | set(range(10, 16))
+        self.assertEqual(handlers, expected)
+        fixture = json.loads((root/'matlab/tests/configs/filter2win_schema3_cases.json').read_text())
+        self.assertEqual(set(fixture['required_statuses']), expected)
         case = json.loads((root/'matlab/tests/configs/filter2win_package_case.json').read_text())
         self.assertEqual(set(case['production_functions']), functions)
         self.assertIn('matlab/tests/configs/'+case['filter_config'], module.FILES)

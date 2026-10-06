@@ -4,6 +4,7 @@ function [rc,q,data] = fifo_double(operation,q,varargin)
 % [rc,q]      = fifo_double('push',q,time,value)
 % [rc,q]      = fifo_double('prune',q,oldest_allowed_time)
 % [rc,q,data] = fifo_double('read'|'peek'|'pop',q)
+% [rc,q,data] = fifo_double('retain',q,chronological_keep_mask)
 % [rc,q]      = fifo_double('clear',q)
 % rc=1 refuses atomically; rc=0 succeeds. read order is chronological.
 % Empty allocated cells are NOT samples: only count active entries are read.
@@ -41,6 +42,21 @@ switch operation
             next.head=mod(next.head,next.capacity)+1;
             next.count=next.count-1;
         end
+    case 'retain'
+        if numel(varargin)~=1, return; end
+        mask=varargin{1};
+        if ~(islogical(mask) || isa(mask,'double')) || ~isreal(mask) || ...
+                numel(mask)~=q.count || (~isempty(mask) && ~isvector(mask)) || ...
+                any(~ismember(mask(:),[0 1])), return; end
+        mask=logical(mask(:).');
+        if all(mask), rc=0; return; end
+        indices=mod(q.head-1+(0:q.count-1),q.capacity)+1;
+        removed=indices(~mask); retained=indices(mask);
+        data.time=q.time(removed); data.value=q.value(removed);
+        next.time(:)=0; next.value(:)=0; next.head=1; next.count=numel(retained);
+        next.time(1:next.count)=q.time(retained);
+        next.value(1:next.count)=q.value(retained);
+        % last_time is the accepted-stream watermark, even if newest is cut.
     case 'clear'
         if ~isempty(varargin), return; end
         next.time(:)=0; next.value(:)=0;

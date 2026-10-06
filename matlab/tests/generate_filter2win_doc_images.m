@@ -8,7 +8,7 @@ state = rng;
 cleanup = onCleanup(@() restore(oldpath, state));
 addpath(fullfile(root,'matlab','function'), ...
     fullfile(root,'matlab','tests','support'));
-spec=filter2win_observation_config;
+[spec,cfg]=filter2win_observation_config;
 rng(spec.seed,spec.rng_algorithm);
 [t, truth, measured, filtered, power] = filter2win_scenario;
 save(fullfile(out,'filter2win_doc_data.mat'), ...
@@ -29,7 +29,6 @@ xlabel('Time, s'); ylabel('Alternative window count');
 title('filter2win: actual alternative window occupancy');
 exportgraphics(f,fullfile(out,'filter2win_window.png'),'Resolution',150);
 assert(numel(t)==spec.expected_samples && all(isfinite(power)));
-cfg=filter2win_config;
 assert(all(power >= 0 & power <= cfg.alt.capacity));
 fid = fopen(fullfile(out,'filter2win_image_metrics.txt'),'w');
 assert(fid ~= -1);

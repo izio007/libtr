@@ -23,13 +23,13 @@
                     {
                         "source":  "matlab/function/fifo_double.m",
                         "source_sha256":  "a5ba86344daff6694b42c7fab286232db10e32e0e041ba5960840cb0036a4233",
-                        "decision":  "identical",
+                        "decision":  "adapted",
                         "target":  "matlab/function/fifo_double.m"
                     },
                     {
                         "source":  "matlab/function/filter2win.m",
                         "source_sha256":  "8c89ac034c769a273eb20ba513b9dd62589b203b5b495f333520df15f17a0c50",
-                        "decision":  "identical",
+                        "decision":  "adapted",
                         "target":  "matlab/function/filter2win.m"
                     },
                     {
@@ -59,13 +59,13 @@
                     {
                         "source":  "matlab/function/filter2win_status_name.m",
                         "source_sha256":  "9147aa810b2e0b043d29fdd4c217bb93b11a56378138f629f50e229a55315d2e",
-                        "decision":  "identical",
+                        "decision":  "adapted",
                         "target":  "matlab/function/filter2win_status_name.m"
                     },
                     {
                         "source":  "matlab/function/filter2win_validate.m",
                         "source_sha256":  "e858c0aec1799ad0b592ccfd295471f4d6a92ff76ecbc84562a91f62e84e117f",
-                        "decision":  "identical",
+                        "decision":  "adapted",
                         "target":  "matlab/function/filter2win_validate.m"
                     },
                     {
@@ -89,7 +89,7 @@
                     {
                         "source":  "matlab/tests/configs/filter2win_config.json",
                         "source_sha256":  "2ac5f84ba6492e01cc12f0045610d50a9063bc6e6e84f11235719803ae93b001",
-                        "decision":  "identical",
+                        "decision":  "adapted",
                         "target":  "matlab/tests/configs/filter2win_config.json"
                     },
                     {
@@ -107,13 +107,13 @@
                     {
                         "source":  "matlab/tests/support/filter2win_config.m",
                         "source_sha256":  "b7417ef2781ede226ed4c3a36f1dbbe20cf5c61b7b9656cd1ea2e0ba4a2e6a2c",
-                        "decision":  "identical",
+                        "decision":  "adapted",
                         "target":  "matlab/tests/support/filter2win_config.m"
                     },
                     {
                         "source":  "matlab/tests/support/filter2win_debug_line.m",
                         "source_sha256":  "0c2eadf5ae4214f1f9d4484ddd0f5d416cf2386e5f086850fcd0daa5298b86bf",
-                        "decision":  "identical",
+                        "decision":  "adapted",
                         "target":  "matlab/tests/support/filter2win_debug_line.m"
                     },
                     {

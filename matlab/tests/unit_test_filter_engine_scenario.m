@@ -2,7 +2,7 @@ function unit_test_filter_engine_scenario
 setup_test_paths;
 clear filter2win_scenario filter2win_observations generate_filter2win_doc_images;
 old=rng; cleanup=onCleanup(@() rng(old));
-spec=filter2win_observation_config;
+[spec,cfg]=filter2win_observation_config;
 rng(spec.seed,spec.rng_algorithm);
 t=spec.start_time:spec.time_step:spec.end_time;
 truth=spec.truth_level*ones(size(t)); z=truth;
@@ -22,7 +22,6 @@ noise=spec.noise_width*rand(size(z))+spec.noise_offset;
 z=z+noise;
 z(t>spec.missing_open_interval(1) & t<spec.missing_open_interval(2))=NaN;
 expectedRng=rng;
-cfg=filter2win_config;
 ctx=struct('X_MAIN_REF',spec.initial_reference); y=zeros(numel(t),1); p=y;
 for k=1:numel(t)
     [s,ctx]=filter2win(cfg,ctx,t(k),z(k),isnan(z(k)));

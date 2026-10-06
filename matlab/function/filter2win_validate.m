@@ -1,5 +1,8 @@
 function [ok,reason]=filter2win_validate(c)
 % Complete configuration validation; malformed policy cannot change state.
+if isstruct(c) && isscalar(c) && isfield(c,'schema_version') && isequal(c.schema_version,3)
+    [ok,reason]=filter2win_validate_persistent(c); return;
+end
 ok=false; reason='INVALID_CONFIGURATION';
 root={'schema_version','main','alt','flow','handover','rules'};
 if ~isstruct(c) || ~isscalar(c) || ~all(isfield(c,root)) || ...

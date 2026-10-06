@@ -3,7 +3,7 @@ function result=filter2win_system_run(root,output_dir)
 % Plateau levels/events are generated before invoking the filter. The false
 % plateau is a persistent measurement error that MUST be captured autonomously.
 % Existing fixed-seed consumer regression and 17-mode unit suite are separate.
-cfg=filter2win_config(fullfile(root,'matlab','tests','configs','filter2win_config.json'));
+cfg=filter2win_config(fullfile(root,'matlab','tests','configs','filter2win_schema2_config.json'));
 p=jsondecode(fileread(fullfile(root,'matlab','tests','configs','filter2win_system.json')));
 checks=struct('requirement',{},'case_id',{},'status',{},'expected',{},'actual',{});
 traces={}; oldrng=rng; cleanup=onCleanup(@() rng(oldrng));

@@ -2,7 +2,7 @@ function unit_test_filter2win_candidate
 % Schema-2 replacement of the supplied schema-1 contract suite.
 % Independent transition expectations live in filter2win_cases.json.
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
-c=filter2win_config;
+c=filter2win_config(fullfile(root,'matlab','tests','configs','filter2win_schema2_config.json'));
 p=jsondecode(fileread(fullfile(root,'matlab','tests','configs','filter2win_cases.json')));
 codes=[]; records={};
 for j=1:numel(p.scenarios)
