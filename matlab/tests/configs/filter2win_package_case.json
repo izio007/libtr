@@ -1,5 +1,5 @@
-{"package_version":"0.2.0",
-  "package_relative_root":"runtime/Release/filter2win/0.2.0-attempt02/verification/filter2win-0.2.0",
+{"package_version":"0.3.0",
+  "package_relative_root":"runtime/Release/filter2win/0.3.0-staging/verification/filter2win-0.3.0",
   "filter_config":"filter2win_config.json",
   "production_functions":["fifo_double","filter2win","filter2win_band","filter2win_features","filter2win_model","filter2win_rule_checks","filter2win_status_name","filter2win_validate","filter2win_persistent","filter2win_validate_persistent","filter2win_settings"],
   "initial_reference":0,

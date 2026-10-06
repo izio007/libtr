@@ -37,7 +37,7 @@ try
         report.checks{end+1} = struct('id', config.checks{k}, 'status', 'PASS');
     end
     demo_filter2win(output);
-    report.checks{end+1} = struct('id', 'schema2_demo', 'status', 'PASS');
+    report.checks{end+1} = struct('id', 'filter2win_demo', 'status', 'PASS');
     generatePlots(config, output);
     report.checks{end+1} = struct('id', 'plots', 'status', 'PASS');
     for k = 1:numel(config.documents)
