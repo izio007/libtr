@@ -5,10 +5,35 @@ import unittest
 import importlib.util
 import re
 import hashlib
-from declarative_runner import load_config
+from unittest.mock import patch
+from declarative_runner import load_config, registered_stages
+from engine import Pipeline
 
 
 class ConfigTests(unittest.TestCase):
+    def test_filter_integration_chain(self):
+        root = Path(__file__).resolve().parents[2]
+        cfg, digest = load_config(root/'matlab/tests/configs/filter2win_integration_runner.json')
+        with tempfile.TemporaryDirectory() as folder:
+            stages = registered_stages(cfg)
+            self.assertEqual([name for name, _ in stages], ['kernel', 'consumers'])
+            with patch('declarative_runner.execute', return_value=dict(executed=1, job_id='fixture')) as run:
+                report = Pipeline(Path(folder), cfg, digest).run(stages)
+            self.assertEqual(report['status'], 'PASS')
+            self.assertEqual(run.call_count, 2)
+            self.assertEqual([c.kwargs['test'] for c in run.call_args_list],
+                             ['unit_test_filter2win_isolation', 'unit_test_filter_engine_scenario'])
+            failed = Pipeline(Path(folder), cfg, digest)
+            with patch('declarative_runner.execute', side_effect=RuntimeError('fixture failure')) as run:
+                with self.assertRaises(RuntimeError):
+                    failed.run(registered_stages(cfg))
+            self.assertEqual(run.call_count, 1)
+            self.assertEqual([s['status'] for s in failed.report['stages']], ['FAILED', 'NOT_RUN'])
+        with patch('declarative_runner.time.monotonic', side_effect=[0, cfg['timeout_seconds']+1]):
+            stages = registered_stages(cfg)
+            with self.assertRaises(TimeoutError):
+                stages[0][1]()
+
     def test_filter_release_gate(self):
         root = Path(__file__).resolve().parents[2]
         spec = importlib.util.spec_from_file_location('acceptance', root/'tools/filter2win_acceptance.py')

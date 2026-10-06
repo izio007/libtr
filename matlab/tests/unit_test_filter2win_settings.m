@@ -1,5 +1,5 @@
 function unit_test_filter2win_settings
-% Pre-change full profiles are independent references for conversion.
+% Independent pre-change reference plus explicit observation-profile deltas.
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 folder=fullfile(root,'matlab','tests','configs');
 p=jsondecode(fileread(fullfile(folder,'filter2win_config.json')));
@@ -7,7 +7,17 @@ cfg=filter2win_settings(p);
 reference=filter2win_config(fullfile(folder,'filter2win_expanded_reference.json'));
 assert(isequaln(cfg,reference),'libtr:f2w:SettingsTest','Default profile changed behavior');
 cfg=filter2win_config(fullfile(folder,'filter2win_observation_filter.json'));
-reference=filter2win_config(fullfile(folder,'filter2win_observation_reference.json'));
+delta=jsondecode(fileread(fullfile(folder,'filter2win_observation_reference.json')));
+for name={'main','alt'}
+    reference.(name{1}).band.lower_margin=delta.radius;
+    reference.(name{1}).band.upper_margin=delta.radius;
+    reference.(name{1}).band.max_mad=delta.max_mad;
+    reference.(name{1}).band.max_range=delta.max_range;
+    reference.(name{1}).trim.scale_floor=delta.trim_scale_floor;
+end
+reference.alt.min_samples=delta.alt_min_samples;
+reference.flow.outlier_hold_seconds=delta.outlier_hold_seconds;
+reference.flow.gap_hold_seconds=delta.gap_hold_seconds;
 assert(isequaln(cfg,reference),'libtr:f2w:SettingsTest','Observation profile changed behavior');
 v=jsondecode(fileread(fullfile(folder,'filter2win_schema3_cases.json')));
 q=p; q.alt=struct('min_samples',v.min_samples,'radius',v.normalized_alt_radius);

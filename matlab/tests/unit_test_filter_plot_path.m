@@ -5,7 +5,8 @@ restoredefaultpath;
 addpath(fullfile(root,'matlab','tests'));
 clear generate_filter2win_doc_images filter2win;
 before=path; randomBefore=rng;
-folder=tempname(fullfile(root,'runtime'));
+folder=fullfile(pwd,'filter_plot');
+assert(~isfolder(folder),'libtr:f2w:Plot','Refusing to overwrite previous plot evidence');
 generate_filter2win_doc_images(folder);
 assert(strcmp(before,path) && isequal(randomBefore,rng));
 for name={'filter2win_doc_data.mat','filter2win_trajectory.png', ...

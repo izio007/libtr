@@ -42,6 +42,7 @@
   "checks": [
     "unit_test_fifo_double",
     "unit_test_filter2win",
+    "unit_test_filter2win_candidate",
     "unit_test_filter2win_demo"
   ],
   "forbidden_functions": [
@@ -53,9 +54,7 @@
   "artifacts": [
     "filter2win_schema3_contract.mat",
     "filter2win_demo.mat",
-    "filter2win_demo.png",
     "FILTER_STATUS_debug.log",
-    "FILTER_STATUS_all_modes.log",
     "filter2win_system_checks.json",
     "P01.png",
     "P02.png",
@@ -64,6 +63,7 @@
     "P05.png",
     "P06.png",
     "P07.png",
-    "P08.png"
+    "P08.png",
+    "FILTER_STATUS_schema3.log"
   ]
 }

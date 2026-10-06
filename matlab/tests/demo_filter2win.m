@@ -56,7 +56,6 @@ for j=1:numel(result.traces)
     subplot(3,1,3); stairs(tr.time,tr.status,'LineWidth',1.2); grid on;
     ylabel('FILTER_STATUS','Interpreter','none'); xlabel('Time, s'); yticks([0:8 10:15]);
     exportgraphics(f,fullfile(output_dir,[tr.case_id '.png']),'Resolution',130);
-    if strcmp(tr.case_id,'P02'), copyfile(fullfile(output_dir,'P02.png'),fullfile(output_dir,'filter2win_demo.png')); end
     clear closefigure;
 end
 report=rmfield(result,{'traces','spec'}); report.executed_checks=numel(result.checks);
