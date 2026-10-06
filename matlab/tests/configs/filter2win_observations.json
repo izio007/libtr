@@ -41,5 +41,6 @@
   ],
   "rmse_tolerance": 1e-14,
   "invalid_capacity": 0,
-  "filter_config": "filter2win_observation_filter.json"
+  "filter_config": "filter2win_observation_filter.json",
+  "expected_active": [[171, 2], [219, 1], [255, 1], [258, 1]]
 }

@@ -36,7 +36,7 @@
     4,
     4,
     4,
-    6
+    15
   ],
   "candidate_counts": [
     1,
@@ -51,10 +51,10 @@
     7,
     8
   ],
-  "return_time": 9,
+  "return_time": 13,
   "gap_times": [
-    17,
-    17.001,
+    21,
+    21.001,
     1000
   ],
   "gap_status": [
@@ -75,7 +75,7 @@
     3
   ],
   "hold_seconds": 8,
-  "reject_time": 10,
+  "reject_time": 14,
   "reject_offset": 1.2,
   "middle": 17.5,
   "blend_duration": 4,
@@ -93,10 +93,13 @@
   ],
   "translation_value": 137.125,
   "translation_time": 3000,
-  "wait_seconds": 6,
+  "wait_seconds": 10,
   "wait_times": [
     9,
-    10
+    10,
+    11,
+    12,
+    14
   ],
   "overlap_radius": 20,
   "overlap_value": 17.5,
@@ -136,9 +139,24 @@
   "cleanup_new_offset": 0.2,
   "line_velocity": 2,
   "nontrimming_k": 100,
-  "full_history_time": [0, 1, 2.5, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+  "full_history_time": [
+    0,
+    1,
+    2.5,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
   "full_reject_time": 12,
   "normalized_main_radius": 6,
   "normalized_alt_radius": 20,
-  "normalized_value": 15
+  "normalized_value": 15,
+  "hold_boundary_time": 11,
+  "selection_time": 12
 }

@@ -1754,7 +1754,7 @@
         }
       ],
       "expected": {
-        "first_wrong_activates_B": true,
+        "first_wrong_keeps_A": true,
         "first_main_return_immediate": true
       }
     },

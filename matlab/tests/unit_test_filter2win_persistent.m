@@ -27,6 +27,12 @@ for k=1:numel(p.candidate_time)
 end
 [~,~,q]=fifo_double('read',b.FILTER_STATE.alt);
 assert(isequal(q.time,p.candidate_retained_time(:).') && all(q.value==p.alternative));
+[b,d]=step(c,b,p.hold_boundary_time,p.alternative);
+assert(d.status==15 && d.active_window==1 && d.accepted && d.output==p.base);
+assert(strcmp(d.reason,'MAIN_PROLONGATION_ACTIVE') && b.FILTER_STATE.last_accept(1)==p.baseline_time(end));
+assert(isequaln(b.FILTER_STATE.main,original));
+[b,d]=step(c,b,p.selection_time,p.alternative);
+assert(d.status==6 && d.active_window==2 && d.output==p.alternative);
 oldB=b.FILTER_STATE.alt; b=step(c,b,p.return_time,p.base);
 assert(b.FILTER_STATE.active==1 && b.X_FILTERED_OUTPUT==p.base && isequaln(oldB,b.FILTER_STATE.alt));
 for k=1:numel(p.gap_times)
@@ -62,13 +68,17 @@ z=c; z.flow.outlier_hold_seconds=0; z.flow.gap_hold_seconds=0;
 a=baseline(z,p); [gap,d]=step(z,a,p.candidate_time(1),NaN);
 assert(~d.valid && isequaln(gap.FILTER_STATE.main,a.FILTER_STATE.main));
 a=step(z,a,p.candidate_time(1),p.gross); assert(~a.FILTER_VALID && a.FILTER_STATE.alt.count==1);
+a=baseline(z,p);
+for k=1:numel(p.candidate_time), a=step(z,a,p.candidate_time(k),p.candidate_value(k)); end
+assert(a.FILTER_STATE.active==2 && a.FILTER_STATUS==6);
 % Smoothstep has an independent closed-form reference.
 smooth=c; smooth.handover.duration_seconds=p.blend_duration;
 a=baseline(smooth,p);
 for k=1:numel(p.candidate_time), a=step(smooth,a,p.candidate_time(k),p.candidate_value(k)); end
+a=step(smooth,a,p.selection_time,p.alternative);
 assert(a.FILTER_STATUS==14 && a.X_FILTERED_OUTPUT==p.base);
 for k=2:numel(p.blend_offsets)
-    a=step(smooth,a,p.candidate_time(end)+p.blend_offsets(k),p.alternative);
+    a=step(smooth,a,p.selection_time+p.blend_offsets(k),p.alternative);
     expected=p.base+(p.alternative-p.base)*p.blend_weights(k);
     assert(abs(a.X_FILTERED_OUTPUT-expected)<=p.tolerance);
 end
@@ -77,13 +87,17 @@ assert(a.FILTER_STATUS==6);
 disabled=c; r=strcmp({disabled.rules.event},'SWITCH_READY'); disabled.rules(r).enabled=false;
 a=baseline(disabled,p);
 for k=1:numel(p.candidate_time), a=step(disabled,a,p.candidate_time(k),p.candidate_value(k)); end
-assert(a.FILTER_STATUS==15 && a.FILTER_STATE.active==1 && a.FILTER_STATE.alt.count==p.min_samples);
+a=step(disabled,a,p.selection_time,p.alternative);
+assert(a.FILTER_STATUS==15 && a.FILTER_STATE.active==1 && a.FILTER_STATE.alt.count==p.min_samples+1);
 % Wait is measured from the first accepted candidate, not from tick number.
 waiting=c; waiting.handover.wait_seconds=p.wait_seconds;
 a=baseline(waiting,p);
 for k=1:numel(p.candidate_time), a=step(waiting,a,p.candidate_time(k),p.candidate_value(k)); end
 assert(a.FILTER_STATUS==15);
-for k=1:numel(p.wait_times), a=step(waiting,a,p.wait_times(k),p.alternative); end
+for k=1:numel(p.wait_times)
+    a=step(waiting,a,p.wait_times(k),p.alternative);
+    if k<numel(p.wait_times), assert(a.FILTER_STATUS==15); end
+end
 assert(a.FILTER_STATUS==6);
 % Band overlap is checked with explicit retained history, not a truth hint.
 overlap=c; overlap.main.band.lower_margin=p.overlap_radius; overlap.main.band.upper_margin=p.overlap_radius;
@@ -117,7 +131,7 @@ assert(d.accepted && d.evicted.time==p.full_history_time(1));
 assert(accepted.FILTER_STATE.main.count==boundary.main.capacity);
 % Shift both coordinate and clock origin: no hidden nominal plateau/time.
 a=struct(); shifted=struct();
-time=[p.baseline_time(:).' p.candidate_time(:).']; values=[p.base*ones(size(p.baseline_time(:).')) p.candidate_value(:).'];
+time=[p.baseline_time(:).' p.candidate_time(:).' p.hold_boundary_time p.selection_time]; values=[p.base*ones(size(p.baseline_time(:).')) p.candidate_value(:).' p.alternative p.alternative];
 for k=1:numel(time)
     [a,d]=step(c,a,time(k),values(k));
     [shifted,e]=step(c,shifted,time(k)+p.translation_time,values(k)+p.translation_value);
@@ -167,7 +181,8 @@ for mode={'pause','continue','cancel'}
     transition=smooth; transition.handover.on_missing=mode{1};
     a=baseline(transition,p);
     for j=1:numel(p.candidate_time), a=step(transition,a,p.candidate_time(j),p.candidate_value(j)); end
-    [a,d]=step(transition,a,p.candidate_time(end)+p.blend_offsets(2),NaN);
+    a=step(transition,a,p.selection_time,p.alternative);
+    [a,d]=step(transition,a,p.selection_time+p.blend_offsets(2),NaN);
     if strcmp(mode{1},'cancel')
         assert(~d.valid && d.status==8);
     elseif strcmp(mode{1},'pause')

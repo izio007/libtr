@@ -23,9 +23,19 @@ z=z+noise;
 z(t>spec.missing_open_interval(1) & t<spec.missing_open_interval(2))=NaN;
 expectedRng=rng;
 ctx=struct('X_MAIN_REF',spec.initial_reference); y=zeros(numel(t),1); p=y;
+trace=cell(1,numel(t));
 for k=1:numel(t)
-    [s,ctx]=filter2win(cfg,ctx,t(k),z(k),isnan(z(k)));
+    [s,ctx,trace{k}]=filter2win(cfg,ctx,t(k),z(k),isnan(z(k)));
     assert(s==0); y(k)=ctx.X_FILTERED_OUTPUT; p(k)=ctx.W_ALT_POWER_OUTPUT;
+end
+fid=fopen(fullfile(pwd,'filter2win_consumer_trace.json'),'w','n','UTF-8'); assert(fid~=-1);
+closeTrace=onCleanup(@() fclose(fid)); fprintf(fid,'%s\n',jsonencode(trace)); clear closeTrace;
+for k=1:size(spec.expected_active,1)
+    index=find(t==spec.expected_active(k,1)); assert(isscalar(index));
+    actual=trace{index}.active_window;
+    assert(actual==spec.expected_active(k,2),'libtr:f2w:UnexpectedWindow', ...
+        'Time %.9g: expected window %d, actual %d; measurement %.9g; reason %s', ...
+        t(index),spec.expected_active(k,2),actual,z(index),trace{index}.reason);
 end
 rng(spec.seed,spec.rng_algorithm);
 [actualT,actualTruth,actualZ,actualY,actualP]=filter2win_scenario;

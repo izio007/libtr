@@ -79,6 +79,7 @@ limit=c.flow.outlier_hold_seconds;
 if missing, limit=c.flow.gap_hold_seconds; end
 g.hold_limit=limit;
 hold=s.active>0 && v(s.active).ready && g.age<=limit;
+g.main_hold=s.active==1 && g.route==2 && hold;
 if s.status==14
     advance=missing && strcmp(c.handover.on_missing,'continue');
     if p.accepted && g.route==s.active
@@ -108,7 +109,7 @@ elseif p.accepted && p.stats.ready
     elseif g.route~=s.active
         wait=c.handover.wait_seconds;
         if g.route==1, wait=c.handover.return_wait_seconds; end
-        if g.wait_elapsed>=wait, event='SWITCH_READY'; else, event='SWITCH_WAIT'; end
+        if g.wait_elapsed>=wait && ~g.main_hold, event='SWITCH_READY'; else, event='SWITCH_WAIT'; end
     elseif s.status==14
         event='BLEND_ACTIVE';
     else
@@ -131,7 +132,7 @@ g.event=event;
 if status==14 && strcmp(event,'SWITCH_READY')
     duration=c.handover.duration_seconds;
     if g.route==1, duration=c.handover.return_duration_seconds; end
-    if duration==0 || ~hold, status=6; end
+    if duration==0 || (~hold && ~isfinite(before.last_output)), status=6; end
 end
 if status==14 && s.status==14 && ~strcmp(event,'SWITCH_READY') && g.blend_elapsed>=s.blend_duration
     status=6;
@@ -170,6 +171,7 @@ switch s.status
         if strcmp(event,'SWITCH_READY')
             if ~p.accepted || ~p.stats.ready || s.active==0, debug.reason='POLICY_REQUIRES_TWO_WINDOWS'; return; end
             from=held(before,v,t,hold);
+            if ~isfinite(from), from=before.last_output; end
             s.blend_from=from; s.blend_start=t; s.blend_elapsed=0;
             s.blend_duration=c.handover.duration_seconds;
             if g.route==1, s.blend_duration=c.handover.return_duration_seconds; end
@@ -196,6 +198,7 @@ switch s.status
         % A policy may postpone selection, not discard accepted evidence.
         s=commit(s,p,g.route,names); accepted=p.accepted;
         output=held(before,v,t,hold); reason='TRANSITION_POLICY_PENDING';
+        if g.main_hold, reason='MAIN_PROLONGATION_ACTIVE'; end
     otherwise
         debug.reason='INVALID_DESTINATION'; return;
 end
