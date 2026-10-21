@@ -1,0 +1,216 @@
+СТАРТ ГЛОБАЛЬНОЙ ВЕРИФИКАЦИИ МАТЕМАТИЧЕСКИХ ЯДЕР ТИС
+>>> Исполняется: unit_test_cell_context.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_cell_context
+Исключение: Assertion failed.
+>>> Исполняется: unit_test_context_configuration.m
+Context parameter and filename independence: PASS
+<<< Успешно завершен: unit_test_context_configuration
+>>> Исполняется: unit_test_context_engine.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_context_engine
+Исключение: Undefined function 'unit_test_cov2std' for input arguments of type 'char'.
+>>> Исполняется: unit_test_cov2std.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_cov2std
+Исключение: Unrecognized function or variable 'unit_test_cov2std'.
+>>> Исполняется: unit_test_cov2std_3d.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_cov2std_3d
+Исключение: Unrecognized function or variable 'unit_test_cov2std_3d'.
+>>> Исполняется: unit_test_cov2std_relocation.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_cov2std_relocation
+Исключение: Unrecognized function or variable 'unit_test_cov2std_relocation'.
+>>> Исполняется: unit_test_cov2std_reporting.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_cov2std_reporting
+Исключение: Unrecognized function or variable 'unit_test_cov2std_reporting'.
+>>> Исполняется: unit_test_covariance_boundaries.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_covariance_boundaries
+Исключение: Unrecognized function or variable 'unit_test_covariance_boundaries'.
+>>> Исполняется: unit_test_document_profile.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_document_profile
+Исключение: Unrecognized function or variable 'unit_test_document_profile'.
+>>> Исполняется: unit_test_dynamic_rng.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_dynamic_rng
+Исключение: Unrecognized function or variable 'unit_test_dynamic_rng'.
+>>> Исполняется: unit_test_engine_isolation.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_engine_isolation
+Исключение: Unrecognized function or variable 'unit_test_engine_isolation'.
+>>> Исполняется: unit_test_engine_rng.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_engine_rng
+Исключение: Unrecognized function or variable 'unit_test_engine_rng'.
+>>> Исполняется: unit_test_ensemble_metrics.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_ensemble_metrics
+Исключение: Unrecognized function or variable 'unit_test_ensemble_metrics'.
+>>> Исполняется: unit_test_exception_result_mask.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_exception_result_mask
+Исключение: Unrecognized function or variable 'unit_test_exception_result_mask'.
+>>> Исполняется: unit_test_fifo.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_fifo
+Исключение: Unrecognized function or variable 'unit_test_fifo'.
+>>> Исполняется: unit_test_fifo_double.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_fifo_double
+Исключение: Unrecognized function or variable 'unit_test_fifo_double'.
+>>> Исполняется: unit_test_fifo_relocation.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_fifo_relocation
+Исключение: Unrecognized function or variable 'unit_test_fifo_relocation'.
+>>> Исполняется: unit_test_filter2win.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_filter2win
+Исключение: Unrecognized function or variable 'unit_test_filter2win'.
+>>> Исполняется: unit_test_filter2win_candidate.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_filter2win_candidate
+Исключение: Unrecognized function or variable 'unit_test_filter2win_candidate'.
+>>> Исполняется: unit_test_filter2win_demo.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_filter2win_demo
+Исключение: Unrecognized function or variable 'unit_test_filter2win_demo'.
+>>> Исполняется: unit_test_filter2win_isolation.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_filter2win_isolation
+Исключение: Unrecognized function or variable 'unit_test_filter2win_isolation'.
+>>> Исполняется: unit_test_filter2win_package.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_filter2win_package
+Исключение: Unrecognized function or variable 'unit_test_filter2win_package'.
+>>> Исполняется: unit_test_filter2win_persistent.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_filter2win_persistent
+Исключение: Unrecognized function or variable 'unit_test_filter2win_persistent'.
+>>> Исполняется: unit_test_filter2win_relocation.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_filter2win_relocation
+Исключение: Unrecognized function or variable 'unit_test_filter2win_relocation'.
+>>> Исполняется: unit_test_filter2win_schema2.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_filter2win_schema2
+Исключение: Unrecognized function or variable 'unit_test_filter2win_schema2'.
+>>> Исполняется: unit_test_filter2win_settings.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_filter2win_settings
+Исключение: Unrecognized function or variable 'unit_test_filter2win_settings'.
+>>> Исполняется: unit_test_filter_engine_scenario.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_filter_engine_scenario
+Исключение: Unrecognized function or variable 'unit_test_filter_engine_scenario'.
+>>> Исполняется: unit_test_filter_model.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_filter_model
+Исключение: Unrecognized function or variable 'unit_test_filter_model'.
+>>> Исполняется: unit_test_filter_plot_path.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_filter_plot_path
+Исключение: Unrecognized function or variable 'unit_test_filter_plot_path'.
+>>> Исполняется: unit_test_filter_scenario.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_filter_scenario
+Исключение: Unrecognized function or variable 'unit_test_filter_scenario'.
+>>> Исполняется: unit_test_gn_position.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_gn_position
+Исключение: Unrecognized function or variable 'unit_test_gn_position'.
+>>> Исполняется: unit_test_gn_relocation.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_gn_relocation
+Исключение: Unrecognized function or variable 'unit_test_gn_relocation'.
+>>> Исполняется: unit_test_gnp_position.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_gnp_position
+Исключение: Unrecognized function or variable 'unit_test_gnp_position'.
+>>> Исполняется: unit_test_gpu_benchmark.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_gpu_benchmark
+Исключение: Unrecognized function or variable 'unit_test_gpu_benchmark'.
+>>> Исполняется: unit_test_gpu_environment.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_gpu_environment
+Исключение: Unrecognized function or variable 'unit_test_gpu_environment'.
+>>> Исполняется: unit_test_graphical_experiments.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_graphical_experiments
+Исключение: Unrecognized function or variable 'unit_test_graphical_experiments'.
+>>> Исполняется: unit_test_ideal_relocation.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_ideal_relocation
+Исключение: Unrecognized function or variable 'unit_test_ideal_relocation'.
+>>> Исполняется: unit_test_integration_independence.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_integration_independence
+Исключение: Unrecognized function or variable 'unit_test_integration_independence'.
+>>> Исполняется: unit_test_lls_position.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_lls_position
+Исключение: Unrecognized function or variable 'unit_test_lls_position'.
+>>> Исполняется: unit_test_lls_relocation.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_lls_relocation
+Исключение: Unrecognized function or variable 'unit_test_lls_relocation'.
+>>> Исполняется: unit_test_mapping_validity.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_mapping_validity
+Исключение: Unrecognized function or variable 'unit_test_mapping_validity'.
+>>> Исполняется: unit_test_matmul3.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_matmul3
+Исключение: Unrecognized function or variable 'unit_test_matmul3'.
+>>> Исполняется: unit_test_matmul3_relocation.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_matmul3_relocation
+Исключение: Unrecognized function or variable 'unit_test_matmul3_relocation'.
+>>> Исполняется: unit_test_metrics_relocation.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_metrics_relocation
+Исключение: Unrecognized function or variable 'unit_test_metrics_relocation'.
+>>> Исполняется: unit_test_mock_covariance.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_mock_covariance
+Исключение: Unrecognized function or variable 'unit_test_mock_covariance'.
+>>> Исполняется: unit_test_mock_position.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_mock_position
+Исключение: Unrecognized function or variable 'unit_test_mock_position'.
+>>> Исполняется: unit_test_mock_relocation.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_mock_relocation
+Исключение: Unrecognized function or variable 'unit_test_mock_relocation'.
+>>> Исполняется: unit_test_mock_runner_path.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_mock_runner_path
+Исключение: Unrecognized function or variable 'unit_test_mock_runner_path'.
+>>> Исполняется: unit_test_model_lifecycle.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_model_lifecycle
+Исключение: Unrecognized function or variable 'unit_test_model_lifecycle'.
+>>> Исполняется: unit_test_noise_contract.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_noise_contract
+Исключение: Unrecognized function or variable 'unit_test_noise_contract'.
+>>> Исполняется: unit_test_noise_relocation.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_noise_relocation
+Исключение: Unrecognized function or variable 'unit_test_noise_relocation'.
+>>> Исполняется: unit_test_path_model.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_path_model
+Исключение: Unrecognized function or variable 'unit_test_path_model'.
+>>> Исполняется: unit_test_pipeline.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_pipeline
+Исключение: Unrecognized function or variable 'unit_test_pipeline'.
+>>> Исполняется: unit_test_pipeline_selection.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_pipeline_selection
+Исключение: Unrecognized function or variable 'unit_test_pipeline_selection'.
+>>> Исполняется: unit_test_prefix_validity.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_prefix_validity
+Исключение: Unrecognized function or variable 'unit_test_prefix_validity'.
+>>> Исполняется: unit_test_production_isolation.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_production_isolation
+Исключение: Unrecognized function or variable 'unit_test_production_isolation'.
+>>> Исполняется: unit_test_production_path.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_production_path
+Исключение: Unrecognized function or variable 'unit_test_production_path'.
+>>> Исполняется: unit_test_quadratic_guard.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_quadratic_guard
+Исключение: Unrecognized function or variable 'unit_test_quadratic_guard'.
+>>> Исполняется: unit_test_real_cloud_consumers.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_real_cloud_consumers
+Исключение: Unrecognized function or variable 'unit_test_real_cloud_consumers'.
+>>> Исполняется: unit_test_relocation_suite.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_relocation_suite
+Исключение: Unrecognized function or variable 'unit_test_relocation_suite'.
+>>> Исполняется: unit_test_result_validity.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_result_validity
+Исключение: Unrecognized function or variable 'unit_test_result_validity'.
+>>> Исполняется: unit_test_sample_relocation.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_sample_relocation
+Исключение: Unrecognized function or variable 'unit_test_sample_relocation'.
+>>> Исполняется: unit_test_stateful_model.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_stateful_model
+Исключение: Unrecognized function or variable 'unit_test_stateful_model'.
+>>> Исполняется: unit_test_static_rng.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_static_rng
+Исключение: Unrecognized function or variable 'unit_test_static_rng'.
+>>> Исполняется: unit_test_test_paths.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_test_paths
+Исключение: Unrecognized function or variable 'unit_test_test_paths'.
+>>> Исполняется: unit_test_trajectory_model.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_trajectory_model
+Исключение: Unrecognized function or variable 'unit_test_trajectory_model'.
+>>> Исполняется: unit_test_trajectory_reload.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_trajectory_reload
+Исключение: Unrecognized function or variable 'unit_test_trajectory_reload'.
+>>> Исполняется: unit_test_validity_consumers.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_validity_consumers
+Исключение: Unrecognized function or variable 'unit_test_validity_consumers'.
+>>> Исполняется: unit_test_wlls_position.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_wlls_position
+Исключение: Unrecognized function or variable 'unit_test_wlls_position'.
+>>> Исполняется: unit_test_wlls_relocation.m
+❌ КРИТИЧЕСКИЙ СБОЙ В ТЕСТЕ: unit_test_wlls_relocation
+Исключение: Unrecognized function or variable 'unit_test_wlls_relocation'.
+
+ИТОГОВЫЙ ОТЧЕТ ВЕРИФИКАЦИИ
+Всего запущено тестов:  70
+УСПЕШНО ВЫПОЛНЕНО:     1
+ЗАВЕРШИЛОСЬ АВАРИЙНО:  69

@@ -1,0 +1,162 @@
+{
+  "tolerance": 1e-09,
+  "capacity": 12,
+  "min_samples": 4,
+  "min_span_seconds": 2,
+  "trim_min_samples": 3,
+  "scale_floor": 0.1,
+  "max_mad": 0.2,
+  "max_range": 1,
+  "band_radius": 2,
+  "base": 10,
+  "alternative": 25,
+  "gross": 100,
+  "baseline_time": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "candidate_time": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "candidate_value": [
+    100,
+    25,
+    25,
+    25,
+    25
+  ],
+  "candidate_status": [
+    3,
+    4,
+    4,
+    4,
+    15
+  ],
+  "candidate_counts": [
+    1,
+    2,
+    2,
+    3,
+    4
+  ],
+  "candidate_retained_time": [
+    5,
+    6,
+    7,
+    8
+  ],
+  "return_time": 13,
+  "gap_times": [
+    21,
+    21.001,
+    1000
+  ],
+  "gap_status": [
+    7,
+    8,
+    8
+  ],
+  "fast_time": [
+    0,
+    0.1,
+    0.3,
+    0.8
+  ],
+  "slow_time": [
+    0,
+    0.1,
+    1,
+    3
+  ],
+  "hold_seconds": 8,
+  "reject_time": 14,
+  "reject_offset": 1.2,
+  "middle": 17.5,
+  "blend_duration": 4,
+  "blend_offsets": [
+    0,
+    1,
+    2,
+    4
+  ],
+  "blend_weights": [
+    0,
+    0.15625,
+    0.5,
+    1
+  ],
+  "translation_value": 137.125,
+  "translation_time": 3000,
+  "wait_seconds": 10,
+  "wait_times": [
+    9,
+    10,
+    11,
+    12,
+    14
+  ],
+  "overlap_radius": 20,
+  "overlap_value": 17.5,
+  "required_statuses": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "cleanup_capacity": 5,
+  "cleanup_k": 0.5,
+  "cleanup_scale": 1,
+  "cleanup_floor": 0.01,
+  "cleanup_times": [
+    5,
+    6,
+    7,
+    8
+  ],
+  "cleanup_offsets": [
+    0,
+    0.1,
+    0.2,
+    0.3
+  ],
+  "cleanup_new_offset": 0.2,
+  "line_velocity": 2,
+  "nontrimming_k": 100,
+  "full_history_time": [
+    0,
+    1,
+    2.5,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "full_reject_time": 12,
+  "normalized_main_radius": 6,
+  "normalized_alt_radius": 20,
+  "normalized_value": 15,
+  "hold_boundary_time": 11,
+  "selection_time": 12
+}

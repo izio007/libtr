@@ -1,0 +1,4 @@
+seed=1729
+samples=101
+finite_output=71
+max_window=18

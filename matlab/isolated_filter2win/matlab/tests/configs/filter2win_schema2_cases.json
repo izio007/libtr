@@ -1,0 +1,16 @@
+{
+  "tolerance": 1e-10,
+  "model_time": [0, 1, 3, 7, 12],
+  "model_value": [1, 2, 3, 4, 100],
+  "expected_median": 3,
+  "expected_mad": 1,
+  "line_level": 10,
+  "line_velocity": 2,
+  "level": 10,
+  "unrelated_reference": 1000,
+  "startup_time": [0, 1, 2, 3, 4, 5],
+  "refusal_time": 6,
+  "gap_time": [25, 26, 56],
+  "gap_status": [7, 8, 9],
+  "gap_valid": [true, false, false]
+}

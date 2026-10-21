@@ -1,0 +1,28 @@
+{
+  "tolerance": 1e-10,
+  "baseline_time": [0,1,2,3,4,5],
+  "baseline_value": [10,10,10,10,10,10],
+  "target": 30,
+  "scenarios": [
+    {"id":"startup","baseline":false,"policy":"default","time":[0,1,1.5,2,5,8,11,14,20],"value":[0,10,0,30,30,30,30,30,30],"missing":[true,false,true,false,false,false,false,false,false],"status":[0,1,12,11,11,11,11,11,13]},
+    {"id":"capture_settle","baseline":true,"policy":"default","time":[6,8,12,17,23,26,38,39,40,41],"value":[30,30,30,30,30,30,30,30,30,30],"missing":[false,false,false,false,false,false,false,false,false,false],"status":[3,4,4,4,4,14,6,16,16,2]},
+    {"id":"gaps","baseline":true,"policy":"default","time":[25,25.1,55,55.1],"value":[0,0,0,0],"missing":[true,true,true,true],"status":[7,8,8,9]},
+    {"id":"incompatible_ignore","baseline":true,"policy":"default","time":[6,7],"value":[30,50],"missing":[false,false],"status":[3,10]},
+    {"id":"quality","baseline":true,"policy":"quality","time":[6,6.1,6.2,6.4,6.6,7],"value":[29.8,30.2,29.8,30.2,29.8,30.2],"missing":[false,false,false,false,false,false],"status":[3,4,4,4,4,5]},
+    {"id":"disabled","baseline":false,"policy":"disabled","time":[0],"value":[10],"missing":[false],"status":[15]},
+    {"id":"instant_zero_hold","baseline":true,"policy":"instant","time":[6,8,12,17,23,26],"value":[30,30,30,30,30,30],"missing":[false,false,false,false,false,false],"status":[3,4,4,4,4,6]},
+    {"id":"partial","baseline":true,"policy":"partial","time":[6,6.1,6.2],"value":[30,30,30],"missing":[false,false,false],"status":[3,4,6]},
+    {"id":"cancel_blend","baseline":true,"policy":"default","time":[6,8,12,17,23,26,27],"value":[30,30,30,30,30,30,10],"missing":[false,false,false,false,false,false,false],"status":[3,4,4,4,4,14,2]}
+  ],
+  "policies": {
+    "quality_max_mad": 0.01,
+    "disabled_enabled": false,
+    "instant_hold": 0,
+    "instant_duration": 0,
+    "partial_enabled": true,
+    "partial_confirm_seconds": 0
+  },
+  "translation_time": 1000,
+  "translation_value": 125.5,
+  "required_statuses": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+}

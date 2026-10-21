@@ -1,0 +1,9 @@
+{
+  "alt_min_samples": 15,
+  "radius": 2.5,
+  "max_mad": 2,
+  "max_range": 4,
+  "trim_scale_floor": 0.5,
+  "outlier_hold_seconds": 45,
+  "gap_hold_seconds": 20
+}

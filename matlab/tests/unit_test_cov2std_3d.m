@@ -147,6 +147,7 @@ Z_ell = reshape(ellipsoid_3d(3,:), size(Z_sphere));
 
 fig=figure('Visible','off','Color', 'w', 'Name', 'ТИС 3D-Верификатор: Собственные полуоси и сечения жесткости');
 closer=onCleanup(@() close(fig));
+figure
 surf(X_ell, Y_ell, Z_ell, 'FaceColor', 'g', 'FaceAlpha', 0.12, 'EdgeColor', 'g', 'EdgeAlpha', 0.03, 'DisplayName', 'Эллипсоид 1-sigma');
 hold on; grid on;
 

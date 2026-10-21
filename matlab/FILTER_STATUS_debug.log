@@ -1,0 +1,2644 @@
+[CASE P01]
+[TACT 0002] Time: 0.8108 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3039 | Valid: 1 | Output: 46.312
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 16 -> 17 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0105 / Inf | Output age: 3.8108 s
+         >> Proposed n=17, span=30.8108 s, MAD=0.0467, range=0.3821 | Ready=1
+         >> New-point residual: -0.0081 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.31965 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0003] Time: 3.4274 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2297 | Valid: 1 | Output: 46.3092
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 17 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0548666667 / Inf | Output age: 2.6166 s
+         >> Proposed n=18, span=33.4274 s, MAD=0.058, range=0.3821 | Ready=1
+         >> New-point residual: -0.0795 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.312 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0004] Time: 5.7851 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3362 | Valid: 1 | Output: 46.31965
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.018 / Inf | Output age: 2.3577 s
+         >> Proposed n=18, span=33.9851 s, MAD=0.04885, range=0.3821 | Ready=1
+         >> New-point residual: 0.01655 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -30 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3092 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0005] Time: 6.558 s | Status: 2 (STEADY_TRACKING) | Meas: 45.9538 | Valid: 1 | Output: 46.3092
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.2439 / Inf | Output age: 0.7729 s
+         >> Proposed n=18, span=32.958 s, MAD=0.058, range=0.5125 | Ready=1
+         >> New-point residual: -0.3554 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -28.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.31965 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0006] Time: 7.3572 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3674 | Valid: 1 | Output: 46.3092
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0388 / Inf | Output age: 0.7992 s
+         >> Proposed n=18, span=31.9572 s, MAD=0.05385, range=0.5125 | Ready=1
+         >> New-point residual: 0.0582 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -26.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3092 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0007] Time: 9.8037 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2731 | Valid: 1 | Output: 46.30515
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0240666667 / Inf | Output age: 2.4465 s
+         >> Proposed n=18, span=32.6037 s, MAD=0.05175, range=0.5125 | Ready=1
+         >> New-point residual: -0.03205 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -24.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3092 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0008] Time: 10.2067 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3048 | Valid: 1 | Output: 46.3056
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.000233333333 / Inf | Output age: 0.403 s
+         >> Proposed n=18, span=31.2067 s, MAD=0.0377, range=0.5125 | Ready=1
+         >> New-point residual: -0.0008 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -22.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.30515 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0009] Time: 10.8793 s | Status: 2 (STEADY_TRACKING) | Meas: 46.264 | Valid: 1 | Output: 46.30435
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0277333333 / Inf | Output age: 0.6726 s
+         >> Proposed n=18, span=30.0793 s, MAD=0.0412, range=0.5125 | Ready=1
+         >> New-point residual: -0.04035 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -21 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3056 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0010] Time: 13.1309 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1441 | Valid: 1 | Output: 46.2885
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.106833333 / Inf | Output age: 2.2516 s
+         >> Proposed n=18, span=30.5309 s, MAD=0.05365, range=0.5125 | Ready=1
+         >> New-point residual: -0.1444 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -19.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.30435 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0011] Time: 14.0915 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3709 | Valid: 1 | Output: 46.30435
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0549333333 / Inf | Output age: 0.9606 s
+         >> Proposed n=18, span=29.6915 s, MAD=0.05185, range=0.5125 | Ready=1
+         >> New-point residual: 0.06655 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -17.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2885 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0012] Time: 14.5775 s | Status: 3 (TRACKING_WITH_OUTLIERS) | Meas: 105.9122 | Valid: 1 | Output: 46.30435
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: outlier | Event: OUTLIER_HOLD | A: 18 -> 18 | B: 0 -> 1
+         >> Normalized distance A/B: 39.7385667 / Inf | Output age: 0.486 s
+         >> Proposed n=1, span=0 s, MAD=0, range=0 | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0013] Time: 16.249 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2254 | Valid: 1 | Output: 46.2885
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.0526333333 / Inf | Output age: 2.1575 s
+         >> Proposed n=18, span=30.049 s, MAD=0.05835, range=0.5125 | Ready=1
+         >> New-point residual: -0.0631 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -15.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.30435 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0014] Time: 18.4689 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2007 | Valid: 1 | Output: 46.2885
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.0585333333 / Inf | Output age: 2.2199 s
+         >> Proposed n=18, span=30.4689 s, MAD=0.05835, range=0.5125 | Ready=1
+         >> New-point residual: -0.0878 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -13.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2885 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0015] Time: 20.0967 s | Status: 2 (STEADY_TRACKING) | Meas: 46.218 | Valid: 1 | Output: 46.26855
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.047 / Inf | Output age: 1.6278 s
+         >> Proposed n=18, span=30.2967 s, MAD=0.04725, range=0.4171 | Ready=1
+         >> New-point residual: -0.05055 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -12 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2885 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0016] Time: 20.3815 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3028 | Valid: 1 | Output: 46.26855
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.0228333333 / Inf | Output age: 0.2848 s
+         >> Proposed n=18, span=28.7815 s, MAD=0.04725, range=0.4171 | Ready=1
+         >> New-point residual: 0.03425 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -10.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26855 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0017] Time: 22.2091 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3095 | Valid: 1 | Output: 46.28795
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.0273 / Inf | Output age: 1.8276 s
+         >> Proposed n=18, span=28.8091 s, MAD=0.05835, range=0.4171 | Ready=1
+         >> New-point residual: 0.02155 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -8.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26855 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0018] Time: 24.4393 s | Status: 2 (STEADY_TRACKING) | Meas: 46.0459 | Valid: 1 | Output: 46.26855
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.161366667 / Inf | Output age: 2.2302 s
+         >> Proposed n=18, span=29.2393 s, MAD=0.04725, range=0.4171 | Ready=1
+         >> New-point residual: -0.22265 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -6.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.28795 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0019] Time: 24.8333 s | Status: 2 (STEADY_TRACKING) | Meas: 46.32 | Valid: 1 | Output: 46.26855
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.0343 / Inf | Output age: 0.394 s
+         >> Proposed n=18, span=27.8333 s, MAD=0.04725, range=0.4171 | Ready=1
+         >> New-point residual: 0.05145 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -4.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26855 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0020] Time: 26.4333 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2283 | Valid: 1 | Output: 46.26855
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.0268333333 / Inf | Output age: 1.6 s
+         >> Proposed n=18, span=25.6225 s, MAD=0.04685, range=0.4171 | Ready=1
+         >> New-point residual: -0.04025 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -3 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26855 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0021] Time: 28.7408 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2858 | Valid: 1 | Output: 46.26855
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.0115 / Inf | Output age: 2.3075 s
+         >> Proposed n=18, span=25.3134 s, MAD=0.04685, range=0.4171 | Ready=1
+         >> New-point residual: 0.01725 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 0.8108 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26855 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0022] Time: 30.1237 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3228 | Valid: 1 | Output: 46.27945
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.0361666667 / Inf | Output age: 1.3829 s
+         >> Proposed n=18, span=24.3386 s, MAD=0.0526, range=0.4171 | Ready=1
+         >> New-point residual: 0.04335 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 3.4274 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26855 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0023] Time: 32.1215 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1952 | Valid: 1 | Output: 46.26855
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.0561666667 / Inf | Output age: 1.9978 s
+         >> Proposed n=18, span=25.5635 s, MAD=0.051, range=0.4171 | Ready=1
+         >> New-point residual: -0.07335 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 5.7851 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.27945 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0024] Time: 34.1657 s | Status: 2 (STEADY_TRACKING) | Meas: 46.0334 | Valid: 1 | Output: 46.26855
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.156766667 / Inf | Output age: 2.0442 s
+         >> Proposed n=18, span=26.8085 s, MAD=0.051, range=0.3375 | Ready=1
+         >> New-point residual: -0.23515 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 6.558 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26855 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0025] Time: 35.6123 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3717 | Valid: 1 | Output: 46.26855
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.0687666667 / Inf | Output age: 1.4466 s
+         >> Proposed n=18, span=25.8086 s, MAD=0.051, range=0.3383 | Ready=1
+         >> New-point residual: 0.10315 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 7.3572 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26855 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0026] Time: 37.047 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1769 | Valid: 1 | Output: 46.24615
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.0611 / Inf | Output age: 1.4347 s
+         >> Proposed n=18, span=26.8403 s, MAD=0.061, range=0.3383 | Ready=1
+         >> New-point residual: -0.06925 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 9.8037 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26855 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0027] Time: 38.4895 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3033 | Valid: 1 | Output: 46.24615
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.0381 / Inf | Output age: 1.4425 s
+         >> Proposed n=18, span=27.6102 s, MAD=0.06025, range=0.3383 | Ready=1
+         >> New-point residual: 0.05715 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 10.2067 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.24615 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0028] Time: 40.1852 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3141 | Valid: 1 | Output: 46.25705
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.0453 / Inf | Output age: 1.6957 s
+         >> Proposed n=18, span=27.0543 s, MAD=0.05945, range=0.3383 | Ready=1
+         >> New-point residual: 0.05705 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 10.8793 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.24615 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0029] Time: 42.358 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2314 | Valid: 1 | Output: 46.2586
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.0171 / Inf | Output age: 2.1728 s
+         >> Proposed n=18, span=28.2665 s, MAD=0.0567, range=0.3383 | Ready=1
+         >> New-point residual: -0.0272 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 13.1309 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.25705 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0030] Time: 44.7361 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1274 | Valid: 1 | Output: 46.22985
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 1 -> 1
+         >> Normalized distance A/B: 0.0874666667 / Inf | Output age: 2.3781 s
+         >> Proposed n=18, span=28.4871 s, MAD=0.0732, range=0.3383 | Ready=1
+         >> New-point residual: -0.10245 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 14.0915 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2586 | Lower/upper margins: 1.5 / 1.5
+
+[CASE P02]
+[TACT 0002] Time: 1.9323 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1832 | Valid: 1 | Output: 46.2417
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 16 -> 17 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0532666667 / Inf | Output age: 4.9323 s
+         >> Proposed n=17, span=31.9323 s, MAD=0.0609, range=0.3078 | Ready=1
+         >> New-point residual: -0.0585 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2631 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0003] Time: 3.0279 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4385 | Valid: 1 | Output: 46.2631
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 17 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.1312 / Inf | Output age: 1.0956 s
+         >> Proposed n=18, span=33.0279 s, MAD=0.06705, range=0.3414 | Ready=1
+         >> New-point residual: 0.1754 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2417 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0004] Time: 3.3752 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2134 | Valid: 1 | Output: 46.2631
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0331333333 / Inf | Output age: 0.3473 s
+         >> Proposed n=18, span=31.5752 s, MAD=0.05365, range=0.3414 | Ready=1
+         >> New-point residual: -0.0497 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -30 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2631 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0005] Time: 5.966 s | Status: 2 (STEADY_TRACKING) | Meas: 46.0761 | Valid: 1 | Output: 46.2403
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.124666667 / Inf | Output age: 2.5908 s
+         >> Proposed n=18, span=32.366 s, MAD=0.0666, range=0.3624 | Ready=1
+         >> New-point residual: -0.1642 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -28.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2631 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0006] Time: 7.1144 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1904 | Valid: 1 | Output: 46.2403
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0332666667 / Inf | Output age: 1.1484 s
+         >> Proposed n=18, span=31.7144 s, MAD=0.0666, range=0.3624 | Ready=1
+         >> New-point residual: -0.0499 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -26.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2403 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0007] Time: 7.8792 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3464 | Valid: 1 | Output: 46.26695
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0707333333 / Inf | Output age: 0.7648 s
+         >> Proposed n=18, span=30.6792 s, MAD=0.078, range=0.3624 | Ready=1
+         >> New-point residual: 0.07945 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -24.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2403 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0008] Time: 8.5122 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3734 | Valid: 1 | Output: 46.26695
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0709666667 / Inf | Output age: 0.633 s
+         >> Proposed n=18, span=29.5122 s, MAD=0.078, range=0.3624 | Ready=1
+         >> New-point residual: 0.10645 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -22.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26695 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0009] Time: 9.5554 s | Status: 3 (TRACKING_WITH_OUTLIERS) | Meas: 106.1072 | Valid: 1 | Output: 46.26695
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: outlier | Event: OUTLIER_HOLD | A: 18 -> 18 | B: 0 -> 1
+         >> Normalized distance A/B: 39.8935 / Inf | Output age: 1.0432 s
+         >> Proposed n=1, span=0 s, MAD=0, range=0 | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0010] Time: 10.0239 s | Status: 4 (ALT_ACCUMULATING) | Meas: 68.2521 | Valid: 1 | Output: 46.26695
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: candidate_collect | Event: ALT_ACCUMULATE | A: 18 -> 18 | B: 1 -> 2
+         >> Normalized distance A/B: 14.6567667 / Inf | Output age: 1.5117 s
+         >> Proposed n=2, span=0.4685 s, MAD=18.92755, range=37.8551 | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0011] Time: 11.4753 s | Status: 4 (ALT_ACCUMULATING) | Meas: 68.4302 | Valid: 1 | Output: 46.26695
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: candidate_collect | Event: ALT_ACCUMULATE | A: 18 -> 18 | B: 2 -> 3
+         >> Normalized distance A/B: 14.7755 / Inf | Output age: 2.9631 s
+         >> Proposed n=3, span=1.9199 s, MAD=0.1781, range=37.8551 | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0012] Time: 12.3158 s | Status: 4 (ALT_ACCUMULATING) | Meas: 68.3682 | Valid: 1 | Output: 46.26695
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: candidate_collect | Event: ALT_ACCUMULATE | A: 18 -> 18 | B: 3 -> 4
+         >> Normalized distance A/B: 14.7341667 / Inf | Output age: 3.8036 s
+         >> Proposed n=4, span=2.7604 s, MAD=0.08905, range=37.8551 | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0013] Time: 12.7643 s | Status: 4 (ALT_ACCUMULATING) | Meas: 68.3427 | Valid: 1 | Output: 46.26695
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: candidate_collect | Event: ALT_ACCUMULATE | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 14.7171667 / Inf | Output age: 4.2521 s
+         >> Proposed n=4, span=2.7404 s, MAD=0.04375, range=0.1781 | Ready=0
+         >> New-point residual: -0.0255 | Removal threshold: 0.48
+         >> Removed old timestamps: 9.5554 | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0014] Time: 15.1603 s | Status: 4 (ALT_ACCUMULATING) | Meas: 68.458 | Valid: 1 | Output: 46.26695
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: candidate_collect | Event: ALT_ACCUMULATE | A: 18 -> 18 | B: 4 -> 5
+         >> Normalized distance A/B: 14.7940333 / Inf | Output age: 6.6481 s
+         >> Proposed n=5, span=5.1364 s, MAD=0.062, range=0.2059 | Ready=0
+         >> New-point residual: 0.0898 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0015] Time: 16.1856 s | Status: 4 (ALT_ACCUMULATING) | Meas: 68.4068 | Valid: 1 | Output: 46.26695
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: candidate_collect | Event: ALT_ACCUMULATE | A: 18 -> 18 | B: 5 -> 6
+         >> Normalized distance A/B: 14.7599 / Inf | Output age: 7.6734 s
+         >> Proposed n=6, span=6.1617 s, MAD=0.04375, range=0.2059 | Ready=0
+         >> New-point residual: 0.0193 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0016] Time: 17.4388 s | Status: 4 (ALT_ACCUMULATING) | Meas: 68.4025 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: candidate_collect | Event: ALT_ACCUMULATE | A: 18 -> 18 | B: 6 -> 7
+         >> Normalized distance A/B: 14.7570333 / Inf | Output age: 8.9266 s
+         >> Proposed n=7, span=7.4149 s, MAD=0.0343, range=0.2059 | Ready=0
+         >> New-point residual: 0 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0017] Time: 19.0294 s | Status: 6 (WINDOW_SELECTED) | Meas: 68.2591 | Valid: 1 | Output: 68.38535
+         >> A/B active: 1 -> 2 | Route: 2 | Accepted: 1 | Reason: READY_WINDOW_SELECTED
+         >> Rule: switch | Event: SWITCH_READY | A: 18 -> 18 | B: 7 -> 8
+         >> Normalized distance A/B: 14.6614333 / Inf | Output age: 10.5172 s
+         >> Proposed n=8, span=9.0055 s, MAD=0.04375, range=0.2059 | Ready=1
+         >> New-point residual: -0.12625 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: 1
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0018] Time: 21.3663 s | Status: 2 (STEADY_TRACKING) | Meas: 68.5489 | Valid: 1 | Output: 68.4025
+         >> A/B active: 2 -> 2 | Route: 2 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 8 -> 9
+         >> Normalized distance A/B: 14.8546333 / 0.109033333 | Output age: 2.3369 s
+         >> Proposed n=9, span=11.3424 s, MAD=0.0555, range=0.2968 | Ready=1
+         >> New-point residual: 0.1464 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 68.38535 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0019] Time: 23.6248 s | Status: 2 (STEADY_TRACKING) | Meas: 68.3748 | Valid: 1 | Output: 68.38865
+         >> A/B active: 2 -> 2 | Route: 2 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 9 -> 10
+         >> Normalized distance A/B: 14.7385667 / 0.0184666667 | Output age: 2.2585 s
+         >> Proposed n=10, span=13.6009 s, MAD=0.04375, range=0.2968 | Ready=1
+         >> New-point residual: -0.01385 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 68.4025 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0020] Time: 25.1872 s | Status: 2 (STEADY_TRACKING) | Meas: 68.4233 | Valid: 1 | Output: 68.4025
+         >> A/B active: 2 -> 2 | Route: 2 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 10 -> 11
+         >> Normalized distance A/B: 14.7709 / 0.0231 | Output age: 1.5624 s
+         >> Proposed n=11, span=15.1633 s, MAD=0.0343, range=0.2968 | Ready=1
+         >> New-point residual: 0.0208 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 68.38865 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0021] Time: 27.7951 s | Status: 2 (STEADY_TRACKING) | Meas: 68.4043 | Valid: 1 | Output: 68.4034
+         >> A/B active: 2 -> 2 | Route: 2 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 11 -> 12
+         >> Normalized distance A/B: 14.7582333 / 0.0012 | Output age: 2.6079 s
+         >> Proposed n=12, span=17.7712 s, MAD=0.0319, range=0.2968 | Ready=1
+         >> New-point residual: 0.0009 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 68.4025 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0022] Time: 30.2427 s | Status: 2 (STEADY_TRACKING) | Meas: 68.4466 | Valid: 1 | Output: 68.4043
+         >> A/B active: 2 -> 2 | Route: 2 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 13
+         >> Normalized distance A/B: 14.7864333 / 0.0288 | Output age: 2.4476 s
+         >> Proposed n=13, span=20.2188 s, MAD=0.0361, range=0.2968 | Ready=1
+         >> New-point residual: 0.0423 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 68.4034 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0023] Time: 30.6306 s | Status: 2 (STEADY_TRACKING) | Meas: 68.4714 | Valid: 1 | Output: 68.40555
+         >> A/B active: 2 -> 2 | Route: 2 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 13 -> 14
+         >> Normalized distance A/B: 14.8029667 / 0.0447333333 | Output age: 0.3879 s
+         >> Proposed n=14, span=20.6067 s, MAD=0.0392, range=0.2968 | Ready=1
+         >> New-point residual: 0.06585 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 68.4043 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0024] Time: 30.9842 s | Status: 2 (STEADY_TRACKING) | Meas: 68.364 | Valid: 1 | Output: 68.4043
+         >> A/B active: 2 -> 2 | Route: 2 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 14 -> 15
+         >> Normalized distance A/B: 14.7313667 / 0.0277 | Output age: 0.3536 s
+         >> Proposed n=15, span=20.9603 s, MAD=0.0403, range=0.2968 | Ready=1
+         >> New-point residual: -0.0403 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 68.40555 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0025] Time: 33.501 s | Status: 2 (STEADY_TRACKING) | Meas: 68.5716 | Valid: 1 | Output: 68.40555
+         >> A/B active: 2 -> 2 | Route: 2 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 15 -> 16
+         >> Normalized distance A/B: 14.8697667 / 0.111533333 | Output age: 2.5168 s
+         >> Proposed n=16, span=23.4771 s, MAD=0.0413, range=0.3195 | Ready=1
+         >> New-point residual: 0.16605 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 68.4043 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0026] Time: 35.5771 s | Status: 6 (WINDOW_SELECTED) | Meas: 46.1078 | Valid: 1 | Output: 46.2377
+         >> A/B active: 2 -> 1 | Route: 1 | Accepted: 1 | Reason: READY_WINDOW_SELECTED
+         >> Rule: switch | Event: SWITCH_READY | A: 18 -> 18 | B: 16 -> 16
+         >> Normalized distance A/B: 0.1061 / 14.8651667 | Output age: 2.0761 s
+         >> Proposed n=18, span=54.7771 s, MAD=0.07255, range=0.3624 | Ready=1
+         >> New-point residual: -0.1299 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -21 | Blend: 1
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26695 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0027] Time: 38.2062 s | Status: 2 (STEADY_TRACKING) | Meas: 46.298 | Valid: 1 | Output: 46.2377
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 16 -> 16
+         >> Normalized distance A/B: 0.0402 / 14.7383667 | Output age: 2.6291 s
+         >> Proposed n=18, span=55.6062 s, MAD=0.0666, range=0.3624 | Ready=1
+         >> New-point residual: 0.0603 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -19.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2377 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0028] Time: 40.4991 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4343 | Valid: 1 | Output: 46.26695
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 16 -> 16
+         >> Normalized distance A/B: 0.131066667 / 14.6475 | Output age: 2.2929 s
+         >> Proposed n=18, span=56.0991 s, MAD=0.0816, range=0.3624 | Ready=1
+         >> New-point residual: 0.16735 | Removal threshold: 0.48392064
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -17.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2377 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0029] Time: 41.6195 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2028 | Valid: 1 | Output: 46.22615
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 16 -> 16
+         >> Normalized distance A/B: 0.0427666667 / 14.8018333 | Output age: 1.1204 s
+         >> Proposed n=18, span=55.4195 s, MAD=0.07415, range=0.3624 | Ready=1
+         >> New-point residual: -0.02335 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -15.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26695 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0030] Time: 44.1774 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4154 | Valid: 1 | Output: 46.22615
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 16 -> 16
+         >> Normalized distance A/B: 0.126166667 / 14.6601 | Output age: 2.5579 s
+         >> Proposed n=18, span=56.1774 s, MAD=0.07415, range=0.3624 | Ready=1
+         >> New-point residual: 0.18925 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -13.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.22615 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0031] Time: 45.6333 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3251 | Valid: 1 | Output: 46.22615
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 16 -> 16
+         >> Normalized distance A/B: 0.0659666667 / 14.7203 | Output age: 1.4559 s
+         >> Proposed n=18, span=55.8333 s, MAD=0.0877, range=0.3624 | Ready=1
+         >> New-point residual: 0.09895 | Removal threshold: 0.52009608
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -12 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.22615 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0032] Time: 47.1073 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4849 | Valid: 1 | Output: 46.2557
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 16 -> 16
+         >> Normalized distance A/B: 0.1725 / 14.6137667 | Output age: 1.474 s
+         >> Proposed n=18, span=55.5073 s, MAD=0.0885, range=0.4088 | Ready=1
+         >> New-point residual: 0.2292 | Removal threshold: 0.5248404
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -10.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.22615 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0033] Time: 49.7194 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2195 | Valid: 1 | Output: 46.25875
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 16 -> 16
+         >> Normalized distance A/B: 0.0241333333 / 14.7907 | Output age: 2.6121 s
+         >> Proposed n=18, span=56.3194 s, MAD=0.0885, range=0.4088 | Ready=1
+         >> New-point residual: -0.03925 | Removal threshold: 0.5248404
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -8.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2557 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0034] Time: 52.0499 s | Status: 2 (STEADY_TRACKING) | Meas: 46.221 | Valid: 1 | Output: 46.2595
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 16 -> 16
+         >> Normalized distance A/B: 0.0251666667 / 14.7897 | Output age: 2.3305 s
+         >> Proposed n=18, span=56.8499 s, MAD=0.0816, range=0.4088 | Ready=1
+         >> New-point residual: -0.0385 | Removal threshold: 0.48392064
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -6.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.25875 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0035] Time: 53.7072 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2795 | Valid: 1 | Output: 46.25025
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 16 -> 16
+         >> Normalized distance A/B: 0.0133333333 / 14.7507 | Output age: 1.6573 s
+         >> Proposed n=18, span=56.7072 s, MAD=0.07785, range=0.4088 | Ready=1
+         >> New-point residual: 0.02925 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -4.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2595 | Lower/upper margins: 1.5 / 1.5
+
+[CASE P03]
+[TACT 0002] Time: 2.3789 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2824 | Valid: 1 | Output: 46.2672
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 16 -> 17 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0195333333 / Inf | Output age: 5.3789 s
+         >> Proposed n=17, span=32.3789 s, MAD=0.0502, range=0.2216 | Ready=1
+         >> New-point residual: 0.0152 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2531 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0003] Time: 2.691 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3774 | Valid: 1 | Output: 46.27385
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 17 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0734666667 / Inf | Output age: 0.3121 s
+         >> Proposed n=18, span=32.691 s, MAD=0.05635, range=0.2216 | Ready=1
+         >> New-point residual: 0.10355 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2672 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0004] Time: 4.0109 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3196 | Valid: 1 | Output: 46.27385
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0305 / Inf | Output age: 1.3199 s
+         >> Proposed n=18, span=32.2109 s, MAD=0.05285, range=0.2216 | Ready=1
+         >> New-point residual: 0.04575 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -30 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.27385 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0005] Time: 4.9573 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2501 | Valid: 1 | Output: 46.2653
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0158333333 / Inf | Output age: 0.9464 s
+         >> Proposed n=18, span=31.3573 s, MAD=0.0513, range=0.2216 | Ready=1
+         >> New-point residual: -0.0152 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -28.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.27385 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0006] Time: 5.5019 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4159 | Valid: 1 | Output: 46.28145
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.1004 / Inf | Output age: 0.5446 s
+         >> Proposed n=18, span=30.1019 s, MAD=0.0548, range=0.2349 | Ready=1
+         >> New-point residual: 0.13445 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -26.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2653 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0007] Time: 6.9742 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3904 | Valid: 1 | Output: 46.28595
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0726333333 / Inf | Output age: 1.4723 s
+         >> Proposed n=18, span=29.7742 s, MAD=0.05975, range=0.2349 | Ready=1
+         >> New-point residual: 0.10445 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -24.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.28145 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0008] Time: 7.9524 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1437 | Valid: 1 | Output: 46.28145
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0948333333 / Inf | Output age: 0.9782 s
+         >> Proposed n=18, span=28.9524 s, MAD=0.06325, range=0.2722 | Ready=1
+         >> New-point residual: -0.13775 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -22.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.28595 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0009] Time: 9.8565 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3912 | Valid: 1 | Output: 46.28145
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.0731666667 / Inf | Output age: 1.9041 s
+         >> Proposed n=18, span=29.0565 s, MAD=0.06325, range=0.2722 | Ready=1
+         >> New-point residual: 0.10975 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -21 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.28145 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0010] Time: 10.2689 s | Status: 2 (STEADY_TRACKING) | Meas: 46.0318 | Valid: 1 | Output: 46.2653
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 0 -> 0
+         >> Normalized distance A/B: 0.166433333 / Inf | Output age: 0.4124 s
+         >> Proposed n=18, span=27.6689 s, MAD=0.08035, range=0.3841 | Ready=1
+         >> New-point residual: -0.2335 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -19.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.28145 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0011] Time: 11.9277 s | Status: 3 (TRACKING_WITH_OUTLIERS) | Meas: 68.5616 | Valid: 1 | Output: 46.2653
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: outlier | Event: OUTLIER_HOLD | A: 18 -> 18 | B: 0 -> 1
+         >> Normalized distance A/B: 14.8642 / Inf | Output age: 1.6588 s
+         >> Proposed n=1, span=0 s, MAD=0, range=0 | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0012] Time: 14.5664 s | Status: 4 (ALT_ACCUMULATING) | Meas: 68.5722 | Valid: 1 | Output: 46.2653
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: candidate_collect | Event: ALT_ACCUMULATE | A: 18 -> 18 | B: 1 -> 2
+         >> Normalized distance A/B: 14.8712667 / Inf | Output age: 4.2975 s
+         >> Proposed n=2, span=2.6387 s, MAD=0.0053, range=0.0106 | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0013] Time: 15.2746 s | Status: 4 (ALT_ACCUMULATING) | Meas: 68.1584 | Valid: 1 | Output: 46.2653
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: candidate_collect | Event: ALT_ACCUMULATE | A: 18 -> 18 | B: 2 -> 3
+         >> Normalized distance A/B: 14.5954 / Inf | Output age: 5.0057 s
+         >> Proposed n=3, span=3.3469 s, MAD=0.0106, range=0.4138 | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0014] Time: 17.1629 s | Status: 4 (ALT_ACCUMULATING) | Meas: 68.588 | Valid: 1 | Output: 46.2653
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: candidate_collect | Event: ALT_ACCUMULATE | A: 18 -> 18 | B: 3 -> 4
+         >> Normalized distance A/B: 14.8818 / Inf | Output age: 6.894 s
+         >> Proposed n=4, span=5.2352 s, MAD=0.0132, range=0.4296 | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0015] Time: 18.2006 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4881 | Valid: 1 | Output: 46.28145
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.148533333 / Inf | Output age: 7.9317 s
+         >> Proposed n=18, span=33.8006 s, MAD=0.08405, range=0.4563 | Ready=1
+         >> New-point residual: 0.20665 | Removal threshold: 0.49845012
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -17.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2653 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0016] Time: 18.8953 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2784 | Valid: 1 | Output: 46.28145
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.00203333333 / Inf | Output age: 0.6947 s
+         >> Proposed n=18, span=32.6953 s, MAD=0.0683, range=0.4563 | Ready=1
+         >> New-point residual: -0.00305 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -15.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.28145 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0017] Time: 20.97 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3266 | Valid: 1 | Output: 46.301
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.0301 / Inf | Output age: 2.0747 s
+         >> Proposed n=18, span=32.97 s, MAD=0.07405, range=0.4563 | Ready=1
+         >> New-point residual: 0.0256 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -13.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.28145 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0018] Time: 23.5167 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3464 | Valid: 1 | Output: 46.3231
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.0302666667 / Inf | Output age: 2.5467 s
+         >> Proposed n=18, span=33.7167 s, MAD=0.0608, range=0.4563 | Ready=1
+         >> New-point residual: 0.0233 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -12 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.301 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0019] Time: 25.5255 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2338 | Valid: 1 | Output: 46.3231
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.0595333333 / Inf | Output age: 2.0088 s
+         >> Proposed n=18, span=33.9255 s, MAD=0.0608, range=0.4563 | Ready=1
+         >> New-point residual: -0.0893 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -10.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3231 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0020] Time: 26.4891 s | Status: 2 (STEADY_TRACKING) | Meas: 46.086 | Valid: 1 | Output: 46.3231
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.158066667 / Inf | Output age: 0.9636 s
+         >> Proposed n=18, span=33.0891 s, MAD=0.0608, range=0.4563 | Ready=1
+         >> New-point residual: -0.2371 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -8.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3231 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0021] Time: 27.6153 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3212 | Valid: 1 | Output: 46.3239
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.00126666667 / Inf | Output age: 1.1262 s
+         >> Proposed n=18, span=32.4153 s, MAD=0.06, range=0.4563 | Ready=1
+         >> New-point residual: -0.0027 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -6.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3231 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0022] Time: 29.4579 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2549 | Valid: 1 | Output: 46.3204
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.046 / Inf | Output age: 1.8426 s
+         >> Proposed n=18, span=32.4579 s, MAD=0.06775, range=0.4563 | Ready=1
+         >> New-point residual: -0.0655 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -4.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3239 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0023] Time: 31.0133 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4056 | Valid: 1 | Output: 46.3204
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.0568 / Inf | Output age: 1.5554 s
+         >> Proposed n=18, span=28.6344 s, MAD=0.07015, range=0.4563 | Ready=1
+         >> New-point residual: 0.0852 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -3 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3204 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0024] Time: 33.0653 s | Status: 2 (STEADY_TRACKING) | Meas: 46.5891 | Valid: 1 | Output: 46.3239
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.179133333 / Inf | Output age: 2.052 s
+         >> Proposed n=18, span=30.3743 s, MAD=0.0714, range=0.5573 | Ready=1
+         >> New-point residual: 0.2652 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 2.3789 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3204 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0025] Time: 34.997 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2646 | Valid: 1 | Output: 46.3204
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.0395333333 / Inf | Output age: 1.9317 s
+         >> Proposed n=18, span=30.9861 s, MAD=0.07055, range=0.5573 | Ready=1
+         >> New-point residual: -0.0558 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 2.691 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3239 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0026] Time: 37.2192 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1769 | Valid: 1 | Output: 46.2998
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.0956666667 / Inf | Output age: 2.2222 s
+         >> Proposed n=18, span=32.2619 s, MAD=0.091, range=0.5573 | Ready=1
+         >> New-point residual: -0.1229 | Removal threshold: 0.5396664
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 4.0109 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3204 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0027] Time: 37.5958 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2334 | Valid: 1 | Output: 46.2998
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.0442666667 / Inf | Output age: 0.3766 s
+         >> Proposed n=18, span=32.0939 s, MAD=0.091, range=0.5573 | Ready=1
+         >> New-point residual: -0.0664 | Removal threshold: 0.5396664
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 4.9573 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2998 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0028] Time: 39.474 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3669 | Valid: 1 | Output: 46.2998
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.0447333333 / Inf | Output age: 1.8782 s
+         >> Proposed n=18, span=32.4998 s, MAD=0.07885, range=0.5573 | Ready=1
+         >> New-point residual: 0.0671 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 5.5019 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2998 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0029] Time: 40.0844 s | Status: 2 (STEADY_TRACKING) | Meas: 46.101 | Valid: 1 | Output: 46.2715
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.132533333 / Inf | Output age: 0.6104 s
+         >> Proposed n=18, span=32.132 s, MAD=0.095, range=0.5573 | Ready=1
+         >> New-point residual: -0.1705 | Removal threshold: 0.563388
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 6.9742 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2998 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0030] Time: 42.0795 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2345 | Valid: 1 | Output: 46.2715
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.0246666667 / Inf | Output age: 1.9951 s
+         >> Proposed n=18, span=32.223 s, MAD=0.08475, range=0.5573 | Ready=1
+         >> New-point residual: -0.037 | Removal threshold: 0.5026014
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 7.9524 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2715 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0031] Time: 44.5962 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3658 | Valid: 1 | Output: 46.2715
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.0628666667 / Inf | Output age: 2.5167 s
+         >> Proposed n=18, span=34.3273 s, MAD=0.0846, range=0.5573 | Ready=1
+         >> New-point residual: 0.0943 | Removal threshold: 0.50171184
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 9.8565 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2715 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0032] Time: 45.1068 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1489 | Valid: 1 | Output: 46.2715
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 4 -> 4
+         >> Normalized distance A/B: 0.0817333333 / Inf | Output age: 0.5106 s
+         >> Proposed n=18, span=26.9062 s, MAD=0.0846, range=0.5031 | Ready=1
+         >> New-point residual: -0.1226 | Removal threshold: 0.50171184
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 10.2689 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2715 | Lower/upper margins: 1.5 / 1.5
+
+[CASE P04]
+[TACT 0002] Time: 2.3544 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3611 | Valid: 1 | Output: 46.2867
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 16 -> 17 | B: 3 -> 3
+         >> Normalized distance A/B: 0.0515666667 / Inf | Output age: 5.3544 s
+         >> Proposed n=17, span=32.3544 s, MAD=0.0403, range=0.1965 | Ready=1
+         >> New-point residual: 0.0744 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.28375 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0003] Time: 2.6545 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4805 | Valid: 1 | Output: 46.29315
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 17 -> 18 | B: 3 -> 3
+         >> Normalized distance A/B: 0.1292 / Inf | Output age: 0.3001 s
+         >> Proposed n=18, span=32.6545 s, MAD=0.04805, range=0.2922 | Ready=1
+         >> New-point residual: 0.18735 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2867 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0004] Time: 3.8478 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3072 | Valid: 1 | Output: 46.3034
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 3 -> 3
+         >> Normalized distance A/B: 0.00936666667 / Inf | Output age: 1.1933 s
+         >> Proposed n=18, span=32.0478 s, MAD=0.04675, range=0.2632 | Ready=1
+         >> New-point residual: 0.0038 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -30 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.29315 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0005] Time: 4.9726 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1259 | Valid: 1 | Output: 46.29315
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 3 -> 3
+         >> Normalized distance A/B: 0.118333333 / Inf | Output age: 1.1248 s
+         >> Proposed n=18, span=31.3726 s, MAD=0.04635, range=0.3546 | Ready=1
+         >> New-point residual: -0.16725 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -28.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3034 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0006] Time: 6.5439 s | Status: 2 (STEADY_TRACKING) | Meas: 46.196 | Valid: 1 | Output: 46.29315
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 3 -> 3
+         >> Normalized distance A/B: 0.0647666667 / Inf | Output age: 1.5713 s
+         >> Proposed n=18, span=31.1439 s, MAD=0.04805, range=0.3546 | Ready=1
+         >> New-point residual: -0.09715 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -26.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.29315 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0007] Time: 7.8953 s | Status: 2 (STEADY_TRACKING) | Meas: 46.6115 | Valid: 1 | Output: 46.3034
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 3 -> 3
+         >> Normalized distance A/B: 0.212233333 / Inf | Output age: 1.3514 s
+         >> Proposed n=18, span=30.6953 s, MAD=0.0566, range=0.4856 | Ready=1
+         >> New-point residual: 0.3081 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -24.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.29315 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0008] Time: 8.5007 s | Status: 4 (ALT_ACCUMULATING) | Meas: 68.5648 | Valid: 1 | Output: 46.3034
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: candidate_collect | Event: ALT_ACCUMULATE | A: 18 -> 18 | B: 3 -> 4
+         >> Normalized distance A/B: 14.8409333 / Inf | Output age: 0.6054 s
+         >> Proposed n=4, span=12.7007 s, MAD=0.04775, range=0.1881 | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0009] Time: 10.1697 s | Status: 4 (ALT_ACCUMULATING) | Meas: 68.35 | Valid: 1 | Output: 46.3034
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: candidate_collect | Event: ALT_ACCUMULATE | A: 18 -> 18 | B: 4 -> 5
+         >> Normalized distance A/B: 14.6977333 / Inf | Output age: 2.2744 s
+         >> Proposed n=5, span=14.3697 s, MAD=0.0926, range=0.2148 | Ready=0
+         >> New-point residual: -0.1193 | Removal threshold: 0.54915504
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0010] Time: 11.4997 s | Status: 4 (ALT_ACCUMULATING) | Meas: 68.4121 | Valid: 1 | Output: 46.3034
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: candidate_collect | Event: ALT_ACCUMULATE | A: 18 -> 18 | B: 5 -> 6
+         >> Normalized distance A/B: 14.7391333 / Inf | Output age: 3.6044 s
+         >> Proposed n=6, span=15.6997 s, MAD=0.05875, range=0.2148 | Ready=0
+         >> New-point residual: -0.0286 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0011] Time: 13.8318 s | Status: 4 (ALT_ACCUMULATING) | Meas: 68.4597 | Valid: 1 | Output: 46.3034
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: COLLECTING_NOT_USED
+         >> Rule: candidate_collect | Event: ALT_ACCUMULATE | A: 18 -> 18 | B: 6 -> 7
+         >> Normalized distance A/B: 14.7708667 / Inf | Output age: 5.9365 s
+         >> Proposed n=7, span=18.0318 s, MAD=0.0476, range=0.2148 | Ready=0
+         >> New-point residual: 0 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0012] Time: 18.2191 s | Status: 8 (OUTPUT_EXPIRED) | Meas: NaN | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTPUT_UNAVAILABLE_MEMORY_RETAINED
+         >> Rule: expired | Event: GAP_EXPIRED | A: 18 -> 18 | B: 7 -> 7
+         >> Normalized distance A/B: Inf / Inf | Output age: 10.3238 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0013] Time: 19.5532 s | Status: 8 (OUTPUT_EXPIRED) | Meas: NaN | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTPUT_UNAVAILABLE_MEMORY_RETAINED
+         >> Rule: expired | Event: GAP_EXPIRED | A: 18 -> 18 | B: 7 -> 7
+         >> Normalized distance A/B: Inf / Inf | Output age: 11.6579 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0014] Time: 54.9394 s | Status: 8 (OUTPUT_EXPIRED) | Meas: NaN | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTPUT_UNAVAILABLE_MEMORY_RETAINED
+         >> Rule: expired | Event: GAP_EXPIRED | A: 18 -> 18 | B: 7 -> 7
+         >> Normalized distance A/B: Inf / Inf | Output age: 47.0441 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0015] Time: 56.3599 s | Status: 8 (OUTPUT_EXPIRED) | Meas: NaN | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTPUT_UNAVAILABLE_MEMORY_RETAINED
+         >> Rule: expired | Event: GAP_EXPIRED | A: 18 -> 18 | B: 7 -> 7
+         >> Normalized distance A/B: Inf / Inf | Output age: 48.4646 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0016] Time: 58.5848 s | Status: 8 (OUTPUT_EXPIRED) | Meas: NaN | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTPUT_UNAVAILABLE_MEMORY_RETAINED
+         >> Rule: expired | Event: GAP_EXPIRED | A: 18 -> 18 | B: 7 -> 7
+         >> Normalized distance A/B: Inf / Inf | Output age: 50.6895 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0017] Time: 59.3636 s | Status: 8 (OUTPUT_EXPIRED) | Meas: NaN | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTPUT_UNAVAILABLE_MEMORY_RETAINED
+         >> Rule: expired | Event: GAP_EXPIRED | A: 18 -> 18 | B: 7 -> 7
+         >> Normalized distance A/B: Inf / Inf | Output age: 51.4683 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0018] Time: 60.2433 s | Status: 6 (WINDOW_SELECTED) | Meas: 68.5346 | Valid: 1 | Output: 68.4645
+         >> A/B active: 1 -> 2 | Route: 2 | Accepted: 1 | Reason: READY_WINDOW_SELECTED
+         >> Rule: switch | Event: SWITCH_READY | A: 18 -> 18 | B: 7 -> 8
+         >> Normalized distance A/B: 14.8208 / Inf | Output age: 52.348 s
+         >> Proposed n=8, span=64.4433 s, MAD=0.06125, range=0.2148 | Ready=1
+         >> New-point residual: 0.0701 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: 1
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: NaN | Lower/upper margins: NaN / NaN
+
+[TACT 0019] Time: 61.2385 s | Status: 2 (STEADY_TRACKING) | Meas: 68.389 | Valid: 1 | Output: 68.4597
+         >> A/B active: 2 -> 2 | Route: 2 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 8 -> 9
+         >> Normalized distance A/B: 14.7237333 / 0.0503333333 | Output age: 0.9952 s
+         >> Proposed n=9, span=65.4385 s, MAD=0.0707, range=0.2148 | Ready=1
+         >> New-point residual: -0.0707 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 68.4645 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0020] Time: 62.3404 s | Status: 2 (STEADY_TRACKING) | Meas: 68.4851 | Valid: 1 | Output: 68.4645
+         >> A/B active: 2 -> 2 | Route: 2 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 9 -> 10
+         >> Normalized distance A/B: 14.7878 / 0.0169333333 | Output age: 1.1019 s
+         >> Proposed n=10, span=66.5404 s, MAD=0.06125, range=0.2148 | Ready=1
+         >> New-point residual: 0.0206 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 68.4597 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0021] Time: 64.6649 s | Status: 2 (STEADY_TRACKING) | Meas: 68.4792 | Valid: 1 | Output: 68.4693
+         >> A/B active: 2 -> 2 | Route: 2 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 10 -> 11
+         >> Normalized distance A/B: 14.7838667 / 0.0098 | Output age: 2.3245 s
+         >> Proposed n=11, span=68.8649 s, MAD=0.0572, range=0.2148 | Ready=1
+         >> New-point residual: 0.0099 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 68.4645 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0022] Time: 66.3167 s | Status: 2 (STEADY_TRACKING) | Meas: 68.2713 | Valid: 1 | Output: 68.4645
+         >> A/B active: 2 -> 2 | Route: 2 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 11 -> 12
+         >> Normalized distance A/B: 14.6452667 / 0.132 | Output age: 1.6518 s
+         >> Proposed n=12, span=70.5167 s, MAD=0.06125, range=0.2935 | Ready=1
+         >> New-point residual: -0.1932 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 68.4693 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0023] Time: 68.6522 s | Status: 6 (WINDOW_SELECTED) | Meas: 46.3082 | Valid: 1 | Output: 46.3034
+         >> A/B active: 2 -> 1 | Route: 1 | Accepted: 1 | Reason: READY_WINDOW_SELECTED
+         >> Rule: switch | Event: SWITCH_READY | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0032 / 14.7708667 | Output age: 2.3355 s
+         >> Proposed n=18, span=89.6522 s, MAD=0.0566, range=0.4856 | Ready=1
+         >> New-point residual: 0.0048 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -22.8 | Blend: 1
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3034 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0024] Time: 69.9358 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4851 | Valid: 1 | Output: 46.3077
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.121133333 / 14.6529333 | Output age: 1.2836 s
+         >> Proposed n=18, span=89.1358 s, MAD=0.05695, range=0.4856 | Ready=1
+         >> New-point residual: 0.1774 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -21 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3034 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0025] Time: 71.5541 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3683 | Valid: 1 | Output: 46.3156
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0404 / 14.7308 | Output age: 1.6183 s
+         >> Proposed n=18, span=88.9541 s, MAD=0.0491, range=0.4856 | Ready=1
+         >> New-point residual: 0.0527 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -19.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3077 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0026] Time: 72.1715 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2738 | Valid: 1 | Output: 46.3077
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0278666667 / 14.7938 | Output age: 0.6174 s
+         >> Proposed n=18, span=87.7715 s, MAD=0.0488, range=0.4856 | Ready=1
+         >> New-point residual: -0.0339 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -17.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3156 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0027] Time: 72.9908 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3335 | Valid: 1 | Output: 46.3077
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0172 / 14.754 | Output age: 0.8193 s
+         >> Proposed n=18, span=86.7908 s, MAD=0.04365, range=0.4856 | Ready=1
+         >> New-point residual: 0.0258 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -15.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3077 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0028] Time: 73.7115 s | Status: 2 (STEADY_TRACKING) | Meas: 46.292 | Valid: 1 | Output: 46.3034
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0104666667 / 14.7816667 | Output age: 0.7207 s
+         >> Proposed n=18, span=85.7115 s, MAD=0.04315, range=0.4856 | Ready=1
+         >> New-point residual: -0.0114 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -13.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3077 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0029] Time: 74.2896 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2654 | Valid: 1 | Output: 46.3034
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0253333333 / 14.7994 | Output age: 0.5781 s
+         >> Proposed n=18, span=84.4896 s, MAD=0.0471, range=0.4856 | Ready=1
+         >> New-point residual: -0.038 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -12 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3034 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0030] Time: 76.5117 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2613 | Valid: 1 | Output: 46.2996
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0280666667 / 14.8021333 | Output age: 2.2221 s
+         >> Proposed n=18, span=84.9117 s, MAD=0.04535, range=0.4856 | Ready=1
+         >> New-point residual: -0.0383 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -10.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3034 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0031] Time: 76.9088 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3676 | Valid: 1 | Output: 46.3077
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0453333333 / 14.7312667 | Output age: 0.3971 s
+         >> Proposed n=18, span=83.5088 s, MAD=0.0499, range=0.4856 | Ready=1
+         >> New-point residual: 0.0599 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -8.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2996 | Lower/upper margins: 1.5 / 1.5
+
+[CASE P05]
+[TACT 0002] Time: 1.056 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4904 | Valid: 1 | Output: 46.2676
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 16 -> 17 | B: 12 -> 12
+         >> Normalized distance A/B: 0.148633333 / 14.6266333 | Output age: 4.056 s
+         >> Proposed n=17, span=31.056 s, MAD=0.0543, range=0.3465 | Ready=1
+         >> New-point residual: 0.2228 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26745 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0003] Time: 2.1729 s | Status: 2 (STEADY_TRACKING) | Meas: 46.5417 | Valid: 1 | Output: 46.27015
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 17 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.182733333 / 14.5924333 | Output age: 1.1169 s
+         >> Proposed n=18, span=32.1729 s, MAD=0.06535, range=0.3978 | Ready=1
+         >> New-point residual: 0.27155 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2676 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0004] Time: 4.0845 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2784 | Valid: 1 | Output: 46.27015
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0055 / 14.7679667 | Output age: 1.9116 s
+         >> Proposed n=18, span=32.2845 s, MAD=0.0498, range=0.3978 | Ready=1
+         >> New-point residual: 0.00825 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -30 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.27015 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0005] Time: 6.5393 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2253 | Valid: 1 | Output: 46.26745
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0299 / 14.8033667 | Output age: 2.4548 s
+         >> Proposed n=18, span=32.9393 s, MAD=0.0411, range=0.3978 | Ready=1
+         >> New-point residual: -0.04215 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -28.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.27015 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0006] Time: 6.9926 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1964 | Valid: 1 | Output: 46.26455
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0473666667 / 14.8226333 | Output age: 0.4533 s
+         >> Proposed n=18, span=31.5926 s, MAD=0.0382, range=0.3978 | Ready=1
+         >> New-point residual: -0.06815 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -26.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26745 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0007] Time: 7.9493 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4513 | Valid: 1 | Output: 46.26745
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.1245 / 14.6527 | Output age: 0.9567 s
+         >> Proposed n=18, span=30.7493 s, MAD=0.0411, range=0.3978 | Ready=1
+         >> New-point residual: 0.18385 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -24.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0008] Time: 9.2576 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2606 | Valid: 1 | Output: 46.26455
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.00456666667 / 14.7798333 | Output age: 1.3083 s
+         >> Proposed n=18, span=30.2576 s, MAD=0.03075, range=0.3978 | Ready=1
+         >> New-point residual: -0.00395 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -22.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26745 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0009] Time: 10.7547 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2289 | Valid: 1 | Output: 46.26455
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0237666667 / 14.8009667 | Output age: 1.4971 s
+         >> Proposed n=18, span=29.9547 s, MAD=0.0364, range=0.3978 | Ready=1
+         >> New-point residual: -0.03565 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -21 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0010] Time: 12.5159 s | Status: 5 (QUALITY_REJECTED) | Meas: 47.2655 | Valid: 1 | Output: 46.26455
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.6673 / 14.1099 | Output age: 1.7612 s
+         >> Proposed n=18, span=29.9159 s, MAD=0.0411, range=1.1216 | Ready=0
+         >> New-point residual: 0.99805 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0011] Time: 15.1506 s | Status: 5 (QUALITY_REJECTED) | Meas: 45.3296 | Valid: 1 | Output: 46.26455
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.6233 / 15.4005 | Output age: 4.3959 s
+         >> Proposed n=18, span=32.5506 s, MAD=0.0382, range=1.2121 | Ready=0
+         >> New-point residual: -0.93495 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0012] Time: 16.8485 s | Status: 5 (QUALITY_REJECTED) | Meas: 47.2538 | Valid: 1 | Output: 46.26455
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.6595 / 14.1177 | Output age: 6.0938 s
+         >> Proposed n=18, span=34.2485 s, MAD=0.0411, range=1.1099 | Ready=0
+         >> New-point residual: 0.98635 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0013] Time: 19.1918 s | Status: 5 (QUALITY_REJECTED) | Meas: 45.3215 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.6287 / 15.4059 | Output age: 8.4371 s
+         >> Proposed n=18, span=36.5918 s, MAD=0.0382, range=1.2202 | Ready=0
+         >> New-point residual: -0.94305 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0014] Time: 20.3869 s | Status: 5 (QUALITY_REJECTED) | Meas: 47.2735 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.672633333 / 14.1045667 | Output age: 9.6322 s
+         >> Proposed n=18, span=37.7869 s, MAD=0.0411, range=1.1296 | Ready=0
+         >> New-point residual: 1.00605 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0015] Time: 21.5075 s | Status: 5 (QUALITY_REJECTED) | Meas: 45.3104 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.6361 / 15.4133 | Output age: 10.7528 s
+         >> Proposed n=18, span=38.9075 s, MAD=0.0382, range=1.2313 | Ready=0
+         >> New-point residual: -0.95415 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0016] Time: 23.2877 s | Status: 5 (QUALITY_REJECTED) | Meas: 47.2562 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.6611 / 14.1161 | Output age: 12.533 s
+         >> Proposed n=18, span=40.6877 s, MAD=0.0411, range=1.1123 | Ready=0
+         >> New-point residual: 0.98875 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0017] Time: 25.7814 s | Status: 5 (QUALITY_REJECTED) | Meas: 45.3224 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.6281 / 15.4053 | Output age: 15.0267 s
+         >> Proposed n=18, span=43.1814 s, MAD=0.0382, range=1.2193 | Ready=0
+         >> New-point residual: -0.94215 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0018] Time: 27.2167 s | Status: 5 (QUALITY_REJECTED) | Meas: 47.237 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.6483 / 14.1289 | Output age: 16.462 s
+         >> Proposed n=18, span=44.6167 s, MAD=0.0411, range=1.0931 | Ready=0
+         >> New-point residual: 0.96955 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0019] Time: 27.5487 s | Status: 5 (QUALITY_REJECTED) | Meas: 45.3483 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.610833333 / 15.3880333 | Output age: 16.794 s
+         >> Proposed n=18, span=44.9487 s, MAD=0.0382, range=1.1934 | Ready=0
+         >> New-point residual: -0.91625 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0020] Time: 28.2576 s | Status: 5 (QUALITY_REJECTED) | Meas: 47.2627 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.665433333 / 14.1117667 | Output age: 17.5029 s
+         >> Proposed n=18, span=45.6576 s, MAD=0.0411, range=1.1188 | Ready=0
+         >> New-point residual: 0.99525 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0021] Time: 29.0971 s | Status: 5 (QUALITY_REJECTED) | Meas: 45.3237 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.627233333 / 15.4044333 | Output age: 18.3424 s
+         >> Proposed n=18, span=46.4971 s, MAD=0.0382, range=1.218 | Ready=0
+         >> New-point residual: -0.94085 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0022] Time: 29.4526 s | Status: 5 (QUALITY_REJECTED) | Meas: 47.2393 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.649833333 / 14.1273667 | Output age: 18.6979 s
+         >> Proposed n=18, span=46.8526 s, MAD=0.0411, range=1.0954 | Ready=0
+         >> New-point residual: 0.97185 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0023] Time: 30.41 s | Status: 5 (QUALITY_REJECTED) | Meas: 45.3031 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.640966667 / 15.4181667 | Output age: 19.6553 s
+         >> Proposed n=18, span=47.81 s, MAD=0.0382, range=1.2386 | Ready=0
+         >> New-point residual: -0.96145 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0024] Time: 31.1387 s | Status: 5 (QUALITY_REJECTED) | Meas: 47.1802 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.610433333 / 14.1667667 | Output age: 20.384 s
+         >> Proposed n=18, span=48.5387 s, MAD=0.0411, range=1.0363 | Ready=0
+         >> New-point residual: 0.91275 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0025] Time: 32.863 s | Status: 5 (QUALITY_REJECTED) | Meas: 45.3324 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.621433333 / 15.3986333 | Output age: 22.1083 s
+         >> Proposed n=18, span=50.263 s, MAD=0.0382, range=1.2093 | Ready=0
+         >> New-point residual: -0.93215 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0026] Time: 34.6847 s | Status: 5 (QUALITY_REJECTED) | Meas: 47.2236 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.639366667 / 14.1378333 | Output age: 23.93 s
+         >> Proposed n=18, span=52.0847 s, MAD=0.0411, range=1.0797 | Ready=0
+         >> New-point residual: 0.95615 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0027] Time: 36.7565 s | Status: 5 (QUALITY_REJECTED) | Meas: 45.3375 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.618033333 / 15.3952333 | Output age: 26.0018 s
+         >> Proposed n=18, span=54.1565 s, MAD=0.0382, range=1.2042 | Ready=0
+         >> New-point residual: -0.92705 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0028] Time: 38.9214 s | Status: 5 (QUALITY_REJECTED) | Meas: 47.2168 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.634833333 / 14.1423667 | Output age: 28.1667 s
+         >> Proposed n=18, span=56.3214 s, MAD=0.0411, range=1.0729 | Ready=0
+         >> New-point residual: 0.94935 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0029] Time: 40.4258 s | Status: 5 (QUALITY_REJECTED) | Meas: 45.3971 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.5783 / 15.3555 | Output age: 29.6711 s
+         >> Proposed n=18, span=57.8258 s, MAD=0.0382, range=1.1446 | Ready=0
+         >> New-point residual: -0.86745 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0030] Time: 42.9015 s | Status: 5 (QUALITY_REJECTED) | Meas: 47.2145 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.6333 / 14.1439 | Output age: 32.1468 s
+         >> Proposed n=18, span=60.3015 s, MAD=0.0411, range=1.0706 | Ready=0
+         >> New-point residual: 0.94705 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0031] Time: 44.4098 s | Status: 5 (QUALITY_REJECTED) | Meas: 45.3313 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.622166667 / 15.3993667 | Output age: 33.6551 s
+         >> Proposed n=18, span=61.8098 s, MAD=0.0382, range=1.2104 | Ready=0
+         >> New-point residual: -0.93325 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0032] Time: 45.7878 s | Status: 5 (QUALITY_REJECTED) | Meas: 47.2568 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.6615 / 14.1157 | Output age: 35.0331 s
+         >> Proposed n=18, span=63.1878 s, MAD=0.0411, range=1.1129 | Ready=0
+         >> New-point residual: 0.98935 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0033] Time: 46.2595 s | Status: 5 (QUALITY_REJECTED) | Meas: 45.3209 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.6291 / 15.4063 | Output age: 35.5048 s
+         >> Proposed n=18, span=63.6595 s, MAD=0.0382, range=1.2208 | Ready=0
+         >> New-point residual: -0.94365 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0034] Time: 48.8727 s | Status: 5 (QUALITY_REJECTED) | Meas: 47.2223 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.6385 / 14.1387 | Output age: 38.118 s
+         >> Proposed n=18, span=66.2727 s, MAD=0.0411, range=1.0784 | Ready=0
+         >> New-point residual: 0.95485 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0035] Time: 51.0203 s | Status: 5 (QUALITY_REJECTED) | Meas: 45.309 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 0 | Reason: NEW_POINT_OUTLIER
+         >> Rule: reject_quality | Event: QUALITY_REJECT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.637033333 / 15.4142333 | Output age: 40.2656 s
+         >> Proposed n=18, span=68.4203 s, MAD=0.0382, range=1.2327 | Ready=0
+         >> New-point residual: -0.95555 | Removal threshold: 0.48
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0036] Time: 51.5147 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3273 | Valid: 1 | Output: 46.26745
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0418333333 / 14.7353667 | Output age: 40.76 s
+         >> Proposed n=18, span=68.9147 s, MAD=0.0411, range=0.3978 | Ready=1
+         >> New-point residual: 0.05985 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -19.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26455 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0037] Time: 53.5155 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4009 | Valid: 1 | Output: 46.26745
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0889666667 / 14.6863 | Output age: 2.0008 s
+         >> Proposed n=18, span=69.1155 s, MAD=0.051, range=0.3978 | Ready=1
+         >> New-point residual: 0.13345 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -17.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26745 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0038] Time: 54.5877 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1175 | Valid: 1 | Output: 46.2647
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0999666667 / 14.8752333 | Output age: 1.0722 s
+         >> Proposed n=18, span=68.3877 s, MAD=0.06545, range=0.4242 | Ready=1
+         >> New-point residual: -0.1472 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -15.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26745 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0039] Time: 55.2746 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2209 | Valid: 1 | Output: 46.2647
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0292 / 14.8063 | Output age: 0.6869 s
+         >> Proposed n=18, span=67.2746 s, MAD=0.0532, range=0.4242 | Ready=1
+         >> New-point residual: -0.0438 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -13.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2647 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0040] Time: 57.6037 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2371 | Valid: 1 | Output: 46.2647
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0184 / 14.7955 | Output age: 2.3291 s
+         >> Proposed n=18, span=67.8037 s, MAD=0.0532, range=0.4242 | Ready=1
+         >> New-point residual: -0.0276 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -12 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2647 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0041] Time: 59.7854 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3578 | Valid: 1 | Output: 46.27015
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0620666667 / 14.7150333 | Output age: 2.1817 s
+         >> Proposed n=18, span=68.1854 s, MAD=0.0532, range=0.4242 | Ready=1
+         >> New-point residual: 0.08765 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -10.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2647 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0042] Time: 61.6264 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2334 | Valid: 1 | Output: 46.2647
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0245 / 14.7979667 | Output age: 1.841 s
+         >> Proposed n=18, span=68.2264 s, MAD=0.0532, range=0.4242 | Ready=1
+         >> New-point residual: -0.0313 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -8.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.27015 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0043] Time: 62.4801 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3356 | Valid: 1 | Output: 46.2701
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0472666667 / 14.7298333 | Output age: 0.8537 s
+         >> Proposed n=18, span=67.2801 s, MAD=0.06135, range=0.4242 | Ready=1
+         >> New-point residual: 0.0655 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -6.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2647 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0044] Time: 62.9892 s | Status: 2 (STEADY_TRACKING) | Meas: 46.5292 | Valid: 1 | Output: 46.30285
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.172733333 / 14.6007667 | Output age: 0.5091 s
+         >> Proposed n=18, span=65.9892 s, MAD=0.07575, range=0.4242 | Ready=1
+         >> New-point residual: 0.22635 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -4.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2701 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0045] Time: 65.592 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4771 | Valid: 1 | Output: 46.30285
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.116166667 / 14.6355 | Output age: 2.6028 s
+         >> Proposed n=18, span=64.536 s, MAD=0.07975, range=0.4242 | Ready=1
+         >> New-point residual: 0.17425 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -3 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.30285 | Lower/upper margins: 1.5 / 1.5
+
+[CASE P06]
+[TACT 0002] Time: 1.7388 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3201 | Valid: 1 | Output: 46.2992
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 16 -> 17 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0170666667 / 14.7249 | Output age: 4.7388 s
+         >> Proposed n=17, span=31.7388 s, MAD=0.057, range=0.2852 | Ready=1
+         >> New-point residual: 0.0209 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2945 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0003] Time: 2.5614 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2715 | Valid: 1 | Output: 46.2945
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 17 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0184666667 / 14.7573 | Output age: 0.8226 s
+         >> Proposed n=18, span=32.5614 s, MAD=0.04595, range=0.2852 | Ready=1
+         >> New-point residual: -0.023 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2992 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0004] Time: 4.2919 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2656 | Valid: 1 | Output: 46.28835
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0192666667 / 14.7612333 | Output age: 1.7305 s
+         >> Proposed n=18, span=32.4919 s, MAD=0.037, range=0.2852 | Ready=1
+         >> New-point residual: -0.02275 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -30 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2945 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0005] Time: 6.0963 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2239 | Valid: 1 | Output: 46.28835
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0429666667 / 14.7890333 | Output age: 1.8044 s
+         >> Proposed n=18, span=32.4963 s, MAD=0.037, range=0.2852 | Ready=1
+         >> New-point residual: -0.06445 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -28.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.28835 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0006] Time: 8.5833 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2599 | Valid: 1 | Output: 46.2792
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0189666667 / 14.7650333 | Output age: 2.487 s
+         >> Proposed n=18, span=33.1833 s, MAD=0.0418, range=0.2852 | Ready=1
+         >> New-point residual: -0.0193 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -26.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.28835 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0007] Time: 10.8864 s | Status: 2 (STEADY_TRACKING) | Meas: 46.171 | Valid: 1 | Output: 46.2792
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0721333333 / 14.8243 | Output age: 2.3031 s
+         >> Proposed n=18, span=33.6864 s, MAD=0.0418, range=0.2852 | Ready=1
+         >> New-point residual: -0.1082 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -24.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2792 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0008] Time: 13.1196 s | Status: 2 (STEADY_TRACKING) | Meas: 46.0902 | Valid: 1 | Output: 46.26855
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.126 / 14.8781667 | Output age: 2.2332 s
+         >> Proposed n=18, span=34.1196 s, MAD=0.0481, range=0.3287 | Ready=1
+         >> New-point residual: -0.17835 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -22.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2792 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0009] Time: 15.0644 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3531 | Valid: 1 | Output: 46.2792
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0563666667 / 14.7029 | Output age: 1.9448 s
+         >> Proposed n=18, span=34.2644 s, MAD=0.04595, range=0.3287 | Ready=1
+         >> New-point residual: 0.0739 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -21 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.26855 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0010] Time: 16.8204 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4596 | Valid: 1 | Output: 46.2792
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.120266667 / 14.6319 | Output age: 1.756 s
+         >> Proposed n=18, span=34.2204 s, MAD=0.0528, range=0.3694 | Ready=1
+         >> New-point residual: 0.1804 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -19.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2792 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0011] Time: 18.2262 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3603 | Valid: 1 | Output: 46.2792
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0540666667 / 14.6981 | Output age: 1.4058 s
+         >> Proposed n=18, span=33.8262 s, MAD=0.0646, range=0.3694 | Ready=1
+         >> New-point residual: 0.0811 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -17.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2792 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0012] Time: 19.7546 s | Status: 15 (POLICY_HOLD) | Meas: 68.5773 | Valid: 1 | Output: 46.2792
+         >> A/B active: 1 -> 1 | Route: 2 | Accepted: 1 | Reason: MAIN_PROLONGATION_ACTIVE
+         >> Rule: wait | Event: SWITCH_WAIT | A: 18 -> 18 | B: 12 -> 13
+         >> Normalized distance A/B: 14.8654 / 0.113233333 | Output age: 1.5284 s
+         >> Proposed n=13, span=36.5546 s, MAD=0.0564, range=0.2857 | Ready=1
+         >> New-point residual: 0.1651 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 68.40745 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0013] Time: 21.0694 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3583 | Valid: 1 | Output: 46.2792
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 13 -> 13
+         >> Normalized distance A/B: 0.0527333333 / 14.7026 | Output age: 2.8432 s
+         >> Proposed n=18, span=34.8694 s, MAD=0.0646, range=0.3694 | Ready=1
+         >> New-point residual: 0.0791 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -15.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2792 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0014] Time: 22.112 s | Status: 2 (STEADY_TRACKING) | Meas: 46.351 | Valid: 1 | Output: 46.28535
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 13 -> 13
+         >> Normalized distance A/B: 0.0478666667 / 14.7074667 | Output age: 1.0426 s
+         >> Proposed n=18, span=34.112 s, MAD=0.0667, range=0.3694 | Ready=1
+         >> New-point residual: 0.06565 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -13.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2792 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0015] Time: 24.304 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3418 | Valid: 1 | Output: 46.28535
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 13 -> 13
+         >> Normalized distance A/B: 0.0376333333 / 14.7136 | Output age: 2.192 s
+         >> Proposed n=18, span=34.504 s, MAD=0.06355, range=0.3694 | Ready=1
+         >> New-point residual: 0.05645 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -12 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.28535 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0016] Time: 26.0594 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3888 | Valid: 1 | Output: 46.30965
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 13 -> 13
+         >> Normalized distance A/B: 0.0689666667 / 14.6822667 | Output age: 1.7554 s
+         >> Proposed n=18, span=34.4594 s, MAD=0.0502, range=0.3694 | Ready=1
+         >> New-point residual: 0.07915 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -10.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.28535 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0017] Time: 27.4752 s | Status: 2 (STEADY_TRACKING) | Meas: 46.319 | Valid: 1 | Output: 46.31955
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 13 -> 13
+         >> Normalized distance A/B: 0.00623333333 / 14.7288 | Output age: 1.4158 s
+         >> Proposed n=18, span=34.0752 s, MAD=0.0568, range=0.3694 | Ready=1
+         >> New-point residual: -0.00055 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -8.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.30965 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0018] Time: 28.8403 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3029 | Valid: 1 | Output: 46.31095
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 13 -> 13
+         >> Normalized distance A/B: 0.0111 / 14.7395333 | Output age: 1.3651 s
+         >> Proposed n=18, span=33.6403 s, MAD=0.04835, range=0.3694 | Ready=1
+         >> New-point residual: -0.00805 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -6.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.31955 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0019] Time: 30.9541 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2611 | Valid: 1 | Output: 46.31095
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 13 -> 13
+         >> Normalized distance A/B: 0.0332333333 / 14.7674 | Output age: 2.1138 s
+         >> Proposed n=18, span=33.9541 s, MAD=0.04835, range=0.3694 | Ready=1
+         >> New-point residual: -0.04985 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -4.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.31095 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0020] Time: 33.138 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4399 | Valid: 1 | Output: 46.31955
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 13 -> 13
+         >> Normalized distance A/B: 0.0859666667 / 14.6482 | Output age: 2.1839 s
+         >> Proposed n=18, span=31.3992 s, MAD=0.051, range=0.3694 | Ready=1
+         >> New-point residual: 0.12035 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -3 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.31095 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0021] Time: 34.6888 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2979 | Valid: 1 | Output: 46.31095
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 13 -> 13
+         >> Normalized distance A/B: 0.0144333333 / 14.7428667 | Output age: 1.5508 s
+         >> Proposed n=18, span=32.1274 s, MAD=0.04835, range=0.3694 | Ready=1
+         >> New-point residual: -0.01305 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 1.7388 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.31955 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0022] Time: 35.7861 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4232 | Valid: 1 | Output: 46.3304
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 13 -> 13
+         >> Normalized distance A/B: 0.0748333333 / 14.6593333 | Output age: 1.0973 s
+         >> Proposed n=18, span=31.4942 s, MAD=0.0616, range=0.3694 | Ready=1
+         >> New-point residual: 0.0928 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 2.5614 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.31095 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0023] Time: 36.7374 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2281 | Valid: 1 | Output: 46.3304
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 13 -> 13
+         >> Normalized distance A/B: 0.0682 / 14.7894 | Output age: 0.9513 s
+         >> Proposed n=18, span=30.6411 s, MAD=0.06385, range=0.3694 | Ready=1
+         >> New-point residual: -0.1023 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 4.2919 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3304 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0024] Time: 37.1 s | Status: 2 (STEADY_TRACKING) | Meas: 46.5344 | Valid: 1 | Output: 46.3464
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 13 -> 13
+         >> Normalized distance A/B: 0.136 / 14.5852 | Output age: 0.3626 s
+         >> Proposed n=18, span=28.5167 s, MAD=0.06265, range=0.4442 | Ready=1
+         >> New-point residual: 0.188 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: 6.0963 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3304 | Lower/upper margins: 1.5 / 1.5
+
+[CASE P07]
+[TACT 0002] Time: 1.0562 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1783 | Valid: 1 | Output: 46.3701
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 16 -> 17 | B: 12 -> 12
+         >> Normalized distance A/B: 0.1292 / 14.8229333 | Output age: 4.0562 s
+         >> Proposed n=17, span=31.0562 s, MAD=0.043, range=0.3129 | Ready=1
+         >> New-point residual: -0.1918 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3721 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0003] Time: 3.2765 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1323 | Valid: 1 | Output: 46.3511
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 17 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.158533333 / 14.8536 | Output age: 2.2203 s
+         >> Proposed n=18, span=33.2765 s, MAD=0.07845, range=0.3589 | Ready=1
+         >> New-point residual: -0.2188 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3701 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0004] Time: 4.4018 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4389 | Valid: 1 | Output: 46.3511
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0585333333 / 14.6492 | Output age: 1.1253 s
+         >> Proposed n=18, span=32.6018 s, MAD=0.09135, range=0.3589 | Ready=1
+         >> New-point residual: 0.0878 | Removal threshold: 0.54174204
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -30 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3511 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0005] Time: 6.1593 s | Status: 2 (STEADY_TRACKING) | Meas: 46.0362 | Valid: 1 | Output: 46.3511
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.209933333 / 14.9176667 | Output age: 1.7575 s
+         >> Proposed n=18, span=32.5593 s, MAD=0.11525, range=0.455 | Ready=1
+         >> New-point residual: -0.3149 | Removal threshold: 0.6834786
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -28.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3511 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0006] Time: 7.6617 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4189 | Valid: 1 | Output: 46.3721
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0452 / 14.6625333 | Output age: 1.5024 s
+         >> Proposed n=18, span=32.2617 s, MAD=0.0965, range=0.455 | Ready=1
+         >> New-point residual: 0.0468 | Removal threshold: 0.5722836
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -26.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3511 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0007] Time: 9.9937 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1583 | Valid: 1 | Output: 46.3721
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.142533333 / 14.8362667 | Output age: 2.332 s
+         >> Proposed n=18, span=32.7937 s, MAD=0.0965, range=0.455 | Ready=1
+         >> New-point residual: -0.2138 | Removal threshold: 0.5722836
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -24.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3721 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0008] Time: 10.4008 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4318 | Valid: 1 | Output: 46.3721
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0398 / 14.6539333 | Output age: 0.4071 s
+         >> Proposed n=18, span=31.4008 s, MAD=0.0965, range=0.455 | Ready=1
+         >> New-point residual: 0.0597 | Removal threshold: 0.5722836
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -22.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3721 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0009] Time: 12.0949 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3256 | Valid: 1 | Output: 46.3721
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.031 / 14.7247333 | Output age: 1.6941 s
+         >> Proposed n=18, span=31.2949 s, MAD=0.07035, range=0.455 | Ready=1
+         >> New-point residual: -0.0465 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -21 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3721 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0010] Time: 13.338 s | Status: 10 (OUTSIDE_BOTH_WINDOWS) | Meas: 57.3985 | Valid: 1 | Output: 46.3721
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTSIDE_BOTH_READY_WINDOWS
+         >> Rule: outside | Event: OUTSIDE_BOTH | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 7.35093333 / 7.3428 | Output age: 1.2431 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+
+[TACT 0011] Time: 14.0199 s | Status: 10 (OUTSIDE_BOTH_WINDOWS) | Meas: 57.2777 | Valid: 1 | Output: 46.3721
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTSIDE_BOTH_READY_WINDOWS
+         >> Rule: outside | Event: OUTSIDE_BOTH | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 7.2704 / 7.42333333 | Output age: 1.925 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+
+[TACT 0012] Time: 15.103 s | Status: 10 (OUTSIDE_BOTH_WINDOWS) | Meas: 57.3644 | Valid: 1 | Output: 46.3721
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTSIDE_BOTH_READY_WINDOWS
+         >> Rule: outside | Event: OUTSIDE_BOTH | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 7.3282 / 7.36553333 | Output age: 3.0081 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+
+[TACT 0013] Time: 15.6514 s | Status: 10 (OUTSIDE_BOTH_WINDOWS) | Meas: 57.3682 | Valid: 1 | Output: 46.3721
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTSIDE_BOTH_READY_WINDOWS
+         >> Rule: outside | Event: OUTSIDE_BOTH | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 7.33073333 / 7.363 | Output age: 3.5565 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+
+[TACT 0014] Time: 17.604 s | Status: 10 (OUTSIDE_BOTH_WINDOWS) | Meas: 57.339 | Valid: 1 | Output: 46.3721
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTSIDE_BOTH_READY_WINDOWS
+         >> Rule: outside | Event: OUTSIDE_BOTH | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 7.31126667 / 7.38246667 | Output age: 5.5091 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+
+[TACT 0015] Time: 18.0217 s | Status: 10 (OUTSIDE_BOTH_WINDOWS) | Meas: 57.1292 | Valid: 1 | Output: 46.3721
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTSIDE_BOTH_READY_WINDOWS
+         >> Rule: outside | Event: OUTSIDE_BOTH | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 7.1714 / 7.52233333 | Output age: 5.9268 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+
+[TACT 0016] Time: 19.0672 s | Status: 10 (OUTSIDE_BOTH_WINDOWS) | Meas: 57.3082 | Valid: 1 | Output: 46.3721
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTSIDE_BOTH_READY_WINDOWS
+         >> Rule: outside | Event: OUTSIDE_BOTH | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 7.29073333 / 7.403 | Output age: 6.9723 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+
+[TACT 0017] Time: 21.1892 s | Status: 10 (OUTSIDE_BOTH_WINDOWS) | Meas: 57.4374 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTSIDE_BOTH_READY_WINDOWS
+         >> Rule: outside | Event: OUTSIDE_BOTH | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 7.37686667 / 7.31686667 | Output age: 9.0943 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0018] Time: 23.0985 s | Status: 10 (OUTSIDE_BOTH_WINDOWS) | Meas: 57.2727 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTSIDE_BOTH_READY_WINDOWS
+         >> Rule: outside | Event: OUTSIDE_BOTH | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 7.26706667 / 7.42666667 | Output age: 11.0036 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0019] Time: 23.4869 s | Status: 10 (OUTSIDE_BOTH_WINDOWS) | Meas: 57.3884 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTSIDE_BOTH_READY_WINDOWS
+         >> Rule: outside | Event: OUTSIDE_BOTH | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 7.3442 / 7.34953333 | Output age: 11.392 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0020] Time: 24.2376 s | Status: 10 (OUTSIDE_BOTH_WINDOWS) | Meas: 57.2987 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTSIDE_BOTH_READY_WINDOWS
+         >> Rule: outside | Event: OUTSIDE_BOTH | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 7.2844 / 7.40933333 | Output age: 12.1427 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0021] Time: 25.6273 s | Status: 10 (OUTSIDE_BOTH_WINDOWS) | Meas: 57.4461 | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTSIDE_BOTH_READY_WINDOWS
+         >> Rule: outside | Event: OUTSIDE_BOTH | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 7.38266667 / 7.31106667 | Output age: 13.5324 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0022] Time: 27.9066 s | Status: 2 (STEADY_TRACKING) | Meas: 46.5476 | Valid: 1 | Output: 46.3795
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.117 / 14.5767333 | Output age: 15.8117 s
+         >> Proposed n=18, span=45.3066 s, MAD=0.0891, range=0.5114 | Ready=1
+         >> New-point residual: 0.1681 | Removal threshold: 0.52839864
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -19.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3721 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0023] Time: 28.9093 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2458 | Valid: 1 | Output: 46.3795
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0891333333 / 14.7779333 | Output age: 1.0027 s
+         >> Proposed n=18, span=44.5093 s, MAD=0.0891, range=0.5114 | Ready=1
+         >> New-point residual: -0.1337 | Removal threshold: 0.52839864
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -17.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3795 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0024] Time: 29.591 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2926 | Valid: 1 | Output: 46.3795
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0579333333 / 14.7467333 | Output age: 0.6817 s
+         >> Proposed n=18, span=43.391 s, MAD=0.0767, range=0.5114 | Ready=1
+         >> New-point residual: -0.0869 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -15.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3795 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0025] Time: 31.0632 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3969 | Valid: 1 | Output: 46.3803
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0116 / 14.6772 | Output age: 1.4722 s
+         >> Proposed n=18, span=43.0632 s, MAD=0.0767, range=0.5114 | Ready=1
+         >> New-point residual: 0.0166 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -13.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3795 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0026] Time: 31.6121 s | Status: 2 (STEADY_TRACKING) | Meas: 46.185 | Valid: 1 | Output: 46.34785
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.1302 / 14.8184667 | Output age: 0.5489 s
+         >> Proposed n=18, span=41.8121 s, MAD=0.0946, range=0.5114 | Ready=1
+         >> New-point residual: -0.16285 | Removal threshold: 0.56101584
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -12 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3803 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0027] Time: 33.734 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3671 | Valid: 1 | Output: 46.34635
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0128333333 / 14.6970667 | Output age: 2.1219 s
+         >> Proposed n=18, span=42.134 s, MAD=0.0961, range=0.5114 | Ready=1
+         >> New-point residual: 0.02075 | Removal threshold: 0.56991144
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -10.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.34785 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0028] Time: 34.7505 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4952 | Valid: 1 | Output: 46.34635
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0992333333 / 14.6116667 | Output age: 1.0165 s
+         >> Proposed n=18, span=41.3505 s, MAD=0.09655, range=0.5114 | Ready=1
+         >> New-point residual: 0.14885 | Removal threshold: 0.57258012
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -8.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.34635 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0029] Time: 35.1758 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3625 | Valid: 1 | Output: 46.34405
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0107666667 / 14.7001333 | Output age: 0.4253 s
+         >> Proposed n=18, span=39.9758 s, MAD=0.09655, range=0.5114 | Ready=1
+         >> New-point residual: 0.01845 | Removal threshold: 0.57258012
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -6.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.34635 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0030] Time: 37.145 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3166 | Valid: 1 | Output: 46.34405
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0183 / 14.7307333 | Output age: 1.9692 s
+         >> Proposed n=18, span=40.145 s, MAD=0.0913, range=0.5114 | Ready=1
+         >> New-point residual: -0.02745 | Removal threshold: 0.54144552
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -4.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.34405 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0031] Time: 37.4425 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1116 | Valid: 1 | Output: 46.3211
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.154966667 / 14.8674 | Output age: 0.2975 s
+         >> Proposed n=18, span=36.3863 s, MAD=0.11425, range=0.5114 | Ready=1
+         >> New-point residual: -0.2095 | Removal threshold: 0.6775482
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -3 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.34405 | Lower/upper margins: 1.5 / 1.5
+
+[CASE P08]
+[TACT 0002] Time: 2.3544 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3611 | Valid: 1 | Output: 46.2992
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 16 -> 17 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0444 / 14.6975667 | Output age: 5.3544 s
+         >> Proposed n=17, span=32.3544 s, MAD=0.0616, range=0.2852 | Ready=1
+         >> New-point residual: 0.0619 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2945 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0003] Time: 2.6545 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4805 | Valid: 1 | Output: 46.30585
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 17 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.120866667 / 14.6179667 | Output age: 0.3001 s
+         >> Proposed n=18, span=32.6545 s, MAD=0.06175, range=0.3468 | Ready=1
+         >> New-point residual: 0.17465 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2992 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0004] Time: 3.8478 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3072 | Valid: 1 | Output: 46.3032
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0009 / 14.7335 | Output age: 1.1933 s
+         >> Proposed n=18, span=32.0478 s, MAD=0.05545, range=0.3468 | Ready=1
+         >> New-point residual: 0.004 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -30 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.30585 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0005] Time: 4.9726 s | Status: 2 (STEADY_TRACKING) | Meas: 46.1259 | Valid: 1 | Output: 46.3032
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.1182 / 14.8543667 | Output age: 1.1248 s
+         >> Proposed n=18, span=31.3726 s, MAD=0.05545, range=0.3546 | Ready=1
+         >> New-point residual: -0.1773 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -28.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3032 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0006] Time: 6.5439 s | Status: 2 (STEADY_TRACKING) | Meas: 46.196 | Valid: 1 | Output: 46.2945
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.0714666667 / 14.8076333 | Output age: 1.5713 s
+         >> Proposed n=18, span=31.1439 s, MAD=0.06415, range=0.3546 | Ready=1
+         >> New-point residual: -0.0985 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -26.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3032 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0007] Time: 7.8953 s | Status: 2 (STEADY_TRACKING) | Meas: 46.6115 | Valid: 1 | Output: 46.3032
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: 0.211333333 / 14.5306333 | Output age: 1.3514 s
+         >> Proposed n=18, span=30.6953 s, MAD=0.06175, range=0.4856 | Ready=1
+         >> New-point residual: 0.3083 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -24.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.2945 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0008] Time: 18.2191 s | Status: 8 (OUTPUT_EXPIRED) | Meas: NaN | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTPUT_UNAVAILABLE_MEMORY_RETAINED
+         >> Rule: expired | Event: GAP_EXPIRED | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: Inf / Inf | Output age: 10.3238 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0009] Time: 19.5532 s | Status: 8 (OUTPUT_EXPIRED) | Meas: NaN | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTPUT_UNAVAILABLE_MEMORY_RETAINED
+         >> Rule: expired | Event: GAP_EXPIRED | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: Inf / Inf | Output age: 11.6579 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0010] Time: 54.9394 s | Status: 8 (OUTPUT_EXPIRED) | Meas: NaN | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTPUT_UNAVAILABLE_MEMORY_RETAINED
+         >> Rule: expired | Event: GAP_EXPIRED | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: Inf / Inf | Output age: 47.0441 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0011] Time: 56.3599 s | Status: 8 (OUTPUT_EXPIRED) | Meas: NaN | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTPUT_UNAVAILABLE_MEMORY_RETAINED
+         >> Rule: expired | Event: GAP_EXPIRED | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: Inf / Inf | Output age: 48.4646 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0012] Time: 58.5848 s | Status: 8 (OUTPUT_EXPIRED) | Meas: NaN | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTPUT_UNAVAILABLE_MEMORY_RETAINED
+         >> Rule: expired | Event: GAP_EXPIRED | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: Inf / Inf | Output age: 50.6895 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0013] Time: 59.3636 s | Status: 8 (OUTPUT_EXPIRED) | Meas: NaN | Valid: 0 | Output: NaN
+         >> A/B active: 1 -> 1 | Route: 0 | Accepted: 0 | Reason: OUTPUT_UNAVAILABLE_MEMORY_RETAINED
+         >> Rule: expired | Event: GAP_EXPIRED | A: 18 -> 18 | B: 12 -> 12
+         >> Normalized distance A/B: Inf / Inf | Output age: 51.4683 s
+         >> Proposed n=0, span=0 s, MAD=NaN, range=NaN | Ready=0
+         >> New-point residual: NaN | Removal threshold: NaN
+         >> Removed old timestamps: [] | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 0
+
+[TACT 0014] Time: 60.2433 s | Status: 6 (WINDOW_SELECTED) | Meas: 68.5346 | Valid: 1 | Output: 68.4122
+         >> A/B active: 1 -> 2 | Route: 2 | Accepted: 1 | Reason: READY_WINDOW_SELECTED
+         >> Rule: switch | Event: SWITCH_READY | A: 18 -> 18 | B: 12 -> 13
+         >> Normalized distance A/B: 14.8209333 / 0.0847666667 | Output age: 52.348 s
+         >> Proposed n=13, span=77.0433 s, MAD=0.0564, range=0.243 | Ready=1
+         >> New-point residual: 0.1224 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: 1
+         >> Hold limit: 8 s | Age <= limit: 0
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 68.40745 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0015] Time: 61.2385 s | Status: 2 (STEADY_TRACKING) | Meas: 68.389 | Valid: 1 | Output: 68.40745
+         >> A/B active: 2 -> 2 | Route: 2 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 13 -> 14
+         >> Normalized distance A/B: 14.7238667 / 0.0154666667 | Output age: 0.9952 s
+         >> Proposed n=14, span=78.0385 s, MAD=0.0592, range=0.243 | Ready=1
+         >> New-point residual: -0.01845 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: [] | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 68.4122 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0016] Time: 68.6522 s | Status: 6 (WINDOW_SELECTED) | Meas: 46.3082 | Valid: 1 | Output: 46.3032
+         >> A/B active: 2 -> 1 | Route: 1 | Accepted: 1 | Reason: READY_WINDOW_SELECTED
+         >> Rule: switch | Event: SWITCH_READY | A: 18 -> 18 | B: 14 -> 14
+         >> Normalized distance A/B: 0.00333333333 / 14.7328333 | Output age: 7.4137 s
+         >> Proposed n=18, span=89.6522 s, MAD=0.06175, range=0.4856 | Ready=1
+         >> New-point residual: 0.005 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -22.8 | Blend: 1
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3032 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0017] Time: 69.9358 s | Status: 2 (STEADY_TRACKING) | Meas: 46.4851 | Valid: 1 | Output: 46.3077
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 14 -> 14
+         >> Normalized distance A/B: 0.121266667 / 14.6149 | Output age: 1.2836 s
+         >> Proposed n=18, span=89.1358 s, MAD=0.06175, range=0.4856 | Ready=1
+         >> New-point residual: 0.1774 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -21 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3032 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0018] Time: 71.5541 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3683 | Valid: 1 | Output: 46.31885
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 14 -> 14
+         >> Normalized distance A/B: 0.0404 / 14.6927667 | Output age: 1.6183 s
+         >> Proposed n=18, span=88.9541 s, MAD=0.06875, range=0.4856 | Ready=1
+         >> New-point residual: 0.04945 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -19.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3077 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0019] Time: 72.1715 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2738 | Valid: 1 | Output: 46.3077
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 14 -> 14
+         >> Normalized distance A/B: 0.0300333333 / 14.7557667 | Output age: 0.6174 s
+         >> Proposed n=18, span=87.7715 s, MAD=0.06535, range=0.4856 | Ready=1
+         >> New-point residual: -0.0339 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -17.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.31885 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0020] Time: 72.9908 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3335 | Valid: 1 | Output: 46.3077
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 14 -> 14
+         >> Normalized distance A/B: 0.0172 / 14.7159667 | Output age: 0.8193 s
+         >> Proposed n=18, span=86.7908 s, MAD=0.06535, range=0.4856 | Ready=1
+         >> New-point residual: 0.0258 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -15.6 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3077 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0021] Time: 73.7115 s | Status: 2 (STEADY_TRACKING) | Meas: 46.292 | Valid: 1 | Output: 46.3077
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 14 -> 14
+         >> Normalized distance A/B: 0.0104666667 / 14.7436333 | Output age: 0.7207 s
+         >> Proposed n=18, span=85.7115 s, MAD=0.06535, range=0.4856 | Ready=1
+         >> New-point residual: -0.0157 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -13.8 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3077 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0022] Time: 74.2896 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2654 | Valid: 1 | Output: 46.3032
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 14 -> 14
+         >> Normalized distance A/B: 0.0282 / 14.7613667 | Output age: 0.5781 s
+         >> Proposed n=18, span=84.4896 s, MAD=0.0615, range=0.4856 | Ready=1
+         >> New-point residual: -0.0378 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -12 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3077 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0023] Time: 76.5117 s | Status: 2 (STEADY_TRACKING) | Meas: 46.2613 | Valid: 1 | Output: 46.3032
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 14 -> 14
+         >> Normalized distance A/B: 0.0279333333 / 14.7641 | Output age: 2.2221 s
+         >> Proposed n=18, span=84.9117 s, MAD=0.0615, range=0.4856 | Ready=1
+         >> New-point residual: -0.0419 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -10.2 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3032 | Lower/upper margins: 1.5 / 1.5
+
+[TACT 0024] Time: 76.9088 s | Status: 2 (STEADY_TRACKING) | Meas: 46.3676 | Valid: 1 | Output: 46.3077
+         >> A/B active: 1 -> 1 | Route: 1 | Accepted: 1 | Reason: WINDOW_ACCEPTED
+         >> Rule: track | Event: ACTIVE_ACCEPT | A: 18 -> 18 | B: 14 -> 14
+         >> Normalized distance A/B: 0.0429333333 / 14.6932333 | Output age: 0.3971 s
+         >> Proposed n=18, span=83.5088 s, MAD=0.06025, range=0.4856 | Ready=1
+         >> New-point residual: 0.0599 | Removal threshold: 0.48
+         >> Removed old timestamps: zeros(1,0) | FIFO evicted timestamp: -8.4 | Blend: NaN
+         >> Hold limit: 8 s | Age <= limit: 1
+         >> Required n >= 8, span >= 5 s; MAD <= 0.25, range <= 0.9, |velocity| <= Inf
+         >> Gate prediction: 46.3032 | Lower/upper margins: 1.5 / 1.5
+
