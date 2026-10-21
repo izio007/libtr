@@ -25,8 +25,6 @@ elseif strcmp(request.action,'mapping')
 elseif strcmp(request.action,'mapping5000')
     stages={'mapping_unit','ensemble5000','spectral_png'};
     report.visual_review='pending';
-elseif strcmp(request.action,'liveeditor')
-    stages={'documents','liveeditor'};
 elseif strcmp(request.action,'unit')
     if isempty(selected), stages={'environment','unit'};
     else, stages={'unit'}; end
@@ -34,7 +32,6 @@ else
     stages={request.action};
 end
 failed=false;
-documentsPassed=false;
 for k=1:numel(stages)
     drawnow;
     if isfile(fullfile(folder,'cancel'))
@@ -50,23 +47,12 @@ for k=1:numel(stages)
                 (strcmp(request.action,'mapping5000') && ~strcmp(stages{k},'spectral_png'))) && failed
             item.state='blocked';
             item.error='A prerequisite of statistical mapping failed.';
-        elseif strcmp(stages{k},'liveeditor') && ~documentsPassed
-            item.state='blocked'; failed=true;
-            item.error='Live Editor export not attempted: documents stage did not pass.';
         else
             log=evalc('item.metrics=runStage(stages{k},root,folder,selected);');
             item.state='passed';
             if strcmp(stages{k},'ensemble5000') && item.metrics.failures>0
                 item.state='failed'; failed=true;
                 item.error='Mathematical acceptance failed; saved ensembles remain available for diagnostic plots.';
-            end
-            if strcmp(stages{k},'documents')
-                documentsPassed=item.metrics.failures==0;
-                if ~documentsPassed
-                    item.state='failed'; failed=true;
-                    item.error=sprintf('%d documents failed; see documents_results.json', ...
-                        item.metrics.failures);
-                end
             end
         end
     catch exception
@@ -92,8 +78,6 @@ end
 function metrics=runStage(stage,root,folder,selected)
 metrics=struct();
 switch stage
-    case 'documents'
-        metrics=service_validate_documents(root,folder);
     case 'environment'
         service_generate_static_context;
         context=service_init_geometry_unit;
@@ -116,24 +100,11 @@ switch stage
             tests=tests(ismember({tests.name},names));
             assert(numel(tests)==numel(names),'Missing mapping dependency tests');
         end
-        results=cell(1,numel(tests)); failures=0;
-        for j=1:numel(tests)
-            [~,name]=fileparts(tests(j).name);
-            result=struct('name',name,'state','passed','error','');
-            try
-                service_pipeline_reset(root);
-                output=evalc('feval(name);');
-            catch exception
-                output=''; result.state='failed'; failures=failures+1;
-                result.error=getReport(exception,'extended','hyperlinks','off');
-            end
-            fid=fopen(fullfile(folder,[name '.log']),'w','n','UTF-8');
-            assert(fid~=-1); fprintf(fid,'%s\n%s',output,result.error); fclose(fid);
-            results{j}=result;
-        end
-        service_pipeline_write_json(fullfile(folder,'unit_results.json'),results);
-        assert(failures==0,'libtr:pipeline:UnitFailures','%d of %d unit tests failed',failures,numel(tests));
-        metrics.total=numel(tests);
+        names=cellfun(@(name) name(1:end-2),{tests.name},'UniformOutput',false);
+        summary=run_unit_tests(folder,names);
+        assert(summary.failures==0,'libtr:pipeline:UnitFailures', ...
+            '%d of %d unit tests failed',summary.failures,summary.total);
+        metrics.total=summary.total;
     case 'mapping_integration'
         metrics=test_tis_ensemble(folder);
     case 'ensemble5000'
@@ -169,30 +140,6 @@ switch stage
         metrics.max_window=max(data.power);
         metrics.seed=1729;
         service_pipeline_write_json(fullfile(folder,'trajectory_metrics.json'),metrics);
-    case 'liveeditor'
-        sources=dir(fullfile(root,'docs','liveeditor','*_theory.m'));
-        results=cell(1,numel(sources)); failures=0;
-        for j=1:numel(sources)
-            source=fullfile(sources(j).folder,sources(j).name);
-            [~,name]=fileparts(source);
-            result=struct('name',name,'state','passed','error','');
-            try
-                issues=checkcode(source,'-id');
-                assert(isempty(issues),'libtr:pipeline:CodeAnalyzer','Code Analyzer reported %d issues',numel(issues));
-                export(source,fullfile(folder,[name '.pdf']), ...
-                    'Run',false,'HideCode',true,'OpenExportedFile',false);
-                pdf=dir(fullfile(folder,[name '.pdf'])); assert(pdf.bytes>0);
-            catch exception
-                result.state='failed'; failures=failures+1;
-                result.error=getReport(exception,'extended','hyperlinks','off');
-            end
-            results{j}=result;
-        end
-        service_pipeline_write_json(fullfile(folder,'liveeditor_results.json'),results);
-        assert(failures==0,'libtr:pipeline:LiveEditor','%d exports failed',failures);
-        metrics.exports=numel(sources);
-        metrics.executed=false;
-        metrics.visual_review='pending';
     otherwise
         error('libtr:pipeline:Action','Unknown stage');
 end

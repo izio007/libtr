@@ -1,83 +1,78 @@
-# MATLAB test pipeline
+# Запуск тестов
 
-Paths below are relative to the repository root.
+## В MATLAB: результат и открытые графики
 
-## Run tests
+Откройте каталог репозитория в MATLAB и выполните:
 
-Start the dedicated MATLAB host once using `tools/matlab/tcpserver5555.m`.
-Existing jobs and the queue belong to that process; routine tests reuse it.
+```matlab
+addpath('matlab');
+status = run_tests;
+```
 
-Use the same command for every registered suite:
+Можно открыть `matlab/run_tests.m` в редакторе и нажать **Run**. Для сохранения
+возвращаемого результата используйте вызов с `status` в Command Window.
+Python, TCP-сервер и JSON-конфигурация для этого не нужны.
+
+Функция выполняет все `matlab/tests/unit_test_*.m`, печатает результат каждого
+теста и общий итог. Ошибки не останавливают оставшиеся тесты. Затем она открывает
+лёгкие примеры filter2win: восемь сценариев с измерениями, окнами и статусами,
+а также два графика траектории и заполнения альтернативного окна.
+Фигуры остаются открытыми. Большие Monte Carlo эксперименты автоматически
+не запускаются после unit-тестов.
+
+```matlab
+status.unit.state             % 'passed' или 'failed' только для unit-тестов
+status.unit.failures          % число не прошедших тестов
+struct2table(status.unit.results)
+status.plots                  % выполнение двух графических примеров
+status.state                  % общий итог unit-тестов и примеров
+status.output_dir             % каталог отчёта, логов, MAT и PNG
+```
+
+Каждый запуск создаёт новую папку `runtime/matlab_tests/...`. В ней находятся
+`report.json`, `unit_results.json` и лог каждого теста. Проверки сохраняют свои
+assertions; недоступное оборудование, например GPU для GPU-тестов, даёт ошибку
+соответствующего теста, а не условный PASS. Статус графического примера отражает
+его выполнение и проверки; сами графики вы оцениваете визуально.
+
+Запуск не очищает workspace или globals и не закрывает ваши фигуры. Рабочий
+каталог, path и состояние RNG восстанавливаются; перед каждым unit-тестом
+устанавливается seed 1729. Общий исполнитель unit-тестов используется и MATLAB,
+и серверным запуском.
+
+## Из терминала
+
+Если удобнее работать из shell, один раз запустите **отдельную** MATLAB-сессию
+с `tools/matlab/tcpserver5555.m`, затем используйте прежние команды:
 
 ```sh
+tools/runner.sh matlab/tests/configs/all_unit_runner.json
 tools/runner.sh matlab/tests/configs/filter2win_runner.json
 tools/runner.sh matlab/tests/configs/filter2win_consumers_runner.json
 tools/runner.sh matlab/tests/configs/filter2win_integration_runner.json
-tools/runner.sh matlab/tests/configs/all_unit_runner.json
 ```
 
-`filter2win` executes settings, persistent/schema-3 and schema-2 leaf tests.
-Consumers execute the scenario, model and plot tests as separate stages.
-Integration executes kernel isolation followed by those three consumer tests.
-`all_unit` sends one broad unit request; MATLAB discovers `unit_test_*.m`.
-Python stops a suite at its first failed stage. The broad MATLAB unit request
-continues its discovered tests and records their failures.
+`all_unit` выполняет все unit-тесты и собирает ошибки. `filter2win` выполняет
+settings, persistent/schema-3 и schema-2; consumers — scenario, model и plot;
+integration добавляет к ним проверку изоляции. Python останавливает такую
+составную suite после первого неуспешного этапа.
 
-Python-only checks do not require MATLAB:
+Клиентский отчёт: `runtime/pipeline_runs/<id>/report.json`. В каждом этапе
+находятся статус, время, `value` и ошибка при наличии. MATLAB сохраняет отчёт,
+логи и данные в `runtime/pipeline/<job-id>`. Таймаут клиента не отменяет задание.
+
+Выделенный сервер очищает свою сессию перед заданием; для интерактивной работы
+с вашими переменными и фигурами используйте `run_tests`. Сервер работает
+последовательно на `127.0.0.1:5555`; отмена кооперативная между этапами.
+`pipeline_client.py` — внутренний клиент протокола. Служебные расчётные actions:
+`all`, `environment`, `unit`, `integration`, `mapping`, `mapping5000`.
+`all` выполняет environment, unit и integration. Экспорт документов к тестам
+не относится. Для остановки свободного сервера создайте
+`runtime/pipeline/stop-server` и удалите этот marker перед следующим стартом.
+
+Проверки самого Python runner не требуют MATLAB:
 
 ```sh
 tools/runner.sh matlab/tests/configs/pipeline_engine_runner.json
 tools/runner.sh matlab/tests/configs/runner_contract.json
 ```
-
-The JSON configuration contains `schema_version`, `suite` and `timeout_seconds`.
-Suite names are registered in `tools/pipeline/declarative_runner.py`.
-
-## Reports
-
-One client report is written to `runtime/pipeline_runs/<id>/report.json`.
-Each stage contains its state, duration and returned `value`. MATLAB values
-include the job ID, server report path and returned stage metrics. Failures
-contain their type, message and traceback. No separate result store is used.
-
-The server keeps `request.json`, `report.json`, logs and generated data inside
-`runtime/pipeline/<job-id>`. A passed job is execution evidence for those checks;
-it does not approve documents or establish correctness outside their scope.
-Reports survive client disconnection. Timeout does not cancel the MATLAB job.
-
-## Host and internal protocol
-
-`pipeline_client.py` is an internal transport/provenance client for explicit
-maintenance and live protocol checks. Routine users use `tools/runner.sh`.
-The server listens on `127.0.0.1:5555` and accepts UTF-8 JSON Lines.
-There is no network evaluation of MATLAB expressions.
-
-```json
-{"v":1,"op":"ping"}
-{"v":1,"op":"submit","id":"review_001","action":"unit","test":"unit_test_matmul3"}
-{"v":1,"op":"status","id":"review_001"}
-{"v":1,"op":"cancel","id":"review_001"}
-```
-
-Actions are `all`, `environment`, `unit`, `integration`, `documents`,
-`liveeditor`, `mapping` and `mapping5000`. `all` runs environment, unit and
-integration only. Integration computes its data and images together once;
-there is no separate `png` action. Documentation validation and Live Editor
-export are explicit maintenance actions, never part of ordinary test execution.
-Generated documentation must exist before those actions are requested.
-
-IDs match `[A-Za-z0-9][A-Za-z0-9_-]{0,63}`. The queue holds at most 16 waiting
-jobs. An identical ID/action/test/version returns the existing report;
-conflicting reuse is rejected. `ok` denotes protocol acceptance, not calculation
-success. Lifecycle states are queued, running, passed, failed, cancelled and
-interrupted. Cancellation is cooperative between stages.
-
-This is a serial MATLAB timer queue. A blocking operation can delay callbacks;
-there is no hard process deadline or forced interruption. Local users are
-trusted, and loopback binding is not authentication. The input-length check
-is performed after reception of a complete line.
-
-For an idle, deliberate shutdown, create `runtime/pipeline/stop-server`, wait
-for the owned host to exit and remove the marker before the next start. Do not
-replace an active host as part of testing or packaging. Restart marks unfinished
-reports interrupted and never automatically replays jobs.

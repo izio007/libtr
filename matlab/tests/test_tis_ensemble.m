@@ -17,9 +17,9 @@ sigma=0.015*pi/180; records={}; failures=0;
 for g=1:5
     posts=stations{g}; M=size(posts,2); variance=repmat(sigma^2,M,1);
     fig=figure('Visible','off'); closer=onCleanup(@() close(fig));
-    tiledlayout(fig,2,2);
+    layout=tiledlayout(fig,2,2);
     for m=1:4
-        ax=nexttile; hold(ax,'on'); grid(ax,'on');
+        ax=nexttile(layout,m); hold(ax,'on'); grid(ax,'on');
         view(ax,3);
         title(ax,sprintf('%s, geometry %d',func2str(methods{m}),g),'Interpreter','none');
         xlabel(ax,'East error (m)'); ylabel(ax,'North error (m)'); zlabel(ax,'Up error (m)');
@@ -64,7 +64,7 @@ for g=1:5
                 r.passed=false; r.validation_error=exception.message;
             end
             failures=failures+~r.passed; records{end+1}=r; %#ok<AGROW>
-            ax=nexttile(m); cloud=r.samples-truth;
+            ax=nexttile(layout,m); cloud=r.samples-truth;
             scatter3(ax,cloud(1,:),cloud(2,:),cloud(3,:),8,'.');
             mu=r.metrics.bias;
             plot3(ax,mu(1),mu(2),mu(3),'kx','MarkerSize',10);

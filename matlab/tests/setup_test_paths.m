@@ -3,5 +3,5 @@ function setup_test_paths
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 addpath(fullfile(root,'matlab','function'),fullfile(root,'matlab','engine'), ...
     fullfile(root,'matlab','tests','support'),fullfile(root,'tools','pipeline'), ...
-    fullfile(root,'tools','docs'),fullfile(root,'tools','matlab'));
+    fullfile(root,'tools','matlab'));
 end

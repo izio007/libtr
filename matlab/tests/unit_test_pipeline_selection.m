@@ -27,10 +27,22 @@ assert(rejected);
 folder=tempname(fullfile(root,'runtime')); mkdir(folder);
 cleanup=onCleanup(@() rmdir(folder,'s'));
 request=struct('id','selection_fixture','action','unit','test','unit_test_matmul3');
+% A direct dispatcher call must preserve an interactive MATLAB session.
+fig=figure('Visible','off');
+figureCleanup=onCleanup(@() closeOwnedFigure(fig));
+ax=axes('Parent',fig); line=plot(ax,[1 2],[3 4]);
+beforePath=path; beforeFolder=pwd; beforeRng=rng;
 report=service_pipeline_run(request,folder);
+assert(strcmp(beforePath,path) && strcmp(beforeFolder,pwd) && isequal(beforeRng,rng));
+assert(isgraphics(fig) && isgraphics(line));
+assert(isequal(line.XData,[1 2]) && isequal(line.YData,[3 4]));
 assert(strcmp(report.state,'passed') && numel(report.stages)==1);
 results=jsondecode(fileread(fullfile(folder,'unit_results.json')));
 assert(isscalar(results) && strcmp(results.name,request.test));
 assert(~isfile(fullfile(folder,'environment.log')));
 fprintf('Targeted unit selection: PASS\n');
+end
+
+function closeOwnedFigure(fig)
+if isgraphics(fig), close(fig); end
 end

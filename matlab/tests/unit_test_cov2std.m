@@ -107,7 +107,7 @@ ellipse_enu = V_enu * sqrt(D_enu) * circle_pts + lambda_target(1:2);
 
 fig=figure('Visible','off','Color', 'w', 'Name', 'ТИС Верификатор: Собственные полуоси и сечения эллипса');
 closer=onCleanup(@() close(fig));
-figure
+axes('Parent',fig);
 hold on; grid on;
 title('Абсолютная верификация длин и точек сечения в СК ENU');
 xlabel('Восток (East / X), метры'); ylabel('Север (North / Y), метры');

@@ -15,6 +15,7 @@
     {"path": "matlab/tests/setup_test_paths.m", "role": "path_setup"},
     {"path": "tools/pipeline/service_pipeline_server.m", "role": "server"},
     {"path": "tools/pipeline/service_pipeline_run.m", "role": "dispatcher"},
+    {"path": "matlab/tests/run_unit_tests.m", "role": "unit_executor"},
     {"path": "tools/pipeline/pipeline_client.py", "role": "client"},
     {"path": "tools/pipeline/engine.py", "role": "transport"},
     {"path": "tools/pipeline/provenance_attempt.py", "role": "collector"},
