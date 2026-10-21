@@ -1,8 +1,10 @@
-function summary = test_tis_ensemble(folder,N,enforceAcceptance)
+function summary = test_tis_ensemble(folder,N,enforceAcceptance,showFigures)
 setup_test_paths;
 % Five independent geometry families, persisted evidence before acceptance.
 if nargin<2, N=64; end
 if nargin<3, enforceAcceptance=true; end
+if nargin<4, showFigures=false; end
+validateattributes(showFigures,{'logical'},{'scalar'});
 validateattributes(N,{'double'},{'scalar','integer','>=',2});
 state=rng; cleanup=onCleanup(@() rng(state)); rng(1729,'twister');
 P=[-5000 5000 -5000 5000;-5000 -5000 5000 5000;0 0 0 0];
@@ -16,7 +18,9 @@ methods={@lls_position,@wlls_position,@gn_position,@gnp_position};
 sigma=0.015*pi/180; records={}; failures=0;
 for g=1:5
     posts=stations{g}; M=size(posts,2); variance=repmat(sigma^2,M,1);
-    fig=figure('Visible','off'); closer=onCleanup(@() close(fig));
+    fig=figure('Visible','off','Position',[80 80 1200 850], ...
+        'Name',sprintf('TIS integration: geometry %d',g),'NumberTitle','off');
+    closer=onCleanup(@() closeHidden(fig));
     layout=tiledlayout(fig,2,2);
     for m=1:4
         ax=nexttile(layout,m); hold(ax,'on'); grid(ax,'on');
@@ -64,7 +68,8 @@ for g=1:5
                 r.passed=false; r.validation_error=exception.message;
             end
             failures=failures+~r.passed; records{end+1}=r; %#ok<AGROW>
-            ax=nexttile(layout,m); cloud=r.samples-truth;
+            ax=nexttile(layout,m); valid=test_result_valid_mask(r);
+            cloud=r.samples(:,valid)-truth;
             scatter3(ax,cloud(1,:),cloud(2,:),cloud(3,:),8,'.');
             mu=r.metrics.bias;
             plot3(ax,mu(1),mu(2),mu(3),'kx','MarkerSize',10);
@@ -80,6 +85,7 @@ for g=1:5
         drawnow;
     end
     exportgraphics(fig,fullfile(folder,sprintf('tis_geometry_%d.png',g)));
+    if showFigures, set(fig,'Visible','on'); drawnow; end
     clear closer;
 end
 summary=struct('records',numel(records),'failures',failures,'seed',1729, ...
@@ -89,4 +95,8 @@ service_pipeline_write_json(fullfile(folder,'tis_ensemble.json'),struct('summary
 if enforceAcceptance
     assert(failures==0,'libtr:test:Ensemble','%d ensemble cases failed; see tis_ensemble.json',failures);
 end
+end
+
+function closeHidden(fig)
+if isgraphics(fig) && strcmp(get(fig,'Visible'),'off'), close(fig); end
 end

@@ -1,7 +1,7 @@
 function hash = service_pipeline_test_version(request,root)
 % Identity of the selected test source, not its transitive dependency closure.
 name=service_pipeline_select_test(request,root);
-assert(~isempty(name),'libtr:pipeline:Version','Version requires one unit test');
+assert(~isempty(name),'libtr:pipeline:Version','Version requires one selected test');
 file=fullfile(root,'matlab','tests',[name '.m']);
 fid=fopen(file,'rb'); assert(fid~=-1); cleanup=onCleanup(@() fclose(fid));
 bytes=fread(fid,Inf,'*uint8');

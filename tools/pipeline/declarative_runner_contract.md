@@ -12,7 +12,9 @@
   выполняет собственное discovery оставшихся `unit_test_*.m`.
 - `filter2win`: три самостоятельных этапа `settings`, `persistent`, `schema2`.
 - `filter2win_consumers`: самостоятельные проверки сценария, модели и графики.
-- `filter2win_integration`: изоляция ядра и три самостоятельных consumer-проверки.
+- `filter2win_integration`: один сквозной `integration_filter2win` через
+  `action=integration`; измерения → решатель → фильтр → сохранённые MAT/PNG.
+  В MATLAB Desktop тот же расчёт доступен через `run_tests('integration', {'filter2win'})`.
 - `pipeline_engine` и `runner_contract`: адресные Python-проверки без MATLAB.
 
 Порядок этапов задан в `SUITES`. Между этапами используется один срок;

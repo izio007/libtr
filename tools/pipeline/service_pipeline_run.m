@@ -114,32 +114,13 @@ switch stage
     case 'mapping_png'
         metrics=generate_tis_mapping_images(folder);
     case 'integration'
-        scenarios=tis_trajectory_scenarios;
-        if ~all(cellfun(@(cfg) isfile(fullfile(folder,tis_context_filename(cfg))),scenarios))
-            service_generate_static_context;
+        if isempty(selected)
+            metrics.context_images=integration_context(folder,false);
+            metrics.tis=integration_tis(folder,false);
+            metrics.filter2win=integration_filter2win(folder,false);
+        else
+            metrics=feval(selected,folder,false);
         end
-        metrics.context_images=generate_context_test_images(folder,folder);
-        assert(metrics.context_images.failures==0, ...
-            'libtr:pipeline:ContextImages','Context scenarios failed; see context_images.json');
-        metrics.tis=test_tis_ensemble(folder);
-        generate_filter2win_doc_images(folder);
-        data=load(fullfile(folder,'filter2win_doc_data.mat'));
-        assert(numel(data.t)==101 && all(diff(data.t)>0));
-        expectedMissing=data.t(:)>114 & data.t(:)<170;
-        assert(all(isnan(data.filtered(expectedMissing))), ...
-            'libtr:pipeline:Trajectory','Missing-data hold exceeded without NaN');
-        assert(all(isfinite(data.filtered(data.t(:)<30))), ...
-            'libtr:pipeline:Trajectory','Initial normal segment is not finite');
-        assert(~any(isinf(data.filtered)) && all(data.power>=0 & data.power<=20));
-        metrics.samples=numel(data.t);
-        valid=isfinite(data.filtered(:));
-        truth=data.truth(:);
-        metrics.rmse_finite=sqrt(mean((data.filtered(valid)-truth(valid)).^2));
-        metrics.finite_samples=sum(valid);
-        metrics.missing_samples=sum(~valid);
-        metrics.max_window=max(data.power);
-        metrics.seed=1729;
-        service_pipeline_write_json(fullfile(folder,'trajectory_metrics.json'),metrics);
     otherwise
         error('libtr:pipeline:Action','Unknown stage');
 end

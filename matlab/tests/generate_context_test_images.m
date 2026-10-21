@@ -1,9 +1,11 @@
-function summary = generate_context_test_images(contextFolder,folder)
+function summary = generate_context_test_images(contextFolder,folder,showFigures,scenarios)
 setup_test_paths;
 % Full trajectories and central-point ensembles from saved configurations.
+if nargin<3, showFigures=false; end
+validateattributes(showFigures,{'logical'},{'scalar'});
+if nargin<4, scenarios=tis_trajectory_scenarios; end
 state=rng; cleanup=onCleanup(@() rng(state));
 if ~isfolder(folder), mkdir(folder); end
-scenarios=tis_trajectory_scenarios;
 names=cellfun(@(cfg) erase(erase(tis_context_filename(cfg),'context_'),'.mat'), ...
     scenarios,'UniformOutput',false); reports={}; files={};
 for c=1:numel(names)
@@ -50,34 +52,41 @@ for c=1:numel(names)
             ensemble.metrics.failure_fraction==0 && ~any(ensemble.contract_violations) && mockStatus==0;
         stem=['context_' names{c} '_' method];
         save(fullfile(folder,[stem '.mat']),'trajectory','statuses','ensemble','report','pathResult');
-        fig=figure('Visible','off','Position',[100 100 1200 850]);
-        closer=onCleanup(@() close(fig)); tiledlayout(fig,2,2);
-        nexttile; plot3(truth(1,:),truth(2,:),truth(3,:),'k-', ...
+        fig=figure('Visible','off','Position',[100 100 1200 850], ...
+            'Name',['TIS integration: ' names{c} ' / ' method],'NumberTitle','off');
+        closer=onCleanup(@() closeHidden(fig));
+        layout=tiledlayout(fig,2,2);
+        ax=nexttile(layout,1);
+        plot3(ax,truth(1,:),truth(2,:),truth(3,:),'k-', ...
             trajectory(1,:),trajectory(2,:),trajectory(3,:),'.');
-        grid on; axis equal; title('Truth and estimated trajectory');
-        xlabel('East (m)'); ylabel('North (m)'); zlabel('Up (m)');
-        nexttile; plot(t,sqrt(sum((trajectory-truth).^2,1)));
-        grid on; xlabel('Normalized trajectory time'); ylabel('Single-sample error (m)');
-        title(sprintf('Trajectory failures: %d',report.trajectory_failures));
-        nexttile; cloud=ensemble.samples(:,ensembleValid)-truth(:,mid);
-        scatter3(cloud(1,:),cloud(2,:),cloud(3,:),4,'.'); hold on;
-        mu=ensemble.metrics.bias; plot3(mu(1),mu(2),mu(3),'rx','MarkerSize',12);
-        grid on; axis equal; xlabel('East error (m)'); ylabel('North error (m)'); zlabel('Up error (m)');
-        title('Central-point ensemble and empirical bias');
-        nexttile; bar(ensemble.metrics.semiaxes); ylabel('Empirical semiaxis (m)');
-        title(sprintf('RMSE %.3g m; failures %.2f%%',ensemble.metrics.rmse,100*ensemble.metrics.failure_fraction));
-        sgtitle(sprintf('%s / %s / N=%d / PASS=%d',names{c},method,N,report.passed),'Interpreter','none');
-        filename=[stem '.png']; exportgraphics(fig,fullfile(folder,filename)); clear closer;
+        grid(ax,'on'); axis(ax,'equal'); title(ax,'Truth and estimated trajectory');
+        xlabel(ax,'East (m)'); ylabel(ax,'North (m)'); zlabel(ax,'Up (m)');
+        legend(ax,'Truth','Estimate','Location','best');
+        ax=nexttile(layout,2);
+        errorNorm=sqrt(sum((trajectory-truth).^2,1)); errorNorm(~pathValid)=NaN;
+        plot(ax,t,errorNorm);
+        grid(ax,'on'); xlabel(ax,'Normalized trajectory parameter'); ylabel(ax,'Single-sample error (m)');
+        title(ax,sprintf('Trajectory failures: %d',report.trajectory_failures));
+        ax=nexttile(layout,3); cloud=ensemble.samples(:,ensembleValid)-truth(:,mid);
+        scatter3(ax,cloud(1,:),cloud(2,:),cloud(3,:),4,'.'); hold(ax,'on');
+        mu=ensemble.metrics.bias; plot3(ax,mu(1),mu(2),mu(3),'rx','MarkerSize',12);
+        grid(ax,'on'); axis(ax,'equal');
+        xlabel(ax,'East error (m)'); ylabel(ax,'North error (m)'); zlabel(ax,'Up error (m)');
+        title(ax,'Central-point ensemble and empirical bias');
+        ax=nexttile(layout,4); bar(ax,ensemble.metrics.semiaxes); ylabel(ax,'Empirical semiaxis (m)');
+        title(ax,sprintf('RMSE %.3g m; failures %.2f%%',ensemble.metrics.rmse,100*ensemble.metrics.failure_fraction));
+        title(layout,sprintf('%s / %s / N=%d / PASS=%d',names{c},method,N,report.passed),'Interpreter','none');
+        filename=[stem '.png']; exportgraphics(fig,fullfile(folder,filename));
+        if showFigures, set(fig,'Visible','on'); drawnow; end
+        clear closer;
         files{end+1}=filename; reports{end+1}=report; %#ok<AGROW>
     end
-end
-unit_test_cov2std(folder); unit_test_cov2std_3d(folder);
-files=[files {'tis_cov2std_2d.png','tis_cov2std_3d.png'}];
-for k=1:numel(files)
-    info=imfinfo(fullfile(folder,files{k}));
-    assert(strcmpi(info.Format,'png') && info.Width>0 && info.Height>0);
 end
 summary=struct('png_count',numel(files),'files',{files}, ...
     'failures',sum(cellfun(@(r) ~r.passed,reports)),'reports',{reports});
 service_pipeline_write_json(fullfile(folder,'context_images.json'),summary);
+end
+
+function closeHidden(fig)
+if isgraphics(fig) && strcmp(get(fig,'Visible'),'off'), close(fig); end
 end

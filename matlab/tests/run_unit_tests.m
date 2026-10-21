@@ -1,7 +1,8 @@
 function summary = run_unit_tests(folder,names)
 % Shared unit executor for MATLAB Desktop and the optional TCP host.
-% Failures are collected, never converted to passes. No session-wide reset.
+% Unit figures are hidden and only newly created figures are cleaned up.
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
+path(existingPath(path));
 if nargin<2
     files=dir(fullfile(root,'matlab','tests','unit_test_*.m'));
     names=cellfun(@(name) name(1:end-2),{files.name},'UniformOutput',false);
@@ -27,8 +28,12 @@ fprintf('Unit: %d passed, %d failed.\n',summary.total-failures,failures);
 end
 
 function [result,output]=runOne(root,folder,name)
-previous=pwd; oldpath=path; randomState=rng;
-cleanup=onCleanup(@() restore(previous,oldpath,randomState));
+previous=pwd; oldpath=existingPath(path); randomState=rng;
+visibility=get(groot,'DefaultFigureVisible');
+figuresBefore=findall(groot,'Type','figure');
+cleanup=onCleanup(@() restore(previous,oldpath,randomState,visibility,figuresBefore));
+path(oldpath);
+set(groot,'DefaultFigureVisible','off');
 addpath(fullfile(root,'matlab','tests'));
 setup_test_paths;
 cd(folder); rng(1729,'twister');
@@ -48,6 +53,16 @@ end
 result.seconds=toc(clock);
 end
 
-function restore(previous,oldpath,randomState)
-cd(previous); path(oldpath); rng(randomState);
+function restore(previous,oldpath,randomState,visibility,figuresBefore)
+cd(previous); path(existingPath(oldpath)); rng(randomState);
+set(groot,'DefaultFigureVisible',visibility);
+figuresNow=findall(groot,'Type','figure');
+for k=1:numel(figuresNow)
+    if ~any(figuresNow(k)==figuresBefore), delete(figuresNow(k)); end
+end
+end
+
+function value=existingPath(value)
+folders=strsplit(value,pathsep);
+value=strjoin(folders(cellfun(@isfolder,folders)),pathsep);
 end

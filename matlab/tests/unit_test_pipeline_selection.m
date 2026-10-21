@@ -4,6 +4,8 @@ root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 request=struct('action','unit','test','unit_test_matmul3');
 assert(strcmp(service_pipeline_select_test(request,root),request.test));
 assert(isempty(service_pipeline_select_test(struct('action','unit'),root)));
+integration=struct('action','integration','test','integration_filter2win');
+assert(strcmp(service_pipeline_select_test(integration,root),integration.test));
 for name={'../unit_test_matmul3','unit_test_absent_987654321','unit_test_matmul3.m',''}
     request.test=name{1};
     rejected=false;

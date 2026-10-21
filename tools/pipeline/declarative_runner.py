@@ -24,12 +24,7 @@ SUITES = {
     },
     'filter2win_candidate': 'unit_test_filter2win_candidate',
     'filter2win_isolation': 'unit_test_filter2win_isolation',
-    'filter2win_integration': {
-        'kernel': 'unit_test_filter2win_isolation',
-        'consumer_scenario': 'unit_test_filter_engine_scenario',
-        'consumer_model': 'unit_test_filter_model',
-        'consumer_plot': 'unit_test_filter_plot_path',
-    },
+    'filter2win_integration': 'integration_filter2win',
     'fifo_double': 'unit_test_fifo_double',
     'filter2win_demo': 'unit_test_filter2win_demo',
     'filter2win_consumers': {
@@ -86,7 +81,8 @@ def execute(config, test=None):
     host = exchange(dict(v=1, op='ping'), timeout=min(30, config['timeout_seconds']))
     if host.get('active') or host.get('queued'):
         raise RuntimeError('Server is busy; job was not submitted')
-    request = dict(v=1, op='submit', id=uuid.uuid4().hex, action='unit')
+    action = 'integration' if isinstance(name, str) and name.startswith('integration_') else 'unit'
+    request = dict(v=1, op='submit', id=uuid.uuid4().hex, action=action)
     if config['suite'] != 'all_unit':
         request['test'] = name
         request['test_sha256'] = hashlib.sha256((ROOT/'matlab/tests'/(name+'.m')).read_bytes()).hexdigest()

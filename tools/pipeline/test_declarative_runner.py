@@ -55,17 +55,26 @@ class ConfigTests(unittest.TestCase):
             self.assertEqual([stage['status'] for stage in pipeline.report['stages']],
                              ['PASS', 'FAILED', 'NOT_RUN'])
 
-    def test_integration_preserves_explicit_consumer_coverage(self):
+    def test_integration_runs_actual_end_to_end_test(self):
         config = dict(schema_version=1, suite='filter2win_integration', timeout_seconds=30)
-        stages = registered_stages(config)
-        self.assertEqual([name for name, _ in stages],
-                         ['kernel', 'consumer_scenario', 'consumer_model', 'consumer_plot'])
-        with patch('declarative_runner.execute', return_value=dict(executed=1)) as run:
-            for _, handler in stages:
-                handler()
-        self.assertEqual([call.kwargs['test'] for call in run.call_args_list],
-                         ['unit_test_filter2win_isolation', 'unit_test_filter_engine_scenario',
-                          'unit_test_filter_model', 'unit_test_filter_plot_path'])
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            source = root/'matlab/tests/integration_filter2win.m'
+            source.parent.mkdir(parents=True)
+            source.write_bytes(b'integration source')
+            response = dict(ok=True, report=dict(id='integration_job', state='passed',
+                stages=[dict(name='integration', state='passed', metrics=dict(failures=0))]))
+            with patch('declarative_runner.ROOT', root), \
+                    patch('declarative_runner.exchange', return_value={}), \
+                    patch('declarative_runner.run_job', return_value=response) as run:
+                stages = registered_stages(config)
+                self.assertEqual(len(stages), 1)
+                value = stages[0][1]()
+            request = run.call_args.args[0]
+            self.assertEqual(request['action'], 'integration')
+            self.assertEqual(request['test'], 'integration_filter2win')
+            self.assertEqual(request['test_sha256'], hashlib.sha256(source.read_bytes()).hexdigest())
+            self.assertEqual(value['executed'], 1)
 
     def test_common_deadline_does_not_start_expired_stage(self):
         config = dict(schema_version=1, suite='filter2win', timeout_seconds=10)

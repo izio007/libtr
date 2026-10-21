@@ -1,12 +1,20 @@
 function selected = service_pipeline_select_test(request, root)
-% Validate an optional explicit unit-test name, never a path or expression.
+% Explicit test names only; integrations have a small fixed allowlist.
 selected='';
 if ~isfield(request,'test'), return; end
-assert(strcmp(request.action,'unit') && ischar(request.test) && ...
-    isrow(request.test) && ...
-    ~isempty(regexp(request.test,'^unit_test_[A-Za-z0-9_]+$','once')), ...
+assert(ischar(request.test) && isrow(request.test), ...
     'libtr:pipeline:Test','Invalid test selection');
+switch request.action
+    case 'unit'
+        allowed=~isempty(regexp(request.test,'^unit_test_[A-Za-z0-9_]+$','once'));
+    case 'integration'
+        allowed=ismember(request.test, ...
+            {'integration_filter2win','integration_context','integration_tis'});
+    otherwise
+        allowed=false;
+end
+assert(allowed,'libtr:pipeline:Test','Invalid test selection');
 assert(isfile(fullfile(root,'matlab','tests',[request.test '.m'])), ...
-    'libtr:pipeline:Test','Unknown unit test');
+    'libtr:pipeline:Test','Unknown test');
 selected=request.test;
 end
