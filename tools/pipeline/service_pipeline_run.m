@@ -18,7 +18,7 @@ if isfield(request,'test_sha256')
 end
 service_pipeline_write_json(file,report);
 if strcmp(request.action,'all')
-    stages={'environment','unit','integration','png','documents','liveeditor'};
+    stages={'environment','unit','integration'};
 elseif strcmp(request.action,'mapping')
     stages={'mapping_unit','environment','mapping_integration','mapping_png'};
     report.visual_review='not_requested';
@@ -142,16 +142,14 @@ switch stage
         metrics=generate_tis_spectral_images(folder);
     case 'mapping_png'
         metrics=generate_tis_mapping_images(folder);
-    case {'integration','png'}
-        if strcmp(stage,'png')
-            scenarios=tis_trajectory_scenarios;
-            if ~all(cellfun(@(cfg) isfile(fullfile(folder,tis_context_filename(cfg))),scenarios))
-                service_generate_static_context;
-            end
-            metrics.context_images=generate_context_test_images(folder,folder);
-            assert(metrics.context_images.failures==0, ...
-                'libtr:pipeline:ContextImages','Context scenarios failed; see context_images.json');
+    case 'integration'
+        scenarios=tis_trajectory_scenarios;
+        if ~all(cellfun(@(cfg) isfile(fullfile(folder,tis_context_filename(cfg))),scenarios))
+            service_generate_static_context;
         end
+        metrics.context_images=generate_context_test_images(folder,folder);
+        assert(metrics.context_images.failures==0, ...
+            'libtr:pipeline:ContextImages','Context scenarios failed; see context_images.json');
         metrics.tis=test_tis_ensemble(folder);
         generate_filter2win_doc_images(folder);
         data=load(fullfile(folder,'filter2win_doc_data.mat'));

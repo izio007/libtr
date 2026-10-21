@@ -18,9 +18,5 @@ for k=1:numel(folders)
         assert(numel(which(name,'-all'))==1);
     end
 end
-unit_test_engine_isolation;
-unit_test_integration_independence;
-unit_test_ensemble_metrics;
-unit_test_graphical_experiments;
-fprintf('Clean test composition and four consumer regressions: PASS\n');
+fprintf('Clean test path composition and idempotence: PASS\n');
 end

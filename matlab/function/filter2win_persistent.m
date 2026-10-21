@@ -128,7 +128,7 @@ else
     event='OUTSIDE_BOTH';
 end
 g.event=event;
-[s,status,rule,blocked,checks]=select(s,c,g,t,missing);
+status=status_for_event(event);
 if status==14 && strcmp(event,'SWITCH_READY')
     duration=c.handover.duration_seconds;
     if g.route==1, duration=c.handover.return_duration_seconds; end
@@ -148,7 +148,7 @@ switch s.status
         output=held(before,v,t,hold); reason='COLLECTING_NOT_USED';
     case {2,13} % Current window or first ready model.
         s=commit(s,p,g.route,names); accepted=p.accepted;
-        if ~p.accepted || ~p.stats.ready, debug.reason='POLICY_REQUIRES_READY_PROPOSAL'; return; end
+        if ~p.accepted || ~p.stats.ready, debug.reason='STATE_REQUIRES_READY_PROPOSAL'; return; end
         switched=s.active~=g.route; s.active=g.route;
         s.last_accept(g.route)=t;
         output=predict(p.stats.model,t); reason='WINDOW_ACCEPTED';
@@ -156,20 +156,20 @@ switch s.status
     case 6 % Selection or end of a smooth transition. Never copy A into B.
         s=commit(s,p,g.route,names); accepted=p.accepted;
         if strcmp(event,'SWITCH_READY')
-            if ~p.accepted || ~p.stats.ready, debug.reason='POLICY_REQUIRES_READY_PROPOSAL'; return; end
+            if ~p.accepted || ~p.stats.ready, debug.reason='STATE_REQUIRES_READY_PROPOSAL'; return; end
             switched=s.active~=g.route; s.active=g.route; s.last_accept(g.route)=t;
             reason='READY_WINDOW_SELECTED';
         else
             reason='TRANSITION_COMPLETE';
             if accepted && g.route==s.active, s.last_accept(s.active)=t; end
         end
-        if s.active==0, debug.reason='POLICY_REQUIRES_ACTIVE_WINDOW'; return; end
+        if s.active==0, debug.reason='STATE_REQUIRES_ACTIVE_WINDOW'; return; end
         active=view(s.(names{s.active}),c.(names{s.active}));
         if active.ready, output=predict(active.model,t); end
         weight=1;
     case 14 % Interpolation is presentation only, never FIFO input.
         if strcmp(event,'SWITCH_READY')
-            if ~p.accepted || ~p.stats.ready || s.active==0, debug.reason='POLICY_REQUIRES_TWO_WINDOWS'; return; end
+            if ~p.accepted || ~p.stats.ready || s.active==0, debug.reason='STATE_REQUIRES_TWO_WINDOWS'; return; end
             from=held(before,v,t,hold);
             if ~isfinite(from), from=before.last_output; end
             s.blend_from=from; s.blend_start=t; s.blend_elapsed=0;
@@ -195,9 +195,9 @@ switch s.status
     case {0,8,12}
         reason='OUTPUT_UNAVAILABLE_MEMORY_RETAINED';
     case 15
-        % A policy may postpone selection, not discard accepted evidence.
+        % Timed waiting retains accepted candidate evidence.
         s=commit(s,p,g.route,names); accepted=p.accepted;
-        output=held(before,v,t,hold); reason='TRANSITION_POLICY_PENDING';
+        output=held(before,v,t,hold); reason='WAITING_FOR_SWITCH';
         if g.main_hold, reason='MAIN_PROLONGATION_ACTIVE'; end
     otherwise
         debug.reason='INVALID_DESTINATION'; return;
@@ -230,8 +230,8 @@ debug=struct('api_status',0,'schema_version',3,'reason',reason,'tact',s.tact,'ti
     'accepted',accepted,'reacquired',switched,'valid',isfinite(output),'output',output, ...
     'main_before',before.main.count,'main_count',s.main.count, ...
     'alt_before',before.alt.count,'alt_count',s.alt.count,'windows',after, ...
-    'removed',removed,'evicted',evicted,'rule',rule,'event',event, ...
-    'blocked_rules',{blocked},'rule_checks',checks,'blend_weight',weight,'guards',g);
+    'removed',removed,'evicted',evicted,'event',event, ...
+    'blend_weight',weight,'guards',g);
 ctx.FILTER_STATE=s; ctx.FILTER_STATUS=s.status; ctx.FILTER_VALID=isfinite(output);
 ctx.X_FILTERED_OUTPUT=output; ctx.W_ALT_POWER_OUTPUT=s.alt.count;
 ctx.ACCEPTED=accepted; ctx.REACQUIRED=switched; ctx.FILTER_DEBUG=debug;
@@ -247,8 +247,7 @@ s=struct('schema_version',3,'parameters',c,'main',a,'alt',b,'active',0, ...
     'primary',empty_model,'status',0,'status_since',t,'tact',0,'last_tick',-Inf, ...
     'last_input',-Inf,'last_accept',[-Inf -Inf],'last_supported',false,'last_output',NaN, ...
     'pending_window',0,'pending_since',NaN,'blend_from',NaN,'blend_start',NaN, ...
-    'blend_duration',0,'blend_elapsed',0, ...
-    'rule_since',NaN(1,numel(c.rules)),'rule_hits',zeros(1,numel(c.rules)));
+    'blend_duration',0,'blend_elapsed',0);
 end
 function m=empty_model
 m=filter2win_model(struct('time',[],'value',[]),'constant');
@@ -308,37 +307,29 @@ else
     output=predict(v(s.active).model,t);
 end
 end
-function [s,status,name,blocked,checks]=select(s,c,g,t,missing)
-status=15; name='NO_ELIGIBLE_RULE'; blocked={};
-checks=struct('metric',{},'actual',{},'operator',{},'threshold',{},'passed',{});
-priority=-Inf;
-for k=1:numel(c.rules)
-    r=c.rules(k); matches=r.enabled && (isempty(r.from) || ismember(s.status,r.from)) && ...
-        (strcmp(r.event,g.event) || strcmp(r.event,'FALLBACK'));
-    [passed,detail]=filter2win_rule_checks(r,g.metrics);
-    matches=matches && passed;
-    if matches
-        if isnan(s.rule_since(k)), s.rule_since(k)=t; end
-        s.rule_hits(k)=s.rule_hits(k)+1;
-        eligible=s.rule_hits(k)>=r.confirm_ticks && t-s.rule_since(k)>=r.confirm_seconds && ...
-            t-s.status_since>=r.min_dwell_seconds;
-        if eligible && r.priority>priority
-            status=r.to; name=r.name; priority=r.priority; checks=detail;
-        elseif ~eligible
-            blocked{end+1}=struct('name',r.name,'hits',s.rule_hits(k), ...
-                'required_hits',r.confirm_ticks,'seconds',t-s.rule_since(k), ...
-                'required_seconds',r.confirm_seconds,'dwell',t-s.status_since, ...
-                'required_dwell',r.min_dwell_seconds,'checks',detail); %#ok<AGROW>
-        end
-    elseif ~missing
-        s.rule_since(k)=NaN; s.rule_hits(k)=0;
-    end
+function status=status_for_event(event)
+% Fixed transition policy; hold/handover timing is evaluated above.
+switch event
+    case 'EMPTY_MISSING', status=0;
+    case 'WARMUP_MISSING', status=12;
+    case 'GAP_HOLD', status=7;
+    case 'GAP_EXPIRED', status=8;
+    case 'QUALITY_REJECT', status=5;
+    case 'OUTSIDE_BOTH', status=10;
+    case 'MAIN_ACCUMULATE', status=1;
+    case 'ALT_ACCUMULATE', status=4;
+    case 'INITIAL_READY', status=13;
+    case 'ACTIVE_ACCEPT', status=2;
+    case {'SWITCH_READY','BLEND_ACTIVE'}, status=14;
+    case 'OUTLIER_HOLD', status=3;
+    case 'WARMUP_REJECTED', status=11;
+    otherwise, status=15; % SWITCH_WAIT or no actionable event.
 end
 end
 function ok=valid_state(s,c)
 fields={'schema_version','parameters','main','alt','active','status','status_since','tact', ...
     'last_tick','last_input','last_accept','last_supported','last_output','pending_window', ...
-    'pending_since','blend_from','blend_start','blend_duration','blend_elapsed','rule_since','rule_hits'};
+    'pending_since','blend_from','blend_start','blend_duration','blend_elapsed'};
 ok=isstruct(s) && isscalar(s) && all(isfield(s,fields));
 if ~ok, return; end
 ok=isequal(s.schema_version,3) && isequaln(s.parameters,c) && integer(s.active,0,2) && ...
@@ -359,12 +350,6 @@ if ~isa(s.last_accept,'double') || ~isreal(s.last_accept) || ...
 if s.pending_window>0 && (~isfinite(s.pending_since) || s.pending_since>s.last_tick), ok=false; return; end
 if s.status==14 && (s.active==0 || ~finite(s.blend_from) || ...
         ~finite(s.blend_start) || s.blend_start>s.last_tick || s.blend_duration<=0), ok=false; return; end
-if ~isa(s.rule_hits,'double') || ~isreal(s.rule_hits) || ...
-        ~isequal(size(s.rule_hits),[1 numel(c.rules)]) || ...
-        any(~isfinite(s.rule_hits) | s.rule_hits<0 | s.rule_hits~=fix(s.rule_hits)) || ...
-        ~isa(s.rule_since,'double') || ~isreal(s.rule_since) || ...
-        ~isequal(size(s.rule_since),[1 numel(c.rules)]) || ...
-        any(~isnan(s.rule_since) & (~isfinite(s.rule_since) | s.rule_since>s.last_tick)), ok=false; return; end
 [a,~,~]=fifo_double('read',s.main); [b,~,~]=fifo_double('read',s.alt);
 ok=a==0 && b==0;
 if ~ok, return; end

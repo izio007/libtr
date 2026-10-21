@@ -1,3 +1,24 @@
-runtime/
+/runtime/
+/Release/
 __pycache__/
 *.py[cod]
+
+# Reproducible MATLAB outputs; source fixtures in matlab/tests/configs stay tracked.
+/matlab/isolated_filter2win/
+/matlab/filter_plot/
+/matlab/FILTER_STATUS_*.log
+/matlab/P0[1-8].png
+/matlab/P0[1-8].csv
+/matlab/context_*.mat
+/matlab/filter2win_*.mat
+/matlab/filter2win_consumer_trace.json
+/matlab/filter2win_system_checks.json
+/matlab/gpu_benchmark.json
+/matlab/gpu_environment.json
+/matlab/unit_tests_report.txt
+/matlab/tests/context_*.mat
+/matlab/tests/unit_tests_report.txt
+
+# Exported views; keep Markdown sources and MathJax assets.
+/docs/html/*.html
+/docs/liveeditor/*_theory.m

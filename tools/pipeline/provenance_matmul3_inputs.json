@@ -16,6 +16,7 @@
     {"path": "tools/pipeline/service_pipeline_server.m", "role": "server"},
     {"path": "tools/pipeline/service_pipeline_run.m", "role": "dispatcher"},
     {"path": "tools/pipeline/pipeline_client.py", "role": "client"},
+    {"path": "tools/pipeline/engine.py", "role": "transport"},
     {"path": "tools/pipeline/provenance_attempt.py", "role": "collector"},
     {"path": "tools/pipeline/provenance_snapshot.py", "role": "collector"},
     {"path": "tools/pipeline/provenance_contract.md", "role": "collector_contract"}

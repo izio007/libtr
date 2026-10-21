@@ -25,6 +25,5 @@ m=test_filter_init(bad,struct('X_MAIN_REF',spec.initial_reference), ...
 before=m.algorithm_state; m=test_model_step(m);
 assert(m.result.contract_violations && isequaln(before,m.algorithm_state));
 assert(contains(m.result.errors{1},'filter2win refused'));
-unit_test_stateful_model;
-fprintf('Scalar filter adapter, %d direct-state references and all lifecycles: PASS\n',numel(t));
+fprintf('Scalar filter adapter, %d direct-state references and atomic refusal: PASS\n',numel(t));
 end

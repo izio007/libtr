@@ -19,7 +19,5 @@ for k=1:numel(d.results)
         assert(isequaln(record.max_miss(k),max(sqrt(sum(e.^2,1)))));
     end
 end
-unit_test_result_validity;
-unit_test_context_engine;
-fprintf('Validity consumers and full reduced context generation PASS; %s\n',file);
+fprintf('Validity consumer masks and statistics PASS; %s\n',file);
 end

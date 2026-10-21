@@ -34,7 +34,6 @@ for mask={ones(1,5),true(1,4),true(5,5)}
     end
     assert(caught);
 end
-unit_test_graphical_experiments;
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 folder=tempname(fullfile(root,'runtime'));
 report=generate_tis_static_passport(folder,4,1,30000,'B');

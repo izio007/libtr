@@ -1,4 +1,4 @@
-"""Registered handlers and strict configuration for the pipeline engine."""
+"""Registered test suites for tools/runner.sh."""
 import contextlib
 import hashlib
 import io
@@ -10,20 +10,34 @@ import unittest
 import uuid
 
 from engine import Pipeline, exchange, run_job
-from result_store import validate
 
 ROOT = Path(__file__).resolve().parents[2]
-SUITES = {'matmul3': 'unit_test_matmul3', 'runner_contract': None,
-          'pipeline_engine': None,
-          'filter2win_package': 'unit_test_filter2win_package',
-          'filter2win': 'unit_test_filter2win',
-          'filter2win_candidate': 'unit_test_filter2win_candidate',
-          'filter2win_isolation': 'unit_test_filter2win_isolation',
-          'filter2win_integration': {'kernel': 'unit_test_filter2win_isolation',
-                                    'consumers': 'unit_test_filter_engine_scenario'},
-          'fifo_double': 'unit_test_fifo_double',
-          'filter2win_demo': 'unit_test_filter2win_demo',
-          'filter2win_consumers': 'unit_test_filter_engine_scenario'}
+SUITES = {
+    'all_unit': None,
+    'matmul3': 'unit_test_matmul3',
+    'runner_contract': None,
+    'pipeline_engine': None,
+    'filter2win': {
+        'settings': 'unit_test_filter2win_settings',
+        'persistent': 'unit_test_filter2win_persistent',
+        'schema2': 'unit_test_filter2win_schema2',
+    },
+    'filter2win_candidate': 'unit_test_filter2win_candidate',
+    'filter2win_isolation': 'unit_test_filter2win_isolation',
+    'filter2win_integration': {
+        'kernel': 'unit_test_filter2win_isolation',
+        'consumer_scenario': 'unit_test_filter_engine_scenario',
+        'consumer_model': 'unit_test_filter_model',
+        'consumer_plot': 'unit_test_filter_plot_path',
+    },
+    'fifo_double': 'unit_test_fifo_double',
+    'filter2win_demo': 'unit_test_filter2win_demo',
+    'filter2win_consumers': {
+        'scenario': 'unit_test_filter_engine_scenario',
+        'model': 'unit_test_filter_model',
+        'plot': 'unit_test_filter_plot_path',
+    },
+}
 
 
 def load_config(path, root=ROOT):
@@ -33,7 +47,7 @@ def load_config(path, root=ROOT):
     path = path.resolve()
     if not path.is_relative_to((root / 'matlab/tests/configs').resolve()):
         raise ValueError('Configuration must be inside matlab/tests/configs')
-    raw = path.read_bytes()
+
     def unique(pairs):
         result = {}
         for key, value in pairs:
@@ -41,10 +55,11 @@ def load_config(path, root=ROOT):
                 raise ValueError('Duplicate configuration key: ' + key)
             result[key] = value
         return result
-    config = json.loads(raw, object_pairs_hook=unique)
+
+    config = json.loads(path.read_bytes(), object_pairs_hook=unique)
     required = {'schema_version', 'suite', 'timeout_seconds'}
-    if not isinstance(config, dict) or not required <= set(config) or set(config) - required - {'expectations'}:
-        raise ValueError('Unexpected configuration fields')
+    if not isinstance(config, dict) or set(config) != required:
+        raise ValueError('Expected schema_version, suite and timeout_seconds only')
     if type(config['schema_version']) is not int or config['schema_version'] != 1:
         raise ValueError('Unsupported schema')
     if not isinstance(config['suite'], str) or config['suite'] not in SUITES:
@@ -52,53 +67,61 @@ def load_config(path, root=ROOT):
     timeout = config['timeout_seconds']
     if type(timeout) is not int or not 1 <= timeout <= 3600:
         raise ValueError('Invalid transport timeout')
-    validate(config.get('expectations', {}))
-    selected = SUITES[config['suite']]
-    stage_names = set(selected) if isinstance(selected, dict) else {config['suite']}
-    if set(config.get('expectations', {})) - stage_names:
-        raise ValueError('Expectation for unknown suite stage')
-    return config, hashlib.sha256(raw).hexdigest()
+    return config
 
 
 def execute(config, test=None):
     if config['suite'] in ('runner_contract', 'pipeline_engine'):
-        patterns = ('test_engine.py', 'test_provenance_attempt.py') if config['suite'] == 'pipeline_engine' else ('test_declarative_runner.py',)
-        suite = unittest.TestSuite(unittest.defaultTestLoader.discover(
-            str(ROOT / 'tools/pipeline'), pattern=pattern) for pattern in patterns)
+        pattern = 'test_engine.py' if config['suite'] == 'pipeline_engine' else 'test_declarative_runner.py'
+        suite = unittest.defaultTestLoader.discover(str(ROOT / 'tools/pipeline'), pattern=pattern)
         output = io.StringIO()
         with contextlib.redirect_stdout(output), contextlib.redirect_stderr(output):
             result = unittest.TextTestRunner(stream=output, failfast=True).run(suite)
         if not result.wasSuccessful():
             raise RuntimeError(output.getvalue())
-        return result.testsRun
+        return dict(executed=result.testsRun)
+
     name = test or SUITES[config['suite']]
+    deadline = time.monotonic() + config['timeout_seconds']
     host = exchange(dict(v=1, op='ping'), timeout=min(30, config['timeout_seconds']))
     if host.get('active') or host.get('queued'):
         raise RuntimeError('Server is busy; job was not submitted')
-    request = dict(v=1, op='submit', id=uuid.uuid4().hex, action='unit', test=name,
-                   test_sha256=hashlib.sha256((ROOT/'matlab/tests'/(name+'.m')).read_bytes()).hexdigest())
-    response = run_job(request, timeout=config['timeout_seconds'], transport=exchange)
-    if response['report']['state'] != 'passed':
+    request = dict(v=1, op='submit', id=uuid.uuid4().hex, action='unit')
+    if config['suite'] != 'all_unit':
+        request['test'] = name
+        request['test_sha256'] = hashlib.sha256((ROOT/'matlab/tests'/(name+'.m')).read_bytes()).hexdigest()
+    remaining = deadline - time.monotonic()
+    if remaining <= 0:
+        raise TimeoutError('Deadline exceeded before stage submission')
+    response = run_job(request, timeout=remaining, transport=exchange)
+    report = response['report']
+    if report['state'] != 'passed':
         raise RuntimeError(json.dumps(response, ensure_ascii=False))
-    if test is not None:
-        job = response['report']['id']
-        return dict(executed=1, job_id=job,
-                    report_path=str(ROOT/'runtime/pipeline'/job/'report.json'))
-    # Count the selected suite check, not its unreported internal assertions.
-    return 1
+    job = report['id']
+    executed = 1
+    if config['suite'] == 'all_unit':
+        unit = next((stage for stage in report.get('stages', []) if stage['name'] == 'unit'), None)
+        executed = unit.get('metrics', {}).get('total') if unit else None
+        if type(executed) is not int or executed < 1:
+            raise RuntimeError('MATLAB unit report did not provide a positive executed count')
+    # These are actual returned stages, not reconstructed numerical results.
+    return dict(executed=executed, job_id=job,
+                report_path=str(ROOT/'runtime/pipeline'/job/'report.json'),
+                stages=report.get('stages', []))
 
 
 def registered_stages(config):
     selected = SUITES[config['suite']]
-    if not isinstance(selected, dict):
-        return [(config['suite'], lambda: execute(config))]
+    tests = selected if isinstance(selected, dict) else {config['suite']: selected}
     deadline = time.monotonic() + config['timeout_seconds']
+
     def run(test):
-        remaining = int(deadline - time.monotonic())
-        if remaining < 1:
-            raise TimeoutError('Integration deadline exceeded before stage submission')
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise TimeoutError('Suite deadline exceeded before stage submission')
         return execute(dict(config, timeout_seconds=remaining), test=test)
-    return [(name, lambda test=test: run(test)) for name, test in selected.items()]
+
+    return [(name, lambda test=test: run(test)) for name, test in tests.items()]
 
 
 def main():
@@ -106,18 +129,16 @@ def main():
     try:
         if len(sys.argv) != 2:
             raise ValueError('Expected one configuration path')
-        config, config_hash = load_config(sys.argv[1])
-        pipeline = Pipeline(ROOT, config, config_hash)
+        config = load_config(sys.argv[1])
+        pipeline = Pipeline(ROOT, config)
         report = pipeline.run(registered_stages(config))
-        results = [json.loads(Path(stage['result_ref']['path']).read_text(encoding='utf-8'))
-                   for stage in report['stages']]
-        total = sum(value['executed'] if isinstance(value, dict) else value for value in results)
+        total = sum(stage['value']['executed'] for stage in report['stages'])
         print(f'[SUITE PASS] Executed {total}/{total} checks successfully. Execution time: {time.monotonic()-start:.2f}s.')
         return 0
     except Exception as error:
         print(json.dumps(dict(status='FAILED', test_id='declarative_runner',
-            location=None, condition=None, failure_reason=str(error), expected='Completed registered suite',
-            actual=type(error).__name__, memory_snapshot=None), ensure_ascii=False))
+                              error_type=type(error).__name__, failure_reason=str(error)),
+                         ensure_ascii=False))
         return 1
 
 

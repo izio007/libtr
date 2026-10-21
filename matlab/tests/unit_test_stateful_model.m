@@ -24,8 +24,7 @@ try
 catch e
     assert(strcmp(e.identifier,'libtr:testmodel:State'));
 end
-unit_test_trajectory_model;
-fprintf('Stateful execution, commit rules and previous lifecycles: PASS\n');
+fprintf('Stateful execution, atomic commits and continuation: PASS\n');
 end
 function [status,x,next]=step(state,frame)
 assert(~isfield(frame,'truth') && isequal(frame.P,zeros(3,2)));

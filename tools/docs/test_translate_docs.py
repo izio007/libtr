@@ -1,5 +1,8 @@
-"""Run directly beside translate_docs.py; no working-directory dependency."""
+"""Translator unit tests using temporary fixtures, not project-passport acceptance."""
+import base64
+import contextlib
 import html
+import io
 import re
 import tempfile
 import unittest
@@ -9,7 +12,31 @@ sys.dont_write_bytecode = True
 import translate_docs as tr
 
 
+FIXTURE_MARKDOWN = '# Пример $x_i$\n\nТекст $x_i < 2$ и значение $x_i$.\n$$A = \\begin{bmatrix} a_{11} & a_{12} \\\\ a_{21} & a_{22} \\end{bmatrix}$$\n$$f(x) = \\begin{cases} 0 & x < 0 \\\\ 1 & x \\ge 0 \\end{cases}$$\n\n| Величина | Определение |\n| --- | --- |\n| Норма | $\\Vert x\\Vert$ |\n\n```matlab\nx = [1, 2];\ny = x(1) < x(2);\n```\n\n[image: fixture.png]\n'
+
+# A transparent 1 x 1 PNG, independent of calculation artifacts.
+FIXTURE_PNG = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8AAAAASUVORK5CYII='
+
+
 class TranslationTests(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.addCleanup(setattr, tr, 'ROOT', tr.ROOT)
+        self.addCleanup(setattr, tr, 'DOCS', tr.DOCS)
+        tr.ROOT = Path(temporary.name)
+        tr.DOCS = tr.ROOT / 'docs'
+        tr.DOCS.mkdir()
+        (tr.ROOT / 'runtime').mkdir()
+        self.source = tr.DOCS / 'fixture_theory.md'
+        self.source.write_text(FIXTURE_MARKDOWN, encoding='utf-8')
+        (tr.ROOT / 'runtime' / 'fixture.png').write_bytes(base64.b64decode(FIXTURE_PNG))
+        self.page = tr.DOCS / 'html' / 'fixture.html'
+        self.live = tr.DOCS / 'liveeditor' / 'fixture_theory.m'
+        # build must work without pre-existing generated-output directories.
+        with contextlib.redirect_stdout(io.StringIO()):
+            tr.build(self.source)
+
     def test_matrix_preserved(self):
         source = r'$$A=\begin{bmatrix}a&b\\c&d\end{bmatrix}$$'
         result = tr.live_math(tr.TOKEN.search(source))
@@ -23,18 +50,17 @@ class TranslationTests(unittest.TestCase):
         self.assertNotIn('operatorname', result)
         self.assertIn(r'\\mathrm{rcond}', result)
 
-    def test_generated_matrix_structure_entire_package(self):
+    def test_fixture_generated_matrix_structure(self):
+        live = self.live.read_text(encoding='utf-8')
         checked = 0
-        for source in tr.DOCS.glob('*_theory.md'):
-            live = (tr.DOCS/'liveeditor'/f'{source.stem}.m').read_text(encoding='utf-8')
-            for token in tr.TOKEN.finditer(source.read_text(encoding='utf-8-sig')):
-                if r'\begin{bmatrix}' in token[0] or r'\begin{cases}' in token[0]:
-                    rendered = tr.live_math(token)
-                    self.assertIn(rendered, live, source.name)
-                    self.assertEqual(rendered.count('&'), token[0].count('&'))
-                    self.assertEqual(rendered.count('\\\\\\\\'), token[0].count('\\\\'))
-                    checked += 1
-        self.assertGreater(checked, 0)
+        for token in tr.TOKEN.finditer(FIXTURE_MARKDOWN):
+            if r'\begin{bmatrix}' in token[0] or r'\begin{cases}' in token[0]:
+                rendered = tr.live_math(token)
+                self.assertIn(rendered, live)
+                self.assertEqual(rendered.count('&'), token[0].count('&'))
+                self.assertEqual(rendered.count('\\' * 4), token[0].count('\\' * 2))
+                checked += 1
+        self.assertEqual(checked, 2)
 
     def test_unmarked_mathematics_rejected(self):
         for text in [r'Вектор \mathbf{q}', "if rcond(J'*J) < 1e-16"]:
@@ -42,11 +68,11 @@ class TranslationTests(unittest.TestCase):
                 tr.validate_prose(text)
         tr.validate_prose(r'Вектор $\mathbf{q}$ и `C:\temp`')
 
-    def test_section_headers_contain_no_tex(self):
-        for path in (tr.DOCS/'liveeditor').glob('*_theory.m'):
-            for line in path.read_text(encoding='utf-8').splitlines():
-                if line.startswith('%%'):
-                    self.assertEqual(line, '%%')
+    def test_fixture_section_headers_contain_no_tex(self):
+        headers = [line for line in self.live.read_text(encoding='utf-8').splitlines()
+                   if line.startswith('%%')]
+        self.assertTrue(headers)
+        self.assertTrue(all(line == '%%' for line in headers))
 
     def test_formula_encoding(self):
         result = tr.inline(r'Текст $x_i < 2$ и `A*B`, $$\sum_{i=1}^n x_i$$')
@@ -55,33 +81,32 @@ class TranslationTests(unittest.TestCase):
         self.assertNotIn(r'\\sum', result)
         self.assertIn('<code>A*B</code>', result)
 
-    def test_sources_and_outputs(self):
-        for source in sorted(tr.DOCS.glob('*_theory.md')):
-            with self.subTest(source=source.name):
-                text = source.read_text(encoding='utf-8-sig')
-                code = False
-                for line in text.splitlines():
-                    if line.startswith('```'):
-                        code = not code
-                    elif not code:
-                        tr.validate_prose(line, source)
-                name = source.stem.removesuffix('_theory')
-                page = (tr.DOCS/'html'/f'{name}.html').read_text(encoding='utf-8')
-                expected = []
-                for token in tr.TOKEN.findall(text):
-                    if token.startswith('$'):
-                        n = 2 if token.startswith('$$') else 1
-                        expected.append(token[n:-n])
-                actual = re.findall(r'class="math">\\[\[(](.*?)\\[\])]</(?:div|span)>', page)
-                self.assertEqual(expected, [html.unescape(x) for x in actual])
-                self.assertNotRegex(text, r'[┌┐└┘│─]|[•_x]{5,}')
-                for filename in re.findall(r'^\[image: (.*?)\]$', text, re.M):
-                    self.assertIn(f'src="../../runtime/{filename}"', page)
-                    self.assertEqual((tr.ROOT/'runtime'/filename).read_bytes()[:8], b'\x89PNG\r\n\x1a\n')
-                live = (tr.DOCS/'liveeditor'/f'{name}_theory.m').read_text(encoding='utf-8')
-                self.assertNotIn('%[output:', live)
-                self.assertNotIn('&dollar&', live)
-                self.assertNotIn('data:image', live)
+    def test_fixture_sources_and_outputs(self):
+        # This checks translation of a controlled fixture, not real passports.
+        text = self.source.read_text(encoding='utf-8')
+        page = self.page.read_text(encoding='utf-8')
+        expected = []
+        for token in tr.TOKEN.findall(text):
+            if token.startswith('$'):
+                n = 2 if token.startswith('$$') else 1
+                expected.append(token[n:-n])
+        actual = re.findall(r'class="math">\\[\[(](.*?)\\[\])]</(?:div|span)>', page)
+        self.assertEqual(expected, [html.unescape(x) for x in actual])
+        self.assertIn('<table>', page)
+        self.assertIn('<td>Норма</td>', page)
+        self.assertIn('<pre><code>', page)
+        self.assertIn('x = [1, 2];', page)
+        self.assertIn('y = x(1) &lt; x(2);', page)
+        self.assertIn('src="../../runtime/fixture.png"', page)
+        self.assertEqual((tr.ROOT / 'runtime' / 'fixture.png').read_bytes()[:8],
+                         b'\x89PNG\r\n\x1a\n')
+        live = self.live.read_text(encoding='utf-8')
+        self.assertIn('x = [1, 2];', live)
+        self.assertIn('y = x(1) < x(2);', live)
+        self.assertIn('%[text] ![fixture.png](../../runtime/fixture.png)', live)
+        self.assertNotIn('%[output:', live)
+        self.assertNotIn('&dollar&', live)
+        self.assertNotIn('data:image', live)
 
     def test_reject_pseudographics(self):
         with tempfile.TemporaryDirectory() as tmp:

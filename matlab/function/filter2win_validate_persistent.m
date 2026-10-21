@@ -1,7 +1,7 @@
 function [ok,reason]=filter2win_validate_persistent(c)
 % Schema 3: persistent physical FIFOs, transactional robust admission.
 ok=false; reason='INVALID_CONFIGURATION';
-if ~object(c,{'schema_version','main','alt','flow','handover','rules'}) || ...
+if ~object(c,{'schema_version','main','alt','flow','handover'}) || ...
         ~integer(c.schema_version,3) || c.schema_version~=3, return; end
 for name={'main','alt'}
     w=c.(name{1});
@@ -34,35 +34,6 @@ for f={'wait_seconds','return_wait_seconds','duration_seconds','return_duration_
     if ~nonnegative(h.(f{1}),false), return; end
 end
 if ~choice(h.curve,{'linear','smoothstep'}) || ~choice(h.on_missing,{'pause','continue','cancel'}), return; end
-events={'EMPTY_MISSING','WARMUP_MISSING','GAP_HOLD','GAP_EXPIRED','QUALITY_REJECT', ...
-    'OUTSIDE_BOTH','WARMUP_REJECTED','MAIN_ACCUMULATE','ALT_ACCUMULATE','INITIAL_READY', ...
-    'ACTIVE_ACCEPT','SWITCH_READY','SWITCH_WAIT','BLEND_ACTIVE','OUTLIER_HOLD','FALLBACK'};
-dest={0,12,7,8,5,10,11,1,4,13,2,[6 14],15,14,3,15};
-modes=[0:8 10:15];
-r=c.rules;
-fields={'name','event','from','to','enabled','priority','min_dwell_seconds', ...
-    'confirm_ticks','confirm_seconds','combine','conditions'};
-if ~isstruct(r) || isempty(r) || ~isvector(r) || ~all(isfield(r,fields)), return; end
-metrics={'count','span','mad','range','abs_velocity','residual_abs','age','wait_elapsed','blend_elapsed'};
-for k=1:numel(r)
-    a=r(k);
-    if ~choice(a.event,events) || ~ischar(a.name) || ~isrow(a.name) || isempty(a.name) || ...
-            ~integer(a.to,0) || ~ismember(a.to,[dest{strcmp(a.event,events)} 15]) || ...
-            ~boolean(a.enabled) || ~number(a.priority,false) || ...
-            ~nonnegative(a.min_dwell_seconds,false) || ~integer(a.confirm_ticks,1) || ...
-            ~nonnegative(a.confirm_seconds,false) || ~choice(a.combine,{'ALL','ANY'}) || ...
-            ~isa(a.from,'double') || ~isreal(a.from) || (~isempty(a.from) && ~isvector(a.from)) || ...
-            any(~ismember(a.from,modes)), return; end
-    q=a.conditions;
-    if ~isempty(q)
-        if ~isstruct(q) || ~isvector(q) || ~all(isfield(q,{'metric','operator','value'})), return; end
-        for j=1:numel(q)
-            if ~choice(q(j).metric,metrics) || ~choice(q(j).operator,{'lt','le','gt','ge','eq'}) || ...
-                    ~number(q(j).value,true), return; end
-        end
-    end
-end
-if numel(unique({r.name}))~=numel(r) || numel(unique([r.priority]))~=numel(r), return; end
 ok=true; reason='';
 end
 function ok=object(x,fields)
@@ -79,9 +50,6 @@ ok=number(x,false) && x>0;
 end
 function ok=integer(x,minimum)
 ok=number(x,false) && x>=minimum && x==fix(x);
-end
-function ok=boolean(x)
-ok=(islogical(x) || isa(x,'double')) && isreal(x) && isscalar(x) && ismember(x,[0 1]);
 end
 function ok=choice(x,values)
 ok=ischar(x) && isrow(x) && any(strcmp(x,values));

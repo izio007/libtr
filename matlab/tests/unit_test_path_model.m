@@ -34,8 +34,7 @@ try
 catch e
     assert(~strcmp(e.identifier,'libtr:test:MissingValidation'));
 end
-unit_test_filter_model;
-fprintf('Geometric path: near/far, four methods, refusal and lifecycle regressions PASS\n');
+fprintf('Geometric path: near/far, four methods, refusal and input validation PASS\n');
 end
 function [s,x]=refuse(varargin)
 s=2; x=NaN(3,1);

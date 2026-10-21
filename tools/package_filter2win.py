@@ -1,209 +1,103 @@
-"""Build an explicit, versioned filter2win source candidate, never a false release."""
+"""Create a filter2win ZIP from source files. Does not run MATLAB or exporters."""
 import argparse
-import hashlib
-import importlib.util
-import json
 from pathlib import Path
 import re
-import shutil
-import subprocess
-import sys
-import zipfile
+from zipfile import ZIP_DEFLATED, ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
-PRODUCTION = (
-    'fifo_double', 'filter2win', 'filter2win_band', 'filter2win_features',
-    'filter2win_model', 'filter2win_rule_checks', 'filter2win_status_name',
-    'filter2win_validate', 'filter2win_persistent', 'filter2win_validate_persistent', 'filter2win_settings',
-)
 FILES = (
-    'matlab/function/filter2win_settings.m',
-    'matlab/tests/unit_test_filter2win_settings.m',
-    'matlab/tests/configs/filter2win_expanded_reference.json',
-    'matlab/tests/configs/filter2win_observation_reference.json',
-    'matlab/tests/configs/filter2win_observation_filter.json',
-
-    'matlab/function/filter2win_persistent.m',
-    'matlab/function/filter2win_validate_persistent.m',
-    'matlab/tests/support/filter2win_debug_persistent.m',
-    'matlab/tests/support/filter2win_persistent_run.m',
-    'matlab/tests/unit_test_filter2win_persistent.m',
-    'matlab/tests/unit_test_filter2win_schema2.m',
-    'matlab/tests/configs/filter2win_schema2_config.json',
-    'matlab/tests/configs/filter2win_schema3_cases.json',
-    'matlab/tests/configs/filter2win_optimizer_experiments.json',
-    'docs/filter2win_schema2_theory.md',
-    'matlab/tests/support/filter2win_system_run.m',
-    'matlab/tests/configs/filter2win_system.json',
-    'matlab/function/filter2win.m',
-    'matlab/function/fifo_double.m',
-    'matlab/function/filter2win_band.m',
-    'matlab/function/filter2win_features.m',
-    'matlab/function/filter2win_model.m',
-    'matlab/function/filter2win_rule_checks.m',
-    'matlab/function/filter2win_status_name.m',
-    'matlab/function/filter2win_validate.m',
-    'matlab/tests/support/filter2win_config.m',
-    'matlab/tests/support/filter2win_debug_line.m',
-    'matlab/tests/demo_filter2win.m',
-    'matlab/tests/unit_test_filter2win_candidate.m',
-    'matlab/tests/unit_test_filter2win_demo.m',
-    'matlab/tests/configs/filter2win_config.json',
-    'matlab/tests/configs/filter2win_cases.json',
-    'matlab/tests/configs/filter2win_schema2_cases.json',
-    'matlab/tests/configs/filter2win_demo_scenario.json',
-    'matlab/tests/unit_test_filter2win.m',
-    'matlab/tests/unit_test_fifo_double.m',
-    'matlab/tests/configs/fifo_double_cases.json',
-    'matlab/tests/configs/filter2win_package_case.json',
-    'matlab/tests/run_filter2win_package.m',
-    'tools/matlab/filter2win_package_host.m',
-    'tools/filter2win_package_runner.py',
-    'tools/pipeline/engine.py',
-    'tools/pipeline/result_store.py',
-    'docs/filter2win_theory.md',
-    'docs/fifo_double_theory.md',
+    "matlab/function/fifo_double.m",
+    "matlab/function/filter2win.m",
+    "matlab/function/filter2win_band.m",
+    "matlab/function/filter2win_features.m",
+    "matlab/function/filter2win_model.m",
+    "matlab/function/filter2win_persistent.m",
+    "matlab/function/filter2win_settings.m",
+    "matlab/function/filter2win_status_name.m",
+    "matlab/function/filter2win_validate.m",
+    "matlab/function/filter2win_validate_persistent.m",
+    "matlab/tests/unit_test_fifo_double.m",
+    "matlab/tests/unit_test_filter2win_settings.m",
+    "matlab/tests/unit_test_filter2win_persistent.m",
+    "matlab/tests/unit_test_filter2win_schema2.m",
+    "matlab/tests/unit_test_filter2win_candidate.m",
+    "matlab/tests/support/filter2win_config.m",
+    "matlab/tests/support/filter2win_debug_line.m",
+    "matlab/tests/support/filter2win_debug_persistent.m",
+    "matlab/tests/configs/fifo_double_cases.json",
+    "matlab/tests/configs/filter2win_config.json",
+    "matlab/tests/configs/filter2win_expanded_reference.json",
+    "matlab/tests/configs/filter2win_observation_filter.json",
+    "matlab/tests/configs/filter2win_observation_reference.json",
+    "matlab/tests/configs/filter2win_schema3_cases.json",
+    "matlab/tests/configs/filter2win_schema2_config.json",
+    "matlab/tests/configs/filter2win_schema2_cases.json",
+    "matlab/tests/configs/filter2win_cases.json",
+    "docs/fifo_double_theory.md",
+    "docs/filter2win_theory.md",
+    "docs/filter2win_schema2_theory.md",
 )
 
+README = """# filter2win {version}
 
-def digest(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+Исходники MATLAB, конфигурации, обычные тесты и описание алгоритма в Markdown.
+Версия пакета указана в VERSION. Исходные файлы упакованы без изменений.
 
+## Использование
 
-def write_json(path, value):
-    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+Откройте MATLAB в корне распакованного каталога:
 
+    addpath('matlab/function');
+    profile = jsondecode(fileread('matlab/tests/configs/filter2win_config.json'));
+    cfg = filter2win_settings(profile);
+    ctx = struct();
+    [rc, ctx] = filter2win(cfg, ctx, 0, 1, false);
 
-def build(version, destination):
-    """Keep source bytes traceable and all outputs inside a new destination."""
-    if not re.fullmatch(r'\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?', version):
-        raise ValueError('Expected a semantic version')
-    destination.mkdir(parents=True, exist_ok=False)
-    package = destination / ('filter2win-' + version)
-    package.mkdir()
-    origins = {}
-    for relative in FILES:
-        source = ROOT / relative
-        target = package / relative
-        target.parent.mkdir(parents=True, exist_ok=True)
-        text = source.read_text(encoding='utf-8')
-        if source.suffix == '.m':
-            text = f'% filter2win package version: {version}\n' + text
-        elif source.suffix == '.md':
-            text = f'<!-- filter2win package version: {version} -->\n' + text
-        elif source.suffix == '.py':
-            text = f'# filter2win package version: {version}\n' + text
-        # Test JSON has an existing schema; version is in the manifest.
-        target.write_text(text, encoding='utf-8')
-        origins[relative] = digest(source)
+Состояние ctx передаётся в следующий вызов. Время последующих измерений должно
+увеличиваться. Готовность выхода показывает ctx.FILTER_VALID.
+Описание входов и настроек: docs/filter2win_theory.md.
 
-    case_file = package / 'matlab/tests/configs/filter2win_package_case.json'
-    case = json.loads(case_file.read_text(encoding='utf-8'))
-    case['package_version'] = version
-    case.pop('package_relative_root', None)
-    write_json(case_file, case)
-    write_json(package / 'matlab/tests/configs/package_runner.json', {
-        'schema_version': 1, 'suite': 'filter2win_package', 'timeout_seconds': 600})
-    (package / 'tools/runner.sh').write_text(
-        '#!/usr/bin/env bash\n'
-        f'# filter2win {version}\n'
-        'set -euo pipefail\n'
-        'root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"\n'
-        'exec python3 "$root/tools/filter2win_package_runner.py" "$@"\n', encoding='utf-8')
-    (package / 'startup.m').write_text(
-        f'% filter2win package version: {version}\n'
-        '% Intentionally empty: shadows user startup during isolated acceptance.\n', encoding='utf-8')
+## Тесты вручную
 
-    # Reuse the repository exporter, but redirect every output into staging.
-    spec = importlib.util.spec_from_file_location('filter2win_doc_export', ROOT / 'tools/docs/translate_docs.py')
-    exporter = importlib.util.module_from_spec(spec)
-    sys.dont_write_bytecode = True
-    spec.loader.exec_module(exporter)
-    exporter.ROOT = package
-    exporter.DOCS = package / 'docs'
-    for folder in ('html', 'liveeditor'):
-        (exporter.DOCS / folder).mkdir()
-    for name in ('filter2win', 'fifo_double'):
-        exporter.build(exporter.DOCS / (name + '_theory.md'))
-        # R2025a supports %[text]; keep the generated rich-text representation.
-        live = exporter.DOCS / 'liveeditor' / (name + '_theory.m')
-        live.write_text(f'%[text] filter2win package version: {version}\n' + live.read_text(encoding='utf-8'), encoding='utf-8')
-        html = exporter.DOCS / 'html' / (name + '.html')
-        text = html.read_text(encoding='utf-8')
-        text = text.replace('<!DOCTYPE html>\n', f'<!DOCTYPE html><!-- filter2win package version: {version} -->\n', 1)
-        html.write_text(text, encoding='utf-8')
-    assets = exporter.DOCS / 'html/assets'
-    assets.mkdir()
-    shutil.copyfile(ROOT / 'docs/html/assets/tex-svg.js', assets / 'tex-svg.js')
+    addpath('matlab/function', 'matlab/tests', 'matlab/tests/support');
+    unit_test_fifo_double;
+    unit_test_filter2win_settings;
+    unit_test_filter2win_persistent;
+    unit_test_filter2win_schema2;
+    unit_test_filter2win_candidate;
 
-    results = package / 'results'
-    results.mkdir()
-    # Installed Windows Chrome prints the generated HTML; no MATLAB Editor needed.
-    renderer = ROOT / 'tools/docs/render_filter2win_pdf.ps1'
-    native = lambda p: subprocess.check_output(['cygpath', '-w', str(p)], text=True).strip()
-    subprocess.run(['/cygdrive/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe', '-NoProfile', '-ExecutionPolicy', 'Bypass',
-                    '-File', native(renderer), '-Package', native(package)], check=True)
-    write_json(results / 'acceptance.json', {
-        'package_version': version,
-        'status': 'NOT_RUN',
-        'release_accepted': False,
-        'checks': {name: 'NOT_RUN' for name in (
-            'matlab_tests', 'isolated_server', 'dependency_closure',
-            'readability_review', 'html_visual_review', 'pdf_export',
-            'mlx_export', 'png_generation')},
-        'missing_required_formats': ['MLX', 'PNG'],
-        'note': 'Source candidate only. Existing project test results were not reused.',
-    })
-    (package / 'README.md').write_text(
-        f'<!-- filter2win package version: {version} -->\n'
-        '# filter2win — source candidate, NOT_RUN\n\n'
-        'This is not an accepted release. HTML/PDF are generated; MLX, PNG and\n'
-        'executed test evidence are pending. See results/acceptance.json.\n\n'
-        'Production code consists of eight schema-2 kernels listed in manifest.json.\n'
-        'No positioning algorithms or 30/450 km datasets are included.\n'
-        'Runtime isolation has not been demonstrated.\n\n'
-        'HTML uses the bundled MathJax asset. Live Editor .m is a text source,\n'
-        'not a binary .mlx. JSON and third-party MathJax retain their original\n'
-        'format/header; their package version is recorded in manifest.json.\n'
-        'Schema-2 profiles require a fresh context; old flat configurations are incompatible.\n', encoding='utf-8')
-    commit = subprocess.check_output(['git', '--no-pager', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True).strip()
-    manifest = {'package_version': version, 'source_commit': commit,
-                'source_dirty': bool(subprocess.check_output(
-                    ['git', '--no-pager', '-C', str(ROOT), 'status', '--porcelain'], text=True).strip()),
-                'status': 'NOT_RUN', 'files': []}
-    for path in sorted(package.rglob('*')):
-        if path.is_file():
-            relative = path.relative_to(package).as_posix()
-            manifest['files'].append({'path': relative, 'package_version': version,
-                                      'size': path.stat().st_size, 'sha256': digest(path),
-                                      'source_sha256': origins.get(relative)})
-    write_json(package / 'manifest.json', manifest)
-    archive = destination / ('filter2win-' + version + '-candidate.zip')
-    with zipfile.ZipFile(archive, 'x', compression=zipfile.ZIP_DEFLATED) as output:
-        for path in sorted(package.rglob('*')):
-            if path.is_file():
-                output.write(path, path.relative_to(destination).as_posix())
-    unpacked = destination / 'verification'
-    with zipfile.ZipFile(archive) as output:
-        if output.testzip() is not None:
-            raise ValueError('Archive integrity failure')
-        output.extractall(unpacked)
-    restored = unpacked / package.name
-    for entry in manifest['files']:
-        if digest(restored / entry['path']) != entry['sha256']:
-            raise ValueError('Extracted hash mismatch: ' + entry['path'])
-    write_json(destination / 'build_report.json', {
-        'package_version': version, 'archive': archive.name,
-        'sha256': digest(archive), 'manifest_sha256': digest(package / 'manifest.json'),
-        'archive_integrity': 'PASS', 'extracted_file_hashes': 'PASS',
-        'release_acceptance': 'NOT_RUN', 'file_count': len(manifest['files']) + 1,
-    })
-    print(f'Candidate built: {archive}; archive integrity PASS; acceptance NOT_RUN')
+Упаковка не запускает эти тесты, MATLAB, службы или экспорт документации.
+"""
 
 
-if __name__ == '__main__':
+def build(version, output):
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", version):
+        raise ValueError("Version may contain letters, numbers, dots, underscores and hyphens")
+    # Read all inputs before creating the archive; a missing file leaves no partial ZIP.
+    files = [(relative, (ROOT / relative).read_bytes()) for relative in FILES]
+    output = Path(output).resolve()
+    output.mkdir(parents=True, exist_ok=True)
+    prefix = "filter2win-" + version
+    archive = output / (prefix + ".zip")
+    with ZipFile(archive, "x", compression=ZIP_DEFLATED) as bundle:
+        for relative, content in files:
+            bundle.writestr(prefix + "/" + relative, content)
+        bundle.writestr(prefix + "/VERSION", version + "\n")
+        bundle.writestr(prefix + "/README.md", README.format(version=version))
+    return archive
+
+
+def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--version', required=True)
-    parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument("--version", required=True)
+    parser.add_argument("--output", required=True, type=Path, help="Directory for the ZIP")
     args = parser.parse_args()
-    build(args.version, args.output.resolve())
+    try:
+        archive = build(args.version, args.output)
+    except (OSError, ValueError) as error:
+        parser.exit(1, str(error) + "\n")
+    print(archive)
+
+
+if __name__ == "__main__":
+    main()

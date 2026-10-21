@@ -51,7 +51,7 @@ Bias есть разность эмпирического среднего ус�
 LLS и WLLS: соответствующие TXT-паспорта, position/covariance-ядра, unit_test_lls_position, unit_test_wlls_position, unit_test_covariance_boundaries и unit_test_integration_independence.
 GN и GNP: соответствующие TXT-паспорта, position/covariance-ядра, unit_test_gn_position, unit_test_gnp_position и unit_test_covariance_boundaries.
 Mock: mock_theory.txt, mock_position, mock_covariance, unit_test_mock_position, unit_test_mock_covariance и run_mock_traceability. Последний запускается самостоятельно из тестового контура, без корневого манифеста.
-Сечения и фильтр: tis_theory.txt и filter2win_theory.txt; tis_cov2std и filter2win; unit_test_cov2std, unit_test_cov2std_3d, unit_test_filter2win и test_twofilter.
+Сечения и фильтр: tis_theory.txt и filter2win_theory.txt; tis_cov2std и filter2win; unit_test_cov2std, unit_test_cov2std_3d, unit_test_filter2win_settings, unit_test_filter2win_persistent, unit_test_filter2win_schema2 и test_twofilter.
 Наличие этих адресов проверки не означает выполнения тестов в рамках подготовки обзора. Исторические численные значения сравнивают лишь после восстановления входов, модели шума, версии кода и генератора случайных чисел.
 Расчетный сценарий, подготовка ансамблей, статистика и графический экран должны быть разделены. Перерисовка сохраненных массивов не требует нового ансамбля. Неудачные решения сохраняются в отчетности и разрывают соответствующие кривые, а не заменяются нулями.
 

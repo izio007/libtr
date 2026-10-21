@@ -1,4 +1,4 @@
-"""Standard-library JSON Lines client. Exit 0 only for a passed job."""
+"""Internal transport/provenance client. Routine suites use tools/runner.sh."""
 import argparse
 import json
 import uuid
@@ -13,8 +13,8 @@ def run_job(request, port, timeout):
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['all', 'environment', 'unit', 'integration', 'png', 'documents', 'liveeditor', 'mapping', 'mapping5000'])
+    parser = argparse.ArgumentParser(description=__doc__, epilog='Routine test entry: tools/runner.sh <config.json>')
+    parser.add_argument('action', choices=['all', 'environment', 'unit', 'integration', 'documents', 'liveeditor', 'mapping', 'mapping5000'])
     parser.add_argument('--port', type=int, default=5555)
     parser.add_argument('--id', default=uuid.uuid4().hex)
     parser.add_argument('--timeout', type=float, default=600)

@@ -83,12 +83,11 @@ for k=2:numel(p.blend_offsets)
     assert(abs(a.X_FILTERED_OUTPUT-expected)<=p.tolerance);
 end
 assert(a.FILTER_STATUS==6);
-% Configured rule block retains accepted candidate evidence.
-disabled=c; r=strcmp({disabled.rules.event},'SWITCH_READY'); disabled.rules(r).enabled=false;
-a=baseline(disabled,p);
-for k=1:numel(p.candidate_time), a=step(disabled,a,p.candidate_time(k),p.candidate_value(k)); end
-a=step(disabled,a,p.selection_time,p.alternative);
-assert(a.FILTER_STATUS==15 && a.FILTER_STATE.active==1 && a.FILTER_STATE.alt.count==p.min_samples+1);
+% Removed rule configurations are rejected before any state is changed.
+a=baseline(c,p); old=a; obsolete=c; obsolete.rules=[];
+[rc,out]=filter2win(obsolete,a,p.candidate_time(1),p.alternative,false);
+assert(rc==1 && isequaln(out,old));
+assert(~isfield(a.FILTER_STATE,'rule_since') && ~isfield(a.FILTER_STATE,'rule_hits'));
 % Wait is measured from the first accepted candidate, not from tick number.
 waiting=c; waiting.handover.wait_seconds=p.wait_seconds;
 a=baseline(waiting,p);

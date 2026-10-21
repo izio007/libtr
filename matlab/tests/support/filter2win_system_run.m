@@ -2,7 +2,7 @@ function result=filter2win_system_run(root,output_dir)
 % Independent system acceptance. All experiment parameters come from JSON.
 % Plateau levels/events are generated before invoking the filter. The false
 % plateau is a persistent measurement error that MUST be captured autonomously.
-% Existing fixed-seed consumer regression and 17-mode unit suite are separate.
+% Existing fixed-seed consumer regression and transition fixtures are separate.
 cfg=filter2win_config(fullfile(root,'matlab','tests','configs','filter2win_schema2_config.json'));
 p=jsondecode(fileread(fullfile(root,'matlab','tests','configs','filter2win_system.json')));
 checks=struct('requirement',{},'case_id',{},'status',{},'expected',{},'actual',{});
@@ -311,15 +311,14 @@ for j=1:numel(residuals)
         'F2W-SYS-006','Inclusive entry/exit bands and asymmetric hysteresis',tr.records{end},tr);
     traces{end+1}=tr; %#ok<AGROW>
 end
-% Extra rule clocks act after the candidate's own physical evidence guards.
-cfg=c; r=find(strcmp({cfg.rules.event},'ALTERNATIVE_READY'));
-cfg.rules(r).confirm_ticks=p.extra_rule_ticks; cfg.rules(r).confirm_seconds=p.extra_rule_seconds;
-offsets=[p.slow_offsets(:).' p.slow_offsets(end)+p.extra_rule_offsets(2:end).'];
+% Handover waiting uses elapsed physical time without a rule interpreter.
+cfg=c; cfg.handover.wait_seconds=p.slow_offsets(end)+p.extra_wait_seconds;
+offsets=[p.slow_offsets(:).' p.slow_offsets(end)+p.extra_wait_offsets(2:end).'];
 [t,x]=with_baseline(p,origin,base,target,offsets);
-tr=execute(cfg,t,x,false(size(t)),'extra_rule_confirmation',check);
+tr=execute(cfg,t,x,false(size(t)),'extra_handover_wait',check);
 verify_idx=numel(p.baseline_time)+numel(p.slow_offsets);
 check(all(tr.status(verify_idx:end-1)==4) && tr.status(end)==14, ...
-    'F2W-SYS-006','Additional rule count/time confirmation delays the transition',tr.status(verify_idx:end),tr);
+    'F2W-SYS-006','Handover wait expires at the configured physical-time boundary',tr.status(verify_idx:end),tr);
 traces{end+1}=tr;
 % Controlled missing input during a confirmed handover, all three policies.
 for policy={'pause','continue','cancel'}

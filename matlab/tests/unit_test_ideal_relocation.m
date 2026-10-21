@@ -16,6 +16,5 @@ assert(s==0 && norm(x-[2;3;4])<1e-10);
 [s,x]=service_ideal_mock_position(P(:,1),2,3,4);
 assert(s==1 && isequal(size(x),[3 1]) && all(isnan(x)));
 addpath(fullfile(root,'matlab','tests'));
-unit_test_engine_isolation;
 fprintf('Ideal adapter relocation and known geometry: PASS\n');
 end

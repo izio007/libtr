@@ -1,5 +1,5 @@
 function [rc,ctx,debug]=filter2win(cfg,ctx,current_time,X_meas_tick,is_nan_tick)
-% FILTER2WIN Autonomous configurable two-window scalar state machine.
+% FILTER2WIN Two-window scalar state machine with fixed transitions.
 % rc=0: step executed, possibly NaN output. rc=1: ctx unchanged.
 % ctx.FILTER_STATE.status and ctx.FILTER_STATUS: schema-specific mode.
 % Only real measurements enter either FIFO. No synthetic window padding.
@@ -42,13 +42,7 @@ s.tact=s.tact+1;
 [s,ok]=expire_windows(s,cfg,current_time);
 if ~ok, debug.reason='TIME_ARITHMETIC_OVERFLOW'; return; end
 g=filter2win_features(cfg,s,current_time,X_meas_tick,missing);
-[s,selected,blocked,rule_checks]=select_rule(s,cfg,g,current_time);
-if isempty(selected)
-    destination=15; rule_name='NO_ELIGIBLE_RULE'; event='FALLBACK';
-else
-    rule=cfg.rules(selected);
-    destination=rule.to; rule_name=rule.name; event=rule.event;
-end
+[destination,event]=select_event(g.events);
 % Zero handover duration is an explicitly supported instantaneous switch.
 if destination==14 && cfg.handover.duration_seconds==0, destination=6; end
 s.status=destination; % choose the handler before changing numerical windows.
@@ -71,7 +65,7 @@ switch s.status
     case 2 % STEADY_TRACKING; also the configurable return/cancel handler.
         s.main=q_push(s.main,current_time,X_meas_tick);
         if g.main_ready, s.primary=g.main_model; end
-        if ~isfinite(s.primary.level), debug.reason='POLICY_REQUIRES_MAIN_MODEL'; return; end
+        if ~isfinite(s.primary.level), debug.reason='STATE_REQUIRES_MAIN_MODEL'; return; end
         s=clear_alternative(s); s=clear_blend(s);
         s.reacquired_at=NaN; s.settle_samples=0;
         s.deviation_since=NaN; accepted=true;
@@ -109,7 +103,7 @@ switch s.status
         else
             samples=g.candidate; target=g.target_model;
         end
-        if ~isfinite(target.level), debug.reason='POLICY_REQUIRES_ALT_MODEL'; return; end
+        if ~isfinite(target.level), debug.reason='STATE_REQUIRES_ALT_MODEL'; return; end
         s.main=replace_queue(s.main,samples);
         s.primary=target; s=clear_alternative(s); s=clear_blend(s);
         s.reacquired_at=current_time; s.settle_samples=0;
@@ -159,7 +153,7 @@ switch s.status
     case 14 % TRANSITIONING: separate handler with two numerical models.
         if old_status~=14
             if ~g.has_primary || ~g.alt_ready
-                debug.reason='POLICY_REQUIRES_TWO_MODELS'; return;
+                debug.reason='STATE_REQUIRES_TWO_MODELS'; return;
             end
             s=save_candidate(s,g,current_time,X_meas_tick);
             s.target=g.target_model; s.blend_elapsed=0;
@@ -178,12 +172,12 @@ switch s.status
         output=(1-weight)*predict(s.primary,current_time)+weight*predict(s.target,current_time);
         reason='AUTONOMOUS_HANDOVER_IN_PROGRESS';
         if strcmp(g.incompatible_action,'ignore'), reason='HANDOVER_PAUSED_ALT_OUTLIER'; end
-    case 15 % POLICY_HOLD: disabled or still-confirming transitions.
+    case 15 % No actionable event; retain a still-valid output.
         output=held_output(s,g,current_time,missing);
         reason='NO_ACTIONABLE_TRANSITION';
     case 16 % REACQUISITION_SETTLING: retained model is a prior, not fake data.
         if ~g.has_primary || missing || ~g.main_in
-            debug.reason='POLICY_REQUIRES_SETTLING_MODEL'; return;
+            debug.reason='STATE_REQUIRES_SETTLING_MODEL'; return;
         end
         s.main=q_push(s.main,current_time,X_meas_tick);
         s.settle_samples=g.settle_samples;
@@ -202,7 +196,7 @@ s.last_tick=current_time;
 debug=struct('api_status',0,'reason',reason,'tact',s.tact,'time',current_time, ...
     'measurement',X_meas_tick,'missing',missing,'previous_status',old_status, ...
     'status',s.status,'status_name',filter2win_status_name(s.status), ...
-    'rule',rule_name,'event',event,'blocked_rules',{blocked},'rule_checks',rule_checks, ...
+    'event',event, ...
     'valid',isfinite(output),'output',output,'blend_weight',weight, ...
     'main_before',old_main,'main_count',s.main.count, ...
     'alt_before',old_alt,'alt_count',s.alt.count,'guards',g);
@@ -225,8 +219,7 @@ s=struct('parameters',cfg,'status',0,'status_since',t,'tact',0,'last_tick',-Inf,
     'alt_since',NaN,'alt_incompatible_since',NaN,'alt_incompatible_samples',0, ...
     'reacquired_at',NaN,'settle_samples',0, ...
     'main',main,'alt',alt,'primary',empty,'target',empty, ...
-    'blend_elapsed',0,'rule_since',NaN(1,numel(cfg.rules)), ...
-    'rule_hits',zeros(1,numel(cfg.rules)));
+    'blend_elapsed',0);
 end
 
 function [s,ok]=expire_windows(s,c,t)
@@ -254,37 +247,52 @@ if s.alt.count==0
 end
 end
 
-function [s,selected,blocked,selected_checks]=select_rule(s,c,g,t)
-selected=[]; priority=-Inf; blocked={};
-selected_checks=struct('metric',{},'actual',{},'operator',{},'threshold',{},'passed',{});
-for k=1:numel(c.rules)
-    r=c.rules(k);
-    active=r.enabled && (isempty(r.from) || ismember(s.status,r.from)) && g.events.(r.event);
-    if ~active
-        s.rule_since(k)=NaN; s.rule_hits(k)=0; continue;
-    end
-    [conditions_pass,checks]=filter2win_rule_checks(r,g.metrics);
-    if ~conditions_pass
-        s.rule_since(k)=NaN; s.rule_hits(k)=0;
-    end
-    if conditions_pass
-        if ~isfinite(s.rule_since(k)), s.rule_since(k)=t; end
-        s.rule_hits(k)=s.rule_hits(k)+1;
-        elapsed=t-s.rule_since(k);
-    else
-        elapsed=0;
-    end
-    dwell=t-s.status_since;
-    eligible=conditions_pass && s.rule_hits(k)>=r.confirm_ticks && elapsed>=r.confirm_seconds && ...
-        dwell>=r.min_dwell_seconds;
-    if eligible && r.priority>priority
-        selected=k; priority=r.priority; selected_checks=checks;
-    elseif ~eligible
-        blocked{end+1}=struct('name',r.name,'hits',s.rule_hits(k), ...
-            'required_hits',r.confirm_ticks,'seconds',elapsed, ...
-            'required_seconds',r.confirm_seconds,'dwell',dwell, ...
-            'required_dwell',r.min_dwell_seconds,'checks',checks); %#ok<AGROW>
-    end
+function [destination,event]=select_event(events)
+% Fixed legacy precedence, matching the former default schema-2 profile.
+if events.TIMEOUT
+    destination=9; event='TIMEOUT';
+elseif events.BLEND_RETURN
+    destination=2; event='BLEND_RETURN';
+elseif events.BLEND_LOST
+    destination=8; event='BLEND_LOST';
+elseif events.BLEND_INCOMPATIBLE
+    destination=10; event='BLEND_INCOMPATIBLE';
+elseif events.BLEND_DONE
+    destination=6; event='BLEND_DONE';
+elseif events.BLEND_ACTIVE
+    destination=14; event='BLEND_ACTIVE';
+elseif events.EMPTY_MISSING
+    destination=0; event='EMPTY_MISSING';
+elseif events.WARMUP_MISSING
+    destination=12; event='WARMUP_MISSING';
+elseif events.GAP_EXPIRED
+    destination=8; event='GAP_EXPIRED';
+elseif events.GAP_HOLD
+    destination=7; event='GAP_HOLD';
+elseif events.MAIN_SETTLING
+    destination=16; event='MAIN_SETTLING';
+elseif events.MAIN_ACCEPT
+    destination=2; event='MAIN_ACCEPT';
+elseif events.MAIN_WARMUP
+    destination=1; event='MAIN_WARMUP';
+elseif events.INITIAL_REBASE
+    destination=13; event='INITIAL_REBASE';
+elseif events.ALTERNATIVE_READY
+    destination=14; event='ALTERNATIVE_READY';
+elseif events.ALT_REJECT
+    destination=5; event='ALT_REJECT';
+elseif events.ALT_INCOMPATIBLE
+    destination=10; event='ALT_INCOMPATIBLE';
+elseif events.WARMUP_OUTLIER
+    destination=11; event='WARMUP_OUTLIER';
+elseif events.OUTLIER_FIRST
+    destination=3; event='OUTLIER_FIRST';
+elseif events.ALT_COLLECT
+    destination=4; event='ALT_COLLECT';
+elseif events.DEAD_BAND
+    destination=3; event='DEAD_BAND';
+else
+    destination=15; event='FALLBACK';
 end
 end
 
@@ -353,7 +361,7 @@ end
 function ok=valid_state(s,cfg)
 fields={'parameters','status','status_since','tact','last_tick','last_input', ...
     'last_main_accept','deviation_since','alt_since','main','alt','primary', ...
-    'target','blend_elapsed','rule_since','rule_hits','alt_incompatible_since', ...
+    'target','blend_elapsed','alt_incompatible_since', ...
     'alt_incompatible_samples','reacquired_at','settle_samples'};
 ok=isstruct(s) && isscalar(s) && all(isfield(s,fields));
 if ~ok, return; end
@@ -365,14 +373,9 @@ ok=isequaln(s.parameters,cfg) && finite_scalar(s.status) && ...
     finite_scalar(s.alt_incompatible_samples) && s.alt_incompatible_samples>=0 && ...
     s.alt_incompatible_samples==fix(s.alt_incompatible_samples) && ...
     finite_scalar(s.settle_samples) && s.settle_samples>=0 && ...
-    s.settle_samples==fix(s.settle_samples) && ...
-    isequal(size(s.rule_since),[1 numel(cfg.rules)]) && ...
-    isequal(size(s.rule_hits),[1 numel(cfg.rules)]);
+    s.settle_samples==fix(s.settle_samples);
 if ~ok, return; end
-ok=s.status_since<=s.last_tick && isa(s.rule_since,'double') && isreal(s.rule_since) && ...
-    isa(s.rule_hits,'double') && isreal(s.rule_hits) && ...
-    all(isfinite(s.rule_hits) & s.rule_hits>=0 & s.rule_hits==fix(s.rule_hits)) && ...
-    all(isnan(s.rule_since) | (isfinite(s.rule_since) & s.rule_since<=s.last_tick));
+ok=s.status_since<=s.last_tick;
 if ~ok, return; end
 clocks={'last_input','last_main_accept','deviation_since','alt_since', ...
     'alt_incompatible_since','reacquired_at'};

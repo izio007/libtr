@@ -148,6 +148,8 @@ def build(source):
 </head><body><main>
 '''.replace('NAME', name)
     output = head + '\n'.join(body) + '\n</main></body></html>\n'
+    (DOCS / 'html').mkdir(parents=True, exist_ok=True)
+    (DOCS / 'liveeditor').mkdir(parents=True, exist_ok=True)
     (DOCS / 'html' / f'{name}.html').write_text(clean_output(output), encoding='utf-8')
     for i, line in enumerate(live):
         if re.match(r'%\[text\] (?:- |\d+\. )', line):

@@ -1,6 +1,5 @@
 function unit_test_quadratic_guard
 setup_test_paths;
-clear unit_test_cov2std unit_test_cov2std_3d;
 assert_unit_quadratic_forms([1 1],1e-10);
 % Exact binary boundary avoids cancellation at a decimal threshold.
 t=2^-20;
@@ -12,8 +11,7 @@ for tolerance={NaN,Inf,-1,1i,[1 2]}
     reject(@() assert_unit_quadratic_forms(1,tolerance{1}),'libtr:check:Tolerance');
 end
 assert_unit_quadratic_forms(1,0);
-unit_test_cov2std_reporting;
-fprintf('Finite quadratic guard: injected invalid inputs, boundary and geometry PASS\n');
+fprintf('Finite quadratic guard: invalid inputs and exact boundary PASS\n');
 end
 function reject(action,id)
 try, action(); catch e, assert(strcmp(e.identifier,id)); return; end

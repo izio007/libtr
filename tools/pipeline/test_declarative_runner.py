@@ -1,146 +1,119 @@
+import hashlib
 import json
 from pathlib import Path
 import tempfile
 import unittest
-import importlib.util
-import re
-import hashlib
 from unittest.mock import patch
-from declarative_runner import load_config, registered_stages
+
+from declarative_runner import execute, load_config, registered_stages
 from engine import Pipeline
 
 
 class ConfigTests(unittest.TestCase):
-    def test_filter_integration_chain(self):
-        root = Path(__file__).resolve().parents[2]
-        cfg, digest = load_config(root/'matlab/tests/configs/filter2win_integration_runner.json')
+    def test_all_unit_uses_server_discovery_and_actual_count(self):
+        stages = [dict(name='environment', metrics={}),
+                  dict(name='unit', metrics=dict(total=17))]
+        response = dict(ok=True, report=dict(id='all_job', state='passed', stages=stages))
+        with patch('declarative_runner.exchange', return_value={}), \
+                patch('declarative_runner.run_job', return_value=response) as run:
+            value = execute(dict(suite='all_unit', timeout_seconds=30))
+        request = run.call_args.args[0]
+        self.assertEqual(request['action'], 'unit')
+        self.assertNotIn('test', request)
+        self.assertNotIn('test_sha256', request)
+        self.assertEqual(value['executed'], 17)
+
+    def test_all_unit_rejects_missing_execution_count(self):
+        response = dict(ok=True, report=dict(id='all_job', state='passed', stages=[]))
+        with patch('declarative_runner.exchange', return_value={}), \
+                patch('declarative_runner.run_job', return_value=response):
+            with self.assertRaisesRegex(RuntimeError, 'executed count'):
+                execute(dict(suite='all_unit', timeout_seconds=30))
+
+    def test_filter_runs_three_leaf_tests_once(self):
+        config = dict(schema_version=1, suite='filter2win', timeout_seconds=30)
         with tempfile.TemporaryDirectory() as folder:
-            stages = registered_stages(cfg)
-            self.assertEqual([name for name, _ in stages], ['kernel', 'consumers'])
-            with patch('declarative_runner.execute', return_value=dict(executed=1, job_id='fixture')) as run:
-                report = Pipeline(Path(folder), cfg, digest).run(stages)
+            stages = registered_stages(config)
+            self.assertEqual([name for name, _ in stages], ['settings', 'persistent', 'schema2'])
+            with patch('declarative_runner.execute', return_value=dict(executed=1)) as run:
+                report = Pipeline(folder, config).run(stages)
             self.assertEqual(report['status'], 'PASS')
+            self.assertEqual([call.kwargs['test'] for call in run.call_args_list], [
+                'unit_test_filter2win_settings', 'unit_test_filter2win_persistent',
+                'unit_test_filter2win_schema2'])
+            self.assertEqual(sum(stage['value']['executed'] for stage in report['stages']), 3)
+
+    def test_filter_stops_after_first_failed_leaf(self):
+        config = dict(schema_version=1, suite='filter2win', timeout_seconds=30)
+        with tempfile.TemporaryDirectory() as folder:
+            pipeline = Pipeline(folder, config)
+            with patch('declarative_runner.execute', side_effect=[dict(executed=1),
+                        RuntimeError('persistent failed')]) as run:
+                with self.assertRaisesRegex(RuntimeError, 'persistent failed'):
+                    pipeline.run(registered_stages(config))
             self.assertEqual(run.call_count, 2)
-            self.assertEqual([c.kwargs['test'] for c in run.call_args_list],
-                             ['unit_test_filter2win_isolation', 'unit_test_filter_engine_scenario'])
-            failed = Pipeline(Path(folder), cfg, digest)
-            with patch('declarative_runner.execute', side_effect=RuntimeError('fixture failure')) as run:
-                with self.assertRaises(RuntimeError):
-                    failed.run(registered_stages(cfg))
-            self.assertEqual(run.call_count, 1)
-            self.assertEqual([s['status'] for s in failed.report['stages']], ['FAILED', 'NOT_RUN'])
-        with patch('declarative_runner.time.monotonic', side_effect=[0, cfg['timeout_seconds']+1]):
-            stages = registered_stages(cfg)
+            self.assertEqual([stage['status'] for stage in pipeline.report['stages']],
+                             ['PASS', 'FAILED', 'NOT_RUN'])
+
+    def test_integration_preserves_explicit_consumer_coverage(self):
+        config = dict(schema_version=1, suite='filter2win_integration', timeout_seconds=30)
+        stages = registered_stages(config)
+        self.assertEqual([name for name, _ in stages],
+                         ['kernel', 'consumer_scenario', 'consumer_model', 'consumer_plot'])
+        with patch('declarative_runner.execute', return_value=dict(executed=1)) as run:
+            for _, handler in stages:
+                handler()
+        self.assertEqual([call.kwargs['test'] for call in run.call_args_list],
+                         ['unit_test_filter2win_isolation', 'unit_test_filter_engine_scenario',
+                          'unit_test_filter_model', 'unit_test_filter_plot_path'])
+
+    def test_common_deadline_does_not_start_expired_stage(self):
+        config = dict(schema_version=1, suite='filter2win', timeout_seconds=10)
+        with patch('declarative_runner.time.monotonic', side_effect=[100, 101, 106, 111]), \
+                patch('declarative_runner.execute', return_value=dict(executed=1)) as run:
+            stages = registered_stages(config)
+            stages[0][1]()
+            stages[1][1]()
             with self.assertRaises(TimeoutError):
-                stages[0][1]()
+                stages[2][1]()
+        self.assertEqual([call.args[0]['timeout_seconds'] for call in run.call_args_list], [9, 4])
 
-    def test_filter_release_gate(self):
-        root = Path(__file__).resolve().parents[2]
-        spec = importlib.util.spec_from_file_location('acceptance', root/'tools/filter2win_acceptance.py')
-        gate = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(gate)
-        with tempfile.TemporaryDirectory() as tmp:
-            package = Path(tmp)
-            (package/'results').mkdir()
-            artifact = package/'kernel.m'
-            artifact.write_text('original')
-            report = dict(package_version='0.2.0', status='PASS', new_server=True)
-            self.assertEqual(gate.evaluate(package, report)['status'], 'NOT_RUN')
-            review = dict(schema_version=1, package_version='0.2.0',
-                          candidate_sha256=gate.fingerprint(package),
-                          checks={name: dict(status='PASS', reviewer='test fixture',
-                                             evidence='synthetic evidence', criterion='fixture')
-                                  for name in gate.REQUIRED})
-            path = package/'results/release_review.json'
-            def save():
-                path.write_text(json.dumps(review))
-            save()
-            self.assertTrue(gate.evaluate(package, report)['release_accepted'])
-            self.assertEqual(gate.evaluate(package, report), gate.evaluate(package, report))
-            report['new_server'] = False
-            with self.assertRaises(ValueError):
-                gate.evaluate(package, report)
-            report['new_server'] = True
-            review['checks']['pdf_visual']['status'] = 'FAILED'
-            save()
-            self.assertEqual(gate.evaluate(package, report)['status'], 'FAILED')
-            review['checks']['pdf_visual']['reviewer'] = ''
-            save()
-            with self.assertRaises(ValueError):
-                gate.evaluate(package, report)
-            review['checks']['pdf_visual']['reviewer'] = 'test fixture'
-            save()
-            artifact.write_text('changed')
-            with self.assertRaises(ValueError):
-                gate.evaluate(package, report)
+    def test_matlab_result_keeps_job_and_returned_metrics(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            source = root/'matlab/tests/unit_test_matmul3.m'
+            source.parent.mkdir(parents=True)
+            source.write_bytes(b'fixture source')
+            returned_stages = [dict(name='unit', state='passed', metrics=dict(total=1, rmse=0.25))]
+            response = dict(ok=True, report=dict(id='job_123', state='passed', stages=returned_stages))
+            with patch('declarative_runner.ROOT', root), \
+                    patch('declarative_runner.exchange', return_value={'active': '', 'queued': 0}), \
+                    patch('declarative_runner.run_job', return_value=response) as run:
+                value = execute(dict(suite='matmul3', timeout_seconds=30))
+            self.assertEqual(value['job_id'], 'job_123')
+            self.assertEqual(value['report_path'], str(root/'runtime/pipeline/job_123/report.json'))
+            self.assertEqual(value['stages'], returned_stages)
+            self.assertEqual(value['executed'], 1)
+            request = run.call_args.args[0]
+            self.assertEqual(request['test'], 'unit_test_matmul3')
+            self.assertEqual(request['test_sha256'], hashlib.sha256(source.read_bytes()).hexdigest())
 
-    def test_filter_source_inventory(self):
-        root = Path(__file__).resolve().parents[2]
-        inventory = json.loads((root/'proposals/filter2win_source_inventory.json').read_text(encoding='utf-8'))
-        entries = inventory['entries']
-        self.assertEqual(len(entries), len({entry['source'] for entry in entries}))
-        for entry in entries:
-            self.assertRegex(entry['source_sha256'], r'^[0-9a-f]{64}$')
-            self.assertIn(entry['decision'], ('identical', 'adapted', 'excluded_historical_reference',
-                                             'superseded_verification', 'superseded_schema1_document'))
-            if entry['target']:
-                target = root/entry['target']
-                self.assertTrue(target.is_file(), entry['target'])
-                if entry['decision'] == 'identical':
-                    self.assertEqual(hashlib.sha256(target.read_bytes()).hexdigest(), entry['source_sha256'])
-        kernels = [e for e in entries if e['source'].startswith('matlab/function/')]
-        self.assertEqual(len(kernels), 8)
-        self.assertTrue(all(e['decision'] in ('identical', 'adapted') for e in kernels))
-
-    def test_filter_package_schema3_closure(self):
-        root = Path(__file__).resolve().parents[2]
-        spec = importlib.util.spec_from_file_location('package_filter2win', root/'tools/package_filter2win.py')
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-        self.assertEqual(len(module.FILES), len(set(module.FILES)))
-        for name in module.FILES:
-            self.assertTrue((root/name).is_file(), name)
-        functions = set(module.PRODUCTION)
-        for name in functions:
-            relative = 'matlab/function/' + name + '.m'
-            self.assertIn(relative, module.FILES)
-            text = (root/relative).read_text(encoding='utf-8')
-            references = set(re.findall(r'\b(filter2win_[a-z_]+|fifo_double)\s*\(', text))
-            self.assertFalse(references - functions)
-        cfg = json.loads((root/'matlab/tests/configs/filter2win_config.json').read_text())
-        self.assertEqual(cfg['profile_version'], 1)
-        self.assertNotIn('rules', cfg)
-        cfg = json.loads((root/'matlab/tests/configs/filter2win_expanded_reference.json').read_text())
-        self.assertEqual(cfg['schema_version'], 3)
-        legacy = json.loads((root/'matlab/tests/configs/filter2win_schema2_config.json').read_text())
-        self.assertEqual(legacy['schema_version'], 2)
-        rules = cfg['rules']
-        self.assertEqual(len(rules), len({r['priority'] for r in rules}))
-        self.assertEqual(len(rules), len({r['name'] for r in rules}))
-        text = (root/'matlab/function/filter2win_persistent.m').read_text()
-        events = set(re.findall(r"'([A-Z_]+)'", text))
-        self.assertFalse({r['event'] for r in rules} - events)
-        handlers = set()
-        for group, single in re.findall(r'case\s+(?:\{([0-9, ]+)\}|(\d+))', text):
-            handlers.update(map(int, re.findall(r'\d+', group or single)))
-        expected = set(range(9)) | set(range(10, 16))
-        self.assertEqual(handlers, expected)
-        fixture = json.loads((root/'matlab/tests/configs/filter2win_schema3_cases.json').read_text())
-        self.assertEqual(set(fixture['required_statuses']), expected)
-        case = json.loads((root/'matlab/tests/configs/filter2win_package_case.json').read_text())
-        self.assertEqual(set(case['production_functions']), functions)
-        self.assertIn('matlab/tests/configs/'+case['filter_config'], module.FILES)
-        for name in case['checks']:
-            self.assertIn('matlab/tests/'+name+'.m', module.FILES)
-        isolation = json.loads((root/'matlab/tests/configs/filter2win_isolation.json').read_text())
-        self.assertFalse(set(isolation['files']) - set(module.FILES))
-        for name in isolation['checks']:
-            self.assertIn('matlab/tests/'+name+'.m', isolation['files'])
+    def test_matlab_failure_is_not_counted_as_success(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            source = root/'matlab/tests/unit_test_matmul3.m'
+            source.parent.mkdir(parents=True)
+            source.write_bytes(b'fixture source')
+            with patch('declarative_runner.ROOT', root), \
+                    patch('declarative_runner.exchange', return_value={}), \
+                    patch('declarative_runner.run_job', return_value={'report': {'state': 'failed'}}):
+                with self.assertRaises(RuntimeError):
+                    execute(dict(suite='matmul3', timeout_seconds=30))
 
     def test_filter_scenario_declaration(self):
         root = Path(__file__).resolve().parents[2]
-        folder = root / 'matlab/tests/configs'
-        spec = json.loads((folder / 'filter2win_observations.json').read_text())
+        folder = root/'matlab/tests/configs'
+        spec = json.loads((folder/'filter2win_observations.json').read_text())
         count = (spec['end_time'] - spec['start_time']) / spec['time_step'] + 1
         self.assertEqual(count, spec['expected_samples'])
         self.assertGreater(spec['time_step'], 0)
@@ -149,29 +122,34 @@ class ConfigTests(unittest.TestCase):
         for start, end, level in spec['plateaus']:
             self.assertLessEqual(start, end)
             self.assertIsInstance(level, (int, float))
-        config, _ = load_config(folder / 'filter2win_consumers_runner.json')
-        self.assertEqual(config['suite'], 'filter2win_consumers')
+        self.assertEqual(load_config(folder/'filter2win_consumers_runner.json')['suite'],
+                         'filter2win_consumers')
 
     def test_valid(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
             path = root/'matlab/tests/configs/test.json'
             path.parent.mkdir(parents=True)
-            path.write_text('{"schema_version":1,"suite":"matmul3","timeout_seconds":10}')
-            cfg, digest = load_config(path, root)
-            self.assertEqual(cfg['suite'], 'matmul3')
-            self.assertEqual(len(digest), 64)
+            value = dict(schema_version=1, suite='matmul3', timeout_seconds=10)
+            path.write_text(json.dumps(value))
+            self.assertEqual(load_config(path, root), value)
 
     def test_rejections(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
             path = root/'matlab/tests/configs/test.json'
             path.parent.mkdir(parents=True)
             for text in ('{}', '[]', '{"suite":1,"suite":2}',
                          json.dumps(dict(schema_version=1, suite='eval', timeout_seconds=10)),
-                         json.dumps(dict(schema_version=1, suite='matmul3', timeout_seconds=True))):
+                         json.dumps(dict(schema_version=1, suite='filter2win_package', timeout_seconds=10)),
+                         json.dumps(dict(schema_version=1, suite='matmul3', timeout_seconds=True)),
+                         json.dumps(dict(schema_version=1, suite='matmul3', timeout_seconds=10, extra={}))):
                 path.write_text(text)
-                with self.assertRaises(ValueError):
+                with self.subTest(text=text), self.assertRaises(ValueError):
                     load_config(path, root)
             with self.assertRaises(ValueError):
                 load_config(root/'outside.json', root)
+
+
+if __name__ == '__main__':
+    unittest.main()

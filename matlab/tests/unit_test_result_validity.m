@@ -89,8 +89,7 @@ end
 % Normal execution, not only injected result records.
 m=models{1}; m=test_model_step(m); m=test_model_step(m);
 r=test_model_result(m); assert(all(r.valid) && r.metrics.successful==2);
-unit_test_path_model;
-fprintf('Explicit validity mask, raw evidence preservation and lifecycle regressions PASS\n');
+fprintf('Explicit validity masks, raw evidence and result consistency PASS\n');
 end
 function rejects(model,id)
 if nargin<2, id='libtr:testmodel:ResultShape'; end

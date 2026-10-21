@@ -40,8 +40,7 @@ for j=2:3, m=test_model_step(m); copy=test_model_step(copy); end
 r=test_model_result(m);
 assert(isequaln(r,test_model_result(copy)) && r.metrics.failure_fraction==1);
 assert(isnan(r.metrics.rmse) && ~any(r.contract_violations));
-unit_test_model_lifecycle;
-fprintf('Trajectory replay, four direct solver references and lifecycle: PASS\n');
+fprintf('Trajectory replay, four direct solver references and refusal: PASS\n');
 end
 function [s,x]=refuse(varargin)
 s=2; x=NaN(3,1);

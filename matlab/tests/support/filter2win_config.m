@@ -14,6 +14,9 @@ if isfield(cfg,'profile_version')
     cfg=filter2win_settings(cfg);
     return;
 end
+assert(isstruct(cfg) && isscalar(cfg) && isfield(cfg,'schema_version') && ...
+    ~isfield(cfg,'rules'),'libtr:f2w:Settings', ...
+    'Expected a fixed-transition configuration without rules');
 % Schema 3 has no time pruning, partial-output bypass or hidden reset.
 if cfg.schema_version==3
     for name={'main','alt'}
@@ -24,11 +27,8 @@ if cfg.schema_version==3
     for key={'outlier_hold_seconds','gap_hold_seconds'}
         if isempty(cfg.flow.(key{1})), cfg.flow.(key{1})=Inf; end
     end
-    for k=1:numel(cfg.rules)
-        for j=1:numel(cfg.rules(k).conditions)
-            if isempty(cfg.rules(k).conditions(j).value), cfg.rules(k).conditions(j).value=Inf; end
-        end
-    end
+    [ok,why]=filter2win_validate_persistent(cfg);
+    assert(ok,'libtr:f2w:Settings','Invalid resolved settings: %s',why);
     return;
 end
 % JSON has no infinity. A null upper bound means that limit is disabled.
@@ -54,11 +54,6 @@ for j=1:numel(flow_limits)
     field=flow_limits{j};
     if isempty(cfg.flow.(field)), cfg.flow.(field)=Inf; end
 end
-for k=1:numel(cfg.rules)
-    for j=1:numel(cfg.rules(k).conditions)
-        if isempty(cfg.rules(k).conditions(j).value)
-            cfg.rules(k).conditions(j).value=Inf;
-        end
-    end
-end
+[ok,why]=filter2win_validate(cfg);
+assert(ok,'libtr:f2w:Settings','Invalid resolved settings: %s',why);
 end

@@ -21,8 +21,5 @@ assert(isequal(r.successful,[0 1 1 2]));
 assert(isnan(r.rmse(1)) && r.rmse(2)==5 && r.rmse(3)==5);
 assert(abs(r.rmse(4)-sqrt(12.5))<1e-14 && isnan(r.plot_rmse(3)));
 addpath(fullfile(root,'matlab','tests')); setup_test_paths;
-unit_test_ensemble_metrics;
-unit_test_graphical_experiments;
-unit_test_integration_independence;
-fprintf('Metrics relocation, independent moments and three regressions: PASS\n');
+fprintf('Metrics relocation and independent moments: PASS\n');
 end

@@ -15,6 +15,5 @@ assert(isequaln(d.results,copy.results));
 [~,a2]=tis_experiment_cell(P,truth,0.001,1,8,fullfile(folder,'next.mat'),d.next);
 [~,aa2]=tis_experiment_cell(P,truth,0.001,1,8,fullfile(folder,'next_copy.mat'),aa1);
 assert(isequal(a2,aa2) && isequal(rng,globalBefore));
-unit_test_production_isolation;
 fprintf('Explicit scenario context and persisted continuation PASS: %s\n',folder);
 end

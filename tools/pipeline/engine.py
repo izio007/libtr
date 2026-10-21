@@ -1,4 +1,4 @@
-"""Small sequential pipeline and bounded JSON-lines transport; stdlib only."""
+"""Sequential execution and JSON-lines transport using the Python standard library."""
 import json
 import os
 from pathlib import Path
@@ -7,7 +7,6 @@ import tempfile
 import time
 import traceback
 import uuid
-from result_store import store, validate
 
 
 def exchange(request, port=5555, timeout=30):
@@ -54,7 +53,7 @@ def run_job(request, port=5555, timeout=600, *, transport=None,
 
 
 def write_json(path, value):
-    """Atomic report replacement; no half-written state after interruption."""
+    """Replace a report atomically; reject non-JSON result values."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = None
@@ -62,7 +61,7 @@ def write_json(path, value):
         with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8',
                                          dir=path.parent, delete=False) as stream:
             temporary = stream.name
-            json.dump(value, stream, ensure_ascii=False, indent=2)
+            json.dump(value, stream, ensure_ascii=False, indent=2, allow_nan=False)
             stream.write('\n')
         os.replace(temporary, path)
     finally:
@@ -71,51 +70,37 @@ def write_json(path, value):
 
 
 class Pipeline:
-    """Explicit stage state and fail-fast execution; handlers own their work."""
+    """Run explicit stages once and keep their values in one report."""
 
-    def __init__(self, root, config, config_hash):
+    def __init__(self, root, config):
         self.root = Path(root)
         self.id = uuid.uuid4().hex
         self.folder = self.root / 'runtime/pipeline_runs' / self.id
-        self.report = dict(id=self.id, status='NOT_RUN', config=config,
-                           config_sha256=config_hash, stages=[])
-        self.expectations = config.get('expectations', {})
-        validate(self.expectations)
+        self.report = dict(id=self.id, status='NOT_RUN', config=config, stages=[])
 
     def run(self, stages):
+        stages = list(stages)
         names = [name for name, _ in stages]
-        if not names or len(names) != len(set(names)):
+        if (not names or any(not isinstance(name, str) or not name for name in names)
+                or len(names) != len(set(names))):
             raise ValueError('Pipeline requires unique nonempty stages')
-        if set(self.expectations) - set(names):
-            raise ValueError('Expectation for unknown stage')
         self.report['stages'] = [dict(id=name, status='NOT_RUN') for name in names]
         path = self.folder / 'report.json'
         write_json(path, self.report)
         for record, (_, handler) in zip(self.report['stages'], stages):
             started = time.monotonic()
+            record['status'] = self.report['status'] = 'RUNNING'
+            write_json(path, self.report)
             try:
                 value = handler()
-                record['result_ref'] = store(self.root, self.report['config'].get('suite'),
-                    record['id'], value, self.expectations.get(record['id'], []), write_json)
-                if record['result_ref']['assessment']['status'] == 'FAILED':
-                    raise ValueError('Result violates declared expectations')
+                # Validate before recording so a bad value cannot hide the failure report.
+                json.dumps(value, allow_nan=False)
+                record['value'] = value
                 record['status'] = 'PASS'
             except (Exception, KeyboardInterrupt) as error:
                 record['status'] = self.report['status'] = 'FAILED'
-                frames = traceback.extract_tb(error.__traceback__)
-                location = dict(file=frames[-1].filename, line=frames[-1].lineno) if frames else None
-                defect = dict(status='FAILED', test_id=record['id'], location=location,
-                              condition='Stage must complete', failure_reason=str(error),
-                               expected=self.expectations.get(record['id']),
-                               actual=record.get('result_ref', type(error).__name__),
-                              memory_snapshot=dict(config=self.report['config'],
-                                                   rng=None, inputs=None, state=None),
-                              pipeline_id=self.id)
-                defect_path = self.root / 'runtime/defects' / ('defect_' + self.id + '.json')
-                defect_path.parent.mkdir(parents=True, exist_ok=True)
-                with defect_path.open('x', encoding='utf-8') as stream:
-                    json.dump(defect, stream, ensure_ascii=False, indent=2)
-                record['defect'] = str(defect_path)
+                record['error'] = dict(type=type(error).__name__, message=str(error),
+                                       traceback=traceback.format_exc())
                 record['seconds'] = time.monotonic() - started
                 write_json(path, self.report)
                 raise

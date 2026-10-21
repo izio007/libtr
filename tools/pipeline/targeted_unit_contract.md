@@ -12,5 +12,7 @@
 - @CRITERION TCP-UNIT-003: адресный отчёт содержит ровно один запрошенный тест;
   ошибка проверки даёт failed; отсутствие test сохраняет прежнее поведение.
 
-CLI: pipeline_client.py unit --test unit_test_matmul3 --id UNIQUE.
+Обычный вход: tools/runner.sh matlab/tests/configs/matmul3.json.
+Полный unit-проход: tools/runner.sh matlab/tests/configs/all_unit_runner.json.
+pipeline_client.py остаётся внутренним клиентом транспорта и provenance.
 Проверки: unit_test_pipeline, unit_test_pipeline_selection и живой TCP-протокол.

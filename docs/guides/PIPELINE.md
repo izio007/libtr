@@ -1,27 +1,56 @@
-# MATLAB pipeline v1
+# MATLAB test pipeline
 
-All repository paths below are relative to the repository root.
+Paths below are relative to the repository root.
 
-## Launch and scope
+## Run tests
 
-Run `tools/matlab/tcpserver5555.m` once in a dedicated MATLAB process after
-checking the existing endpoint and queue. It derives paths from its location.
-The endpoint listens only on 127.0.0.1:5555. Normal tests reuse this process.
-For a planned idle shutdown, create `runtime/pipeline/stop-server`, wait for
-the owned host to exit, then remove the marker before a new start.
-Do not stop/restart while a job is executing or queued.
-Only one pipeline server may own the runtime job directory in production.
+Start the dedicated MATLAB host once using `tools/matlab/tcpserver5555.m`.
+Existing jobs and the queue belong to that process; routine tests reuse it.
 
-This is a serial, cooperative MATLAB timer queue, not a separate worker process.
-A blocking MATLAB operation may delay network callbacks. There is no hard task
-deadline, process isolation or forced interruption. Local users are trusted;
-loopback binding is not authentication. The 8192-character limit is checked
-after receiving a complete line, not a bound on TCP receive-buffer memory.
+Use the same command for every registered suite:
 
-## Wire protocol
+```sh
+tools/runner.sh matlab/tests/configs/filter2win_runner.json
+tools/runner.sh matlab/tests/configs/filter2win_consumers_runner.json
+tools/runner.sh matlab/tests/configs/filter2win_integration_runner.json
+tools/runner.sh matlab/tests/configs/all_unit_runner.json
+```
 
-UTF-8 JSON Lines: one JSON object followed by LF, one response per request.
-The legacy raw MATLAB-code protocol is intentionally removed: no network eval.
+`filter2win` executes settings, persistent/schema-3 and schema-2 leaf tests.
+Consumers execute the scenario, model and plot tests as separate stages.
+Integration executes kernel isolation followed by those three consumer tests.
+`all_unit` sends one broad unit request; MATLAB discovers `unit_test_*.m`.
+Python stops a suite at its first failed stage. The broad MATLAB unit request
+continues its discovered tests and records their failures.
+
+Python-only checks do not require MATLAB:
+
+```sh
+tools/runner.sh matlab/tests/configs/pipeline_engine_runner.json
+tools/runner.sh matlab/tests/configs/runner_contract.json
+```
+
+The JSON configuration contains `schema_version`, `suite` and `timeout_seconds`.
+Suite names are registered in `tools/pipeline/declarative_runner.py`.
+
+## Reports
+
+One client report is written to `runtime/pipeline_runs/<id>/report.json`.
+Each stage contains its state, duration and returned `value`. MATLAB values
+include the job ID, server report path and returned stage metrics. Failures
+contain their type, message and traceback. No separate result store is used.
+
+The server keeps `request.json`, `report.json`, logs and generated data inside
+`runtime/pipeline/<job-id>`. A passed job is execution evidence for those checks;
+it does not approve documents or establish correctness outside their scope.
+Reports survive client disconnection. Timeout does not cancel the MATLAB job.
+
+## Host and internal protocol
+
+`pipeline_client.py` is an internal transport/provenance client for explicit
+maintenance and live protocol checks. Routine users use `tools/runner.sh`.
+The server listens on `127.0.0.1:5555` and accepts UTF-8 JSON Lines.
+There is no network evaluation of MATLAB expressions.
 
 ```json
 {"v":1,"op":"ping"}
@@ -30,67 +59,25 @@ The legacy raw MATLAB-code protocol is intentionally removed: no network eval.
 {"v":1,"op":"cancel","id":"review_001"}
 ```
 
-IDs match `[A-Za-z0-9][A-Za-z0-9_-]{0,63}`. Actions: all, environment,
-unit, integration, png, liveeditor. Queue capacity: 16 waiting jobs.
-Submitting the same ID/action returns its existing report without rerunning it;
-reusing the ID for another action fails. Use a new ID to rerun.
-`ok` means protocol acceptance, NOT successful computation.
+Actions are `all`, `environment`, `unit`, `integration`, `documents`,
+`liveeditor`, `mapping` and `mapping5000`. `all` runs environment, unit and
+integration only. Integration computes its data and images together once;
+there is no separate `png` action. Documentation validation and Live Editor
+export are explicit maintenance actions, never part of ordinary test execution.
+Generated documentation must exist before those actions are requested.
 
-States: queued, running, passed, failed, cancelled, interrupted. Cancellation
-is observed between stages, not inside an executing stage. Restart marks old
-queued/running reports interrupted; jobs are never automatically replayed.
-Cancellation of an already terminal job does not change its outcome.
+IDs match `[A-Za-z0-9][A-Za-z0-9_-]{0,63}`. The queue holds at most 16 waiting
+jobs. An identical ID/action/test/version returns the existing report;
+conflicting reuse is rejected. `ok` denotes protocol acceptance, not calculation
+success. Lifecycle states are queued, running, passed, failed, cancelled and
+interrupted. Cancellation is cooperative between stages.
 
-## Stages and evidence
+This is a serial MATLAB timer queue. A blocking operation can delay callbacks;
+there is no hard process deadline or forced interruption. Local users are
+trusted, and loopback binding is not authentication. The input-length check
+is performed after reception of a complete line.
 
-`all` runs all five stages even if a prior stage fails, recording every failure.
-`unit` automatically initializes environment first. Environment writes static
-contexts in the job directory and initializes the existing unit geometry engine.
-Unit discovery uses matlab/tests/unit_test_*.m; every test gets a separate log
-and result. Existing missing dependencies remain failures, not skips.
-
-Integration currently registers the deterministic filter2win trajectory with
-101 samples and seed 1729. It checks time ordering, NaN throughout the dropout
-interval 117–168 seconds, finite initial normal segment, absence of Inf and
-window bounds. Additional NaN during anomalous-measurement blind operation is
-allowed by the kernel contract. RMSE uses finite samples
-and always reports missing/finite counts. This is a scenario regression, not
-proof of correctness of all trajectory algorithms or statistical accuracy.
-PNG uses the same calculation and writes actual kernel-output snapshots.
-Integration and PNG currently each recalculate the scenario independently.
-Extend the registered stage implementation for additional scenarios; arbitrary
-file paths and MATLAB expressions are not accepted through the protocol.
-
-Live Editor discovers every docs/liveeditor/*_theory.m, runs Code Analyzer and
-exports each file to PDF with Run=false. It does not execute arbitrary examples,
-inspect rendered formulas or approve mathematical meaning. All reports keep
-visual_review=pending. PDF export success is not visual acceptance.
-
-Each job stores request.json, atomic report.json, stage logs, per-test results,
-MAT datasets, metrics, PNG and PDF in runtime/pipeline/ID. Working directory,
-MATLAB path and RNG state are restored. Arbitrary global side effects in legacy
-tests are not isolated. Reports and artifacts persist after client disconnect.
-Source revision/hashes and HTML rendering are not yet captured by this service.
-
-## Documentation workflow
-
-The documentation translator remains the sole converter from *_theory.txt.
-For an existing source update: generate the documentation PNGs using
-generate_filter2win_doc_images (default runtime destination), run
-tools/docs/translate_docs.py and tools/docs/test_translate_docs.py with Python, then submit
-liveeditor or all for MATLAB validation. Per-job PNGs do not overwrite published
-runtime images automatically. This prevents a validation job from silently
-changing already published documentation. Review generated PDFs separately.
-
-## Client
-
-tools/pipeline/pipeline_client.py uses Python standard library only. Example:
-
-```text
-python tools/pipeline/pipeline_client.py unit --test unit_test_matmul3 --test-sha256 current --id review_001 --timeout 600
-```
-
-Exit status is zero only for passed. Timeout/disconnect does not cancel the
-server job: reconnect and query its ID. Server progress can also be read from
-the atomic report file while MATLAB is busy. Python transport tests use a
-temporary server on port 5556; do not run concurrent production work then.
+For an idle, deliberate shutdown, create `runtime/pipeline/stop-server`, wait
+for the owned host to exit and remove the marker before the next start. Do not
+replace an active host as part of testing or packaging. Restart marks unfinished
+reports interrupted and never automatically replays jobs.

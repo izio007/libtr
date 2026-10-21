@@ -34,9 +34,7 @@ try
 catch e
     assert(~strcmp(e.identifier,'libtr:test:MissingValidation'));
 end
-unit_test_ensemble_metrics;
-unit_test_integration_independence;
-fprintf('Explicit test model lifecycle, four solvers and regressions: PASS\n');
+fprintf('Explicit test model lifecycle, four solvers and error recovery: PASS\n');
 end
 function [s,x]=injected(~,a,varargin)
 if a(1)<0, error('libtr:test:Injected','Intentional failure'); end

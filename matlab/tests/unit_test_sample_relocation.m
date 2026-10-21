@@ -17,7 +17,6 @@ assert(isequal(a,[0;pi/2;0;pi/2]+0.1*na) && isequal(b,0.1*nb));
 assert(isequal(v,repmat(0.1^2,4,1)));
 addpath(fullfile(root,'matlab','tests'));
 setup_test_paths;
-unit_test_graphical_experiments;
 file=[tempname(fullfile(root,'runtime')) '.mat'];
 record=tis_experiment_cell([-5000 5000 0 0;0 0 -5000 5000;0 0 0 0], ...
     [1000;30000;3000],0.001,1,8,file);

@@ -41,7 +41,5 @@ rng(spec.seed,spec.rng_algorithm);
 [actualT,actualTruth,actualZ,actualY,actualP]=filter2win_scenario;
 assert(isequaln({t,truth,z,y,p},{actualT,actualTruth,actualZ,actualY,actualP}));
 assert(isequal(rng,expectedRng));
-unit_test_filter_model;
-unit_test_filter_plot_path;
-fprintf('Scenario via engine: original inputs/RNG/outputs and plot replay PASS\n');
+fprintf('Scenario via engine: original inputs/RNG/outputs PASS\n');
 end

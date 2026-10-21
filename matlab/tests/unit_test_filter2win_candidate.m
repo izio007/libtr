@@ -62,8 +62,6 @@ switch name
     case 'default'
     case 'quality'
         cfg.alt.band.max_mad=p.quality_max_mad;
-    case 'disabled'
-        for k=1:numel(cfg.rules), cfg.rules(k).enabled=p.disabled_enabled; end
     case 'instant'
         cfg.flow.outlier_hold_seconds=p.instant_hold;
         cfg.handover.duration_seconds=p.instant_duration;

@@ -29,22 +29,8 @@ cfg.handover=struct('wait_seconds',p.handover.wait_seconds, ...
     'duration_seconds',p.handover.duration_seconds, ...
     'return_duration_seconds',p.return_to_main.duration_seconds, ...
     'curve','smoothstep','on_missing','pause');
-names={'empty','warmup_gap','gap','expired','reject_quality','outside', ...
-    'initial_collect','candidate_collect','initial_ready','track','switch', ...
-    'wait','blend','outlier','warmup_reject','fallback'};
-events={'EMPTY_MISSING','WARMUP_MISSING','GAP_HOLD','GAP_EXPIRED','QUALITY_REJECT', ...
-    'OUTSIDE_BOTH','MAIN_ACCUMULATE','ALT_ACCUMULATE','INITIAL_READY','ACTIVE_ACCEPT', ...
-    'SWITCH_READY','SWITCH_WAIT','BLEND_ACTIVE','OUTLIER_HOLD','WARMUP_REJECTED','FALLBACK'};
-dest=[0 12 7 8 5 10 1 4 13 2 14 15 14 3 11 15];
-priority=[100:-1:87 50 0];
-for k=1:numel(names)
-    cfg.rules(k)=struct('name',names{k},'event',events{k},'from',[], ...
-        'to',dest(k),'enabled',true,'priority',priority(k), ...
-        'min_dwell_seconds',0,'confirm_ticks',1,'confirm_seconds',0, ...
-        'combine','ALL','conditions',[]);
-end
 if isfield(p,'advanced')
-    z=p.advanced; allowed(z,{'main','alt','handover','rules'});
+    z=p.advanced; allowed(z,{'main','alt','handover'});
     for name={'main','alt'}
         if isfield(z,name{1})
             v=z.(name{1});
@@ -61,29 +47,14 @@ if isfield(p,'advanced')
         allowed(z.handover,{'curve','on_missing'});
         cfg.handover=merge(cfg.handover,z.handover);
     end
-    if isfield(z,'rules')
-        allowed(z.rules,names);
-        for name=fieldnames(z.rules).'
-            k=find(strcmp(names,name{1})); v=z.rules.(name{1});
-            allowed(v,{'from','to','enabled','priority','min_dwell_seconds', ...
-                'confirm_ticks','confirm_seconds','combine','conditions'});
-            cfg.rules(k)=merge(cfg.rules(k),v);
-        end
-    end
 end
 for name={'main','alt'}
     for field={'max_adaptive_radius','max_abs_velocity','max_mad','max_range'}
         cfg.(name{1}).band.(field{1})=bound(cfg.(name{1}).band.(field{1}));
     end
 end
-for k=1:numel(cfg.rules)
-    for j=1:numel(cfg.rules(k).conditions)
-        cfg.rules(k).conditions(j).value=bound(cfg.rules(k).conditions(j).value);
-    end
-end
 [ok,why]=filter2win_validate_persistent(cfg);
 assert(ok,'libtr:f2w:Settings','Invalid resolved settings: %s',why);
-cfg.rules=cfg.rules(:);
 end
 
 function w=window(v)

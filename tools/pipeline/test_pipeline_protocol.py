@@ -20,7 +20,8 @@ class ProtocolTests(unittest.TestCase):
     def test_reject_invalid_requests(self):
         for request in [dict(v=2, op='ping'), dict(v=1, op='eval'),
                         dict(v=1, op='submit', id='../escape', action='unit'),
-                        dict(v=1, op='submit', id='invalid', action='eval')]:
+                        dict(v=1, op='submit', id='invalid', action='eval'),
+                        dict(v=1, op='submit', id='removed_png', action='png')]:
             with self.assertRaises(RuntimeError):
                 exchange(request, self.port)
 
