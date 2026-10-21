@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Техническая спецификация SymeTech v1.2.6</title>
+    <script src="https://polyfill.io"></script>
+    <script id="MathJax-script" async src="https://jsdelivr.net"></script>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #e0e0e0; background: #0a0a0a; margin: 0; padding: 0; }
+        .container { max-width: 1000px; margin: 40px auto; padding: 40px; background: #111; border: 1px solid #333; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h1 { color: #0ff; text-align: center; border-bottom: 2px solid #0ff; padding-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
+        h2 { color: #0f0; margin-top: 30px; border-left: 4px solid #0f0; padding-left: 15px; background: rgba(0,255,0,0.05); }
+        h3 { color: #0cc; margin-top: 20px; }
+        .formula-block { background: #050505; padding: 20px; border-radius: 5px; border: 1px dotted #444; margin: 20px 0; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: #151515; }
+        th, td { border: 1px solid #333; padding: 12px; text-align: left; }
+        th { background: #1a3a1a; color: #0f0; }
+        .highlight { color: #ff0; font-weight: bold; }
+        footer { margin-top: 50px; text-align: center; font-size: 0.8em; color: #666; border-top: 1px solid #333; padding-top: 20px; }
+        .const-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+        .const-item { background: #1a1a1a; padding: 10px; border: 1px solid #333; border-radius: 4px; }
+        .const-item b { color: #0ff; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Математическая Спецификация SymeTech v1.2.6</h1>
+
+    <h2>1. Системы координат и Вектор состояния</h2>
+    <p>Моделирование ведется в правосторонней Земной Системе Координат (ЗСК). Состояние объекта в любой момент времени \( t \) определяется вектором:</p>
+    <div class="formula-block">
+        $$\mathbf{S}(t) = \begin{bmatrix} x & y & z & V & \psi & \theta & \omega_\psi & \omega_\theta \end{bmatrix}^T$$
+    </div>
+    <ul>
+        <li>\( x, y, z \) — Пространственные координаты [м].</li>
+        <li>\( V \) — Линейная скорость [м/с].</li>
+        <li>\( \psi, \theta \) — Углы азимута и тангажа (ориентация вектора скорости) [рад].</li>
+        <li>\( \omega_\psi, \omega_\theta \) — Угловые скорости вращения вектора скорости [рад/с].</li>
+    </ul>
+
+    <h2>2. Динамика полета (Flight Dynamics)</h2>
+    <p>Для решения системы дифференциальных уравнений (ДУ) используется численный метод <b>Рунге-Кутты 4-го порядка (RK4)</b> с шагом \(\Delta t = 0.01\) с.</p>
+
+    <h3>2.1. Уравнения движения (Кинематика)</h3>
+    <div class="formula-block">
+        $$\begin{cases} 
+        \dot{x} = V \cdot \cos\theta \cdot \cos\psi \\
+        \dot{y} = V \cdot \sin\theta \\
+        \dot{z} = -V \cdot \cos\theta \cdot \sin\psi 
+        \end{cases}$$
+    </div>
+
+    <h3>2.2. Уравнения динамики углов (Инерция и Демпфирование)</h3>
+    <p>Изменение угловых скоростей учитывает инерцию рулевых приводов (\(\tau\)) и аэродинамическое сопротивление вращению:</p>
+    <div class="formula-block">
+        $$\dot{\omega}_\psi = \frac{1}{\tau} \left( \text{Sat}(\omega_{cmd, \psi}, \omega_{max}) - \omega_\psi \right) - k_{damp} \cdot V \cdot \omega_\psi$$
+        $$\dot{\omega}_\theta = \frac{1}{\tau} \left( \text{Sat}(\omega_{cmd, \theta}, \omega_{max}) - \omega_\theta \right) - k_{damp} \cdot V \cdot \omega_\theta$$
+    </div>
+
+    <h3>2.3. Ограничение перегрузки (12G Limit)</h3>
+    <p>Максимально допустимая угловая скорость ограничена структурной прочностью планера:</p>
+    <div class="formula-block">
+        $$\omega_{max} = \frac{n_{max} \cdot g}{V} = \frac{12 \cdot 9.81}{V}$$
+    </div>
+
+    <h2>3. Логика наведения и тактические фазы</h2>
+
+    <h3>3.1. Фазовый автомат (Stage Transitions)</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Фаза</th>
+      <th>Условие (Дистанция R)</th>
+      <th>Динамика скорости (V)</th>
+      <th>Алгоритм ГСН / Управления</th>
+      <th>Ограничения и Лимиты</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="phase-id">1. Стабилизация</td>
+      <td>R > 15 000 м</td>
+      <td>450 м/с (Const)</td>
+      <td><span class="math">ψ_cmd = 0, θ_cmd = 0</span></td>
+      <td>Курс 0°, горизонт. Прогрев ГСН.</td>
+    </tr>
+    <tr>
+      <td class="phase-id">2. Спираль (МНК)</td>
+      <td>15 000 ≥ R > 4 000 м</td>
+      <td>Торможение: 450 → 50 м/с</td>
+      <td><span class="math">ψ_cmd = ψ_los + 44°·tanh(3·sin(0.34t))</span></td>
+      <td>Max параллакс. Сектор ГСН ±45°. Floor 250м.</td>
+    </tr>
+    <tr>
+      <td class="phase-id">3. Горка</td>
+      <td>4 000 ≥ R > 2 000 м</td>
+      <td>Разгон: 50 → 120 м/с</td>
+      <td><span class="math">θ_cmd = +0.32 рад</span> (набор)</td>
+      <td>Cap 1800м. Подготовка к удару сверху.</td>
+    </tr>
+    <tr>
+      <td class="phase-id">4. Наведение 3D</td>
+      <td>2 000 ≥ R > 800 м</td>
+      <td>Разгон: 120 → 170 м/с</td>
+      <td>Pure Pursuit (Прямое наведение)</td>
+      <td>Отключение floor. <span class="math">K_gain = 35</span>.</td>
+    </tr>
+    <tr>
+      <td class="phase-id">5. Финал</td>
+      <td>R ≤ 800 м</td>
+      <td>Разгон до 194.4 м/с (700 км/ч)</td>
+      <td>Max Gain Tracking</td>
+      <td><span class="math">K_gain = 65</span>. Лимит 12G (жесткий).</td>
+    </tr>
+  </tbody>
+</table>
+
+    <h3>3.2. Тактика максимального параллакса</h3>
+    <p>Для Phase 2 используется сглаженный прямоугольный сигнал (\(\tanh\)), заставляющий ракету лететь на границе сектора ГСН (\(\pm 44^\circ\)):</p>
+    <div class="formula-block">
+        $$\psi_{cmd} = \psi_{los} + A_{max} \cdot \tanh(3 \cdot \sin(\Omega t))$$
+    </div>
+    <p>Где \(\Omega = 0.075\) обеспечивает 1.5–2 витка на марше, максимизируя геометрическую базу.</p>
+
+    <h3>3.3. Защита высоты (Floor & Cap)</h3>
+    <p>Экспоненциальная «подушка» для плавного отскока от 250 м:</p>
+    <div class="formula-block">
+        $$\theta_{floor} = e^{-\frac{y - 250}{100}} \cdot 0.9$$
+        $$\text{Лимит Горки:} \quad \text{if } y > 1800 \text{ then } \theta_{cmd} = \theta_{los}$$
+    </div>
+
+    <h2>4. Вычисление цели (Accuracy Physics)</h2>
+
+    <h3>4.1. Адаптивная частота Burst GSN</h3>
+    <p>Частота опроса ГСН изменяется динамически для накопления статистики в точках экстремумов:</p>
+    <div class="formula-block">
+        $$f_{gsn} = \begin{cases} 100 \text{ Гц}, & 40^\circ < |\Delta\psi| < 45^\circ \\ 10 \text{ Гц}, & \text{в остальных случаях} \end{cases}$$
+    </div>
+
+    <h3>4.2. Взвешенный МНК (Weighted LSE)</h3>
+    <p>Координаты цели \( \mathbf{P}_{est} \) вычисляются через минимизацию суммы квадратов расстояний до векторов пеленга \( \mathbf{v}_i \):</p>
+    <div class="formula-block">
+        $$\mathbf{A} = \sum w_i (I - \mathbf{v}_i \mathbf{v}_i^T), \quad \mathbf{b} = \sum w_i (I - \mathbf{v}_i \mathbf{v}_i^T) \mathbf{M}_i$$
+        $$\mathbf{P}_{est} = \mathbf{A}^{-1} \mathbf{b}$$
+    </div>
+    <p>Вес \( w_i \) увеличивается при росте бокового выноса \( |z| \), что дает приоритет измерениям с большим параллаксом.</p>
+
+    <h2>5. Ключевые коэффициенты системы</h2>
+    <div class="const-grid">
+        <div class="const-item">Пост. времени рулей <b>\(\tau\)</b>: 0.18 с</div>
+        <div class="const-item">Коэф. демпфирования <b>\(k_{damp}\)</b>: 0.0035</div>
+        <div class="const-item">Коэф. тяги <b>\(k_a\)</b>: 0.25</div>
+        <div class="const-item">Усиление наведения <b>\(K_{gain}\)</b>: 25.0 – 55.0</div>
+        <div class="const-item">Шум ГСН (RMS): 1.5°</div>
+        <div class="const-item">Макс. перегрузка: 12G</div>
+    </div>
+
+    <footer>
+        SymeTech Mathematical Documentation | System Version 1.2.6 | Earth Centered Frame
+    </footer>
+</div>
+
+</body>
+</html>

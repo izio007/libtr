@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Математическая модель логического супервизора ПРГСН</title>
+<!-- Подключение MathJax 3 через CDN jsDelivr -->
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['\\(', '\\)']],
+      displayMath: [['\\[', '\\]']],
+      processEscapes: true
+    },
+    options: {
+      ignoreHtmlClass: 'tex2jax_ignore',
+      processHtmlClass: 'tex2jax_process'
+    }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        body { font-family: 'Times New Roman', Times, serif; line-height: 1.6; color: #000; max-width: 850px; margin: 0 auto; padding: 40px; text-align: justify; }
+        h1 { text-align: center; font-size: 20px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; }
+        .author-block { text-align: center; font-style: italic; margin-bottom: 30px; font-size: 14px; }
+        h2 { font-size: 16px; font-weight: bold; margin-top: 30px; margin-bottom: 12px; border-bottom: 1px solid #000; padding-bottom: 3px; }
+        h3 { font-size: 14px; font-weight: bold; margin-top: 20px; margin-bottom: 8px; font-style: italic; }
+        p { margin-bottom: 15px; text-indent: 30px; }
+        .equation { text-align: center; margin: 15px 0; padding: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+
+    <h1>Математическая модель логического супервизора автономного принятия решений ПРГСН в трехмерном пространстве</h1>
+    
+    <div class="author-block">
+        Критерии подтверждения и прерывания целевой задачи на основе декартовых оценок КЛО и ковариационного анализа
+    </div>
+
+    <p>Функционирование автономного логического супервизора на частоте \(100\) Гц заключается в непрерывной обработке оценок трехмерного вектора координат источника излучения \(U_k = [X_ц, Y_ц, Z_ц]^T\), среднегеометрического пространственного промаха \(R_{miss, k}\) и декартовой ковариационной матрицы ошибок триангуляции \(K_\lambda(k)\). На основе этих данных формируется булево решающее правило прерывания текущей задачи наведения \(\text{Trigger}_{ABORT}\) и переключения внешней САУ на следующую точку полетного задания.</p>
+
+    <h2>1. Расчет динамических и геометрических параметров траектории</h2>
+    <p>На каждом дискретном такте времени \(t_k\) вычисляется модуль вектора полной скорости летательного аппарата:</p>
+    <div class="equation">
+        \[V_{mod, k} = \sqrt{V_{x, k}^2 + V_{y, k}^2 + V_{z, k}^2}\]
+    </div>
+    
+    <p>Вектор относительной скорости сближения в декартовой системе координат определяется через дифференцирование дальности (промаха), где в квазипрямолинейном приближении скорость сближения \(\dot{R}_{miss, k}\) полагается равной \(-V_{mod, k}\). Оставшееся время до расчетной точки динамической встречи (Time-to-Go) имеет вид:</p>
+    <div class="equation">
+        \[T_{go, k} = \frac{R_{miss, k}}{V_{mod, k}}\]
+    </div>
+    
+    <p>Текущий радиальный размер пространственной зоны неопределенности местоопределения (облако ошибок триангуляции по доверительному уровню \(2\sigma\)) рассчитывается на основе спектрального радиуса матрицы \(K_\lambda\) через её максимальное собственное значение, аппроксимируемое диагональными элементами:</p>
+    <div class="equation">
+        \[R_{error, k} = 2 \cdot \sqrt{\max\left(\operatorname{diag}\left(K_\lambda(k)\right)\right)}\]
+    </div>
+
+    <h2>2. Математические условия автономной отмены целевой задачи</h2>
+    <p>Решение об отмене полёта на текущий источник излучения принимается при истинности обобщенного логического предиката, объединяющего три физических критерия эффективности:</p>
+    <div class="equation">
+        \[\text{Trigger}_{ABORT} = \mathcal{C}_{time} \quad \cup \quad \mathcal{C}_{decoy} \quad \cup \quad \mathcal{C}_{blink}\]
+    </div>
+
+    <h3>2.1. Критерий деградации временного резерва (\(\mathcal{C}_{time}\))</h3>
+    <p>Условие описывает ситуацию, при которой оставшийся кинематический ресурс времени сближения \(T_{go, k}\) меньше минимально необходимого времени \(T_{maneuver}\), требуемого САУ для отработки динамического маневра совмещения, при этом текущий размер облака ошибок \(R_{error, k}\) превышает радиус гарантированного поражения цели \(R_{lethal}\):</p>
+    <div class="equation">
+        \[\mathcal{C}_{time} = \begin{cases} 1, & \text{при } T_{go, k} \le T_{maneuver} \quad \cap \quad R_{error, k} > R_{lethal} \\\\ 0, & \text{в противном случае} \end{cases}\]
+    </div>
+
+    <h3>2.2. Критерий пространственной нестабильности оценок при отстреле ловушек (\(\mathcal{C}_{decoy}\))</h3>
+    <p>При применении источником излучения средств пространственно-распределенного противодействия (отстрел ложных угловых целей, ловушек) оценки координат \(U_k\) теряют точку сходимости. Математическая модель фиксирует этот процесс через вычисление пространственной дисперсии (разброса) вектора целей в скользящем окне памяти глубиной \(M_t\) относительно его текущего среднего математического ожидания \(\bar{U}_k\):</p>
+    <div class="equation">
+        \[\bar{U}_k = \frac{1}{M_t} \sum_{j=0}^{M_t-1} U_{k-j}\]
+    </div>
+    <div class="equation">
+        \[D_{coord, k} = \frac{1}{M_t} \sum_{j=0}^{M_t-1} \|U_{k-j} - \bar{U}_k\|^2\]
+    </div>
+    <div class="equation">
+        \[\mathcal{C}_{decoy} = \begin{cases} 1, & \text{при } D_{coord, k} > D_{threshold} \quad \cap \quad \|U_k\| > 0 \\\\ 0, & \text{в противном случае} \end{cases}\]
+    </div>
+
+    <h3>2.3. Критерий скрытности и мерцания излучения (\(\mathcal{C}_{blink}\))</h3>
+    <p>При переходе РЛС цели в прерывистый режим работы (мерцание) контроллер накапливает интегральное время активного приема сигналов \(T_{active}\) и время нахождения системы в режиме слепой экстраполяции \(T_{silence}\). Информационный коэффициент достаточности \(\eta_k\) сопоставляет эти параметры:</p>
+    <div class="equation">
+        \[\eta_k = \frac{T_{active}(t_k)}{T_{silence}(t_k) + \nu}\]
+    </div>
+    <div class="equation">
+        \[\mathcal{C}_{blink} = \begin{cases} 1, & \text{при } \eta_k < \eta_{min} \quad \cap \quad R_{error, k} > R_{lethal} \quad \cap \quad t_k > t_{init} \\\\ 0, & \text{в противном случае} \end{cases}\]
+    </div>
+    <p>где \(\nu \to 0\) — малый параметр против деления на ноль, а \(t_{init}\) — время начального раскрытия измерительной базы.</p>
+
+    <h2>3. Логика подтверждения и сброса задачи</h2>
+    <p>Результирующий статус выполнения боевого задания формируется на основе мгновенного значения логического триггера отмены:</p>
+    <div class="equation">
+        \[\text{Mission\_Status} = \begin{cases} \text{MISSION\_ABORTED}, & \text{при } \text{Trigger}_{ABORT} == 1 \\\\ \text{MISSION\_CONFIRMED}, & \text{при } \text{Trigger}_{ABORT} == 0 \end{cases}\]
+    </div>
+    <p>При переходе в состояние \(\text{MISSION\_ABORTED}\) контроллер ПРГСН принудительно обнуляет регистры текущей цели (\(U_k = [0,0,0]^T\)), очищает измерительные буферы предыстории КЛО и выдает команду на внешнюю САУ для изменения траектории полета в направлении следующей маршрутной точки.</p>
+
+</body>
+</html>
