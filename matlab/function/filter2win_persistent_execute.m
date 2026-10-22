@@ -1,62 +1,71 @@
-function [rc,ctx,debug]=filter2win_persistent_execute(c,ctx,s,step,debug)
-% Schema 3 actions. Select one executor, then publish the completed local step.
+function [rc,ctx,debug]=filter2win_persistent_execute(c,ctx,s,step,decision,debug)
+% Execute the selected action and publish one coherent result/status.
 rc=1;
 t=step.time; x=step.measurement; missing=step.missing;
-before=step.before; g=step.guards; p=g.proposal; event=g.event;
-s.status=step.status; s.tact=s.tact+1;
+before=step.before; g=step.guards; p=g.proposal; event=decision.event;
+g.event=event; step.guards=g;
+s.tact=s.tact+1;
 r=struct('accepted',false,'switched',false,'output',NaN,'weight',NaN,'reason',event,'error','');
-switch s.status
-    case {1,3,4}
+switch decision.action
+    case 'accumulate'
         [s,r]=action_accumulate(s,step,r);
-    case {2,13}
+    case 'track'
         [s,r]=action_track(s,step,r);
-    case 6
-        [s,r]=action_switch(s,c,step,r);
-    case 14
+    case 'switch'
+        [s,r]=action_switch(s,step,r);
+    case 'blend'
         [s,r]=action_blend(s,c,step,r);
-    case {5,10,11}
+    case 'reject'
         [s,r]=action_reject(s,step,r);
-    case 7
+    case 'hold'
         [s,r]=action_hold(s,step,r);
-    case {0,8,12}
+    case 'unavailable'
         [s,r]=action_unavailable(s,r);
-    case 15
+    case 'wait'
         [s,r]=action_wait(s,step,r);
     otherwise
-        r.error='INVALID_DESTINATION';
+        r.error='INVALID_ACTION';
 end
 if ~isempty(r.error), debug.reason=r.error; return; end
-accepted=r.accepted; switched=r.switched; output=r.output; weight=r.weight; reason=r.reason;
-if s.status~=14
-    s.blend_duration=0; s.blend_elapsed=0; s.blend_from=NaN; s.blend_start=NaN;
-end
-after=[filter2win_window_view(s.main,c.main),filter2win_window_view(s.alt,c.alt)];
+accepted=r.accepted; switched=r.switched; output=r.output;
+% Actions can only commit the observed proposal. Its cached view describes
+% the exact same samples; unchanged windows keep their original view.
+after=g.before;
+if accepted, after(g.route)=p.stats; end
+lost_window=0;
 if s.active>0 && ~after(s.active).ready
-    s.active=0; output=NaN;
-    if ismember(s.status,[2 6 13 14])
-        s.status=1; if g.route==2, s.status=4; end
-        s.blend_duration=0; s.blend_elapsed=0; s.blend_from=NaN; s.blend_start=NaN;
-        reason='BASE_NO_LONGER_READY_AFTER_REMOVAL';
-    end
+    lost_window=s.active; s.active=0; output=NaN;
 end
 if ~isnan(output) && ~isfinite(output), debug.reason='NUMERIC_OUTPUT_OVERFLOW'; return; end
+[status,reason]=final_status(decision,r.reason,lost_window);
+if isempty(status), debug.reason='INVALID_EVENT'; return; end
+% A waiting candidate pauses a blend without ending its lifetime. Only this
+% publication stage clears it after completion, cancellation or loss of base.
+keep_blend=strcmp(decision.action,'blend') || ...
+    (strcmp(decision.action,'wait') && before.blend_duration>0 && step.hold);
+if ~keep_blend || lost_window>0, s=clear_blend(s); end
+s.status=status;
 s.last_supported=accepted && s.active==g.route && s.active>0 && after(s.active).ready;
 if ~missing, s.last_input=t; end
 s.last_tick=t; s.last_output=output;
 if s.status~=before.status, s.status_since=t; end
-s.primary=filter2win_model(struct('time',[],'value',[]),'constant');
-if s.active>0, s.primary=after(s.active).model; end
+if s.active>0
+    s.primary=after(s.active).model;
+else
+    s.primary=filter2win_model(struct('time',[],'value',[]),'constant');
+end
 removed=struct('time',[],'value',[]); evicted=removed;
 if accepted, removed=p.removed; evicted=p.evicted; end
 debug=struct('api_status',0,'schema_version',3,'reason',reason,'tact',s.tact,'time',t, ...
     'measurement',x,'missing',missing,'previous_status',before.status, ...
     'status',s.status,'status_name',filter2win_status_name(s.status,3), ...
+    'phase_before',phase(before),'phase',phase(s),'action',decision.action, ...
     'active_before',before.active,'active_window',s.active,'route',g.route, ...
     'accepted',accepted,'reacquired',switched,'valid',isfinite(output),'output',output, ...
     'main_before',before.main.count,'main_count',s.main.count, ...
     'alt_before',before.alt.count,'alt_count',s.alt.count,'windows',after, ...
     'removed',removed,'evicted',evicted,'event',event, ...
-    'blend_weight',weight,'guards',g);
+    'blend_weight',r.weight,'guards',g);
 ctx.FILTER_STATE=s; ctx.FILTER_STATUS=s.status; ctx.FILTER_VALID=isfinite(output);
 ctx.X_FILTERED_OUTPUT=output; ctx.W_ALT_POWER_OUTPUT=s.alt.count;
 ctx.ACCEPTED=accepted; ctx.REACQUIRED=switched; ctx.FILTER_DEBUG=debug;
@@ -68,44 +77,44 @@ end
 
 function [s,r]=action_accumulate(s,step,r)
 g=step.guards; p=g.proposal;
-before=step.before; v=g.before; t=step.time; hold=step.hold;
 s=commit(s,p,g.route); r.accepted=p.accepted;
-r.output=held(before,v,t,hold); r.reason='COLLECTING_NOT_USED';
+r.output=held(step.before,g.before,step.time,step.hold);
+r.reason='COLLECTING_NOT_USED';
 end
 
 function [s,r]=action_track(s,step,r)
 g=step.guards; p=g.proposal; t=step.time;
-s=commit(s,p,g.route); r.accepted=p.accepted;
 if ~p.accepted || ~p.stats.ready, r.error='STATE_REQUIRES_READY_PROPOSAL'; return; end
+s=commit(s,p,g.route); r.accepted=true;
 r.switched=s.active~=g.route; s.active=g.route;
 s.last_accept(g.route)=t;
 r.output=predict(p.stats.model,t); r.reason='WINDOW_ACCEPTED';
-if s.status==13, r.reason='INITIAL_BASE_READY'; end
+if strcmp(g.event,'INITIAL_READY'), r.reason='INITIAL_BASE_READY'; end
 end
 
-function [s,r]=action_switch(s,c,step,r)
-g=step.guards; p=g.proposal; t=step.time; event=g.event; names={'main','alt'};
-s=commit(s,p,g.route); r.accepted=p.accepted;
-if strcmp(event,'SWITCH_READY')
+function [s,r]=action_switch(s,step,r)
+g=step.guards; p=g.proposal; t=step.time;
+if strcmp(g.event,'SWITCH_READY')
     if ~p.accepted || ~p.stats.ready, r.error='STATE_REQUIRES_READY_PROPOSAL'; return; end
     r.switched=s.active~=g.route; s.active=g.route; s.last_accept(g.route)=t;
     r.reason='READY_WINDOW_SELECTED';
 else
     r.reason='TRANSITION_COMPLETE';
-    if r.accepted && g.route==s.active, s.last_accept(s.active)=t; end
+    if p.accepted && p.stats.ready && g.route==s.active, s.last_accept(s.active)=t; end
 end
 if s.active==0, r.error='STATE_REQUIRES_ACTIVE_WINDOW'; return; end
-active=filter2win_window_view(s.(names{s.active}),c.(names{s.active}));
+s=commit(s,p,g.route); r.accepted=p.accepted;
+active=window_after(step,s.active);
 if active.ready, r.output=predict(active.model,t); end
 r.weight=1;
 end
 
 function [s,r]=action_blend(s,c,step,r)
-g=step.guards; p=g.proposal; before=step.before; v=g.before;
-t=step.time; missing=step.missing; hold=step.hold; event=g.event; names={'main','alt'};
-if strcmp(event,'SWITCH_READY')
+g=step.guards; p=g.proposal; before=step.before;
+t=step.time; missing=step.missing;
+if strcmp(g.event,'SWITCH_READY')
     if ~p.accepted || ~p.stats.ready || s.active==0, r.error='STATE_REQUIRES_TWO_WINDOWS'; return; end
-    from=held(before,v,t,hold);
+    from=held(before,g.before,t,step.hold);
     if ~isfinite(from), from=before.last_output; end
     s.blend_from=from; s.blend_start=t; s.blend_elapsed=0;
     s.blend_duration=c.handover.duration_seconds;
@@ -116,24 +125,26 @@ else
 end
 s=commit(s,p,g.route); r.accepted=p.accepted;
 if r.accepted && g.route==s.active && p.stats.ready, s.last_accept(s.active)=t; end
-active=filter2win_window_view(s.(names{s.active}),c.(names{s.active}));
+active=window_after(step,s.active);
 r.weight=min(1,max(0,s.blend_elapsed/s.blend_duration));
 if strcmp(c.handover.curve,'smoothstep'), r.weight=r.weight*r.weight*(3-2*r.weight); end
 r.output=(1-r.weight)*s.blend_from+r.weight*predict(active.model,t);
 r.reason='TRANSITION_IN_PROGRESS';
-if ~missing && ~p.accepted, r.reason=p.reason; end
+if ~missing && ~p.accepted
+    r.reason=p.reason;
+    if g.route==0, r.reason='OUTSIDE_BOTH_READY_WINDOWS'; end
+end
 end
 
 function [s,r]=action_reject(s,step,r)
 g=step.guards; p=g.proposal;
-before=step.before; v=g.before; t=step.time; hold=step.hold;
-r.output=held(before,v,t,hold);
+r.output=held(step.before,g.before,step.time,step.hold);
 if g.route>0, r.reason=p.reason; else, r.reason='OUTSIDE_BOTH_READY_WINDOWS'; end
 end
 
 function [s,r]=action_hold(s,step,r)
-before=step.before; v=step.guards.before; t=step.time; hold=step.hold;
-r.output=held(before,v,t,hold); r.reason='GAP_WITH_MEMORY_RETAINED';
+r.output=held(step.before,step.guards.before,step.time,step.hold);
+r.reason='GAP_WITH_MEMORY_RETAINED';
 end
 
 function [s,r]=action_unavailable(s,r)
@@ -142,10 +153,9 @@ end
 
 function [s,r]=action_wait(s,step,r)
 g=step.guards; p=g.proposal;
-before=step.before; v=g.before; t=step.time; hold=step.hold;
-% Timed waiting retains accepted candidate evidence.
 s=commit(s,p,g.route); r.accepted=p.accepted;
-r.output=held(before,v,t,hold); r.reason='WAITING_FOR_SWITCH';
+r.output=held(step.before,g.before,step.time,step.hold);
+r.reason='WAITING_FOR_SWITCH';
 if g.main_hold, r.reason='MAIN_PROLONGATION_ACTIVE'; end
 end
 
@@ -156,6 +166,11 @@ if p.accepted && route>0
 end
 end
 
+function v=window_after(step,index)
+g=step.guards; v=g.before(index);
+if g.proposal.accepted && g.route==index, v=g.proposal.stats; end
+end
+
 function x=predict(m,t)
 x=m.level+m.velocity*(t-m.last);
 end
@@ -163,9 +178,46 @@ end
 function output=held(s,v,t,allowed)
 output=NaN;
 if ~allowed || s.active==0, return; end
-if s.status==14
-    output=s.last_output; % A paused/rejected step never advances the blend.
+if s.blend_duration>0
+    output=s.last_output;
 else
     output=predict(v(s.active).model,t);
+end
+end
+
+function s=clear_blend(s)
+s.blend_duration=0; s.blend_elapsed=0; s.blend_from=NaN; s.blend_start=NaN;
+end
+
+function name=phase(s)
+name='ACCUMULATING';
+if s.blend_duration>0, name='BLENDING'; elseif s.active>0, name='TRACKING'; end
+end
+
+function [status,reason]=final_status(decision,reason,lost_window)
+% One final status, including the actual not-ready outcome of a committed FIFO.
+status=[];
+switch decision.event
+    case 'EMPTY_MISSING', status=0;
+    case 'WARMUP_MISSING', status=12;
+    case 'GAP_HOLD', status=7;
+    case 'GAP_EXPIRED', status=8;
+    case 'QUALITY_REJECT', status=5;
+    case 'OUTSIDE_BOTH', status=10;
+    case 'MAIN_ACCUMULATE', status=1;
+    case 'ALT_ACCUMULATE', status=4;
+    case 'INITIAL_READY', status=13;
+    case 'ACTIVE_ACCEPT', status=2;
+    case {'SWITCH_READY','BLEND_ACTIVE'}
+        status=14; if strcmp(decision.action,'switch'), status=6; end
+    case 'OUTLIER_HOLD', status=3;
+    case 'WARMUP_REJECTED', status=11;
+    case 'SWITCH_WAIT', status=15;
+    otherwise
+        return; % Unknown events are internal failures, never a successful wait.
+end
+if lost_window>0
+    status=1; if lost_window==2, status=4; end
+    reason='BASE_NO_LONGER_READY_AFTER_REMOVAL';
 end
 end

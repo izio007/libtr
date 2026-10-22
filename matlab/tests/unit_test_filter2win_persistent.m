@@ -11,6 +11,27 @@ for name={'main','alt'}
     w.band.lower_margin=p.band_radius; w.band.upper_margin=p.band_radius; c.(name{1})=w;
 end
 c.flow.gap_hold_seconds=p.hold_seconds; c.flow.outlier_hold_seconds=p.hold_seconds;
+% Pure selection uses hand-written facts: no FIFO, timing or numeric preparation.
+facts=struct('missing',false,'has_active',true,'no_samples',false, ...
+    'has_route',true,'route_is_main',true,'route_is_active',false, ...
+    'window_was_empty',false,'accepted',true,'ready_after',true, ...
+    'can_hold',true,'main_hold',false,'wait_done',false,'instant_switch',false, ...
+    'blend_active',true,'blend_done',false,'cancel_on_missing',false);
+decision=filter2win_persistent_transition(facts);
+assert(strcmp(decision.event,'SWITCH_WAIT') && strcmp(decision.action,'wait'));
+facts.route_is_main=false; facts.route_is_active=true;
+decision=filter2win_persistent_transition(facts);
+assert(strcmp(decision.event,'BLEND_ACTIVE') && strcmp(decision.action,'blend'));
+facts.blend_done=true;
+decision=filter2win_persistent_transition(facts);
+assert(strcmp(decision.event,'BLEND_ACTIVE') && strcmp(decision.action,'switch'));
+facts.route_is_main=true; facts.route_is_active=false; facts.wait_done=true;
+facts.blend_active=false; facts.blend_done=false;
+decision=filter2win_persistent_transition(facts);
+assert(strcmp(decision.event,'SWITCH_READY') && strcmp(decision.action,'blend'));
+facts.instant_switch=true;
+decision=filter2win_persistent_transition(facts);
+assert(strcmp(decision.event,'SWITCH_READY') && strcmp(decision.action,'switch'));
 codes=[]; records={};
 step(c,struct(),p.baseline_time(1),NaN);
 a=step(c,struct(),p.baseline_time(1),p.base); step(c,a,p.baseline_time(2),NaN);
@@ -83,6 +104,45 @@ for k=2:numel(p.blend_offsets)
     assert(abs(a.X_FILTERED_OUTPUT-expected)<=p.tolerance);
 end
 assert(a.FILTER_STATUS==6);
+% Waiting for A during A->B blending pauses the blend, not its existence.
+% Waiting is unsupported even with on_missing=continue: it is not a gap tick.
+for mode={'pause','continue'}
+    paused=smooth; paused.handover.return_wait_seconds=p.wait_seconds;
+    paused.handover.on_missing=mode{1};
+    a=baseline(paused,p);
+    for k=1:numel(p.candidate_time), a=step(paused,a,p.candidate_time(k),p.candidate_value(k)); end
+    a=step(paused,a,p.selection_time,p.alternative);
+    assert(a.FILTER_STATUS==14 && a.FILTER_STATE.active==2);
+    [a,d]=step(paused,a,p.selection_time+1,p.base);
+    assert(strcmp(d.event,'SWITCH_WAIT') && d.status==15 && d.accepted && d.route==1);
+    assert(d.active_window==2 && abs(d.output-p.base)<=p.tolerance);
+    assert(a.FILTER_STATE.blend_duration==p.blend_duration && a.FILTER_STATE.blend_elapsed==0);
+    [a,d]=step(paused,a,p.selection_time+2,p.alternative);
+    assert(d.status==14 && d.active_window==2 && abs(d.output-p.base)<=p.tolerance);
+    assert(a.FILTER_STATE.blend_duration==p.blend_duration && a.FILTER_STATE.blend_elapsed==0);
+    [a,d]=step(paused,a,p.selection_time+3,p.alternative);
+    assert(a.FILTER_STATE.blend_elapsed==1);
+    assert(abs(d.output-(p.base+(p.alternative-p.base)*0.15625))<=p.tolerance);
+    [a,d]=step(paused,a,p.selection_time+6,p.alternative);
+    assert(d.status==6 && abs(d.output-p.alternative)<=p.tolerance);
+    assert(a.FILTER_STATE.blend_duration==0);
+end
+% An unavailable published output selects a ready returning A immediately,
+% even when the current outlier hold is longer than the preceding gap hold.
+recovery=c; recovery.flow.gap_hold_seconds=0;
+recovery.handover.duration_seconds=0;
+recovery.handover.return_wait_seconds=0;
+recovery.handover.return_duration_seconds=p.blend_duration;
+a=baseline(recovery,p);
+for k=1:numel(p.candidate_time), a=step(recovery,a,p.candidate_time(k),p.candidate_value(k)); end
+a=step(recovery,a,p.selection_time,p.alternative);
+assert(a.FILTER_STATE.active==2 && a.FILTER_VALID);
+[a,d]=step(recovery,a,p.return_time,NaN);
+assert(d.status==8 && d.active_window==2 && ~d.valid && isnan(a.FILTER_STATE.last_output));
+[a,d]=step(recovery,a,p.reject_time,p.base);
+assert(d.guards.age<=recovery.flow.outlier_hold_seconds);
+assert(d.status==6 && d.active_window==1 && d.accepted);
+assert(abs(d.output-p.base)<=p.tolerance && a.FILTER_STATE.blend_duration==0);
 % Removed rule configurations are rejected before any state is changed.
 a=baseline(c,p); old=a; obsolete=c; obsolete.rules=[];
 [rc,out]=filter2win(obsolete,a,p.candidate_time(1),p.alternative,false);
@@ -162,7 +222,27 @@ fixture.FILTER_STATE.last_accept(2)=p.return_time;
 fixture.FILTER_STATE.last_supported=true;
 [depleted,d]=step(edge,fixture,p.reject_time,p.alternative+p.cleanup_new_offset);
 assert(~d.valid && depleted.FILTER_STATE.active==0 && depleted.FILTER_STATUS==4);
+assert(d.route==2 && d.accepted && d.alt_count==2 && ~d.windows(2).ready);
+assert(strcmp(d.reason,'BASE_NO_LONGER_READY_AFTER_REMOVAL'));
+assert(isequaln(depleted.FILTER_STATE.main,fixture.FILTER_STATE.main));
 step(edge,depleted,p.reject_time+p.slow_time(end),p.alternative+p.cleanup_new_offset);
+% The same loss in A must identify A, even outside a blend. With five values
+% [10,10.1,10.2,10.3,10.2], median=10.2 and the 0.05 band retains two 10.2s.
+edge=c; edge.main.capacity=p.cleanup_capacity; edge.main.trim.min_samples=p.cleanup_capacity;
+edge.main.trim.k=p.cleanup_k; edge.main.trim.mad_scale=p.cleanup_scale;
+edge.main.trim.scale_floor=p.cleanup_floor;
+a=struct();
+for k=1:numel(p.baseline_time)
+    a=step(edge,a,p.baseline_time(k),p.base+p.cleanup_offsets(k));
+end
+assert(a.FILTER_STATE.active==1 && a.FILTER_VALID && a.FILTER_STATE.main.count==4);
+oldB=a.FILTER_STATE.alt;
+[depleted,d]=step(edge,a,4,p.base+p.cleanup_new_offset);
+assert(d.status==1 && d.route==1 && d.accepted && d.active_window==0 && ~d.valid);
+assert(strcmp(d.reason,'BASE_NO_LONGER_READY_AFTER_REMOVAL'));
+assert(d.main_count==2 && ~d.windows(1).ready && isequaln(depleted.FILTER_STATE.alt,oldB));
+[~,~,retained]=fifo_double('read',depleted.FILTER_STATE.main);
+assert(isequal(retained.time,[2 4]) && all(abs(retained.value-(p.base+p.cleanup_new_offset))<=p.tolerance));
 % Real-time linear and known-velocity models use the same physical samples.
 for model={'linear','known_velocity'}
     moving=c;
@@ -189,6 +269,21 @@ for mode={'pause','continue','cancel'}
     else
         expected=p.base+(p.alternative-p.base)*p.blend_weights(2);
         assert(d.status==14 && abs(d.output-expected)<=p.tolerance);
+    end
+    if ~strcmp(mode{1},'cancel')
+        % The first accepted tick after a gap follows the selected clock rule.
+        [a,d]=step(transition,a,p.selection_time+p.blend_offsets(3),p.alternative);
+        expected=p.base; elapsed=0;
+        if strcmp(mode{1},'continue')
+            expected=p.base+(p.alternative-p.base)*p.blend_weights(3); elapsed=2;
+        end
+        assert(d.status==14 && abs(d.output-expected)<=p.tolerance);
+        assert(a.FILTER_STATE.blend_elapsed==elapsed);
+        if strcmp(mode{1},'pause')
+            [a,d]=step(transition,a,p.selection_time+3,p.alternative);
+            assert(a.FILTER_STATE.blend_elapsed==1);
+            assert(abs(d.output-(p.base+(p.alternative-p.base)*0.15625))<=p.tolerance);
+        end
     end
 end
 assert(isequal(unique(codes),p.required_statuses(:).'));

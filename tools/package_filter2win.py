@@ -10,6 +10,7 @@ FILES = (
     "matlab/function/filter2win.m",
     "matlab/function/filter2win_execute.m",
     "matlab/function/filter2win_initial_state.m",
+    "matlab/function/filter2win_persistent_conditions.m",
     "matlab/function/filter2win_persistent_execute.m",
     "matlab/function/filter2win_persistent_prepare.m",
     "matlab/function/filter2win_persistent_transition.m",
@@ -63,7 +64,12 @@ README = """# filter2win {version}
 
 Состояние ctx передаётся в следующий вызов. Время последующих измерений должно
 увеличиваться. Готовность выхода показывает ctx.FILTER_VALID.
-Описание входов и настроек: docs/filter2win_theory.md.
+Читать алгоритм следует с docs/filter2win_theory.md: там условия, приоритеты,
+таблица действий и численные примеры. В схеме 3 ctx.FILTER_DEBUG показывает
+event, action, phase и reason; FILTER_STATUS описывает результат такта.
+Диспетчер — filter2win_persistent, расчёт условий —
+filter2win_persistent_conditions, выбор — filter2win_persistent_transition,
+исполнение и публикация — filter2win_persistent_execute.
 
 ## Тесты вручную
 

@@ -55,8 +55,10 @@ if ~(isfinite(s.last_input) || s.last_input==-Inf) || s.last_input>s.last_tick |
 if ~isa(s.last_accept,'double') || ~isreal(s.last_accept) || ...
         ~isequal(size(s.last_accept),[1 2]) || any(isnan(s.last_accept) | s.last_accept>s.last_tick), ok=false; return; end
 if s.pending_window>0 && (~isfinite(s.pending_since) || s.pending_since>s.last_tick), ok=false; return; end
-if s.status==14 && (s.active==0 || ~finite(s.blend_from) || ...
-        ~finite(s.blend_start) || s.blend_start>s.last_tick || s.blend_duration<=0), ok=false; return; end
+% The blend persists independently of the diagnostic code of the last step.
+if s.blend_duration>0 && (s.active==0 || ~finite(s.blend_from) || ...
+        ~finite(s.blend_start) || s.blend_start>s.last_tick), ok=false; return; end
+if s.status==14 && s.blend_duration==0, ok=false; return; end
 [a,~,~]=fifo_double('read',s.main); [b,~,~]=fifo_double('read',s.alt);
 ok=a==0 && b==0;
 if ~ok, return; end

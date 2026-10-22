@@ -1,7 +1,8 @@
 function [rc,ctx,debug]=filter2win(cfg,ctx,current_time,X_meas_tick,is_nan_tick)
 % FILTER2WIN Two-window scalar state machine with fixed transitions.
 % rc=0: step executed, possibly NaN output. rc=1: ctx unchanged.
-% ctx.FILTER_STATE.status and ctx.FILTER_STATUS: schema-specific mode.
+% ctx.FILTER_STATE.status and ctx.FILTER_STATUS: schema-specific step outcome.
+% Schema 3 keeps ongoing blending in blend_duration, not in a status code.
 % Only real measurements enter either FIFO. No synthetic window padding.
 % Initialize ctx=struct() when changing schema or parameters.
 % All elapsed-time guards use input timestamps.

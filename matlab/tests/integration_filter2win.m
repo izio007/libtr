@@ -110,12 +110,16 @@ save(fullfile(folder,artifacts.data),'time','truth','stations','source','alpha',
 labels={'X','Y','Z'}; tables=cell(1,3);
 for axis=1:3
     event=cellfun(@(d)d.event,records(axis,:),'UniformOutput',false).';
+    action=cellfun(@(d)d.action,records(axis,:),'UniformOutput',false).';
+    phaseBefore=cellfun(@(d)d.phase_before,records(axis,:),'UniformOutput',false).';
+    phaseAfter=cellfun(@(d)d.phase,records(axis,:),'UniformOutput',false).';
     reason=cellfun(@(d)d.reason,records(axis,:),'UniformOutput',false).';
     tables{axis}=table(time.',repmat(labels(axis),n,1),truth(axis,:).',raw.samples(axis,:).', ...
         filtered(axis,:).',raw.statuses.',valid(axis,:).',states(axis,:).',active(axis,:).', ...
-        accepted(axis,:).',mainCount(axis,:).',altCount(axis,:).',event,reason, ...
+        accepted(axis,:).',mainCount(axis,:).',altCount(axis,:).',event,action,phaseBefore,phaseAfter,reason, ...
         'VariableNames',{'time_s','axis','truth_m','solver_m','filtered_m','solver_status', ...
-        'filter_valid','filter_status','active_window','accepted','count_A','count_B','event','reason'});
+        'filter_valid','filter_status','active_window','accepted','count_A','count_B', ...
+        'event','action','phase_before','phase','reason'});
 end
 writetable(vertcat(tables{:}),fullfile(folder,artifacts.trace));
 plot_trajectory(folder,artifacts.trajectory,showFigures,time,truth,stations,raw,filtered,metrics);
@@ -190,7 +194,7 @@ ylabel(ax,'0 none, 1 A, 2 B'); title(ax,'Active physical window for each coordin
 legend(ax,'X','Y','Z','Location','eastoutside');
 ax=subplot(3,1,2,'Parent',f); stairs(ax,time,states.','LineWidth',1.2);
 grid(ax,'on'); yticks(ax,[0:8 10:15]); ylabel(ax,'FILTER_STATUS','Interpreter','none');
-title(ax,'Executed filter states; events and reasons are saved in CSV');
+title(ax,'Step status; phase, action and reason are saved in CSV');
 legend(ax,'X','Y','Z','Location','eastoutside');
 ax=subplot(3,1,3,'Parent',f); hold(ax,'on'); colors=lines(3);
 for axis=1:3

@@ -1,3 +1,5 @@
+> Исторический аудит версии до переработки. Это не принцип и не текущая очередь задач. Действующее описание: [filter2win_theory.md](../docs/filter2win_theory.md).
+
 # filter2win и LOGIC_DESIGN_STANDARD.md: подробная сверка
 
 Дата: 21 октября 2026 года.
@@ -34,16 +36,16 @@ MATLAB и Octave в доступной среде отсутствуют. Нов
 
 | Обозначение | Файл |
 |---|---|
-| S | [LOGIC_DESIGN_STANDARD.md](sandbox:/workspace/scratch/88a9e878f056/upload/LOGIC_DESIGN_STANDARD.md) |
-| T | [filter2win_persistent_transition.m](sandbox:/workspace/scratch/88a9e878f056/second_cleanup/final_overlay/matlab/function/filter2win_persistent_transition.m) |
-| E | [filter2win_persistent_execute.m](sandbox:/workspace/scratch/88a9e878f056/second_cleanup/final_overlay/matlab/function/filter2win_persistent_execute.m) |
-| P | [filter2win_persistent_prepare.m](sandbox:/workspace/scratch/88a9e878f056/second_cleanup/final_overlay/matlab/function/filter2win_persistent_prepare.m) |
-| N | [filter2win_status_name.m](sandbox:/workspace/scratch/88a9e878f056/second_cleanup/final_overlay/matlab/function/filter2win_status_name.m) |
-| D | [filter2win_theory.md](sandbox:/workspace/scratch/88a9e878f056/third_cleanup/final_overlay/docs/filter2win_theory.md) |
-| U | [unit_test_filter2win_persistent.m](sandbox:/workspace/scratch/88a9e878f056/third_cleanup/final_overlay/matlab/tests/unit_test_filter2win_persistent.m) |
-| R | [.clinerules](sandbox:/workspace/scratch/88a9e878f056/third_cleanup/final_overlay/.clinerules) |
-| M | [PaeroPrincipe.md](sandbox:/workspace/scratch/88a9e878f056/third_cleanup/final_overlay/Principes/PaeroPrincipe.md) |
-| V | [VPrincipe.md](sandbox:/workspace/scratch/88a9e878f056/third_cleanup/final_overlay/Principes/VPrincipe.md) |
+| S | [LOGIC_DESIGN_STANDARD.md](https://github.com/izio007/libtr/blob/b51a768f55bf8a35627d52f965ecb2c1e56827ed/Principes/LOGIC_DESIGN_STANDARD.md) |
+| T | [filter2win_persistent_transition.m](https://github.com/izio007/libtr/blob/b51a768f55bf8a35627d52f965ecb2c1e56827ed/matlab/function/filter2win_persistent_transition.m) |
+| E | [filter2win_persistent_execute.m](https://github.com/izio007/libtr/blob/b51a768f55bf8a35627d52f965ecb2c1e56827ed/matlab/function/filter2win_persistent_execute.m) |
+| P | [filter2win_persistent_prepare.m](https://github.com/izio007/libtr/blob/b51a768f55bf8a35627d52f965ecb2c1e56827ed/matlab/function/filter2win_persistent_prepare.m) |
+| N | [filter2win_status_name.m](https://github.com/izio007/libtr/blob/b51a768f55bf8a35627d52f965ecb2c1e56827ed/matlab/function/filter2win_status_name.m) |
+| D | [filter2win_theory.md](https://github.com/izio007/libtr/blob/b51a768f55bf8a35627d52f965ecb2c1e56827ed/docs/filter2win_theory.md) |
+| U | [unit_test_filter2win_persistent.m](https://github.com/izio007/libtr/blob/b51a768f55bf8a35627d52f965ecb2c1e56827ed/matlab/tests/unit_test_filter2win_persistent.m) |
+| R | [.clinerules](https://github.com/izio007/libtr/blob/b51a768f55bf8a35627d52f965ecb2c1e56827ed/.clinerules) |
+| M | [PaeroPrincipe.md](https://github.com/izio007/libtr/blob/b51a768f55bf8a35627d52f965ecb2c1e56827ed/Principes/PaeroPrincipe.md) |
+| V | [VPrincipe.md](https://github.com/izio007/libtr/blob/b51a768f55bf8a35627d52f965ecb2c1e56827ed/Principes/VPrincipe.md) |
 
 ## 3. Что уже соответствует стандарту и принципам
 
