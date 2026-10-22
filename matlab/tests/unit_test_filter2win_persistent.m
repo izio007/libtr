@@ -204,6 +204,19 @@ invalid=c; invalid.main.trim.scale_floor=0;
 [rc,a]=filter2win(invalid,old,time(end)+p.slow_time(end),p.base,false); assert(rc==1 && isequaln(a,old));
 invalid=old; invalid.FILTER_STATE.active=NaN;
 [rc,out]=filter2win(c,invalid,time(end)+p.slow_time(end),p.base,false); assert(rc==1 && isequaln(out,invalid));
+% A finite API time step can still overflow the active forecast horizon.
+% With an infinite hold, 0*Inf in a constant model must not publish NaN as
+% ordinary unavailability: refuse the tick and retain the complete context.
+overflow=c; overflow.flow.gap_hold_seconds=Inf;
+a=struct(); far_time=[-1e308 -9e307 -8e307 -7e307];
+for k=1:numel(far_time)
+    [rc,a]=filter2win(overflow,a,far_time(k),p.base,false); assert(rc==0);
+end
+[rc,a]=filter2win(overflow,a,0,NaN,true);
+assert(rc==0 && a.X_FILTERED_OUTPUT==p.base);
+old=a;
+[rc,out,d]=filter2win(overflow,old,1.7e308,NaN,true);
+assert(rc==1 && strcmp(d.reason,'NUMERIC_OUTPUT_OVERFLOW') && isequaln(out,old));
 % A robust cleanup can reduce a previously ready base below min_samples.
 % Retained test history is explicitly supplied; no stale readiness latch.
 edge=c; edge.alt.capacity=p.cleanup_capacity; edge.alt.trim.min_samples=p.cleanup_capacity;

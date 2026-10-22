@@ -36,7 +36,13 @@ lost_window=0;
 if s.active>0 && ~after(s.active).ready
     lost_window=s.active; s.active=0; output=NaN;
 end
-if ~isnan(output) && ~isfinite(output), debug.reason='NUMERIC_OUTPUT_OVERFLOW'; return; end
+% NaN is intentional only when this action cannot provide an active result.
+% A required prediction that becomes NaN is a numerical refusal, like Inf.
+output_required=s.active>0 && ~strcmp(decision.action,'unavailable') && ...
+    (step.hold || (accepted && g.route==s.active));
+if ~isfinite(output) && (output_required || ~isnan(output))
+    debug.reason='NUMERIC_OUTPUT_OVERFLOW'; return;
+end
 [status,reason]=final_status(decision,r.reason,lost_window);
 if isempty(status), debug.reason='INVALID_EVENT'; return; end
 % A waiting candidate pauses a blend without ending its lifetime. Only this

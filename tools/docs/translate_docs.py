@@ -7,6 +7,7 @@ Examples:
   python tools/docs/translate_docs.py docs/tis_research_theory.md --format html --images runtime/my_run
 
 Python 3.9+, standard library. Source documents and calculation data are not changed.
+Mermaid and other non-MATLAB fenced blocks become comments in Live Editor.
 """
 import argparse
 import html
@@ -112,12 +113,15 @@ def live_formula(match):
 def to_liveeditor(text, output, images):
     lines = []
     code = False
+    executable = False
     for line in text.splitlines():
         if line.startswith('```'):
+            if not code:
+                executable = line[3:].strip().lower() == 'matlab'
             code = not code
             continue
         if code:
-            lines.append(line)
+            lines.append(line if executable else '% ' + line)
             continue
         picture = IMAGE.fullmatch(line)
         if picture:
