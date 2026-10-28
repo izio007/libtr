@@ -79,11 +79,12 @@ README = """# filter2win {version}
 Данные численных проверок объединены в filter2win_test_cases.json. Настройки
 фильтра отделены от независимых ожиданий тестов. Проверки поведения сохранены.
 
-Упаковка не запускает эти тесты, MATLAB, службы или экспорт документации.
+Упаковка не запускает тесты, MATLAB или службы. С параметром --include-html
+добавляется HTML: откройте docs/html/filter2win.html после распаковки всего архива.
 """
 
 
-def build(version, output):
+def build(version, output, include_html=False):
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", version):
         raise ValueError("Version may contain letters, numbers, dots, underscores and hyphens")
     # Read all inputs before creating the archive; a missing file leaves no partial ZIP.
@@ -122,6 +123,18 @@ def build(version, output):
         pattern = r'(?<!!)' + re.escape('[') + r'([^]]+)' + re.escape('](') + r'([^)]*)' + re.escape(')')
         text = re.sub(pattern, local_link, content.decode('utf-8'))
         files[index] = (name, text.encode('utf-8'))
+    if include_html:
+        # Explicitly requested presentation; never runs numerical calculations.
+        import sys
+        sys.path.insert(0, str(ROOT / 'tools/docs'))
+        from translate_docs import to_html
+        document = dict(files)['docs/filter2win_theory.md'].decode('utf-8')
+        rendered = to_html(document, ROOT / 'docs/filter2win_theory.md',
+                           ROOT / 'docs/html/filter2win.html', ROOT / 'docs/images')
+        files.append(('docs/html/filter2win.html', rendered.encode('utf-8')))
+        for asset in ('tex-svg.js', 'MathJax-LICENSE.txt'):
+            path = 'docs/html/assets/' + asset
+            files.append((path, (ROOT / path).read_bytes()))
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     prefix = "filter2win-" + version
@@ -138,9 +151,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--version", required=True)
     parser.add_argument("--output", required=True, type=Path, help="Directory for the ZIP")
+    parser.add_argument('--include-html', action='store_true', help='Include readable HTML and local math assets; no calculations')
     args = parser.parse_args()
     try:
-        archive = build(args.version, args.output)
+        archive = build(args.version, args.output, args.include_html)
     except (OSError, ValueError) as error:
         parser.exit(1, str(error) + "\n")
     print(archive)

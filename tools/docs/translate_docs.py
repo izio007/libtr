@@ -85,12 +85,12 @@ def to_html(text, source, output, images):
 <script>window.MathJax={config};</script>
 <script defer src="{mathjax}"></script>
 <style>
-body{{margin:0;background:#fff;color:#20252b;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}}
+body{{margin:0;background:#fff;color:#20252b;font:16px/1.25 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}}
 main{{max-width:960px;margin:0 auto;padding:36px 28px 80px}}
 h1,h2,h3{{line-height:1.3;margin:1.6em 0 .65em;font-weight:650;color:#17202a}}
 h1{{font-size:2em;margin-top:0}}h2{{font-size:1.5em;border-bottom:1px solid #d8dee4;padding-bottom:.3em}}
-h3{{font-size:1.18em}}p{{margin:0 0 1em}}ul,ol{{margin:0 0 1em;padding-left:1.8em}}
-li{{margin:.3em 0}}li p{{margin:.35em 0}}strong{{font-weight:650}}
+h3{{font-size:1.18em}}p{{margin:0 0 .55em;text-indent:1.5em}}ul,ol{{margin:0 0 1em;padding-left:1.8em}}
+li{{margin:.3em 0}}li p{{margin:.25em 0;text-indent:0}}td p,th p{{text-indent:0}}strong{{font-weight:700}}
 a{{color:#0969da;text-decoration:none}}a:hover{{text-decoration:underline}}
 img{{max-width:100%;height:auto;display:block;margin:1.3em auto}}
 table{{display:block;max-width:100%;overflow-x:auto;border-collapse:collapse;margin:1em 0 1.5em;font-size:.95em}}
