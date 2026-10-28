@@ -11,6 +11,7 @@ Mermaid and other non-MATLAB fenced blocks become comments in Live Editor.
 """
 import argparse
 import html
+import json
 import os
 from pathlib import Path
 import re
@@ -28,7 +29,7 @@ def relative_url(path, output):
         return path.resolve().as_uri()
 
 
-def html_inline(text):
+def html_inline(text, source=None, output=None):
     parts = []
     for part in TOKEN.split(text):
         if part.startswith('`'):
@@ -39,13 +40,26 @@ def html_inline(text):
             left, right = (r'\[', r'\]') if display else (r'\(', r'\)')
             parts.append(left + html.escape(part[n:-n]) + right)
         else:
-            parts.append(html.escape(part))
+            escaped = html.escape(part)
+            pattern = re.escape('[') + r'([^]]+)' + re.escape('](') + r'([^)]*)' + re.escape(')')
+            def link(match):
+                target = html.unescape(match[2])
+                if re.match(r'^(https?://|mailto:|#)', target):
+                    url = target
+                elif source is not None and output is not None:
+                    path, mark, anchor = target.partition('#')
+                    url = relative_url(source.parent / path, output) + (mark + anchor if mark else '')
+                else:
+                    return match[0]
+                return '<a href="' + html.escape(url, quote=True) + '">' + match[1] + '</a>'
+            parts.append(re.sub(pattern, link, escaped))
     return ''.join(parts)
 
 
 def to_html(text, source, output, images):
     body = []
     code = table = False
+    display_lines = None
     for line in text.splitlines():
         if line.startswith('```'):
             if table:
@@ -56,15 +70,32 @@ def to_html(text, source, output, images):
         if code:
             body.append(html.escape(line))
             continue
+        if line.strip() == '$$':
+            if display_lines is None:
+                display_lines = []
+            else:
+                formula = html.escape(chr(10).join(display_lines))
+                body.append('<div class="math">' + chr(92) + '[' + formula + chr(92) + ']</div>')
+                display_lines = None
+            continue
+        if display_lines is not None:
+            display_lines.append(line)
+            continue
         if line.startswith('|'):
             if not table:
                 body.append('<table>'); table = True
             if not re.fullmatch(r'\|[\s:|\-]+\|', line):
-                body.append('<tr>' + ''.join('<td>' + html_inline(c.strip()) + '</td>'
+                body.append('<tr>' + ''.join('<td>' + html_inline(c.strip(), source, output) + '</td>'
                                              for c in line.strip('|').split('|')) + '</tr>')
             continue
         if table:
             body.append('</table>'); table = False
+        markdown_picture = re.fullmatch(r'!\[(.*?)\]\(([^)]+)\)', line.strip())
+        if markdown_picture:
+            target = markdown_picture[2]
+            url = target if re.match(r'https?://', target) else relative_url(source.parent / target, output)
+            body.append('<figure><img src="' + html.escape(url, quote=True) + '" alt="' + html.escape(markdown_picture[1], quote=True) + '"></figure>')
+            continue
         picture = IMAGE.fullmatch(line)
         heading = re.match(r'^(#{1,6}) (.*)', line)
         if picture:
@@ -72,24 +103,31 @@ def to_html(text, source, output, images):
             body.append(f'<figure><img src="{url}" alt="{html.escape(picture[1], quote=True)}"></figure>')
         elif heading:
             level = len(heading[1])
-            body.append(f'<h{level}>' + html_inline(heading[2]) + f'</h{level}>')
+            body.append(f'<h{level}>' + html_inline(heading[2], source, output) + f'</h{level}>')
         elif re.fullmatch(r'-{3,}', line):
             body.append('<hr>')
         elif line.startswith('$$') and line.rstrip().endswith('$$'):
-            body.append('<div class="math">' + html_inline(line.rstrip()) + '</div>')
+            body.append('<div class="math">' + html_inline(line.rstrip(), source, output) + '</div>')
         else:
-            body.append('<p>' + html_inline(line) + '</p>' if line else '')
+            body.append('<p>' + html_inline(line, source, output) + '</p>' if line else '')
     if table:
         body.append('</table>')
     if code:
         body.append('</code></pre>')
+    if display_lines is not None:
+        raise ValueError('Unclosed display formula ($$)')
+    math_config = json.dumps({'tex': {
+        'inlineMath': [[chr(92)+'(', chr(92)+')'], ['$', '$']],
+        'displayMath': [[chr(92)+'[', chr(92)+']'], ['$$', '$$']],
+        'processEscapes': True
+    }})
     mathjax = html.escape(relative_url(ROOT / 'docs/html/assets/tex-svg.js', output), quote=True)
     title = html.escape(source.stem)
     header = f'''<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
-<script>window.MathJax={{tex:{{inlineMath:[['\\\\(','\\\\)']],displayMath:[['\\\\[','\\\\]']]}}}};</script>
+<script>window.MathJax={math_config};</script>
 <script defer src="{mathjax}"></script>
 <style>body{{max-width:1100px;margin:auto;padding:24px;line-height:1.6}}img{{max-width:100%;height:auto}}table{{border-collapse:collapse}}td{{border:1px solid #888;padding:8px}}pre,.math{{overflow-x:auto}}p{{overflow-wrap:anywhere}}</style>
 </head><body><main>

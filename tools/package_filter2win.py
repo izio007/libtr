@@ -2,6 +2,7 @@
 import argparse
 from pathlib import Path
 import re
+import posixpath
 from zipfile import ZIP_DEFLATED, ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -104,6 +105,23 @@ def build(version, output):
         files = [(name, theory.encode("utf-8") if name == theory_path else content)
                  for name, content in files]
     files.extend(images.items())
+    # A partial package must not advertise links to absent repository files.
+    included = {name for name, _ in files}
+    for index, (name, content) in enumerate(files):
+        if not name.endswith('.md'):
+            continue
+        def local_link(match):
+            label, target = match.group(1), match.group(2)
+            if re.match(r'^[a-zA-Z][a-zA-Z0-9+.-]*:', target) or target.startswith('#'):
+                return match.group(0)
+            path = target.split('#', 1)[0]
+            resolved = posixpath.normpath(posixpath.join(posixpath.dirname(name), path))
+            if resolved in included:
+                return match.group(0)
+            return label + ' (в полном репозитории: `' + resolved + '`; в архив не включено)'
+        pattern = r'(?<!!)' + re.escape('[') + r'([^]]+)' + re.escape('](') + r'([^)]*)' + re.escape(')')
+        text = re.sub(pattern, local_link, content.decode('utf-8'))
+        files[index] = (name, text.encode('utf-8'))
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     prefix = "filter2win-" + version
