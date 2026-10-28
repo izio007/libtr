@@ -6,7 +6,9 @@
 
 Входы: $A$ размера $m \times n$, $B$ размера $n \times p$, $C$ размера $p \times q$. Выход: $D$ размера $m \times q$.
 
-$$A \in \mathbb{R}^{m \times n}, \qquad B \in \mathbb{R}^{n \times p}, \qquad C \in \mathbb{R}^{p \times q}, \qquad D=(AB)C \in \mathbb{R}^{m \times q}.$$
+$$
+A \in \mathbb{R}^{m \times n}, \qquad B \in \mathbb{R}^{n \times p}, \qquad C \in \mathbb{R}^{p \times q}, \qquad D=(AB)C \in \mathbb{R}^{m \times q}.
+$$
 
 Размеры $m,n,p,q$ произвольны, неотрицательны и ограничены только возможностями и доступной памятью MATLAB; фиксированных верхних границ нет.
 
@@ -16,15 +18,21 @@ $$A \in \mathbb{R}^{m \times n}, \qquad B \in \mathbb{R}^{n \times p}, \qquad C 
 
 Промежуточная матрица $T=AB$ имеет размер $m \times p$. По определению матричного произведения:
 
-$$T_{il}=\sum_{k=1}^{n}A_{ik}B_{kl}, \qquad i=1,\ldots,m, \quad l=1,\ldots,p.$$
+$$
+T_{il}=\sum_{k=1}^{n}A_{ik}B_{kl}, \qquad i=1,\ldots,m, \quad l=1,\ldots,p.
+$$
 
 Второй этап вычисляет $D=TC$:
 
-$$D_{ij}=\sum_{l=1}^{p}T_{il}C_{lj}, \qquad i=1,\ldots,m, \quad j=1,\ldots,q.$$
+$$
+D_{ij}=\sum_{l=1}^{p}T_{il}C_{lj}, \qquad i=1,\ldots,m, \quad j=1,\ldots,q.
+$$
 
 Подстановка первого выражения во второе дает математическую модель всего оператора:
 
-$$D_{ij}=\sum_{l=1}^{p}\left(\sum_{k=1}^{n}A_{ik}B_{kl}\right)C_{lj}.$$
+$$
+D_{ij}=\sum_{l=1}^{p}\left(\sum_{k=1}^{n}A_{ik}B_{kl}\right)C_{lj}.
+$$
 
 Обратимость не требуется: нулевые, вырожденные и плохо обусловленные матрицы допустимы. Проверка `rcond` не выполняется.
 
@@ -75,11 +83,15 @@ assert(isequal(D, [63; 143]));
 
 Независимый эталон для дробных данных вычисляет явную двойную сумму `A(i,k)*B(k,l)*C(l,j)`. Для каждого элемента $S_{ij}$ равна сумме модулей этих слагаемых:
 
-$$S_{ij}=\sum_{k=1}^{n}\sum_{l=1}^{p}|A_{ik}B_{kl}C_{lj}|.$$
+$$
+S_{ij}=\sum_{k=1}^{n}\sum_{l=1}^{p}|A_{ik}B_{kl}C_{lj}|.
+$$
 
 Допуск сравнения с эталоном $R$ задается формулой:
 
-$$\tau_{ij}=32\,\mathrm{eps}\,(n+p+1)\max(1,S_{ij}), \qquad |D_{ij}-R_{ij}|\leq\tau_{ij}.$$
+$$
+\tau_{ij}=32\,\mathrm{eps}\,(n+p+1)\max(1,S_{ij}), \qquad |D_{ij}-R_{ij}|\leq\tau_{ij}.
+$$
 
 Здесь `eps` — шаг от 1 до следующего большего числа `double` в MATLAB. Это консервативный тестовый допуск для выбранных небольших матриц, а не универсальная гарантия точности. Дополнительно проверяется совпадение с явно левосторонним произведением.
 

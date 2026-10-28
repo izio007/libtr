@@ -3,58 +3,171 @@
 
 ## 1. Геометрические инварианты измерительной задачи
 ТИС осуществляет оценивание пространственного положения цели, находящейся в точке с истинными декартовыми координатами в локальной трехмерной прямоугольной системе ENU:
-$$\mathbf{X}=[x,y,z]^T \in \mathbb{R}^3$$
+
+$$
+\mathbf{X}=[x,y,z]^T \in \mathbb{R}^3
+$$
+
 Измерительная сеть состоит из $M$ наземных базовых постов с известными, статичными декартовыми координатами:
-$$\mathbf{X}_{si}=[x_{si},y_{si},z_{si}]^T,\quad i=1,\dots,M$$
+
+$$
+\mathbf{X}_{si}=[x_{si},y_{si},z_{si}]^T,\quad i=1,\dots,M
+$$
+
 Для каждого поста ТИС вектор дальности (прямой визирный луч «пост $\rightarrow$ цель») задается пространственными приращениями в абсолютных метрах земли:
-$$\Delta x_i = x - x_{si}, \quad \Delta y_i = y - y_{si}, \quad \Delta z_i = z - z_{si}$$
+
+$$
+\Delta x_i = x - x_{si}, \quad \Delta y_i = y - y_{si}, \quad \Delta z_i = z - z_{si}
+$$
+
 Продольная дальность до цели в горизонтальной проекции $XOY$ и полная пространственная дальность до $i$-го поста равны соответственно:
-$$r_{xy,i}=\sqrt{\Delta x_i^2+\Delta y_i^2}, \quad r_i = \Vert\mathbf{\Delta X}_i\Vert = \sqrt{\Delta x_i^2+\Delta y_i^2+\Delta z_i^2}$$
+
+$$
+r_{xy,i}=\sqrt{\Delta x_i^2+\Delta y_i^2}, \quad r_i = \Vert\mathbf{\Delta X}_i\Vert = \sqrt{\Delta x_i^2+\Delta y_i^2+\Delta z_i^2}
+$$
+
 Аппаратура каждого поста ТИС измеряет угловое направление на цель (вектор пеленгации) строго от инвариантной горизонтальной оси $OX$ декартовой земли против движения часовой стрелки в соответствии со строгим тригонометрическим законом:
 
 * Азимут ($\alpha_i$): угол в горизонтальной плоскости $XOY$ между осью $OX$ и проекцией визирного луча:
-$$\alpha_i=\text{atan2}(\Delta y_i,\Delta x_i)\quad\rightarrow\quad\tan\alpha_i=\frac{\Delta y_i}{\Delta x_i} = \frac{y-y_{si}}{x-x_{si}}$$
-* Угол места ($\beta_i$): угол в вертикальной плоскости между плоскостью $XOY$ и пространственным визирным лучом:
-$$\beta_i=\text{atan2}(\Delta z_i,r_{xy,i})\quad\rightarrow\quad\tan\beta_i=\frac{\Delta z_i}{r_{xy,i}} = \frac{z-z_{si}}{r_{xy,i}}$$
 
+$$
+\alpha_i=\text{atan2}(\Delta y_i,\Delta x_i)\quad\rightarrow\quad\tan\alpha_i=\frac{\Delta y_i}{\Delta x_i} = \frac{y-y_{si}}{x-x_{si}}
+$$
+
+* Угол места ($\beta_i$): угол в вертикальной плоскости между плоскостью $XOY$ и пространственным визирным лучом:
+
+$$
+\beta_i=\text{atan2}(\Delta z_i,r_{xy,i})\quad\rightarrow\quad\tan\beta_i=\frac{\Delta z_i}{r_{xy,i}} = \frac{z-z_{si}}{r_{xy,i}}
+$$
 
 ## 2. Строгий аналитический вывод уравнений связи (Строки МНК)
 Линейный безитерационный метод (LLS) требует точного преобразования нелинейных тригонометрических уравнений пеленгации к каноническому виду линейной системы нормальных уравнений:
-$$H \cdot \mathbf{X} = \mathbf{b}$$
+
+$$
+H \cdot \mathbf{X} = \mathbf{b}
+$$
+
 ## 2.1. Аналитический вывод строки горизонтального канала (Азимут $\alpha_i$)
 Из определения тангенса измеряемого азимута $\alpha_i$ раскрываем тригонометрическую пропорцию:
-$$\tan\alpha_i = \frac{\sin\alpha_i}{\cos\alpha_i} = \frac{y - y_{si}}{x - x_{si}}$$
+
+$$
+\tan\alpha_i = \frac{\sin\alpha_i}{\cos\alpha_i} = \frac{y - y_{si}}{x - x_{si}}
+$$
+
 Раскрываем пропорцию крест-накрест, полностью избавляясь от нелинейного пространственного знаменателя в рамках единого расчетного контура:
-$$(x - x_{si}) \cdot \sin\alpha_i = (y - y_{si}) \cdot \cos\alpha_i$$
-$$x \cdot \sin\alpha_i - x_{si} \cdot \sin\alpha_i = y \cdot \cos\alpha_i - y_{si} \cdot \cos\alpha_i$$
+
+$$
+(x - x_{si}) \cdot \sin\alpha_i = (y - y_{si}) \cdot \cos\alpha_i
+$$
+
+
+
+$$
+x \cdot \sin\alpha_i - x_{si} \cdot \sin\alpha_i = y \cdot \cos\alpha_i - y_{si} \cdot \cos\alpha_i
+$$
+
 Группируем неизвестные декартовы координаты цели $(x, y)$ в левой части уравнения, а известные координаты $i$-го поста ТИС переносим в правую часть:
-$$\sin\alpha_i \cdot x - \cos\alpha_i \cdot y = \sin\alpha_i \cdot x_{si} - \cos\alpha_i \cdot y_{si}$$
+
+$$
+\sin\alpha_i \cdot x - \cos\alpha_i \cdot y = \sin\alpha_i \cdot x_{si} - \cos\alpha_i \cdot y_{si}
+$$
+
 Данное тождество определяет первую МНК-строку (азимутальную) линейного декартова оператора для $i$-го поста ТИС:
-$$H(2i-1, 1) = \sin\alpha_i$$
-$$H(2i-1, 2) = -\cos\alpha_i$$
-$$H(2i-1, 3) = 0$$
-$$b(2i-1, 1) = \sin\alpha_i \cdot x_{si} - \cos\alpha_i \cdot y_{si}$$
+
+$$
+H(2i-1, 1) = \sin\alpha_i
+$$
+
+
+
+$$
+H(2i-1, 2) = -\cos\alpha_i
+$$
+
+
+
+$$
+H(2i-1, 3) = 0
+$$
+
+
+
+$$
+b(2i-1, 1) = \sin\alpha_i \cdot x_{si} - \cos\alpha_i \cdot y_{si}
+$$
+
 ## 2.2. Аналитический вывод строки вертикального канала (Угол места $\beta_i$)
 Из определения тангенса измеряемого угла места $\beta_i$ раскрываем тригонометрическую пропорцию:
-$$\tan\beta_i = \frac{\sin\beta_i}{\cos\beta_i} = \frac{\Delta z_i}{r_{xy,i}} \quad\rightarrow\quad \Delta z_i \cdot \cos\beta_i - r_{xy,i} \cdot \sin\beta_i = 0$$
-$$(z - z_{si}) \cdot \cos\beta_i - r_{xy,i} \cdot \sin\beta_i = 0$$
+
+$$
+\tan\beta_i = \frac{\sin\beta_i}{\cos\beta_i} = \frac{\Delta z_i}{r_{xy,i}} \quad\rightarrow\quad \Delta z_i \cdot \cos\beta_i - r_{xy,i} \cdot \sin\beta_i = 0
+$$
+
+
+
+$$
+(z - z_{si}) \cdot \cos\beta_i - r_{xy,i} \cdot \sin\beta_i = 0
+$$
+
 Продольная горизонтальная дальность $r_{xy,i}$ нативно выражается через горизонтальные приращения и тригонометрические функции измерительного ракурса:
-$$r_{xy,i} = \Delta x_i \cdot \cos\alpha_i + \Delta y_i \cdot \sin\alpha_i = (x - x_{si}) \cdot \cos\alpha_i + (y - y_{si}) \cdot \sin\alpha_i$$
+
+$$
+r_{xy,i} = \Delta x_i \cdot \cos\alpha_i + \Delta y_i \cdot \sin\alpha_i = (x - x_{si}) \cdot \cos\alpha_i + (y - y_{si}) \cdot \sin\alpha_i
+$$
+
 Подставляем полученное аналитическое выражение для $r_{xy,i}$ в уравнение связи угла места:
-$$(z - z_{si}) \cdot \cos\beta_i - \left[ (x - x_{si}) \cdot \cos\alpha_i + (y - y_{si}) \cdot \sin\alpha_i \right] \cdot \sin\beta_i = 0$$
+
+$$
+(z - z_{si}) \cdot \cos\beta_i - \left[ (x - x_{si}) \cdot \cos\alpha_i + (y - y_{si}) \cdot \sin\alpha_i \right] \cdot \sin\beta_i = 0
+$$
+
 Раскрываем скобки и группируем слагаемые:
-$$z \cdot \cos\beta_i - z_{si} \cdot \cos\beta_i - x \cdot \cos\alpha_i \sin\beta_i + x_{si} \cdot \cos\alpha_i \sin\beta_i - y \cdot \sin\alpha_i \sin\beta_i + y_{si} \cdot \sin\alpha_i \sin\beta_i = 0$$
+
+$$
+z \cdot \cos\beta_i - z_{si} \cdot \cos\beta_i - x \cdot \cos\alpha_i \sin\beta_i + x_{si} \cdot \cos\alpha_i \sin\beta_i - y \cdot \sin\alpha_i \sin\beta_i + y_{si} \cdot \sin\alpha_i \sin\beta_i = 0
+$$
+
 Переносим неизвестные координаты цели $(x, y, z)$ в левую часть, строго выдерживая знаки правой тройки векторов ENU:
-$$-\cos\alpha_i \sin\beta_i \cdot x - \sin\alpha_i \sin\beta_i \cdot y + \cos\beta_i \cdot z = -\cos\alpha_i \sin\beta_i \cdot x_{si} - \sin\alpha_i \sin\beta_i \cdot y_{si} + \cos\beta_i \cdot z_{si}$$
+
+$$
+-\cos\alpha_i \sin\beta_i \cdot x - \sin\alpha_i \sin\beta_i \cdot y + \cos\beta_i \cdot z = -\cos\alpha_i \sin\beta_i \cdot x_{si} - \sin\alpha_i \sin\beta_i \cdot y_{si} + \cos\beta_i \cdot z_{si}
+$$
+
 Данное тождество определяет вторую МНК-строку (угломестную) линейного декартова оператора для $i$-го поста ТИС:
-$$H(2i, 1) = -\cos\alpha_i \sin\beta_i$$
-$$H(2i, 2) = -\sin\alpha_i \sin\beta_i$$
-$$H(2i, 3) = \cos\beta_i$$
-$$b(2i, 1) = -\cos\alpha_i \sin\beta_i \cdot x_{si} - \sin\alpha_i \sin\beta_i \cdot y_{si} + \cos\beta_i \cdot z_{si}$$
+
+$$
+H(2i, 1) = -\cos\alpha_i \sin\beta_i
+$$
+
+
+
+$$
+H(2i, 2) = -\sin\alpha_i \sin\beta_i
+$$
+
+
+
+$$
+H(2i, 3) = \cos\beta_i
+$$
+
+
+
+$$
+b(2i, 1) = -\cos\alpha_i \sin\beta_i \cdot x_{si} - \sin\alpha_i \sin\beta_i \cdot y_{si} + \cos\beta_i \cdot z_{si}
+$$
 
 3. Алгебраический оператор безитерационного оценивания (Position)
 В соответствии с требованиями Эшелона А, базовый измерительный контур оперирует исключительно равноточной системой сформированных линейных нормальных уравнений без весовых коэффициентов и без использования начального приближения:
-$$(\mathbf{H}^T \mathbf{H}) \mathbf{\lambda} = \mathbf{H}^T \mathbf{b}$$
+
+$$
+(\mathbf{H}^T \mathbf{H}) \mathbf{\lambda} = \mathbf{H}^T \mathbf{b}
+$$
+
 Где матрица H имеет размер [2M x 3], а вектор свободных членов b — размер [2M x 1]. Прямой безитерационный расчет декартова вектора координат объекта $\mathbf{\lambda} = [X; Y; Z]^T$ (в метрах) выполняется в рамках единого расчетного контура методом обращения нормальной матрицы:
-$$\mathbf{\lambda} = (\mathbf{H}^T \mathbf{H})^{-1} \mathbf{H}^T \mathbf{b}$$
+
+$$
+\mathbf{\lambda} = (\mathbf{H}^T \mathbf{H})^{-1} \mathbf{H}^T \mathbf{b}
+$$
+
 Проверка численного вырождения измерительной геометрии на каждом этапе осуществляется строго по машинному нулю вещественной разрядной сетки вычислителя.
