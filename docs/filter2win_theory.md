@@ -151,13 +151,13 @@ v_{ij}=\frac{x_j-x_i}{t_j-t_i},\qquad j>i,\quad t_j-t_i>0,\quad t_j-t_i\ge\textt
 После выбора скорости координаты приводятся к $`t_n`$:
 
 ```math
-q_i=x_i-v(t_i-t_n),\qquad a=\operatorname{median}_i q_i,\qquad r_i=q_i-a.
+q_i=x_i-v(t_i-t_n),\qquad a=\mathop{\mathrm{median}}\nolimits_i q_i,\qquad r_i=q_i-a.
 ```
 
 Для чётного числа элементов медиана — полусумма двух центральных значений. Реализация сначала делит каждое из них на два, чтобы не переполнить их сумму. Диагностики остатка:
 
 ```math
-\operatorname{MAD}=\operatorname{median}_i |r_i|, \qquad R=\max_i r_i-\min_i r_i.
+\mathop{\mathrm{MAD}}\nolimits=\mathop{\mathrm{median}}\nolimits_i |r_i|, \qquad R=\max_i r_i-\min_i r_i.
 ```
 
 Здесь MAD — исходная медиана абсолютных отклонений, без множителя 1,4826. Такой множитель применяется отдельно только в пороге отсечения. $`R`$ — полный размах остатков, а не размах исходных координат движущейся цели.
@@ -165,7 +165,7 @@ q_i=x_i-v(t_i-t_n),\qquad a=\operatorname{median}_i q_i,\qquad r_i=q_i-a.
 Окно имеет допустимое качество, если уровень, скорость, MAD и размах конечны и одновременно
 
 ```math
-\operatorname{MAD}\le M_{\max},\qquad R\le R_{\max},\qquad |v|\le V_{\max}.
+\mathop{\mathrm{MAD}}\nolimits\le M_{\max},\qquad R\le R_{\max},\qquad |v|\le V_{\max}.
 ```
 
 Все три границы включены. Готовность добавляет два независимых условия:
@@ -237,7 +237,7 @@ n\ge n_{\min},\qquad t_n-t_1\ge T_{\min}.
 
 
 ```math
-\theta= \texttt{trim.k}\, \max\!\left( \texttt{trim.scale\_floor}, \texttt{trim.mad\_scale}\,\operatorname{MAD} \right).
+\theta= \texttt{trim.k}\, \max\!\left( \texttt{trim.scale\_floor}, \texttt{trim.mad\_scale}\,\mathop{\mathrm{MAD}}\nolimits \right).
 ```
 
 4. Сохраняют точки с $`|r_i|\le\theta`$. Равенство порогу принимается; выбросом является строгое превышение.
@@ -265,7 +265,7 @@ n\ge n_{\min},\qquad t_n-t_1\ge T_{\min}.
 Сначала вычисляется адаптивная часть:
 
 ```math
-A_k=\min\!\left( R_{\mathrm{adaptive,max},k}, \mu_k\max(f_k,\operatorname{MAD}_k) \right).
+A_k=\min\!\left( R_{\mathrm{adaptive,max},k}, \mu_k\max(f_k,\mathop{\mathrm{MAD}}\nolimits_k) \right).
 ```
 
 Далее нижний и верхний радиусы:
@@ -298,10 +298,10 @@ L_k(t)=\max(L_{0,k},A_k)+g_k(t-t_{n,k}), \qquad U_k(t)=\max(U_{0,k},A_k)+g_k(t-t
 Возраст активного окна определяется как
 
 ```math
-\operatorname{age}=t-\texttt{last\_accept(active)}.
+\mathop{\mathrm{age}}\nolimits=t-\texttt{last\_accept(active)}.
 ```
 
-Для пропуска используется `flow.gap_hold_seconds`; для отклонения, накопления или ожидания кандидата — `flow.outlier_hold_seconds`. Прежний выход разрешён только при выбранной готовой базе и $`\operatorname{age}\le H`$. Граница включена.
+Для пропуска используется `flow.gap_hold_seconds`; для отклонения, накопления или ожидания кандидата — `flow.outlier_hold_seconds`. Прежний выход разрешён только при выбранной готовой базе и $`\mathop{\mathrm{age}}\nolimits\le H`$. Граница включена.
 
 Обычная пролонгация выдаёт прогноз активной модели на текущее время. Нулевой срок позволяет выход на такте нового принятого попадания, но не на следующем такте без поддержки: времена вызовов строго возрастают. Отказ измерения и запись в неактивное окно не продлевают срок выбранного.
 
@@ -324,7 +324,7 @@ T_{\mathrm{wait,elapsed}}=t-\texttt{pending\_since}.
 Пока активна A, её разрешённая пролонгация имеет дополнительный приоритет перед выбором B. Принятая готовая B может ждать, даже если её `wait_seconds` уже истекло:
 
 ```math
-\operatorname{age}_A\le \texttt{flow.outlier\_hold\_seconds} \quad\Longrightarrow\quad \text{сохранить A}.
+\mathop{\mathrm{age}}\nolimits_A\le \texttt{flow.outlier\_hold\_seconds} \quad\Longrightarrow\quad \text{сохранить A}.
 ```
 
 Это статус 15 с причиной `MAIN_PROLONGATION_ACTIVE`. Запись в B при этом принимается. Для переключения A → B нужна строгая противоположная граница по возрасту и выполненное ожидание B.

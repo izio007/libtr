@@ -47,7 +47,7 @@ L=\max_{i,j}\|\mathbf o_i-\mathbf o_j\|_2,
 Порядок строк $`\mathbf r`$ и столбцов ковариации зафиксирован как $`[a_1,b_1,a_2,b_2,\ldots,a_n,b_n]`$. При предоставленной симметричной строго положительно определённой $`\Sigma`$ минимизируется
 
 ```math
-\widehat{\mathbf X}=\operatorname*{arg\,min}_{\mathbf X:\;v_{ix}>0,\,\rho_i>0} \frac12\,\mathbf r(\mathbf X)^\mathsf T\Sigma^{-1}\mathbf r(\mathbf X).
+\widehat{\mathbf X}=\mathop{\mathrm{arg\,min}}\limits_{\mathbf X:\;v_{ix}>0,\,\rho_i>0} \frac12\,\mathbf r(\mathbf X)^\mathsf T\Sigma^{-1}\mathbf r(\mathbf X).
 ```
 
 Геометрическая `voi_position` используется **только как начальная точка** и проверка вырождения. Это не равнозначно минимизации углового функционала. Сходимость итерационного решения остаётся локальной: произвольная инициализация и большие ошибки не дают гарантии глобального минимума.
@@ -73,7 +73,7 @@ K_{\mathrm{lin}}=(J^\mathsf T\Sigma^{-1}J)^{-1}.
 Для исходного общего вектора отсчётов $`\mathbf y`$:
 
 ```math
-\mathbf y=F\theta+G\eta+\varepsilon, \qquad E\varepsilon=0, \quad\operatorname{Cov}\varepsilon=\Sigma_{\rm raw}.
+\mathbf y=F\theta+G\eta+\varepsilon, \qquad E\varepsilon=0, \quad\mathop{\mathrm{Cov}}\nolimits\varepsilon=\Sigma_{\rm raw}.
 ```
 
 Уже реализованное `voi_oino_linear` строит веса $`W_j`$ для каждого скалярного функционала. Новый `voi_oino_prepare` объединяет окна **в одной нумерованной таблице исходных наблюдений**; в столбце общего $`W`$ веса заполняются по фактическим `idx` исходных измерений. После этого

@@ -17,7 +17,7 @@
 `F` — известный базис полезной зависимости, `G` — известный базис мешающего подпространства. Коэффициенты `theta` и `eta` неизвестны. Структура `F`/`G` и шкала времени — **внешние заданные предпосылки**, а не величины, восстановленные самим ядром. При отсутствии мешающих составляющих `G` имеет размер `n×0`.
 
 ```math
-\mathbb E\boldsymbol\varepsilon=0, \qquad \operatorname{Cov}(\boldsymbol\varepsilon)=\Sigma\succ0.
+\mathbb E\boldsymbol\varepsilon=0, \qquad \mathop{\mathrm{Cov}}\nolimits(\boldsymbol\varepsilon)=\Sigma\succ0.
 ```
 
 Нормальность распределения не требуется. Заданная положительно определённая полная ковариация является необходимой предпосылкой *именно для приведённой версии минимально-дисперсионной оценки*. Ни одна неизвестная ковариация не заменяется единичной скрыто; без неё этот статистический контракт неприменим.
@@ -44,7 +44,7 @@ F^{\mathsf T}W=L,\qquad G^{\mathsf T}W=0.
 Первое ограничение воспроизводит полезное функциональное пространство; второе делает оценку инвариантной относительно произвольных коэффициентов `eta` мешающей составляющей. В принятой модели
 
 ```math
-\mathbb E\widehat{\boldsymbol\ell}=L^{\mathsf T}\boldsymbol\theta, \qquad \operatorname{Cov}(\widehat{\boldsymbol\ell})=W^{\mathsf T}\Sigma W.
+\mathbb E\widehat{\boldsymbol\ell}=L^{\mathsf T}\boldsymbol\theta, \qquad \mathop{\mathrm{Cov}}\nolimits(\widehat{\boldsymbol\ell})=W^{\mathsf T}\Sigma W.
 ```
 
 В классе линейных операторов с этими ограничениями минимизируется дисперсия каждого скалярного функционала и, следовательно, след ковариации векторного результата. Для построения используется разложение `Sigma=RR^T` и отбеливание `y_w=R^{-1}y`, `F_w=R^{-1}F`, `G_w=R^{-1}G`. Пусть `Q_G` — ортонормированные столбцы, порождающие пространство `G_w`; при `q=0` этот базис пуст. Строится
@@ -56,7 +56,7 @@ F_\perp=F_w-Q_G(Q_G^{\mathsf T}F_w),\qquad F_\perp=Q_F R_F
 и затем
 
 ```math
-Z=R_F^{-\mathsf T}L,\qquad W=R^{-\mathsf T}Q_F Z, \qquad \operatorname{Cov}(\widehat{\boldsymbol\ell})=Z^{\mathsf T}Z.
+Z=R_F^{-\mathsf T}L,\qquad W=R^{-\mathsf T}Q_F Z, \qquad \mathop{\mathrm{Cov}}\nolimits(\widehat{\boldsymbol\ell})=Z^{\mathsf T}Z.
 ```
 
 **Практическая запись для `voi_oino_linear`:** MATLAB `chol` возвращает верхний множитель `U` в `Sigma=U^T U`, поэтому в коде `R=U^T`, `F_w=U^{-T}F`, `W=U^{-1}Q_F Z` в согласованных обозначениях; не требуется вычислять полную обратную матрицу. Код не вычисляет оценку коэффициентов помехи `eta` и не строит проектор `n×n`. QR служит решению, SVD — контролю численного ранга.
@@ -76,7 +76,7 @@ Z=R_F^{-\mathsf T}L,\qquad W=R^{-\mathsf T}Q_F Z, \qquad \operatorname{Cov}(\wid
 Для двух подготовленных оценок из перекрывающихся окон вообще
 
 ```math
-\operatorname{Cov}(\widehat{\ell}_A,\widehat{\ell}_B) =W_A^{\mathsf T}\Sigma_{AB}W_B,
+\mathop{\mathrm{Cov}}\nolimits(\widehat{\ell}_A,\widehat{\ell}_B) =W_A^{\mathsf T}\Sigma_{AB}W_B,
 ```
 
 где `Sigma_AB` задаёт **общие исходные** ошибки в правильном порядке строк. Совпадающие окна и одинаковые функционалы дают корреляцию 1, а не два независимых наблюдения. Ядро возвращает `weights` и полную ковариацию функционалов **в одном** окне. Для объединения разных окон необходимы исходные ID отсчётов и соответствующая перекрёстная ковариация; ядро не выдумывает их и не маркирует эти выходы независимыми.
