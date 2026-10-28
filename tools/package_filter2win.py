@@ -41,6 +41,7 @@ FILES = (
     "matlab/tests/configs/filter2win_schema2_config.json",
     "docs/fifo_double_theory.md",
     "docs/filter2win_theory.md",
+    "docs/filter2win_implementation.md",
     "docs/filter2win_schema2_theory.md",
     "Principes/testing_methodology.md",
 )
@@ -63,8 +64,8 @@ README = """# filter2win {version}
 
 Состояние ctx передаётся в следующий вызов. Время последующих измерений должно
 увеличиваться. Готовность выхода показывает ctx.FILTER_VALID.
-Читать алгоритм следует с docs/filter2win_theory.md: там условия, приоритеты,
-таблица действий и численные примеры. В схеме 3 ctx.FILTER_DEBUG показывает
+Начните с docs/filter2win_theory.md: это объяснение для аналитика с рисунками
+и формулами. Подробности вызова и устройства — в docs/filter2win_implementation.md. В схеме 3 ctx.FILTER_DEBUG показывает
 event, action, phase и reason; FILTER_STATUS описывает результат такта.
 Диспетчер — filter2win_persistent, расчёт условий —
 filter2win_persistent_conditions, выбор — filter2win_persistent_transition,
@@ -91,18 +92,23 @@ def build(version, output):
         raise ValueError("Version may contain letters, numbers, dots, underscores and hyphens")
     # Read all inputs before creating the archive; a missing file leaves no partial ZIP.
     files = [(relative, (ROOT / relative).read_bytes()) for relative in FILES]
-    # Embed the explicitly illustrated theory, rather than leaving runtime links in ZIP.
-    theory_path = "docs/filter2win_theory.md"
-    theory = (ROOT / theory_path).read_text(encoding="utf-8")
-    figures = re.findall(r"!\[[^\]]*\]\(([^)]+\.png)\)", theory)
-    for link in dict.fromkeys(figures):
-        source = (ROOT / "docs" / link).resolve()
-        source.relative_to(ROOT.resolve())
-        destination = "docs/images/" + source.name
-        files.append((destination, source.read_bytes()))
-        theory = theory.replace("(" + link + ")", "(images/" + source.name + ")")
-    files = [(name, theory.encode("utf-8") if name == theory_path else content)
-             for name, content in files]
+    # Store each figure once; both descriptions use links inside the archive.
+    images = {}
+    for theory_path in ("docs/filter2win_theory.md", "docs/filter2win_implementation.md"):
+        theory = (ROOT / theory_path).read_text(encoding="utf-8")
+        figures = re.findall(r"!\[[^\]]*\]\(([^)]+\.png)\)", theory)
+        for link in dict.fromkeys(figures):
+            source = (ROOT / "docs" / link).resolve()
+            source.relative_to(ROOT.resolve())
+            destination = "docs/images/" + source.name
+            content = source.read_bytes()
+            if destination in images and images[destination] != content:
+                raise ValueError("Different images have the same name: " + source.name)
+            images[destination] = content
+            theory = theory.replace("(" + link + ")", "(images/" + source.name + ")")
+        files = [(name, theory.encode("utf-8") if name == theory_path else content)
+                 for name, content in files]
+    files.extend(images.items())
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     prefix = "filter2win-" + version
