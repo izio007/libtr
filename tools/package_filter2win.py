@@ -41,7 +41,6 @@ FILES = (
     "matlab/tests/configs/filter2win_schema2_config.json",
     "docs/fifo_double_theory.md",
     "docs/filter2win_theory.md",
-    "docs/filter2win_implementation.md",
     "docs/filter2win_schema2_theory.md",
     "Principes/testing_methodology.md",
 )
@@ -65,11 +64,7 @@ README = """# filter2win {version}
 Состояние ctx передаётся в следующий вызов. Время последующих измерений должно
 увеличиваться. Готовность выхода показывает ctx.FILTER_VALID.
 Начните с docs/filter2win_theory.md: это объяснение для аналитика с рисунками
-и формулами. Подробности вызова и устройства — в docs/filter2win_implementation.md. В схеме 3 ctx.FILTER_DEBUG показывает
-event, action, phase и reason; FILTER_STATUS описывает результат такта.
-Диспетчер — filter2win_persistent, расчёт условий —
-filter2win_persistent_conditions, выбор — filter2win_persistent_transition,
-исполнение и публикация — filter2win_persistent_execute.
+и формулами.
 
 ## Тесты вручную
 
@@ -92,9 +87,9 @@ def build(version, output):
         raise ValueError("Version may contain letters, numbers, dots, underscores and hyphens")
     # Read all inputs before creating the archive; a missing file leaves no partial ZIP.
     files = [(relative, (ROOT / relative).read_bytes()) for relative in FILES]
-    # Store each figure once; both descriptions use links inside the archive.
+    # Store each figure once; the theory uses links inside the archive.
     images = {}
-    for theory_path in ("docs/filter2win_theory.md", "docs/filter2win_implementation.md"):
+    for theory_path in ("docs/filter2win_theory.md",):
         theory = (ROOT / theory_path).read_text(encoding="utf-8")
         figures = re.findall(r"!\[[^\]]*\]\(([^)]+\.png)\)", theory)
         for link in dict.fromkeys(figures):
