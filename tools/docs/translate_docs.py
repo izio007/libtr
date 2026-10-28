@@ -38,11 +38,21 @@ def to_html(text, source, output, images):
     md = MarkdownIt('commonmark', {'html': False, 'breaks': False})
     md.enable(['table', 'strikethrough']).use(dollarmath_plugin)
     def math_inline(tokens, index, options, env):
-        return chr(92) + '(' + html.escape(tokens[index].content) + chr(92) + ')'
+        content = tokens[index].content
+        if content.startswith(chr(96)) and content.endswith(chr(96)):
+            content = content[1:-1]
+        return chr(92) + '(' + html.escape(content) + chr(92) + ')'
     def math_block(tokens, index, options, env):
         return '<div class="math">' + chr(92) + '[' + html.escape(tokens[index].content) + chr(92) + ']</div>'
     md.renderer.rules['math_inline'] = math_inline
     md.renderer.rules['math_block'] = math_block
+
+    default_fence = md.renderer.rules['fence']
+    def fence(tokens, index, options, env):
+        if tokens[index].info.strip() == 'math':
+            return math_block(tokens, index, options, env)
+        return default_fence(tokens, index, options, env)
+    md.renderer.rules['fence'] = fence
 
     # Preserve the project's older image marker without interpreting code fences.
     lines = []; fenced = False
