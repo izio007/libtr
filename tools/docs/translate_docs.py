@@ -6,7 +6,7 @@ Examples:
   python tools/docs/translate_docs.py docs/filter2win_theory.md --format liveeditor
   python tools/docs/translate_docs.py docs/tis_research_theory.md --format html --images runtime/my_run
 
-Python 3.9+, standard library. Source documents and calculation data are not changed.
+Python 3.10+. HTML dependencies: tools/docs/requirements.txt; Live Editor: standard library. Source documents and calculation data are not changed.
 Mermaid and other non-MATLAB fenced blocks become comments in Live Editor.
 """
 import argparse
@@ -29,110 +29,81 @@ def relative_url(path, output):
         return path.resolve().as_uri()
 
 
-def html_inline(text, source=None, output=None):
-    parts = []
-    for part in TOKEN.split(text):
-        if part.startswith('`'):
-            parts.append('<code>' + html.escape(part[1:-1]) + '</code>')
-        elif part.startswith('$'):
-            display = part.startswith('$$')
-            n = 2 if display else 1
-            left, right = (r'\[', r'\]') if display else (r'\(', r'\)')
-            parts.append(left + html.escape(part[n:-n]) + right)
-        else:
-            escaped = html.escape(part)
-            pattern = re.escape('[') + r'([^]]+)' + re.escape('](') + r'([^)]*)' + re.escape(')')
-            def link(match):
-                target = html.unescape(match[2])
-                if re.match(r'^(https?://|mailto:|#)', target):
-                    url = target
-                elif source is not None and output is not None:
-                    path, mark, anchor = target.partition('#')
-                    url = relative_url(source.parent / path, output) + (mark + anchor if mark else '')
-                else:
-                    return match[0]
-                return '<a href="' + html.escape(url, quote=True) + '">' + match[1] + '</a>'
-            parts.append(re.sub(pattern, link, escaped))
-    return ''.join(parts)
-
-
 def to_html(text, source, output, images):
-    body = []
-    code = table = False
-    display_lines = None
+    from markdown_it import MarkdownIt
+    from mdit_py_plugins.dollarmath import dollarmath_plugin
+    from urllib.parse import urlsplit, unquote
+
+    # A real Markdown parser owns paragraphs, lists, tables and emphasis.
+    md = MarkdownIt('commonmark', {'html': False, 'breaks': False})
+    md.enable(['table', 'strikethrough']).use(dollarmath_plugin)
+    def math_inline(tokens, index, options, env):
+        return chr(92) + '(' + html.escape(tokens[index].content) + chr(92) + ')'
+    def math_block(tokens, index, options, env):
+        return '<div class="math">' + chr(92) + '[' + html.escape(tokens[index].content) + chr(92) + ']</div>'
+    md.renderer.rules['math_inline'] = math_inline
+    md.renderer.rules['math_block'] = math_block
+
+    # Preserve the project's older image marker without interpreting code fences.
+    lines = []; fenced = False
     for line in text.splitlines():
         if line.startswith('```'):
-            if table:
-                body.append('</table>'); table = False
-            body.append('</code></pre>' if code else '<pre><code>')
-            code = not code
-            continue
-        if code:
-            body.append(html.escape(line))
-            continue
-        if line.strip() == '$$':
-            if display_lines is None:
-                display_lines = []
-            else:
-                formula = html.escape(chr(10).join(display_lines))
-                body.append('<div class="math">' + chr(92) + '[' + formula + chr(92) + ']</div>')
-                display_lines = None
-            continue
-        if display_lines is not None:
-            display_lines.append(line)
-            continue
-        if line.startswith('|'):
-            if not table:
-                body.append('<table>'); table = True
-            if not re.fullmatch(r'\|[\s:|\-]+\|', line):
-                body.append('<tr>' + ''.join('<td>' + html_inline(c.strip(), source, output) + '</td>'
-                                             for c in line.strip('|').split('|')) + '</tr>')
-            continue
-        if table:
-            body.append('</table>'); table = False
-        markdown_picture = re.fullmatch(r'!\[(.*?)\]\(([^)]+)\)', line.strip())
-        if markdown_picture:
-            target = markdown_picture[2]
-            url = target if re.match(r'https?://', target) else relative_url(source.parent / target, output)
-            body.append('<figure><img src="' + html.escape(url, quote=True) + '" alt="' + html.escape(markdown_picture[1], quote=True) + '"></figure>')
-            continue
-        picture = IMAGE.fullmatch(line)
-        heading = re.match(r'^(#{1,6}) (.*)', line)
+            fenced = not fenced
+        picture = None if fenced else IMAGE.fullmatch(line)
         if picture:
-            url = html.escape(relative_url(images / picture[1], output), quote=True)
-            body.append(f'<figure><img src="{url}" alt="{html.escape(picture[1], quote=True)}"></figure>')
-        elif heading:
-            level = len(heading[1])
-            body.append(f'<h{level}>' + html_inline(heading[2], source, output) + f'</h{level}>')
-        elif re.fullmatch(r'-{3,}', line):
-            body.append('<hr>')
-        elif line.startswith('$$') and line.rstrip().endswith('$$'):
-            body.append('<div class="math">' + html_inline(line.rstrip(), source, output) + '</div>')
-        else:
-            body.append('<p>' + html_inline(line, source, output) + '</p>' if line else '')
-    if table:
-        body.append('</table>')
-    if code:
-        body.append('</code></pre>')
-    if display_lines is not None:
-        raise ValueError('Unclosed display formula ($$)')
-    math_config = json.dumps({'tex': {
-        'inlineMath': [[chr(92)+'(', chr(92)+')'], ['$', '$']],
-        'displayMath': [[chr(92)+'[', chr(92)+']'], ['$$', '$$']],
-        'processEscapes': True
-    }})
+            line = '![' + picture[1] + '](' + relative_url(images / picture[1], source) + ')'
+        lines.append(line)
+    tokens = md.parse(chr(10).join(lines))
+    def relocate(items):
+        for token in items:
+            attribute = 'src' if token.type == 'image' else 'href' if token.type == 'link_open' else None
+            if attribute:
+                target = token.attrGet(attribute)
+                parsed = urlsplit(target)
+                if not parsed.scheme and not parsed.netloc and parsed.path:
+                    target = relative_url(source.parent / unquote(parsed.path), output)
+                    if parsed.query: target += '?' + parsed.query
+                    if parsed.fragment: target += '#' + parsed.fragment
+                    token.attrSet(attribute, target)
+            if token.children:
+                relocate(token.children)
+    relocate(tokens)
+    for index, token in enumerate(tokens):
+        if token.type == 'heading_open':
+            title = tokens[index + 1].content.lower()
+            slug = ''.join(c for c in title if c.isalnum() or c in ' -_').replace(' ', '-')
+            token.attrSet('id', slug)
+    body = md.renderer.render(tokens, md.options, {})
     mathjax = html.escape(relative_url(ROOT / 'docs/html/assets/tex-svg.js', output), quote=True)
+    config = json.dumps({'tex': {'inlineMath': [[chr(92)+'(', chr(92)+')']],
+                                  'displayMath': [[chr(92)+'[', chr(92)+']']]}})
     title = html.escape(source.stem)
-    header = f'''<!doctype html>
+    return f'''<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
-<script>window.MathJax={math_config};</script>
+<script>window.MathJax={config};</script>
 <script defer src="{mathjax}"></script>
-<style>body{{max-width:1100px;margin:auto;padding:24px;line-height:1.6}}img{{max-width:100%;height:auto}}table{{border-collapse:collapse}}td{{border:1px solid #888;padding:8px}}pre,.math{{overflow-x:auto}}p{{overflow-wrap:anywhere}}</style>
-</head><body><main>
+<style>
+body{{margin:0;background:#fff;color:#20252b;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}}
+main{{max-width:960px;margin:0 auto;padding:36px 28px 80px}}
+h1,h2,h3{{line-height:1.3;margin:1.6em 0 .65em;font-weight:650;color:#17202a}}
+h1{{font-size:2em;margin-top:0}}h2{{font-size:1.5em;border-bottom:1px solid #d8dee4;padding-bottom:.3em}}
+h3{{font-size:1.18em}}p{{margin:0 0 1em}}ul,ol{{margin:0 0 1em;padding-left:1.8em}}
+li{{margin:.3em 0}}li p{{margin:.35em 0}}strong{{font-weight:650}}
+a{{color:#0969da;text-decoration:none}}a:hover{{text-decoration:underline}}
+img{{max-width:100%;height:auto;display:block;margin:1.3em auto}}
+table{{display:block;max-width:100%;overflow-x:auto;border-collapse:collapse;margin:1em 0 1.5em;font-size:.95em}}
+th,td{{border:1px solid #d0d7de;padding:9px 12px;text-align:left;vertical-align:top}}th{{background:#f3f5f7}}
+tbody tr:nth-child(even){{background:#fafbfc}}blockquote{{margin:1em 0;border-left:4px solid #d0d7de;padding-left:1em;color:#57606a}}
+code{{background:#f0f2f4;border-radius:4px;padding:.15em .3em;font-size:.9em}}pre{{overflow:auto;background:#f6f8fa;padding:16px}}
+pre code{{background:none;padding:0}}.math{{overflow-x:auto;margin:1.3em 0;padding:.2em 0}}
+@media(max-width:640px){{main{{padding:20px 16px}}body{{font-size:15px}}}}
+@media print{{main{{max-width:none;padding:0}}h2,h3{{break-after:avoid}}img,table,.math{{break-inside:avoid}}}}
+</style></head><body><main>
+{body}
+</main></body></html>
 '''
-    return header + '\n'.join(body) + '\n</main></body></html>\n'
 
 
 def live_formula(match):
