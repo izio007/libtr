@@ -23,7 +23,7 @@ proposals/filter2win_source_inventory.json. Актуальная автоном�
 | matlab/tests/support/*.m | Перенесены |
 | filter2win_config.json, filter2win_demo_scenario.json | Перенесены без изменения профиля |
 | unit_test_fifo_double.m, unit_test_filter2win_demo.m | Адаптированы к штатному runner |
-| unit_test_filter2win_candidate.m, filter2win_cases.json | Заменены актуальными независимыми проверками схемы 2; все 17 режимов PASS |
+| unit_test_filter2win_candidate.m, filter2win_test_cases.json | Заменены актуальными независимыми проверками схемы 2; все 17 режимов PASS |
 | *_runner.json | Зарегистрированы в диспетчере libtr |
 | verification/inspect_package.py и .sh | Проверки зависимостей, событий, уникальности правил и 17 обработчиков перенесены в test_declarative_runner.py; отдельный обход runner не нужен |
 | verification/*.json, *.log, REPORT.txt | Исторические свидетельства исходного пакета; не выдаются за результаты libtr и не копируются |

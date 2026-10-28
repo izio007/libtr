@@ -147,7 +147,7 @@ MATLAB, численные проверки, повтор Release и экспо�
    поведения. unit_test_filter2win_demo.m лишь вызывает демо; assert(rc==0)
    не доказывает системную пригодность. F2W-S2-07 подтверждает исполнение,
    а не отсутствующие критерии поведения.
-4. unit_test_filter2win_candidate.m и filter2win_cases.json проверяют все
+4. unit_test_filter2win_candidate.m и filter2win_test_cases.json проверяют все
    0..16 по фиксированным примерам. Этот результат полезен и не отменён.
    В составе нет отдельного сравнения одинакового числа допустимых точек
    в коротком и длинном интервале при одном cfg. Случай quality с шестью
@@ -245,7 +245,7 @@ runtime/pipeline/b2973b4d2a41417dbcc36de174b3b555/report.json.
 
 ## F2W-S2-09. Расширенная приёмка режимов
 
-unit_test_filter2win_candidate и filter2win_cases.json заменяют устаревший
+unit_test_filter2win_candidate и filter2win_test_cases.json заменяют устаревший
 тест схемы 1: ожидания режимов заданы до исполнения, качество оценивается
 raw MAD вместо std. Проверяются все коды 0..16, сохранение FIFO при ignore,
 неизменность модели при settling, рост числа реальных точек, нулевое удержание,

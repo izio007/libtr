@@ -7,7 +7,7 @@ cfg=filter2win_settings(p);
 reference=filter2win_config(fullfile(folder,'filter2win_expanded_reference.json'));
 assert(isequaln(cfg,reference),'libtr:f2w:SettingsTest','Default profile changed behavior');
 cfg=filter2win_config(fullfile(folder,'filter2win_observation_filter.json'));
-delta=jsondecode(fileread(fullfile(folder,'filter2win_observation_reference.json')));
+delta=jsondecode(fileread(fullfile(folder,'filter2win_test_cases.json'))); delta=delta.observation_reference;
 for name={'main','alt'}
     reference.(name{1}).band.lower_margin=delta.radius;
     reference.(name{1}).band.upper_margin=delta.radius;
@@ -19,7 +19,7 @@ reference.alt.min_samples=delta.alt_min_samples;
 reference.flow.outlier_hold_seconds=delta.outlier_hold_seconds;
 reference.flow.gap_hold_seconds=delta.gap_hold_seconds;
 assert(isequaln(cfg,reference),'libtr:f2w:SettingsTest','Observation profile changed behavior');
-v=jsondecode(fileread(fullfile(folder,'filter2win_schema3_cases.json')));
+v=jsondecode(fileread(fullfile(folder,'filter2win_test_cases.json'))); v=v.behavior;
 q=p; q.alt=struct('min_samples',v.min_samples,'radius',v.normalized_alt_radius);
 c=filter2win_settings(q);
 assert(c.main.min_samples==p.window.min_samples && c.alt.min_samples==v.min_samples);

@@ -3,7 +3,7 @@ function unit_test_filter2win_schema2
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 addpath(fullfile(root,'matlab','tests','support'));
 c=filter2win_config(fullfile(root,'matlab','tests','configs','filter2win_schema2_config.json'));
-p=jsondecode(fileread(fullfile(root,'matlab','tests','configs','filter2win_schema2_cases.json')));
+p=jsondecode(fileread(fullfile(root,'matlab','tests','configs','filter2win_test_cases.json'))); p=p.legacy_math;
 [ok,reason]=filter2win_validate(c); assert(ok,reason);
 samples=struct('time',p.model_time(:).','value',p.model_value(:).');
 m=filter2win_model(samples,c.main);

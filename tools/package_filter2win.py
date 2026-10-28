@@ -35,22 +35,21 @@ FILES = (
     "matlab/tests/support/filter2win_debug_persistent.m",
     "matlab/tests/configs/fifo_double_cases.json",
     "matlab/tests/configs/filter2win_config.json",
+    "matlab/tests/configs/filter2win_test_cases.json",
     "matlab/tests/configs/filter2win_expanded_reference.json",
     "matlab/tests/configs/filter2win_observation_filter.json",
-    "matlab/tests/configs/filter2win_observation_reference.json",
-    "matlab/tests/configs/filter2win_schema3_cases.json",
     "matlab/tests/configs/filter2win_schema2_config.json",
-    "matlab/tests/configs/filter2win_schema2_cases.json",
-    "matlab/tests/configs/filter2win_cases.json",
     "docs/fifo_double_theory.md",
     "docs/filter2win_theory.md",
     "docs/filter2win_schema2_theory.md",
+    "Principes/testing_methodology.md",
 )
 
 README = """# filter2win {version}
 
 Исходники MATLAB, конфигурации, обычные тесты и описание алгоритма в Markdown.
-Версия пакета указана в VERSION. Исходные файлы упакованы без изменений.
+Версия пакета указана в VERSION. Код упакован без изменений. Рисунки из теории
+включены в docs/images, ссылки на них сделаны локальными для архива.
 
 ## Использование
 
@@ -80,6 +79,9 @@ filter2win_persistent_conditions, выбор — filter2win_persistent_transitio
     unit_test_filter2win_schema2;
     unit_test_filter2win_candidate;
 
+Данные численных проверок объединены в filter2win_test_cases.json. Настройки
+фильтра отделены от независимых ожиданий тестов. Проверки поведения сохранены.
+
 Упаковка не запускает эти тесты, MATLAB, службы или экспорт документации.
 """
 
@@ -89,6 +91,18 @@ def build(version, output):
         raise ValueError("Version may contain letters, numbers, dots, underscores and hyphens")
     # Read all inputs before creating the archive; a missing file leaves no partial ZIP.
     files = [(relative, (ROOT / relative).read_bytes()) for relative in FILES]
+    # Embed the explicitly illustrated theory, rather than leaving runtime links in ZIP.
+    theory_path = "docs/filter2win_theory.md"
+    theory = (ROOT / theory_path).read_text(encoding="utf-8")
+    figures = re.findall(r"!\[[^\]]*\]\(([^)]+\.png)\)", theory)
+    for link in dict.fromkeys(figures):
+        source = (ROOT / "docs" / link).resolve()
+        source.relative_to(ROOT.resolve())
+        destination = "docs/images/" + source.name
+        files.append((destination, source.read_bytes()))
+        theory = theory.replace("(" + link + ")", "(images/" + source.name + ")")
+    files = [(name, theory.encode("utf-8") if name == theory_path else content)
+             for name, content in files]
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     prefix = "filter2win-" + version

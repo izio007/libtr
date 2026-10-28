@@ -97,7 +97,7 @@ F2W-S2-02/04/05 — unit_test_filter2win_schema2 и JSON filter2win_schema2_case
 F2W-S2-03 — unit_test_fifo_double по docs/fifo_double_theory.md;
 F2W-S2-06 — test_filter_step и unit_test_filter_engine_scenario;
 F2W-S2-07 — unit_test_filter2win_demo и demo_filter2win.
-F2W-S2-09 — unit_test_filter2win_candidate и filter2win_cases.json:
+F2W-S2-09 — unit_test_filter2win_candidate и filter2win_test_cases.json:
 все режимы, достигаемые сценариями фиксированной схемы, стабилизация, частичное окно
 и перенос времени/координат. Синтетический сценарий отключения всех правил удалён;
 отказ старой конфигурации с rules отдельно проверяется атомарно.

@@ -24,9 +24,6 @@
     "matlab/tests/demo_filter2win.m",
     "matlab/tests/configs/fifo_double_cases.json",
     "matlab/tests/configs/filter2win_config.json",
-    "matlab/tests/configs/filter2win_cases.json",
-    "matlab/tests/configs/filter2win_schema2_cases.json",
-    "matlab/tests/configs/filter2win_demo_scenario.json",
     "matlab/tests/support/filter2win_system_run.m",
     "matlab/tests/configs/filter2win_system.json",
     "docs/filter2win_theory.md",
@@ -37,14 +34,13 @@
     "matlab/tests/unit_test_filter2win_persistent.m",
     "matlab/tests/unit_test_filter2win_schema2.m",
     "matlab/tests/configs/filter2win_schema2_config.json",
-    "matlab/tests/configs/filter2win_schema3_cases.json",
     "matlab/tests/configs/filter2win_optimizer_experiments.json",
     "docs/filter2win_schema2_theory.md",
     "matlab/function/filter2win_settings.m",
     "matlab/tests/unit_test_filter2win_settings.m",
     "matlab/tests/configs/filter2win_expanded_reference.json",
-    "matlab/tests/configs/filter2win_observation_reference.json",
-    "matlab/tests/configs/filter2win_observation_filter.json"
+    "matlab/tests/configs/filter2win_observation_filter.json",
+    "matlab/tests/configs/filter2win_test_cases.json"
   ],
   "checks": [
     "unit_test_fifo_double",

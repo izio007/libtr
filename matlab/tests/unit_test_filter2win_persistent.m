@@ -2,7 +2,7 @@ function unit_test_filter2win_persistent
 % Independent analytical fixtures: FIFO identity, clocks, gates and outputs.
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 addpath(fullfile(root,'matlab','tests','support'));
-p=jsondecode(fileread(fullfile(root,'matlab','tests','configs','filter2win_schema3_cases.json')));
+p=jsondecode(fileread(fullfile(root,'matlab','tests','configs','filter2win_test_cases.json'))); p=p.behavior;
 c=filter2win_config; assert(c.schema_version==3);
 for name={'main','alt'}
     w=c.(name{1}); w.capacity=p.capacity; w.min_samples=p.min_samples;
